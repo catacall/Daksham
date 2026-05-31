@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  /* Light theme colors - clean corporate / premium */
+  --background: #f8fafc; /* Very light slate for premium feel */
+  --foreground: #002147; /* Deep Navy */
+  --accent: #d4af37; /* Gold/Champagne accent */
+  --muted: #64748b; /* Slate 500 for secondary text */
+  --border: #e2e8f0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  
+  --font-sans: var(--font-outfit), Arial, Helvetica, sans-serif;
+  --font-display: var(--font-cinzel), serif;
+}
+
+/* Base styles */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  /* Outfit will be applied globally due to --font-sans overriding tailwind's default */
+}
+
+/* Typography elements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* Ensure smooth scrolling across the page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom utilities for section spacing */
+@utility section-padding {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  @media (min-width: 768px) {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
