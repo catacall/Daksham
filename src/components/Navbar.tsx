@@ -45,7 +45,7 @@ export default function Navbar() {
               className="h-full w-auto object-contain"
               height={100}
               width={200}
-              quality={95}
+              quality={75}
               priority
             />
           </div>

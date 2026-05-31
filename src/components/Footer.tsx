@@ -1,5 +1,7 @@
 "use client"
 
+import SocialLinks from "./Reuse/SocialLinks";
+
 export default function Footer() {
     return (
       <>
@@ -84,15 +86,7 @@ export default function Footer() {
                 <li>+1 234 567 8900</li>
                 <li className="mt-4 flex gap-4">
                   {/* Minimal Social Icons */}
-                  <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">
-                    FB
-                  </span>
-                  <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">
-                    IN
-                  </span>
-                  <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">
-                    X
-                  </span>
+                  <SocialLinks />
                 </li>
               </ul>
             </div>

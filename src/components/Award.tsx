@@ -18,7 +18,8 @@ export default function Award() {
             <Image
               src="/thumb-1.jpg"
               alt="Award 1"
-              className="h-40 md:h-56 w-auto object-contain rounded-lg shadow-sm"
+              className="object-contain rounded-lg shadow-sm"
+              style={{ width: "auto", height: "auto", maxHeight: "224px" }}
               height={224}
               width={400}
               quality={90}
@@ -26,7 +27,8 @@ export default function Award() {
             <Image
               src="/thumb-2.jpg"
               alt="Award 2"
-              className="h-40 md:h-56 w-auto object-contain rounded-lg shadow-sm"
+              className="object-contain rounded-lg shadow-sm"
+              style={{ width: "auto", height: "auto", maxHeight: "224px" }}
               height={224}
               width={400}
               quality={90}
