@@ -9,7 +9,7 @@ export default function Footer() {
           <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="md:col-span-1">
               <h3 className="font-display font-bold text-2xl mb-6 tracking-wider">
-                PGRO
+                Daksham Developers
               </h3>
               <p className="opacity-70 leading-relaxed text-sm">
                 Elevating lifestyles through premium real estate and
@@ -82,7 +82,7 @@ export default function Footer() {
                 Contact
               </h4>
               <ul className="flex flex-col gap-3 opacity-70 text-sm">
-                <li>info@pgro.com</li>
+                <li>info@dakshamdevelopers.com</li>
                 <li>+1 234 567 8900</li>
                 <li className="mt-4 flex gap-4">
                   {/* Minimal Social Icons */}
@@ -92,7 +92,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="container mx-auto px-6 mt-16 pt-8 border-t border-white/10 text-center opacity-40 text-sm">
-            <p>&copy; 2026 PGRO Group. All rights reserved.</p>
+            <p>&copy; 2026 Daksham Developers. All rights reserved.</p>
           </div>
         </footer>
       </>

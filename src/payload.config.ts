@@ -4,12 +4,12 @@ import path from "path";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
-
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { SiteSettings } from "./collections/globals/SiteSettings";
 import { Pages } from "./collections/pages";
 import { Enquiries } from "./collections/Enquiries";
+import { Projects } from "./collections/Projects";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -22,7 +22,7 @@ export default buildConfig({
     },
   },
   globals: [SiteSettings],
-  collections: [Users, Media , Pages , Enquiries],
+  collections: [Users, Media , Pages , Enquiries, Projects],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

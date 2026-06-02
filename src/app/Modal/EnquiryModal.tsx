@@ -5,45 +5,60 @@ import EnquiryForm from '@/components/EnquiryForm'
 
 export default function EnquiryModal() {
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedProject, setSelectedProject] = useState('')
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(true)
-    }, 3000) // popup after 3 seconds
+    // Check if user has seen the popup during this session/visit
+    const seen = sessionStorage.getItem('enquiry-popup-seen')
 
-    return () => clearTimeout(timer)
+    if (!seen) {
+      const timer = setTimeout(() => {
+        setIsOpen(true)
+        sessionStorage.setItem('enquiry-popup-seen', 'true')
+      }, 5000) // popup after 5 seconds of the visit
+
+      return () => clearTimeout(timer)
+    }
   }, [])
-  
+
   useEffect(() => {
-  const seen = localStorage.getItem('enquiry-popup')
-
-  if (!seen) {
-    const timer = setTimeout(() => {
+    const handleOpen = (e: Event) => {
+      const customEvent = e as CustomEvent<{ project?: string }>
+      if (customEvent.detail?.project) {
+        setSelectedProject(customEvent.detail.project)
+      } else {
+        setSelectedProject('')
+      }
       setIsOpen(true)
-      localStorage.setItem('enquiry-popup', 'true')
-    }, 3000)
+    }
 
-    return () => clearTimeout(timer)
-  }
-}, [])
+    window.addEventListener('open-enquiry-modal', handleOpen)
+    return () => window.removeEventListener('open-enquiry-modal', handleOpen)
+  }, [])
 
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-      <div className="relative w-full max-w-lg rounded-xl bg-white p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+      <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 md:p-8 shadow-2xl border border-slate-100">
         <button
           onClick={() => setIsOpen(false)}
-          className="absolute right-4 top-4 text-xl"
+          className="absolute right-5 top-5 text-slate-400 hover:text-slate-600 transition-colors text-xl font-bold cursor-pointer"
+          aria-label="Close modal"
         >
           ✕
         </button>
 
-        <h2 className="mb-4 text-2xl font-bold">
+        <h2 className="mb-2 text-2xl md:text-3xl font-display font-medium text-foreground uppercase tracking-wide">
           Enquire Now
         </h2>
+        {selectedProject && (
+          <p className="mb-4 text-sm font-sans text-accent font-semibold uppercase tracking-wider">
+            Interested in: {selectedProject}
+          </p>
+        )}
 
-        <EnquiryForm />
+        <EnquiryForm defaultProject={selectedProject} onSuccess={() => setTimeout(() => setIsOpen(false), 2000)} />
       </div>
     </div>
   )

@@ -2,18 +2,24 @@
 
 import { useState } from 'react'
 
-export default function EnquiryForm() {
+interface EnquiryFormProps {
+  defaultProject?: string
+  onSuccess?: () => void
+}
+
+export default function EnquiryForm({ defaultProject = '', onSuccess }: EnquiryFormProps) {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
 
-  async function handleSubmit(e: React.FormEvent <HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    const targetForm = e.currentTarget
     setLoading(true)
     setSuccess('')
     setError('')
 
-    const form = new FormData(e.currentTarget)
+    const form = new FormData(targetForm)
 
     const res = await fetch('/api/enquiry', {
       method: 'POST',
@@ -25,6 +31,7 @@ export default function EnquiryForm() {
         email: form.get('email'),
         phone: form.get('phone'),
         message: form.get('message'),
+        projectInterestedIn: form.get('projectInterestedIn') || defaultProject,
       }),
     })
 
@@ -33,8 +40,11 @@ export default function EnquiryForm() {
     if (!res.ok) {
       setError(data.message || 'Something went wrong')
     } else {
-      setSuccess('Enquiry sent successfully')
-      e.currentTarget.reset()
+      setSuccess('Enquiry sent successfully!')
+      targetForm.reset()
+      if (onSuccess) {
+        onSuccess()
+      }
     }
 
     setLoading(false)
@@ -42,15 +52,71 @@ export default function EnquiryForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <input name="name" placeholder="Name" className="w-full border p-3" />
-      <input name="email" type="email" placeholder="Email" className="w-full border p-3" />
-      <input name="phone" placeholder="Phone" className="w-full border p-3" />
-      <textarea name="message" placeholder="Message" className="w-full border p-3" />
-      <button disabled={loading} className="bg-black text-white px-5 py-3">
-        {loading ? 'Sending...' : 'Send Enquiry'}
+      <input
+        type="hidden"
+        name="projectInterestedIn"
+        value={defaultProject}
+      />
+      <div>
+        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+          Full Name
+        </label>
+        <input
+          required
+          name="name"
+          placeholder="John Doe"
+          className="w-full rounded-xl border border-slate-200 p-3.5 text-sm font-sans focus:border-accent focus:outline-hidden transition-colors"
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+            Email Address
+          </label>
+          <input
+            required
+            name="email"
+            type="email"
+            placeholder="john@example.com"
+            className="w-full rounded-xl border border-slate-200 p-3.5 text-sm font-sans focus:border-accent focus:outline-hidden transition-colors"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+            Phone Number
+          </label>
+          <input
+            required
+            name="phone"
+            placeholder="+91 99999 99999"
+            className="w-full rounded-xl border border-slate-200 p-3.5 text-sm font-sans focus:border-accent focus:outline-hidden transition-colors"
+          />
+        </div>
+      </div>
+      <div>
+        <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+          Your Message
+        </label>
+        <textarea
+          required
+          name="message"
+          rows={3}
+          placeholder="I would like to enquire about pricing and availability..."
+          className="w-full rounded-xl border border-slate-200 p-3.5 text-sm font-sans focus:border-accent focus:outline-hidden transition-colors resize-none"
+        />
+      </div>
+      <button
+        disabled={loading}
+        className="w-full bg-foreground text-background hover:bg-accent hover:text-foreground disabled:bg-slate-300 disabled:text-slate-500 py-3.5 rounded-xl text-sm font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-md"
+      >
+        {loading ? 'Sending Request...' : 'Submit Request'}
       </button>
-      {success && <p className="text-green-600">{success}</p>}
-      {error && <p className="text-red-600">{error}</p>}
+      {success && 
+      <p className="text-sm font-medium text-emerald-600 text-center animate-pulse">{success}</p>
+      }
+      {error && 
+      <p className="text-sm font-medium text-red-600 text-center">{error}</p>
+      }
     </form>
   )
 }

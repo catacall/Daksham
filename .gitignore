@@ -16,6 +16,7 @@
 # next.js
 /.next/
 /out/
+.mcp.json
 
 # production
 /build
@@ -39,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.antigravity
+CONTEXT.md
+CLAUDE.md

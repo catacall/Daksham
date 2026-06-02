@@ -18,6 +18,7 @@ export default function NewsEvent() {
             <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white group hover:-translate-y-1 transition-transform">
               <Image
                 src="/news-1.jpg"
+                loading="eager"
                 alt="News 1"
                 className="w-full h-64 md:h-80 object-cover"
                 height={640}
@@ -37,6 +38,7 @@ export default function NewsEvent() {
             <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white group hover:-translate-y-1 transition-transform">
               <Image
                 src="/news-2.jpg"
+                loading="eager"
                 alt="News 2"
                 className="w-full h-64 md:h-80 object-cover"
                 height={640}
