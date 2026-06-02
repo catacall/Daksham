@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Cinzel, Outfit } from "next/font/google";
 import "./globals.css";
 import EnquiryModal from "../Modal/EnquiryModal";
+import LenisProvider from "@/components/LenisProvider";
+import ChatbotDrawer from "@/components/ChatbotDrawer";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -27,9 +29,14 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${cinzel.variable} ${outfit.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
     >
-      <body className="min-h-full flex flex-col font-sans">{children}
+      <body className="min-h-full flex flex-col font-sans">
+        <LenisProvider>
+          {children}
+        </LenisProvider>
         <EnquiryModal />
+        <ChatbotDrawer />
       </body>
     </html>
   );

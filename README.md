@@ -16,7 +16,6 @@
 | | **Payload CMS** (via `@payloadcms/next`) | Headless CMS for managing content (projects, awards, news) with a clean admin UI. |
 | | **Prisma + PostgreSQL** (`@prisma/client`, `@payloadcms/db-postgres`) | Type‑safe data access layer for persistent data (contact forms, newsletters). |
 | | **Resend** (`resend`) | Transactional email service for contact‑form submissions and newsletters. |
-| | **Sanity client** (`@sanity/client`) | Optional integration for real‑time content previews. |
 | | **GraphQL** (`graphql`) | Efficient data fetching from the CMS when needed. |
 | **Build & Dev** | **TypeScript 5** | Strong typing across the entire code base. |
 | | **ESLint + Next lint config** | Consistent code style and early error detection. |

@@ -25,6 +25,12 @@ export default function FloatingBadges() {
           >
             <Link
               href={badge.href}
+              onClick={(e) => {
+                if (badge.href === "#chatbot") {
+                  e.preventDefault();
+                  window.dispatchEvent(new CustomEvent("open-chatbot"));
+                }
+              }}
               className={`w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg ${badge.color} relative z-10`}
             >
               {badge.icon}

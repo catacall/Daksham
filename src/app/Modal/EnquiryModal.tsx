@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import EnquiryForm from '@/components/EnquiryForm'
+import { X } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function EnquiryModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -36,30 +38,48 @@ export default function EnquiryModal() {
     return () => window.removeEventListener('open-enquiry-modal', handleOpen)
   }, [])
 
-  if (!isOpen) return null
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 md:p-8 shadow-2xl border border-slate-100">
-        <button
-          onClick={() => setIsOpen(false)}
-          className="absolute right-5 top-5 text-slate-400 hover:text-slate-600 transition-colors text-xl font-bold cursor-pointer"
-          aria-label="Close modal"
-        >
-          ✕
-        </button>
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Smooth Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsOpen(false)}
+            className="absolute inset-0 bg-black/60"
+          />
 
-        <h2 className="mb-2 text-2xl md:text-3xl font-display font-medium text-foreground uppercase tracking-wide">
-          Enquire Now
-        </h2>
-        {selectedProject && (
-          <p className="mb-4 text-sm font-sans text-accent font-semibold uppercase tracking-wider">
-            Interested in: {selectedProject}
-          </p>
-        )}
+          {/* Smooth Modal Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="relative w-full max-w-lg rounded-2xl bg-white p-6 md:p-8 shadow-2xl border border-slate-100 z-10"
+          >
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute right-5 top-5 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+              aria-label="Close modal"
+            >
+              <X size={20} />
+            </button>
 
-        <EnquiryForm defaultProject={selectedProject} onSuccess={() => setTimeout(() => setIsOpen(false), 2000)} />
-      </div>
-    </div>
+            <h2 className="mb-2 text-2xl md:text-3xl font-display font-medium text-foreground uppercase tracking-wide">
+              Enquire Now
+            </h2>
+            {selectedProject && (
+              <p className="mb-4 text-sm font-sans text-accent font-semibold uppercase tracking-wider">
+                Interested in: {selectedProject}
+              </p>
+            )}
+
+            <EnquiryForm defaultProject={selectedProject} onSuccess={() => setTimeout(() => setIsOpen(false), 2000)} />
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   )
 }

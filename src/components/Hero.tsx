@@ -21,7 +21,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="h-screen bg-slate-950 relative overflow-hidden flex items-center justify-center"
+      className="h-screen bg-foreground/90 relative overflow-hidden flex items-center justify-center"
     >
       {/* Background Video */}
       <video

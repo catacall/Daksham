@@ -102,6 +102,33 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <main className="min-h-screen flex flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "RealEstateProject",
+            "name": project.title,
+            "description": "Luxurious real estate project development by Daksham Developers.",
+            "location": {
+              "@type": "Place",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": project.location
+              }
+            },
+            "offers": {
+              "@type": "Offer",
+              "priceSpecification": {
+                "@type": "PriceSpecification",
+                "price": project.priceRange,
+                "priceCurrency": "INR"
+              }
+            },
+            "image": heroImage ? (heroImage.startsWith("http") ? heroImage : `https://convertotools.com${heroImage}`) : ""
+          })
+        }}
+      />
       <Navbar />
 
       {/* Luxury Hero Banner */}
