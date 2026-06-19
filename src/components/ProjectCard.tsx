@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface Project {
   slug: string;
@@ -9,6 +12,15 @@ interface Project {
   status: "ongoing" | "delivered";
   images?: any[]; 
 }
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { type: "spring", stiffness: 100, damping: 15 }
+  }
+};
 
 export function ProjectCard({ project }: { project: Project }) {
   // Extract first image url safely
@@ -25,34 +37,37 @@ export function ProjectCard({ project }: { project: Project }) {
   const brief = "Experience luxury living with premium amenities and exceptional design.";
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-all hover:shadow-md">
-      <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-100">
+    <motion.div 
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
+    >
+      <div className="relative aspect-4/3 w-full overflow-hidden bg-slate-100">
         <Image
           src={coverImage}
           alt={project.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
-        <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-neutral-900 backdrop-blur-sm shadow-sm">
+        <div className="absolute inset-0 bg-linear-to-t from-foreground/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute top-4 right-4 rounded-full bg-background/90 px-3 py-1 text-[10px] md:text-xs font-sans font-bold uppercase tracking-wider text-foreground backdrop-blur-md shadow-sm border border-white/20">
           {project.status}
         </div>
       </div>
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="text-xl font-bold text-neutral-900 mb-2">{project.title}</h3>
-        <div className="flex items-center text-sm text-neutral-500 mb-4">
-          <MapPin className="mr-1 h-4 w-4 shrink-0" />
+        <h3 className="text-xl font-display font-bold text-foreground mb-2 group-hover:text-accent transition-colors">{project.title}</h3>
+        <div className="flex items-center text-sm font-sans text-muted mb-4">
+          <MapPin className="mr-1 h-4 w-4 shrink-0 text-accent" />
           <span className="truncate">{project.location}</span>
         </div>
-        <p className="text-sm text-neutral-600 line-clamp-2 mb-6 flex-1">
+        <p className="text-sm font-sans text-muted line-clamp-2 mb-6 flex-1">
           {brief}
         </p>
         <Link
           href={`/projects/${project.slug}`}
-          className="inline-flex items-center justify-center rounded-lg bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+          className="inline-flex items-center justify-center rounded-lg bg-foreground px-4 py-2.5 text-sm font-sans font-medium text-background transition-colors hover:bg-accent hover:text-foreground"
         >
           View Details
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 }

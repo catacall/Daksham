@@ -3,7 +3,8 @@ import configPromise from "@payload-config";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MapPin, Info, Home as HomeIcon, IndianRupee } from "lucide-react";
+import { MapPin } from "lucide-react";
+import { FadeIn } from "@/components/FadeIn";
 
 interface PageProps {
   params: Promise<{
@@ -49,131 +50,148 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-background min-h-screen">
       {/* Hero Header */}
-      <div className="relative h-[50vh] min-h-[400px] w-full bg-neutral-900">
+      <div className="relative h-[60vh] min-h-[500px] w-full bg-slate-950 overflow-hidden">
         <Image
           src={coverImage}
           alt={project.title}
           fill
-          className="object-cover opacity-60"
+          className="object-cover opacity-50 transition-transform duration-1000 hover:scale-105"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-neutral-900/80 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full p-6 sm:p-12">
-          <div className="container mx-auto max-w-5xl">
-            <div className="mb-4 inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-sm font-semibold uppercase tracking-wider text-white backdrop-blur-md">
-              {project.status}
-            </div>
-            <h1 className="text-4xl font-extrabold text-white sm:text-5xl lg:text-6xl">
-              {project.title}
-            </h1>
-            <div className="mt-4 flex items-center text-lg text-neutral-200">
-              <MapPin className="mr-2 h-5 w-5" />
-              {project.location}
-            </div>
+        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full p-6 sm:p-12 z-10">
+          <div className="container mx-auto max-w-6xl">
+            <FadeIn delay={0.1}>
+              <div className="mb-6 inline-flex items-center rounded-full border border-accent/50 bg-slate-950/50 px-4 py-1.5 text-xs font-sans font-bold uppercase tracking-[0.2em] text-accent backdrop-blur-md shadow-lg">
+                {project.status}
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <h1 className="text-4xl font-display font-medium uppercase tracking-wide text-white sm:text-5xl lg:text-7xl mb-4 drop-shadow-md">
+                {project.title}
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.3}>
+              <div className="mt-4 flex items-center text-lg font-sans text-slate-300 tracking-wide">
+                <MapPin className="mr-2 h-5 w-5 text-accent" />
+                {project.location}
+              </div>
+            </FadeIn>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
+      <div className="container mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-16 lg:grid-cols-3">
           
           {/* Main Content Area */}
-          <div className="lg:col-span-2 space-y-12">
+          <div className="lg:col-span-2 space-y-16">
             
             {/* Quick Facts */}
-            <div className="grid grid-cols-2 gap-4 rounded-2xl bg-neutral-50 p-6 sm:grid-cols-4">
-              <div className="flex flex-col space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">Status</span>
-                <span className="font-medium text-neutral-900 capitalize">{project.status}</span>
+            <FadeIn delay={0.4}>
+              <div className="grid grid-cols-2 gap-8 rounded-3xl border border-border bg-white/50 backdrop-blur-sm p-8 sm:grid-cols-4 shadow-sm">
+                <div className="flex flex-col space-y-2">
+                  <span className="text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Status</span>
+                  <span className="font-display text-lg font-medium text-foreground capitalize">{project.status}</span>
+                </div>
+                <div className="flex flex-col space-y-2">
+                  <span className="text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Area</span>
+                  <span className="font-display text-lg font-medium text-foreground">{project.area}</span>
+                </div>
+                <div className="flex flex-col space-y-2">
+                  <span className="text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Price</span>
+                  <span className="font-display text-lg font-medium text-foreground">{project.priceRange}</span>
+                </div>
+                <div className="flex flex-col space-y-2">
+                  <span className="text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Location</span>
+                  <span className="font-display text-lg font-medium text-foreground">{project.location}</span>
+                </div>
               </div>
-              <div className="flex flex-col space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">Area</span>
-                <span className="font-medium text-neutral-900">{project.area}</span>
-              </div>
-              <div className="flex flex-col space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">Price Range</span>
-                <span className="font-medium text-neutral-900">{project.priceRange}</span>
-              </div>
-              <div className="flex flex-col space-y-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">Location</span>
-                <span className="font-medium text-neutral-900">{project.location}</span>
-              </div>
-            </div>
+            </FadeIn>
 
             {/* Description */}
-            <div className="prose prose-neutral max-w-none">
-              <h2>About {project.title}</h2>
-              {descriptionContent || <p>Details coming soon.</p>}
-            </div>
+            <FadeIn delay={0.2}>
+              <div className="prose prose-lg prose-neutral max-w-none font-sans text-muted">
+                <h2 className="font-display text-3xl text-foreground font-medium uppercase tracking-wide mb-6">About {project.title}</h2>
+                {descriptionContent || <p>Details coming soon.</p>}
+              </div>
+            </FadeIn>
 
             {/* Amenities */}
             {project.amenities && project.amenities.length > 0 && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-neutral-900">Amenities & Specifications</h2>
-                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-                  {project.amenities.map((amenityGroup: any, idx: number) => (
-                    <div key={idx} className="space-y-3">
-                      <h3 className="font-semibold text-neutral-900 border-b pb-2">{amenityGroup.category}</h3>
-                      <ul className="space-y-2 text-neutral-600">
-                        {amenityGroup.items.split(',').map((item: string, i: number) => (
-                          <li key={i} className="flex items-start">
-                            <span className="mr-2 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-400" />
-                            <span>{item.trim()}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+              <FadeIn delay={0.2}>
+                <div className="space-y-8">
+                  <h2 className="font-display text-3xl font-medium uppercase tracking-wide text-foreground">Amenities & Specs</h2>
+                  <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
+                    {project.amenities.map((amenityGroup: any, idx: number) => (
+                      <div key={idx} className="space-y-4">
+                        <h3 className="font-sans text-lg font-bold uppercase tracking-wider text-accent border-b border-border pb-3">{amenityGroup.category}</h3>
+                        <ul className="space-y-3 font-sans text-muted">
+                          {amenityGroup.items.split(',').map((item: string, i: number) => (
+                            <li key={i} className="flex items-start">
+                              <span className="mr-3 mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                              <span>{item.trim()}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </FadeIn>
             )}
 
             {/* Image Gallery */}
             {galleryImages.length > 0 && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-neutral-900">Gallery</h2>
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                  {galleryImages.map((img: string, idx: number) => (
-                    <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-xl bg-neutral-100">
-                      <Image
-                        src={img}
-                        alt={`${project.title} Gallery ${idx + 1}`}
-                        fill
-                        className="object-cover transition-transform hover:scale-105"
-                      />
-                    </div>
-                  ))}
+              <FadeIn delay={0.2}>
+                <div className="space-y-8">
+                  <h2 className="font-display text-3xl font-medium uppercase tracking-wide text-foreground">Gallery</h2>
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                    {galleryImages.map((img: string, idx: number) => (
+                      <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-2xl bg-slate-100 shadow-sm border border-border group">
+                        <Image
+                          src={img}
+                          alt={`${project.title} Gallery ${idx + 1}`}
+                          fill
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-foreground/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </FadeIn>
             )}
             
           </div>
 
           {/* Sticky Sidebar / Mobile Bottom Bar */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 rounded-2xl border bg-white p-6 shadow-sm">
-              <h3 className="mb-4 text-xl font-bold text-neutral-900">Interested in this project?</h3>
-              <p className="mb-6 text-sm text-neutral-600">
-                Get in touch with our team for more details, brochures, and site visits.
-              </p>
-              <Link
-                href={`/contact?project=${project.id}`}
-                className="flex w-full items-center justify-center rounded-lg bg-neutral-900 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
-              >
-                Enquire Now
-              </Link>
-            </div>
+            <FadeIn delay={0.6} direction="left">
+              <div className="sticky top-32 rounded-3xl border border-border bg-white p-8 shadow-xl shadow-slate-200/50">
+                <h3 className="mb-4 font-display text-2xl font-medium uppercase tracking-wide text-foreground">Interested?</h3>
+                <p className="mb-8 font-sans text-muted">
+                  Get in touch with our team for more details, premium brochures, and exclusive site visits.
+                </p>
+                <Link
+                  href={`/contact?project=${project.id}`}
+                  className="flex w-full items-center justify-center rounded-xl bg-foreground px-6 py-4 font-sans text-sm font-bold uppercase tracking-widest text-background transition-all hover:bg-accent hover:text-foreground hover:shadow-lg"
+                >
+                  Enquire Now
+                </Link>
+              </div>
+            </FadeIn>
           </div>
 
         </div>
       </div>
       
       {/* Mobile Fixed Bottom CTA */}
-      <div className="fixed bottom-0 left-0 z-40 w-full border-t bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] lg:hidden">
+      <div className="fixed bottom-0 left-0 z-40 w-full border-t border-border bg-white p-4 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.1)] lg:hidden">
          <Link
             href={`/contact?project=${project.id}`}
-            className="flex w-full items-center justify-center rounded-lg bg-neutral-900 px-4 py-3 text-base font-medium text-white shadow-sm"
+            className="flex w-full items-center justify-center rounded-xl bg-foreground px-4 py-3.5 font-sans text-sm font-bold uppercase tracking-widest text-white shadow-md active:scale-95 transition-transform"
           >
             Enquire Now
           </Link>

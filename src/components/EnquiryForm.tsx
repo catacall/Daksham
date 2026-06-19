@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { z } from "zod";
+import { motion } from "framer-motion";
 
 export const enquirySchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -15,16 +16,18 @@ export const enquirySchema = z.object({
 export type EnquiryFormData = z.infer<typeof enquirySchema>;
 
 interface EnquiryFormProps {
-  projects: { id: string; title: string }[];
+  projects?: { id: string; title: string }[];
   preselectedProjectId?: string | null;
+  defaultProject?: string;
+  onSuccess?: () => void;
 }
 
-export function EnquiryForm({ projects, preselectedProjectId }: EnquiryFormProps) {
+export function EnquiryForm({ projects = [], preselectedProjectId, defaultProject, onSuccess }: EnquiryFormProps) {
   const [formData, setFormData] = useState<EnquiryFormData>({
     name: "",
     email: "",
     phone: "",
-    projectInterestedIn: preselectedProjectId || "",
+    projectInterestedIn: preselectedProjectId || defaultProject || "",
     message: "",
     source: "website",
   });
@@ -68,6 +71,9 @@ export function EnquiryForm({ projects, preselectedProjectId }: EnquiryFormProps
       }
 
       setSubmitStatus("success");
+      if (onSuccess) {
+        onSuccess();
+      }
       setFormData({
         name: "",
         email: "",
@@ -96,26 +102,36 @@ export function EnquiryForm({ projects, preselectedProjectId }: EnquiryFormProps
 
   if (submitStatus === "success") {
     return (
-      <div className="rounded-2xl border border-green-100 bg-green-50 p-8 text-center">
-        <h3 className="mb-2 text-xl font-bold text-green-800">Thank you!</h3>
-        <p className="text-green-700">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="rounded-3xl border border-accent/30 bg-accent/5 p-8 text-center"
+      >
+        <h3 className="mb-3 font-display text-2xl font-bold uppercase tracking-wider text-accent">Thank you!</h3>
+        <p className="font-sans text-muted">
           Your enquiry has been submitted successfully. Our team will get back to you shortly.
         </p>
         <button
           onClick={() => setSubmitStatus("idle")}
-          className="mt-6 rounded-lg bg-green-800 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+          className="mt-8 rounded-xl bg-foreground px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-background transition-colors hover:bg-accent hover:text-foreground"
         >
           Submit another enquiry
         </button>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 rounded-2xl border bg-white p-6 sm:p-8 shadow-sm">
+    <motion.form 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      onSubmit={handleSubmit} 
+      className="space-y-6 rounded-3xl border border-border bg-white p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+    >
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="name" className="text-sm font-medium text-neutral-700">Full Name *</label>
+          <label htmlFor="name" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Full Name *</label>
           <input
             id="name"
             name="name"
@@ -123,16 +139,16 @@ export function EnquiryForm({ projects, preselectedProjectId }: EnquiryFormProps
             required
             value={formData.name}
             onChange={handleChange}
-            className={`w-full rounded-lg border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 ${
-              errors.name ? "border-red-500" : "border-neutral-200"
+            className={`w-full rounded-xl border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all ${
+              errors.name ? "border-red-500" : "border-border"
             }`}
             placeholder="John Doe"
           />
-          {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
+          {errors.name && <p className="text-xs font-sans text-red-500">{errors.name}</p>}
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="phone" className="text-sm font-medium text-neutral-700">Phone Number *</label>
+          <label htmlFor="phone" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Phone Number *</label>
           <input
             id="phone"
             name="phone"
@@ -140,17 +156,17 @@ export function EnquiryForm({ projects, preselectedProjectId }: EnquiryFormProps
             required
             value={formData.phone}
             onChange={handleChange}
-            className={`w-full rounded-lg border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 ${
-              errors.phone ? "border-red-500" : "border-neutral-200"
+            className={`w-full rounded-xl border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all ${
+              errors.phone ? "border-red-500" : "border-border"
             }`}
             placeholder="+91 98765 43210"
           />
-          {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
+          {errors.phone && <p className="text-xs font-sans text-red-500">{errors.phone}</p>}
         </div>
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="email" className="text-sm font-medium text-neutral-700">Email Address *</label>
+        <label htmlFor="email" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Email Address *</label>
         <input
           id="email"
           name="email"
@@ -158,22 +174,22 @@ export function EnquiryForm({ projects, preselectedProjectId }: EnquiryFormProps
           required
           value={formData.email}
           onChange={handleChange}
-          className={`w-full rounded-lg border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 ${
-            errors.email ? "border-red-500" : "border-neutral-200"
+          className={`w-full rounded-xl border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all ${
+            errors.email ? "border-red-500" : "border-border"
           }`}
           placeholder="john@example.com"
         />
-        {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
+        {errors.email && <p className="text-xs font-sans text-red-500">{errors.email}</p>}
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="projectInterestedIn" className="text-sm font-medium text-neutral-700">Project Interested In</label>
+        <label htmlFor="projectInterestedIn" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Project Interested In</label>
         <select
           id="projectInterestedIn"
           name="projectInterestedIn"
           value={formData.projectInterestedIn}
           onChange={handleChange}
-          className="w-full rounded-lg border border-neutral-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 bg-white"
+          className="w-full rounded-xl border border-border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all"
         >
           <option value="">Select a project (Optional)</option>
           {projects.map((p) => (
@@ -183,7 +199,7 @@ export function EnquiryForm({ projects, preselectedProjectId }: EnquiryFormProps
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="message" className="text-sm font-medium text-neutral-700">Your Message *</label>
+        <label htmlFor="message" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Your Message *</label>
         <textarea
           id="message"
           name="message"
@@ -191,16 +207,16 @@ export function EnquiryForm({ projects, preselectedProjectId }: EnquiryFormProps
           rows={4}
           value={formData.message}
           onChange={handleChange}
-          className={`w-full resize-none rounded-lg border px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 ${
-            errors.message ? "border-red-500" : "border-neutral-200"
+          className={`w-full resize-none rounded-xl border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all ${
+            errors.message ? "border-red-500" : "border-border"
           }`}
           placeholder="How can we help you?"
         />
-        {errors.message && <p className="text-xs text-red-500">{errors.message}</p>}
+        {errors.message && <p className="text-xs font-sans text-red-500">{errors.message}</p>}
       </div>
 
       {submitStatus === "error" && (
-        <div className="rounded-lg bg-red-50 p-4 text-sm text-red-600">
+        <div className="rounded-xl bg-red-50 p-4 font-sans text-sm text-red-600 border border-red-100">
           {errorMessage}
         </div>
       )}
@@ -208,14 +224,14 @@ export function EnquiryForm({ projects, preselectedProjectId }: EnquiryFormProps
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-lg bg-neutral-900 px-6 py-3.5 text-base font-medium text-white transition-colors hover:bg-neutral-800 disabled:opacity-70 flex justify-center items-center"
+        className="w-full rounded-xl bg-foreground px-6 py-4 font-sans text-sm font-bold uppercase tracking-widest text-background transition-all hover:bg-accent hover:text-foreground disabled:opacity-70 flex justify-center items-center shadow-lg shadow-foreground/10 active:scale-95"
       >
         {isSubmitting ? (
-          <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-white border-r-transparent" />
+          <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-background border-r-transparent" />
         ) : (
           "Submit Enquiry"
         )}
       </button>
-    </form>
+    </motion.form>
   );
 }

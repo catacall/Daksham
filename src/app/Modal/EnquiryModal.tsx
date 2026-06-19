@@ -58,7 +58,7 @@ export default function EnquiryModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="relative w-full max-w-lg rounded-2xl bg-white p-6 md:p-8 shadow-2xl border border-slate-100 z-10"
+            className="relative w-full max-w-lg rounded-3xl bg-background p-6 md:p-8 shadow-2xl shadow-slate-900/20 border border-border z-10"
           >
             <button
               onClick={() => setIsOpen(false)}

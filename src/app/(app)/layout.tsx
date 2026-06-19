@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   description: "Upscale real estate and premium business group website.",
 };
 
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function RootLayout({
   children,
@@ -32,7 +32,7 @@ export default function RootLayout({
       className={`${cinzel.variable} ${outfit.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        <Header />
+        <Navbar />
         <main className="flex-1 flex flex-col">
           {children}
         </main>
