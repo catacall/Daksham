@@ -31,26 +31,35 @@ export default function Navbar() {
     setMobileProjectsOpen(false);
   }, [pathname]);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/#about" },
     { name: "Projects", href: "#" }, // Droplist trigger
-    { name: "Awards", href: "/#awards" },
-    { name: "Contact", href: "/#contact" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
         isScrolled || !isHome
-          ? "bg-foreground  shadow-sm py-4"
-          : "bg-transparent py-6"
+          ? "bg-navy/95 backdrop-blur-md shadow-lg shadow-navy/20 py-2 md:py-3"
+          : "bg-transparent py-4 md:py-6"
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center bg-foreground rounded-2xl">
+      <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center bg-navy/80 backdrop-blur-sm rounded-2xl border border-white/5">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="h-20  flex items-center justify-center">
+        <Link href="/" className="flex items-center gap-2 shrink-0">
+          <div className="h-16 sm:h-18 md:h-20 flex items-center justify-center">
             <Image
               src="/daksham developers.png"
               alt="Daksham Developers Logo"
@@ -65,7 +74,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
           {navLinks.map(link => {
             if (link.name === "Projects") {
               return (
@@ -75,7 +84,7 @@ export default function Navbar() {
                   onMouseEnter={() => setDropdownOpen(true)}
                   onMouseLeave={() => setDropdownOpen(false)}
                 >
-                  <button className="text-sm font-sans uppercase tracking-wide hover:text-accent transition-colors text-background flex items-center gap-1 cursor-pointer">
+                  <button className="text-xs lg:text-sm font-sans uppercase tracking-wide hover:text-cyan transition-colors text-white/90 flex items-center gap-1 cursor-pointer">
                     Projects
                     <ChevronDown
                       size={14}
@@ -90,17 +99,17 @@ export default function Navbar() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="absolute top-full left-0 mt-2 w-48 bg-foreground border border-white/10 rounded-xl shadow-lg py-2 z-50"
+                        className="absolute top-full left-0 mt-2 w-52 glass rounded-xl shadow-xl py-2 z-50"
                       >
                         <Link
                           href="/projects/ongoing"
-                          className="block px-4 py-2.5 text-xs font-sans font-bold uppercase tracking-wider text-background hover:text-accent transition-colors"
+                          className="block px-5 py-3 text-xs font-sans font-bold uppercase tracking-wider text-white/80 hover:text-cyan hover:bg-white/5 transition-all"
                         >
                           Ongoing Projects
                         </Link>
                         <Link
                           href="/projects/delivered"
-                          className="block px-4 py-2.5 text-xs font-sans font-bold uppercase tracking-wider text-background hover:text-accent transition-colors"
+                          className="block px-5 py-3 text-xs font-sans font-bold uppercase tracking-wider text-white/80 hover:text-cyan hover:bg-white/5 transition-all"
                         >
                           Delivered Projects
                         </Link>
@@ -115,7 +124,7 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-sans uppercase tracking-wide hover:text-accent transition-colors text-background"
+                className="text-xs lg:text-sm font-sans uppercase tracking-wide hover:text-cyan transition-colors text-white/90"
               >
                 {link.name}
               </Link>
@@ -125,78 +134,111 @@ export default function Navbar() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-accent cursor-pointer"
+          className="md:hidden text-gold cursor-pointer p-2 -mr-2"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle Navigation"
         >
           {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Nav */}
+      {/* Mobile Nav — Full Screen Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-white shadow-lg md:hidden flex flex-col py-6 px-6 gap-4 rounded-2xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 top-0 left-0 w-full h-full bg-navy backdrop-blur-xl md:hidden flex flex-col z-60"
           >
-            {navLinks.map(link => {
-              if (link.name === "Projects") {
-                return (
-                  <div key={link.name} className="flex flex-col border-b border-border pb-2">
-                    <button
-                      onClick={() => setMobileProjectsOpen(!mobileProjectsOpen)}
-                      className="w-full text-left flex justify-between items-center text-lg font-sans font-medium uppercase leading-snug tracking-wide text-foreground hover:text-accent cursor-pointer"
-                    >
-                      Projects
-                      <ChevronDown
-                        size={18}
-                        className={`transform transition-transform duration-300 ${
-                          mobileProjectsOpen ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                    <AnimatePresence>
-                      {mobileProjectsOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden flex flex-col pl-4 gap-3 mt-3"
-                        >
-                          <Link
-                            href="/projects/ongoing"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="text-base font-sans font-semibold uppercase tracking-wider text-slate-500 hover:text-accent"
-                          >
-                            Ongoing Projects
-                          </Link>
-                          <Link
-                            href="/projects/delivered"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="text-base font-sans font-semibold uppercase tracking-wider text-slate-500 hover:text-accent"
-                          >
-                            Delivered Projects
-                          </Link>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              }
+            {/* Close button */}
+            <div className="flex justify-end p-6">
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-gold cursor-pointer p-2"
+                aria-label="Close Menu"
+              >
+                <X size={32} />
+              </button>
+            </div>
 
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-sans font-medium uppercase leading-snug tracking-wide text-foreground hover:text-accent border-b border-border pb-2"
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
+            {/* Nav links */}
+            <div className="flex-1 flex flex-col justify-center px-8 gap-2">
+              {navLinks.map((link, i) => {
+                if (link.name === "Projects") {
+                  return (
+                    <div key={link.name} className="flex flex-col border-b border-border-dark/50 pb-4">
+                      <motion.button
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.08 }}
+                        onClick={() => setMobileProjectsOpen(!mobileProjectsOpen)}
+                        className="w-full text-left flex justify-between items-center text-2xl font-display font-medium uppercase leading-snug tracking-wider text-white hover:text-cyan cursor-pointer py-4"
+                      >
+                        Projects
+                        <ChevronDown
+                          size={22}
+                          className={`transform transition-transform duration-300 text-gold ${
+                            mobileProjectsOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </motion.button>
+                      <AnimatePresence>
+                        {mobileProjectsOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden flex flex-col pl-4 gap-4 pb-2"
+                          >
+                            <Link
+                              href="/projects/ongoing"
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="text-lg font-sans font-semibold uppercase tracking-wider text-muted hover:text-cyan transition-colors"
+                            >
+                              Ongoing Projects
+                            </Link>
+                            <Link
+                              href="/projects/delivered"
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="text-lg font-sans font-semibold uppercase tracking-wider text-muted hover:text-cyan transition-colors"
+                            >
+                              Delivered Projects
+                            </Link>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
+
+                return (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-2xl font-display font-medium uppercase leading-snug tracking-wider text-white hover:text-cyan border-b border-border-dark/50 py-4 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Bottom accent line */}
+            <div className="px-8 pb-8">
+              <div className="h-px bg-linear-to-r from-transparent via-cyan/50 to-transparent" />
+              <p className="text-center text-muted/60 text-xs font-sans mt-4 tracking-wider uppercase">
+                Daksham Developers
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

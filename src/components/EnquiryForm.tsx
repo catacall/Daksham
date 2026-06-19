@@ -105,15 +105,15 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="rounded-3xl border border-accent/30 bg-accent/5 p-8 text-center"
+        className="rounded-2xl sm:rounded-3xl border border-gold/30 bg-gold/5 p-6 sm:p-8 text-center"
       >
-        <h3 className="mb-3 font-display text-2xl font-bold uppercase tracking-wider text-accent">Thank you!</h3>
-        <p className="font-sans text-muted">
+        <h3 className="mb-3 font-display text-xl sm:text-2xl font-bold uppercase tracking-wider text-gold">Thank you!</h3>
+        <p className="font-sans text-muted text-sm sm:text-base">
           Your enquiry has been submitted successfully. Our team will get back to you shortly.
         </p>
         <button
           onClick={() => setSubmitStatus("idle")}
-          className="mt-8 rounded-xl bg-foreground px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-background transition-colors hover:bg-accent hover:text-foreground"
+          className="mt-6 sm:mt-8 rounded-xl bg-navy px-6 sm:px-8 py-3 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-white transition-colors hover:bg-gold hover:text-navy"
         >
           Submit another enquiry
         </button>
@@ -127,11 +127,11 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       onSubmit={handleSubmit} 
-      className="space-y-6 rounded-3xl border border-border bg-white p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+      className="space-y-4 sm:space-y-6 rounded-2xl sm:rounded-3xl border border-border-light bg-white p-5 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
     >
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div className="space-y-2">
-          <label htmlFor="name" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Full Name *</label>
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
+        <div className="space-y-1.5 sm:space-y-2">
+          <label htmlFor="name" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Full Name *</label>
           <input
             id="name"
             name="name"
@@ -139,16 +139,16 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             required
             value={formData.name}
             onChange={handleChange}
-            className={`w-full rounded-xl border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all ${
-              errors.name ? "border-red-500" : "border-border"
+            className={`w-full rounded-xl border bg-off-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-cyan focus:outline-none focus:ring-1 focus:ring-cyan transition-all ${
+              errors.name ? "border-red-500" : "border-border-light"
             }`}
             placeholder="John Doe"
           />
           {errors.name && <p className="text-xs font-sans text-red-500">{errors.name}</p>}
         </div>
 
-        <div className="space-y-2">
-          <label htmlFor="phone" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Phone Number *</label>
+        <div className="space-y-1.5 sm:space-y-2">
+          <label htmlFor="phone" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Phone Number *</label>
           <input
             id="phone"
             name="phone"
@@ -156,8 +156,8 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             required
             value={formData.phone}
             onChange={handleChange}
-            className={`w-full rounded-xl border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all ${
-              errors.phone ? "border-red-500" : "border-border"
+            className={`w-full rounded-xl border bg-off-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-cyan focus:outline-none focus:ring-1 focus:ring-cyan transition-all ${
+              errors.phone ? "border-red-500" : "border-border-light"
             }`}
             placeholder="+91 98765 43210"
           />
@@ -165,8 +165,8 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
         </div>
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="email" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Email Address *</label>
+      <div className="space-y-1.5 sm:space-y-2">
+        <label htmlFor="email" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Email Address *</label>
         <input
           id="email"
           name="email"
@@ -174,22 +174,22 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           required
           value={formData.email}
           onChange={handleChange}
-          className={`w-full rounded-xl border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all ${
-            errors.email ? "border-red-500" : "border-border"
+          className={`w-full rounded-xl border bg-off-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-cyan focus:outline-none focus:ring-1 focus:ring-cyan transition-all ${
+            errors.email ? "border-red-500" : "border-border-light"
           }`}
           placeholder="john@example.com"
         />
         {errors.email && <p className="text-xs font-sans text-red-500">{errors.email}</p>}
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="projectInterestedIn" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Project Interested In</label>
+      <div className="space-y-1.5 sm:space-y-2">
+        <label htmlFor="projectInterestedIn" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Project Interested In</label>
         <select
           id="projectInterestedIn"
           name="projectInterestedIn"
           value={formData.projectInterestedIn}
           onChange={handleChange}
-          className="w-full rounded-xl border border-border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all"
+          className="w-full rounded-xl border border-border-light bg-off-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-cyan focus:outline-none focus:ring-1 focus:ring-cyan transition-all"
         >
           <option value="">Select a project (Optional)</option>
           {projects.map((p) => (
@@ -198,8 +198,8 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
         </select>
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="message" className="font-sans text-sm font-bold uppercase tracking-wider text-foreground">Your Message *</label>
+      <div className="space-y-1.5 sm:space-y-2">
+        <label htmlFor="message" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Your Message *</label>
         <textarea
           id="message"
           name="message"
@@ -207,8 +207,8 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           rows={4}
           value={formData.message}
           onChange={handleChange}
-          className={`w-full resize-none rounded-xl border bg-background px-4 py-3.5 font-sans text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent transition-all ${
-            errors.message ? "border-red-500" : "border-border"
+          className={`w-full resize-none rounded-xl border bg-off-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-cyan focus:outline-none focus:ring-1 focus:ring-cyan transition-all ${
+            errors.message ? "border-red-500" : "border-border-light"
           }`}
           placeholder="How can we help you?"
         />
@@ -216,7 +216,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
       </div>
 
       {submitStatus === "error" && (
-        <div className="rounded-xl bg-red-50 p-4 font-sans text-sm text-red-600 border border-red-100">
+        <div className="rounded-xl bg-red-50 p-3 sm:p-4 font-sans text-xs sm:text-sm text-red-600 border border-red-100">
           {errorMessage}
         </div>
       )}
@@ -224,10 +224,10 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-xl bg-foreground px-6 py-4 font-sans text-sm font-bold uppercase tracking-widest text-background transition-all hover:bg-accent hover:text-foreground disabled:opacity-70 flex justify-center items-center shadow-lg shadow-foreground/10 active:scale-95"
+        className="w-full rounded-xl bg-gold px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy transition-all hover:bg-gold-light disabled:opacity-70 flex justify-center items-center shadow-lg shadow-gold/10 active:scale-95"
       >
         {isSubmitting ? (
-          <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-background border-r-transparent" />
+          <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-navy border-r-transparent" />
         ) : (
           "Submit Enquiry"
         )}

@@ -6,10 +6,53 @@ import { notFound } from "next/navigation";
 import { MapPin } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
 
+import type { Metadata, ResolvingMetadata } from "next";
+
 interface PageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export const revalidate = 3600; // Revalidate at most every hour
+
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise });
+  const { docs: projects } = await payload.find({
+    collection: "projects" as any,
+    limit: 100,
+  });
+
+  return projects.map((project) => ({
+    slug: project.slug,
+  }));
+}
+
+export async function generateMetadata(
+  { params }: PageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const resolvedParams = await params;
+  const payload = await getPayload({ config: configPromise });
+  
+  const { docs: projects } = await payload.find({
+    collection: "projects" as any,
+    where: { slug: { equals: resolvedParams.slug } },
+    limit: 1,
+  });
+
+  const project = projects[0];
+
+  if (!project) {
+    return {
+      title: "Project Not Found | Daksham Developers",
+    };
+  }
+
+  return {
+    title: `${project.title} | Daksham Developers`,
+    description: `Discover ${project.title}, a premium ${project.status} real estate project by Daksham Developers located in ${project.location}.`,
+  };
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {
@@ -50,31 +93,35 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   }
 
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-off-white min-h-screen">
       {/* Hero Header */}
-      <div className="relative h-[60vh] min-h-[500px] w-full bg-slate-950 overflow-hidden">
+      <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] min-h-[400px] sm:min-h-[450px] md:min-h-[500px] w-full bg-navy overflow-hidden">
         <Image
           src={coverImage}
           alt={project.title}
           fill
-          className="object-cover opacity-50 transition-transform duration-1000 hover:scale-105"
+          className="object-cover opacity-40 transition-transform duration-1000 hover:scale-105"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full p-6 sm:p-12 z-10">
+        <div className="absolute inset-0 bg-linear-to-t from-navy via-navy/40 to-transparent" />
+        
+        {/* Subtle cyan glow */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[400px] sm:w-[600px] h-[150px] sm:h-[200px] bg-cyan/5 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
+        
+        <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 md:p-12 z-10">
           <div className="container mx-auto max-w-6xl">
             <FadeIn delay={0.1}>
-              <div className="mb-6 inline-flex items-center rounded-full border border-accent/50 bg-slate-950/50 px-4 py-1.5 text-xs font-sans font-bold uppercase tracking-[0.2em] text-accent backdrop-blur-md shadow-lg">
+              <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-gold/50 bg-navy/50 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.2em] text-gold backdrop-blur-md shadow-lg">
                 {project.status}
               </div>
             </FadeIn>
             <FadeIn delay={0.2}>
-              <h1 className="text-4xl font-display font-medium uppercase tracking-wide text-white sm:text-5xl lg:text-7xl mb-4 drop-shadow-md">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-medium uppercase tracking-wide text-white mb-3 sm:mb-4 drop-shadow-md">
                 {project.title}
               </h1>
             </FadeIn>
             <FadeIn delay={0.3}>
-              <div className="mt-4 flex items-center text-lg font-sans text-slate-300 tracking-wide">
-                <MapPin className="mr-2 h-5 w-5 text-accent" />
+              <div className="mt-2 sm:mt-4 flex items-center text-sm sm:text-base md:text-lg font-sans text-white/60 tracking-wide">
+                <MapPin className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-cyan" />
                 {project.location}
               </div>
             </FadeIn>
@@ -82,30 +129,30 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      <div className="container mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-3">
+      <div className="container mx-auto max-w-6xl px-4 py-10 sm:py-12 md:py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 sm:gap-12 md:gap-16 lg:grid-cols-3">
           
           {/* Main Content Area */}
-          <div className="lg:col-span-2 space-y-16">
+          <div className="lg:col-span-2 space-y-10 sm:space-y-12 md:space-y-16">
             
             {/* Quick Facts */}
             <FadeIn delay={0.4}>
-              <div className="grid grid-cols-2 gap-8 rounded-3xl border border-border bg-white/50 backdrop-blur-sm p-8 sm:grid-cols-4 shadow-sm">
-                <div className="flex flex-col space-y-2">
-                  <span className="text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Status</span>
-                  <span className="font-display text-lg font-medium text-foreground capitalize">{project.status}</span>
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 rounded-2xl sm:rounded-3xl border border-border-light bg-white/80 backdrop-blur-sm p-5 sm:p-6 md:p-8 sm:grid-cols-4 shadow-sm">
+                <div className="flex flex-col space-y-1.5 sm:space-y-2">
+                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Status</span>
+                  <span className="font-display text-base sm:text-lg font-medium text-navy capitalize">{project.status}</span>
                 </div>
-                <div className="flex flex-col space-y-2">
-                  <span className="text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Area</span>
-                  <span className="font-display text-lg font-medium text-foreground">{project.area}</span>
+                <div className="flex flex-col space-y-1.5 sm:space-y-2">
+                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Area</span>
+                  <span className="font-display text-base sm:text-lg font-medium text-navy">{project.area}</span>
                 </div>
-                <div className="flex flex-col space-y-2">
-                  <span className="text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Price</span>
-                  <span className="font-display text-lg font-medium text-foreground">{project.priceRange}</span>
+                <div className="flex flex-col space-y-1.5 sm:space-y-2">
+                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Price</span>
+                  <span className="font-display text-base sm:text-lg font-medium text-navy">{project.priceRange}</span>
                 </div>
-                <div className="flex flex-col space-y-2">
-                  <span className="text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Location</span>
-                  <span className="font-display text-lg font-medium text-foreground">{project.location}</span>
+                <div className="flex flex-col space-y-1.5 sm:space-y-2">
+                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Location</span>
+                  <span className="font-display text-base sm:text-lg font-medium text-navy">{project.location}</span>
                 </div>
               </div>
             </FadeIn>
@@ -113,7 +160,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {/* Description */}
             <FadeIn delay={0.2}>
               <div className="prose prose-lg prose-neutral max-w-none font-sans text-muted">
-                <h2 className="font-display text-3xl text-foreground font-medium uppercase tracking-wide mb-6">About {project.title}</h2>
+                <h2 className="font-display text-2xl sm:text-3xl text-navy font-medium uppercase tracking-wide mb-4 sm:mb-6">About {project.title}</h2>
                 {descriptionContent || <p>Details coming soon.</p>}
               </div>
             </FadeIn>
@@ -121,16 +168,16 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {/* Amenities */}
             {project.amenities && project.amenities.length > 0 && (
               <FadeIn delay={0.2}>
-                <div className="space-y-8">
-                  <h2 className="font-display text-3xl font-medium uppercase tracking-wide text-foreground">Amenities & Specs</h2>
-                  <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
+                <div className="space-y-6 sm:space-y-8">
+                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">Amenities & Specs</h2>
+                  <div className="grid grid-cols-1 gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2">
                     {project.amenities.map((amenityGroup: any, idx: number) => (
-                      <div key={idx} className="space-y-4">
-                        <h3 className="font-sans text-lg font-bold uppercase tracking-wider text-accent border-b border-border pb-3">{amenityGroup.category}</h3>
-                        <ul className="space-y-3 font-sans text-muted">
+                      <div key={idx} className="space-y-3 sm:space-y-4">
+                        <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-wider text-gold border-b border-border-light pb-2 sm:pb-3">{amenityGroup.category}</h3>
+                        <ul className="space-y-2 sm:space-y-3 font-sans text-muted text-sm">
                           {amenityGroup.items.split(',').map((item: string, i: number) => (
                             <li key={i} className="flex items-start">
-                              <span className="mr-3 mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                              <span className="mr-2 sm:mr-3 mt-1.5 sm:mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" />
                               <span>{item.trim()}</span>
                             </li>
                           ))}
@@ -145,18 +192,18 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {/* Image Gallery */}
             {galleryImages.length > 0 && (
               <FadeIn delay={0.2}>
-                <div className="space-y-8">
-                  <h2 className="font-display text-3xl font-medium uppercase tracking-wide text-foreground">Gallery</h2>
-                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                <div className="space-y-6 sm:space-y-8">
+                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">Gallery</h2>
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
                     {galleryImages.map((img: string, idx: number) => (
-                      <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-2xl bg-slate-100 shadow-sm border border-border group">
+                      <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-xl sm:rounded-2xl bg-off-white shadow-sm border border-border-light group">
                         <Image
                           src={img}
                           alt={`${project.title} Gallery ${idx + 1}`}
                           fill
                           className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                         />
-                        <div className="absolute inset-0 bg-foreground/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-navy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </div>
                     ))}
                   </div>
@@ -167,16 +214,16 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           </div>
 
           {/* Sticky Sidebar / Mobile Bottom Bar */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 hidden lg:block">
             <FadeIn delay={0.6} direction="left">
-              <div className="sticky top-32 rounded-3xl border border-border bg-white p-8 shadow-xl shadow-slate-200/50">
-                <h3 className="mb-4 font-display text-2xl font-medium uppercase tracking-wide text-foreground">Interested?</h3>
-                <p className="mb-8 font-sans text-muted">
+              <div className="sticky top-32 rounded-3xl border border-border-light bg-white p-6 sm:p-8 shadow-xl shadow-navy/5">
+                <h3 className="mb-3 sm:mb-4 font-display text-xl sm:text-2xl font-medium uppercase tracking-wide text-navy">Interested?</h3>
+                <p className="mb-6 sm:mb-8 font-sans text-muted text-sm">
                   Get in touch with our team for more details, premium brochures, and exclusive site visits.
                 </p>
                 <Link
                   href={`/contact?project=${project.id}`}
-                  className="flex w-full items-center justify-center rounded-xl bg-foreground px-6 py-4 font-sans text-sm font-bold uppercase tracking-widest text-background transition-all hover:bg-accent hover:text-foreground hover:shadow-lg"
+                  className="flex w-full items-center justify-center rounded-xl bg-gold px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy transition-all hover:bg-gold-light hover:shadow-lg"
                 >
                   Enquire Now
                 </Link>
@@ -188,10 +235,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       </div>
       
       {/* Mobile Fixed Bottom CTA */}
-      <div className="fixed bottom-0 left-0 z-40 w-full border-t border-border bg-white p-4 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.1)] lg:hidden">
+      <div className="fixed bottom-0 left-0 z-40 w-full border-t border-border-dark bg-navy p-3 sm:p-4 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.3)] lg:hidden">
          <Link
             href={`/contact?project=${project.id}`}
-            className="flex w-full items-center justify-center rounded-xl bg-foreground px-4 py-3.5 font-sans text-sm font-bold uppercase tracking-widest text-white shadow-md active:scale-95 transition-transform"
+            className="flex w-full items-center justify-center rounded-xl bg-gold px-4 py-3 sm:py-3.5 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy shadow-md active:scale-95 transition-transform"
           >
             Enquire Now
           </Link>

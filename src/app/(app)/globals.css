@@ -1,12 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  /* Light theme colors - clean corporate / premium */
-  --background: #f8fafc; /* Very light slate for premium feel */
-  --foreground: #002147; /* Deep Navy */
-  --accent: #d4af37; /* Gold/Champagne accent */
-  --muted: #64748b; /* Slate 500 for secondary text */
-  --border: #e2e8f0;
+  /* ─── Cyan · Gold · White · Navy Blue Luxury Palette ─── */
+  --navy: #0a1628;
+  --navy-light: #122240;
+  --cyan: #00d4ff;
+  --cyan-dark: #00a8cc;
+  --gold: #d4af37;
+  --gold-light: #e8c547;
+  --white: #ffffff;
+  --off-white: #f0f4f8;
+  --muted: #8a9bb5;
+  --border: #1e3054;
+  --border-light: #d4dde8;
+
+  /* Semantic aliases */
+  --background: var(--off-white);
+  --foreground: var(--navy);
+  --accent: var(--gold);
 }
 
 @theme inline {
@@ -14,35 +25,101 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-muted: var(--muted);
-  --color-border: var(--border);
-  
+  --color-border: var(--border-light);
+
+  /* Extended palette exposed to Tailwind */
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-cyan: var(--cyan);
+  --color-cyan-dark: var(--cyan-dark);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-off-white: var(--off-white);
+  --color-border-dark: var(--border);
+
   --font-sans: var(--font-outfit), Arial, Helvetica, sans-serif;
   --font-display: var(--font-cinzel), serif;
 }
 
-/* Base styles */
+/* ─── Base Styles ─── */
 body {
   background-color: var(--background);
   color: var(--foreground);
-  /* Outfit will be applied globally due to --font-sans overriding tailwind's default */
 }
 
-/* Typography elements */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-}
-
-/* Ensure smooth scrolling across the page */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom utilities for section spacing */
+/* ─── Typography ─── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background-color: var(--gold);
+  color: var(--navy);
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--navy);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan-dark);
+}
+
+/* ─── Utility: Section Padding ─── */
 @utility section-padding {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  @media (min-width: 640px) {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
   @media (min-width: 768px) {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  @media (min-width: 1024px) {
     padding-top: 8rem;
     padding-bottom: 8rem;
   }
+}
+
+/* ─── Utility: Glassmorphism ─── */
+@utility glass {
+  background: rgba(10, 22, 40, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+@utility glass-light {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 221, 232, 0.6);
+}
+
+/* ─── Utility: Cyan Glow ─── */
+@utility glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.15), 0 0 60px rgba(0, 212, 255, 0.05);
+}
+
+/* ─── Utility: Gold Shimmer Text ─── */
+@utility text-gold-gradient {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

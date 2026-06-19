@@ -4,8 +4,6 @@ import About from "@/components/About";
 import ShowCase from "@/components/ShowCase";
 import Connect from "@/components/Connect";
 import Enquiry from "@/components/Enquiry";
-import Award from "@/components/Award";
-import NewsEvent from "@/components/NewsEvent";
 import Ssc from "@/components/Ssc";
 
 export default function Home() {
@@ -19,9 +17,6 @@ export default function Home() {
       {/* Showcase Placeholder */}
       <ShowCase />
       {/* Awards */}
-      <Award />
-      {/* News & Events */}
-      <NewsEvent />
       {/* Connect With Us */}
       <Connect />
       {/* Enquiry */}

@@ -49,7 +49,7 @@ export default function EnquiryModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="absolute inset-0 bg-black/60"
+            className="absolute inset-0 bg-navy/70 backdrop-blur-sm"
           />
 
           {/* Smooth Modal Card */}
@@ -58,21 +58,21 @@ export default function EnquiryModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="relative w-full max-w-lg rounded-3xl bg-background p-6 md:p-8 shadow-2xl shadow-slate-900/20 border border-border z-10"
+            className="relative w-full max-w-lg rounded-2xl sm:rounded-3xl bg-white p-5 sm:p-6 md:p-8 shadow-2xl shadow-navy/20 border border-border-light z-10"
           >
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute right-5 top-5 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+              className="absolute right-4 sm:right-5 top-4 sm:top-5 text-muted hover:text-navy transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               <X size={20} />
             </button>
 
-            <h2 className="mb-2 text-2xl md:text-3xl font-display font-medium text-foreground uppercase tracking-wide">
+            <h2 className="mb-2 text-xl sm:text-2xl md:text-3xl font-display font-medium text-navy uppercase tracking-wide">
               Enquire Now
             </h2>
             {selectedProject && (
-              <p className="mb-4 text-sm font-sans text-accent font-semibold uppercase tracking-wider">
+              <p className="mb-4 text-xs sm:text-sm font-sans text-gold font-semibold uppercase tracking-wider">
                 Interested in: {selectedProject}
               </p>
             )}

@@ -187,12 +187,12 @@ export default function ChatbotDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-[450px] bg-foreground text-background z-50 shadow-2xl border-l border-white/10 flex flex-col"
+            className="fixed top-0 right-0 h-full w-full sm:w-[450px] bg-navy text-white z-50 shadow-2xl border-l border-white/10 flex flex-col"
           >
             {/* Drawer Header */}
-            <div className="p-6 border-b border-white/10 flex justify-between items-center bg-slate-950">
+            <div className="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-navy-light">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 bg-accent rounded-full flex items-center justify-center text-foreground">
+                <div className="h-10 w-10 bg-gold rounded-full flex items-center justify-center text-navy">
                   <Bot size={22} className="stroke-[2.5]" />
                 </div>
                 <div>
@@ -209,7 +209,7 @@ export default function ChatbotDrawer() {
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-white transition-colors cursor-pointer"
+                className="text-muted hover:text-cyan transition-colors cursor-pointer"
                 aria-label="Close chat"
               >
                 <X size={24} />
@@ -217,7 +217,7 @@ export default function ChatbotDrawer() {
             </div>
 
             {/* Message Area */}
-            <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 scrollbar-thin scrollbar-thumb-white/10">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 scrollbar-thin scrollbar-thumb-white/10">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -225,7 +225,7 @@ export default function ChatbotDrawer() {
                     message.sender === 'user' ? 'self-end items-end' : 'self-start items-start'
                   }`}
                 >
-                  <span className="text-[9px] font-sans text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">
+                  <span className="text-[9px] font-sans text-muted mb-1.5 uppercase tracking-wider font-semibold">
                     {message.sender === 'bot' ? 'Advisory Desk' : 'You'} •{' '}
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
@@ -233,8 +233,8 @@ export default function ChatbotDrawer() {
                   <div
                     className={`rounded-2xl px-4 py-3.5 text-sm font-sans whitespace-pre-wrap leading-relaxed shadow-sm border ${
                       message.sender === 'user'
-                        ? 'bg-accent text-foreground border-accent font-semibold rounded-tr-none'
-                        : 'bg-slate-900/60 text-slate-100 border-white/5 rounded-tl-none'
+                        ? 'bg-gold text-navy border-gold font-semibold rounded-tr-none'
+                        : 'bg-navy-light text-white/90 border-white/5 rounded-tl-none'
                     }`}
                   >
                     {message.text}
@@ -246,7 +246,7 @@ export default function ChatbotDrawer() {
                         <button
                           key={index}
                           onClick={() => handleActionClick(act.action)}
-                          className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-sans font-bold bg-white/5 border border-white/15 hover:border-accent hover:text-accent rounded-lg text-slate-300 transition-all cursor-pointer hover:bg-white/10"
+                          className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-sans font-bold bg-white/5 border border-white/15 hover:border-cyan hover:text-cyan rounded-lg text-white/70 transition-all cursor-pointer hover:bg-white/10"
                         >
                           {act.label}
                           <ArrowRight size={12} />
@@ -259,13 +259,13 @@ export default function ChatbotDrawer() {
 
               {isTyping && (
                 <div className="self-start flex flex-col items-start max-w-[80%]">
-                  <span className="text-[9px] font-sans text-slate-400 mb-1.5 uppercase tracking-wider font-semibold">
+                  <span className="text-[9px] font-sans text-muted mb-1.5 uppercase tracking-wider font-semibold">
                     Advisory Desk is typing...
                   </span>
-                  <div className="bg-slate-900/60 border border-white/5 text-slate-100 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="bg-navy-light border border-white/5 text-white/90 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-muted animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-muted animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-muted animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
               )}
@@ -273,8 +273,8 @@ export default function ChatbotDrawer() {
             </div>
 
             {/* Input Form */}
-            <div className="p-4 border-t border-white/10 bg-slate-950">
-              <div className="flex gap-2 bg-slate-900 border border-white/15 rounded-xl p-2.5 focus-within:border-accent transition-colors">
+            <div className="p-3 sm:p-4 border-t border-white/10 bg-navy-light">
+              <div className="flex gap-2 bg-navy border border-white/15 rounded-xl p-2.5 focus-within:border-cyan transition-colors">
                 <input
                   type="text"
                   value={inputValue}
@@ -285,7 +285,7 @@ export default function ChatbotDrawer() {
                 />
                 <button
                   onClick={handleSend}
-                  className="h-9 w-9 bg-accent hover:bg-amber-400 text-foreground rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  className="h-9 w-9 bg-gold hover:bg-gold-light text-navy rounded-lg flex items-center justify-center transition-colors cursor-pointer"
                   aria-label="Send message"
                 >
                   <ArrowRight size={16} />

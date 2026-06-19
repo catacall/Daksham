@@ -20,17 +20,17 @@ export default function Carousel() {
   };
 
   return (
-    <motion.div className="relative container mx-auto px-6">
+    <motion.div className="relative container mx-auto px-4 sm:px-6">
       <div
         ref={scrollRef}
-        className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-slate-200 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-400 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-500 transition-colors"
+        className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-6 sm:pb-8 pt-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-navy/10 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-navy/30 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-cyan/50 transition-colors"
       >
         {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-          <div key={i} className="flex-none w-[280px] md:w-[420px] snap-center shrink-0">
+          <div key={i} className="flex-none w-[240px] sm:w-[280px] md:w-[420px] snap-center shrink-0">
             <Image
-              src={`/SWC-${i}.webp`} // Replace with `/SWC-${i}.webp` if you have 8 different images
+              src={`/SWC-${i}.webp`}
               alt={`SWC Page ${i}`}
-              className="w-full h-auto object-contain rounded-2xl shadow-xl border border-slate-200 bg-white"
+              className="w-full h-auto object-contain rounded-xl sm:rounded-2xl shadow-xl border border-border-light bg-white"
               height={533}
               width={800}
               quality={90}
@@ -40,25 +40,25 @@ export default function Carousel() {
         ))}
       </div>
 
-      {/* Optional linear Fades for Carousel edges */}
-      <div className="absolute top-0 bottom-0 left-6 w-16 bg-linear-to-r from-slate-50 to-transparent pointer-events-none hidden md:block"></div>
-      <div className="absolute top-0 bottom-0 right-6 w-16 bg-linear-to-l from-slate-50 to-transparent pointer-events-none hidden md:block"></div>
+      {/* Edge fades */}
+      <div className="absolute top-0 bottom-0 left-4 sm:left-6 w-12 sm:w-16 bg-linear-to-r from-off-white to-transparent pointer-events-none hidden md:block"></div>
+      <div className="absolute top-0 bottom-0 right-4 sm:right-6 w-12 sm:w-16 bg-linear-to-l from-off-white to-transparent pointer-events-none hidden md:block"></div>
 
       {/* Mobile Controls */}
       <div className="flex justify-center items-center gap-4 mt-2 md:hidden">
         <button
           onClick={() => scroll("left")}
-          className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300 active:bg-slate-400 transition-colors shadow-sm"
+          className="w-11 h-11 flex items-center justify-center rounded-full bg-navy text-white hover:bg-navy-light active:bg-cyan/20 transition-colors shadow-sm border border-border-dark"
           aria-label="Previous Slide"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={22} />
         </button>
         <button
           onClick={() => scroll("right")}
-          className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300 active:bg-slate-400 transition-colors shadow-sm"
+          className="w-11 h-11 flex items-center justify-center rounded-full bg-navy text-white hover:bg-navy-light active:bg-cyan/20 transition-colors shadow-sm border border-border-dark"
           aria-label="Next Slide"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={22} />
         </button>
       </div>
     </motion.div>

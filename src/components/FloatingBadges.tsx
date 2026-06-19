@@ -6,14 +6,14 @@ import Link from "next/link";
 
 export default function FloatingBadges() {
   const badges = [
-    { icon: <MessageCircle size={24} />, href: "https://wa.me/1234567890", color: "bg-green-500", delay: 0.1, name: "WhatsApp" },
-    { icon: <Mail size={24} />, href: "mailto:contact@paradisegroup.com", color: "bg-blue-500", delay: 0.2, name: "Email" },
-    { icon: <Phone size={24} />, href: "tel:+1234567890", color: "bg-accent", delay: 0.3, name: "Phone" },
-    { icon: <Bot size={24} />, href: "#chatbot", color: "bg-foreground", delay: 0.4, name: "Chatbot" },
+    { icon: <MessageCircle size={20} />, href: "https://wa.me/1234567890", color: "bg-green-500 hover:bg-green-400", delay: 0.1, name: "WhatsApp" },
+    { icon: <Mail size={20} />, href: "mailto:contact@paradisegroup.com", color: "bg-cyan hover:bg-cyan-dark", delay: 0.2, name: "Email" },
+    { icon: <Phone size={20} />, href: "tel:+1234567890", color: "bg-gold hover:bg-gold-light", delay: 0.3, name: "Phone" },
+    { icon: <Bot size={20} />, href: "#chatbot", color: "bg-navy hover:bg-navy-light", delay: 0.4, name: "Chatbot" },
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-50">
+    <div className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 flex flex-col gap-3 sm:gap-4 z-50">
       {badges.map((badge, index) => (
         <div key={index} className="relative group">
           <motion.div
@@ -31,17 +31,17 @@ export default function FloatingBadges() {
                   window.dispatchEvent(new CustomEvent("open-chatbot"));
                 }
               }}
-              className={`w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg ${badge.color} relative z-10`}
+              className={`w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white shadow-lg ${badge.color} relative z-10 transition-colors border border-white/10`}
             >
               {badge.icon}
             </Link>
             
             {/* Pulse effect */}
-            <span className={`absolute top-0 left-0 w-full h-full rounded-full ${badge.color} opacity-50 animate-ping -z-10`} />
+            <span className={`absolute top-0 left-0 w-full h-full rounded-full ${badge.color.split(' ')[0]} opacity-40 animate-ping -z-10`} />
           </motion.div>
           
           {/* Tooltip */}
-          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-4 px-3 py-1 bg-foreground text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 sm:mr-4 px-3 py-1.5 bg-navy text-white text-xs sm:text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-border-dark shadow-lg">
             {badge.name}
           </div>
         </div>

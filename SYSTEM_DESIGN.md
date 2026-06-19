@@ -1,150 +1,43 @@
-# PGRO System Design Blueprint
+# Daksham Developers - System Design Document
 
-This document outlines the system architecture, core features, database schema, and data flows of the **PGRO** premium real estate platform.
+## 1. Architecture Overview
 
----
+The Daksham Developers website is built using a modern **Headless CMS architecture** blended with **Next.js App Router (v15)**. Instead of separating the CMS and the frontend into two different repositories or servers, **Payload CMS** is integrated natively into the Next.js application.
 
-## 1. System Architecture
+This provides:
+- A single unified codebase.
+- Zero network latency between the backend CMS logic and frontend rendering.
+- Shared TypeScript types between the CMS models and frontend components.
 
-The platform is designed around **Next.js 16 (App Router)** and **Payload CMS**, configured in a unified monolith deployed on **Vercel**. All data is persisted in a **Supabase PostgreSQL** instance, and transactional emails are sent via **Resend**.
+## 2. Core Technologies
 
-### Component Architecture
+- **Frontend & Backend Server**: Next.js 15 (App Router, Turbopack)
+- **Content Management System**: Payload CMS 3.0
+- **Database**: PostgreSQL
+- **UI Framework**: Tailwind CSS 4.0
+- **Animation Libraries**: Framer Motion (for React-based physics animations) & GSAP (for scroll-trigger complex timeline animations).
+- **Icons**: Lucide React
 
-```mermaid
-graph TD
-    User["Client Browser (Desktop/Mobile)"]
-    
-    subgraph Vercel["Vercel Cloud Monolith"]
-        NextFront["Next.js Frontend (React 19)"]
-        NextAPI["Next.js Route Handlers (API /enquiry)"]
-        PayloadAdmin["Payload CMS Admin UI (/admin)"]
-        LocalPayloadAPI["Local Payload SDK API"]
-    end
-    
-    subgraph Services["External Core Services"]
-        Supabase["Supabase (PostgreSQL Database)"]
-        Resend["Resend (Email Gateway)"]
-    end
+## 3. Data Flow & Rendering Strategy
 
-    User -->|HTTPS Requests| NextFront
-    User -->|Fills forms / Opens chat| NextAPI
-    User -->|Manages database| PayloadAdmin
-    
-    NextFront -->|Fetches projects/settings| LocalPayloadAPI
-    PayloadAdmin -->|CRUD operations| LocalPayloadAPI
-    NextAPI -->|Creates lead| LocalPayloadAPI
-    
-    LocalPayloadAPI -->|SQL queries (Prisma/Postgres)| Supabase
-    NextAPI -->|SMTP payload| Resend
-```
+- **Static Generation & Server-Side Rendering (SSR)**: Project pages (`/projects/ongoing`, `/projects/delivered`, `/projects/[slug]`) dynamically query Payload CMS via the Local API (`getPayload()`). These are Server Components, meaning database queries execute safely on the server without exposing credentials to the client.
+- **Client Components**: Interactive sections of the site (Navbar dropdowns, GSAP Carousels, Framer Motion fade-ins, Enquiry Forms) use the `"use client"` directive.
 
----
+## 4. CMS Collections
 
-## 2. Core Platform Features
+The database schema is defined in Payload CMS via collections in `/src/collections`:
+- **Users**: Standard Payload administrators who manage the site content.
+- **Projects**: Central entity containing fields like title, slug, status (ongoing/delivered), features, hero image, and gallery.
+- **Enquiries**: Form submissions from users. It stores names, emails, phone numbers, the project of interest, and metadata.
 
-| Feature | Technologies | Functional Details |
-| :--- | :--- | :--- |
-| **Dynamic Listings** | Next.js Server Components, Payload local API | Queries the database directly inside server-side page renders, optimizing SEO indexing and performance. Includes dynamic routing for individual details (`/projects/[slug]`). |
-| **UX Enhancements** | Lenis, Framer Motion, GSAP | Unified Lenis smooth-scrolling wrapper. Timelines in GSAP coordinate horizontal project showcases on the landing page, and Framer Motion handles drawer/modal transitions. |
-| **Lead Capture** | React 19 Client components, Resend API | Connects a validated registration form to Next.js API routes, storing leads in the DB and triggering Resend alerts to the admins. |
-| **Private Chat Advisor** | React state, Framer Motion | Slides out from the right on chatbot badge triggers. Provides dynamic replies regarding ongoing developments, completed status, WhatsApp routes, and enquiries. |
-| **SEO Optimization** | Next.js Metadata API, sitemap.ts, robots.ts | Dynamically parses sitemaps based on active CMS project slugs, injecting JSON-LD structured data block snippets on relevant project pages. |
-| **Payload CMS Portal** | Next.js dynamic routing | Serves a built-in admin dashboard at `/admin` to handle user permissions, media storage, and project content editing. |
+## 5. Security & Forms
 
----
+- The Enquiry form endpoint securely writes to the CMS database.
+- Forms are validated on the client side using standard React states before submission to prevent spam.
+- Database access is restricted. The Payload admin panel is accessible at `/admin` and requires authentication.
 
-## 3. Database Schema Blueprint
+## 6. Design System
 
-The database maps to PostgreSQL tables managed via Prisma. The following schema represents the custom collections configured in the CMS:
-
-```mermaid
-erDiagram
-    Users {
-        int id PK
-        string email
-        string password
-        string role
-        date createdAt
-    }
-    Media {
-        int id PK
-        string filename
-        string mimeType
-        int filesize
-        string alt
-        date createdAt
-    }
-    Projects {
-        int id PK
-        string title
-        string slug UK
-        string description_LexicalRichText
-        string status "ongoing | delivered"
-        string location
-        string area "e.g. 2BHK | 3BHK"
-        string priceRange
-        date publishedAt
-    }
-    Enquiries {
-        int id PK
-        string name
-        string email
-        string phone
-        string projectInterestedIn
-        string message
-        string status "new | contacted | closed"
-        string source
-        string notes
-        date createdAt
-    }
-    SiteSettings {
-        int id PK
-        string SiteName
-        int logoID FK
-        int faviconID FK
-        string primaryPhone
-        string primaryEmail
-        string address
-        string whatsapp
-        string businessHours
-    }
-
-    Projects }|--|{ Media : "images relationship"
-    SiteSettings ||--|| Media : "logo"
-    SiteSettings ||--|| Media : "favicon"
-```
-
----
-
-## 4. Enquiry Data Flow
-
-The lifecycle of an enquiry submission flows as follows:
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as Client Browser
-    participant API as API Handler (/api/enquiry)
-    participant SDK as Local Payload API
-    participant DB as Supabase DB
-    participant Mail as Resend Gateway
-    participant Admin as CMS Console (/admin)
-
-    User->>API: POST submission (Name, Phone, Email, Message, Project)
-    API->>SDK: Validate inputs and call payload.create('enquiries')
-    SDK->>DB: INSERT lead row in PostgreSQL
-    DB-->>SDK: Return inserted object record
-    API->>Mail: Trigger resend.emails.send() with enquiry fields
-    Mail-->>API: Confirm email dispatch queue
-    API-->>User: 200 OK Response (Render success feedback toast)
-    Admin->>DB: SELECT inquiries (Sorted by date descending)
-    DB-->>Admin: Populate Lead panel table lists for administrator audit
-```
-
----
-
-## 5. Production Optimization & Deployment Details
-
-- **Database Connection Pools:** Payload communicates with Supabase via `@payloadcms/db-postgres` which leverages standard Postgres connection pooling, bypassing Spanner or serverless concurrency exhaustions.
-- **Incremental Static Regeneration (ISR):** Project list routes are statically optimized, and individual projects use `revalidate = 60` in Next.js, allowing pages to rebuild on demand in the background as CMS data updates.
-- **Edge Assets:** User-uploaded media images are stored and optimized via next/image and serverless pipelines.
+- **Colors**: Defined in `globals.css` using custom CSS variables (e.g., `--background`, `--foreground`, `--accent`). The theme relies on a premium "Navy & Champagne Gold" aesthetic.
+- **Typography**: Uses `next/font/google` to inject the Cinzel (serif, display) and Outfit (sans-serif) fonts optimized at build time.
+- **Animations**: Reusable `FadeIn.tsx` wrapper for server components, while hero sections use direct `motion.div` from Framer Motion.

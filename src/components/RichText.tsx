@@ -28,7 +28,7 @@ function renderTextNode(node: any, index: number) {
   }
   if (format & IS_CODE) {
     element = (
-      <code className="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-red-600">
+      <code className="bg-off-white px-1.5 py-0.5 rounded text-sm font-mono text-cyan-dark">
         {element}
       </code>
     )
@@ -56,12 +56,12 @@ function renderNodes(nodes: any[]): React.ReactNode[] {
         case 'heading': {
           const Tag = (node.tag || 'h2') as any
           const sizeClasses: Record<string, string> = {
-            h1: 'text-3xl md:text-4xl lg:text-5xl mt-10 mb-6 font-display font-medium text-foreground uppercase tracking-wide',
-            h2: 'text-2xl md:text-3xl lg:text-4xl mt-8 mb-4 font-display font-medium text-foreground uppercase tracking-wide',
-            h3: 'text-xl md:text-2xl lg:text-3xl mt-6 mb-3 font-display font-medium text-foreground uppercase tracking-wide',
-            h4: 'text-lg md:text-xl mt-4 mb-2 font-display font-medium text-foreground uppercase tracking-wide',
-            h5: 'text-base md:text-lg mt-4 mb-2 font-display font-medium text-foreground uppercase tracking-wide',
-            h6: 'text-sm md:text-base mt-4 mb-2 font-display font-medium text-foreground uppercase tracking-wide',
+            h1: 'text-3xl md:text-4xl lg:text-5xl mt-10 mb-6 font-display font-medium text-navy uppercase tracking-wide',
+            h2: 'text-2xl md:text-3xl lg:text-4xl mt-8 mb-4 font-display font-medium text-navy uppercase tracking-wide',
+            h3: 'text-xl md:text-2xl lg:text-3xl mt-6 mb-3 font-display font-medium text-navy uppercase tracking-wide',
+            h4: 'text-lg md:text-xl mt-4 mb-2 font-display font-medium text-navy uppercase tracking-wide',
+            h5: 'text-base md:text-lg mt-4 mb-2 font-display font-medium text-navy uppercase tracking-wide',
+            h6: 'text-sm md:text-base mt-4 mb-2 font-display font-medium text-navy uppercase tracking-wide',
           }
           const className = sizeClasses[node.tag] || sizeClasses.h2
           return (
@@ -100,7 +100,7 @@ function renderNodes(nodes: any[]): React.ReactNode[] {
               href={url}
               target={newTab ? '_blank' : undefined}
               rel={newTab ? 'noopener noreferrer' : undefined}
-              className="text-accent underline decoration-accent/30 hover:decoration-accent transition-colors font-medium"
+              className="text-gold underline decoration-gold/30 hover:decoration-gold hover:text-gold-light transition-colors font-medium"
             >
               {node.children ? renderNodes(node.children) : null}
             </a>
@@ -138,7 +138,7 @@ export default function RichText({ content, className = '' }: RichTextProps) {
   if (!root || !root.children) return null
 
   return (
-    <div className={`prose prose-slate max-w-none space-y-4 ${className}`}>
+    <div className={`prose prose-neutral max-w-none space-y-4 ${className}`}>
       {renderNodes(root.children)}
     </div>
   )

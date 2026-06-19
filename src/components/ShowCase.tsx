@@ -83,7 +83,6 @@ export default function ShowCase() {
     const cards = gsap.utils.toArray(".showcase-card");
     cards.forEach((card: any) => {
       const img = card.querySelector(".showcase-image");
-      const overlay = card.querySelector(".showcase-overlay");
       const details = card.querySelector(".showcase-details");
 
       // Scale and ease image zoom
@@ -133,22 +132,22 @@ export default function ShowCase() {
     <section
       ref={containerRef}
       id="projects"
-      className="relative min-h-screen bg-slate-950 overflow-hidden flex flex-col justify-between py-16 md:py-24"
+      className="relative min-h-screen bg-navy overflow-hidden flex flex-col justify-between py-12 sm:py-16 md:py-24"
     >
       {/* Title Header Block */}
-      <div className="container mx-auto px-6 mb-10 z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
+      <div className="container mx-auto px-4 sm:px-6 mb-8 sm:mb-10 z-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 border-b border-white/10 pb-6 sm:pb-8">
           <div>
-            <span className="text-accent text-xs md:text-sm font-sans font-bold tracking-[0.3em] uppercase mb-3 block">
+            <span className="text-cyan text-[10px] sm:text-xs md:text-sm font-sans font-bold tracking-[0.3em] uppercase mb-2 sm:mb-3 block">
               Exclusive Portfolio
             </span>
-            <h2 className="text-3xl md:text-5xl font-display text-white font-medium uppercase leading-tight tracking-wider">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-display text-white font-medium uppercase leading-tight tracking-wider">
               Explore Landmarks
             </h2>
           </div>
           <Link
             href="/projects"
-            className="group inline-flex items-center gap-2 text-xs md:text-sm font-sans font-bold text-accent uppercase tracking-widest hover:text-white transition-colors duration-300"
+            className="group inline-flex items-center gap-2 text-xs md:text-sm font-sans font-bold text-gold uppercase tracking-widest hover:text-cyan transition-colors duration-300"
           >
             View All Developments
             <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-300" />
@@ -159,12 +158,12 @@ export default function ShowCase() {
       {/* Horizontal Scrolling Panel Container */}
       <div
         ref={scrollRef}
-        className="flex items-center gap-12 md:gap-16 px-[10vw] md:px-[20vw] select-none h-[60vh] md:h-[65vh] will-change-transform"
+        className="flex items-center gap-8 sm:gap-12 md:gap-16 px-[8vw] sm:px-[10vw] md:px-[20vw] select-none h-[55vh] sm:h-[60vh] md:h-[65vh] will-change-transform"
       >
         {showcaseProjects.map((project, idx) => (
           <div
             key={idx}
-            className="showcase-card shrink-0 w-[70vw] md:w-[50vw] lg:w-[45vw] h-full relative overflow-hidden rounded-3xl bg-slate-900 border border-white/5 shadow-2xl"
+            className="showcase-card shrink-0 w-[80vw] sm:w-[70vw] md:w-[50vw] lg:w-[45vw] h-full relative overflow-hidden rounded-2xl sm:rounded-3xl bg-navy-light border border-white/5 shadow-2xl glow-cyan"
           >
             {/* Project Image Panel */}
             <div className="relative w-full h-full overflow-hidden">
@@ -176,21 +175,21 @@ export default function ShowCase() {
                 sizes="(max-width: 768px) 80vw, 600px"
               />
 
-              {/* Dark overlay with gold highlights */}
-              <div className="showcase-overlay absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/20 to-black/35 pointer-events-none z-10" />
+              {/* Dark overlay */}
+              <div className="showcase-overlay absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-black/35 pointer-events-none z-10" />
 
               {/* Centered Image Swipe Overlay Details */}
-              <div className="showcase-details absolute bottom-8 left-8 right-8 z-20 flex flex-col pointer-events-none">
-                <span className="font-sans text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-accent mb-2">
+              <div className="showcase-details absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8 z-20 flex flex-col pointer-events-none">
+                <span className="font-sans text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-cyan mb-1 sm:mb-2">
                   {project.location}
                 </span>
-                <h3 className="font-display text-2xl md:text-4xl text-white font-medium uppercase tracking-wide mb-3">
+                <h3 className="font-display text-xl sm:text-2xl md:text-4xl text-white font-medium uppercase tracking-wide mb-2 sm:mb-3">
                   {project.title}
                 </h3>
-                <p className="font-sans text-xs md:text-sm text-slate-300 font-light max-w-sm">
+                <p className="font-sans text-[10px] sm:text-xs md:text-sm text-white/50 font-light max-w-sm">
                   {project.area}
                 </p>
-                <div className="mt-5 flex items-center gap-2 text-[10px] md:text-xs font-sans font-bold uppercase tracking-[0.2em] text-accent">
+                <div className="mt-3 sm:mt-5 flex items-center gap-2 text-[9px] sm:text-[10px] md:text-xs font-sans font-bold uppercase tracking-[0.2em] text-gold">
                   <span>Explore Design</span>
                   <ArrowRight size={14} />
                 </div>
