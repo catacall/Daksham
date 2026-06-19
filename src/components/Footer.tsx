@@ -1,84 +1,106 @@
-import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+"use client"
 
-export function Footer() {
-  return (
-    <footer className="border-t bg-neutral-50 py-12 text-neutral-600 mt-auto">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {/* Brand */}
-          <div className="flex flex-col space-y-4">
-            <span className="text-xl font-bold tracking-tight text-neutral-900">
-              Daksham Developers
-            </span>
-            <p className="text-sm leading-relaxed max-w-xs">
-              Building trust and delivering excellence in every project we undertake.
-            </p>
+export default function Footer() {
+    return (
+      <>
+        <footer className="bg-foreground text-background py-16">
+          <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div className="md:col-span-1">
+              <h3 className="font-display font-bold text-2xl mb-6 tracking-wider">
+                PGRO
+              </h3>
+              <p className="opacity-70 leading-relaxed text-sm">
+                Elevating lifestyles through premium real estate and
+                transformative business ventures globally.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-bold mb-6 tracking-wide text-sm uppercase">
+                Quick Links
+              </h4>
+              <ul className="flex flex-col gap-3 opacity-70 text-sm">
+                <li>
+                  <a
+                    href="#hero"
+                    className="hover:text-background transition-colors"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                    className="hover:text-background transition-colors"
+                  >
+                    Who We Are
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#projects"
+                    className="hover:text-background transition-colors"
+                  >
+                    Projects
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#awards"
+                    className="hover:text-background transition-colors"
+                  >
+                    Awards
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-6 tracking-wide text-sm uppercase">
+                Legal
+              </h4>
+              <ul className="flex flex-col gap-3 opacity-70 text-sm">
+                <li>
+                  <a href="#" className="hover:text-background transition-colors">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-background transition-colors">
+                    Terms of Service
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-background transition-colors">
+                    Cookie Policy
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-6 tracking-wide text-sm uppercase">
+                Contact
+              </h4>
+              <ul className="flex flex-col gap-3 opacity-70 text-sm">
+                <li>info@pgro.com</li>
+                <li>+1 234 567 8900</li>
+                <li className="mt-4 flex gap-4">
+                  {/* Minimal Social Icons */}
+                  <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">
+                    FB
+                  </span>
+                  <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">
+                    IN
+                  </span>
+                  <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">
+                    X
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
-
-          {/* Quick Links */}
-          <div className="flex flex-col space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-900">
-              Quick Links
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/" className="hover:text-neutral-900 transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/projects/ongoing" className="hover:text-neutral-900 transition-colors">
-                  Ongoing Projects
-                </Link>
-              </li>
-              <li>
-                <Link href="/projects/delivered" className="hover:text-neutral-900 transition-colors">
-                  Delivered Projects
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-neutral-900 transition-colors">
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
+          <div className="container mx-auto px-6 mt-16 pt-8 border-t border-white/10 text-center opacity-40 text-sm">
+            <p>&copy; 2026 PGRO Group. All rights reserved.</p>
           </div>
-
-          {/* Contact Info */}
-          <div className="flex flex-col space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-900">
-              Contact Us
-            </h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-start space-x-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-neutral-400" />
-                <span>
-                  Office No. X, Vashi Plaza,<br />
-                  Sector 17, Vashi,<br />
-                  Navi Mumbai, 400703
-                </span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 shrink-0 text-neutral-400" />
-                <a href="tel:+919876543210" className="hover:text-neutral-900 transition-colors">
-                  +91 98765 43210
-                </a>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 shrink-0 text-neutral-400" />
-                <a href="mailto:info@dakshamdevelopers.com" className="hover:text-neutral-900 transition-colors">
-                  info@dakshamdevelopers.com
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-12 border-t pt-8 text-center text-xs text-neutral-400">
-          <p>&copy; {new Date().getFullYear()} Daksham Developers. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-  );
+        </footer>
+      </>
+    );
 }
