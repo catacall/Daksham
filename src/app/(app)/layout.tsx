@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Cinzel, Outfit } from "next/font/google";
 import "./globals.css";
-import EnquiryModal from "../Modal/EnquiryModal";
-import LenisProvider from "@/components/LenisProvider";
-import ChatbotDrawer from "@/components/ChatbotDrawer";
+
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -20,6 +18,9 @@ export const metadata: Metadata = {
   description: "Upscale real estate and premium business group website.",
 };
 
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,14 +30,13 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${cinzel.variable} ${outfit.variable} h-full antialiased`}
-      data-scroll-behavior="smooth"
     >
       <body className="min-h-full flex flex-col font-sans">
-        <LenisProvider>
+        <Header />
+        <main className="flex-1 flex flex-col">
           {children}
-        </LenisProvider>
-        <EnquiryModal />
-        <ChatbotDrawer />
+        </main>
+        <Footer />
       </body>
     </html>
   );

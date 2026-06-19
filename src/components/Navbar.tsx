@@ -37,28 +37,28 @@ export default function Navbar() {
     { name: "Projects", href: "#" }, // Droplist trigger
     { name: "Awards", href: "/#awards" },
     { name: "Contact", href: "/#contact" },
-    { name: "Alliance", href: "/#alliance" },
   ];
 
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled || !isHome
-          ? "bg-foreground backdrop-blur-md shadow-sm py-4"
+          ? "bg-foreground  shadow-sm py-4"
           : "bg-transparent py-6"
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
+      <div className="container mx-auto px-6 flex justify-between items-center bg-foreground rounded-2xl">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="h-10 flex items-center justify-center">
+          <div className="h-20  flex items-center justify-center">
             <Image
-              src="/logo.png"
+              src="/daksham developers.png"
               alt="Daksham Developers Logo"
               className="h-full w-auto object-contain"
               height={100}
-              width={200}
-              quality={75}
+              width={100}
+              loading="eager"
+              quality={90}
               priority
             />
           </div>

@@ -25,13 +25,13 @@ export default function Hero() {
     >
       {/* Background Video */}
       <video
-        src="/SWC-video.mp4"
+        src="/videoplayback.mp4"
         autoPlay
         loop
         muted
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-cover z-0 opacity-45 select-none pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover z-0 opacity-77 select-none pointer-events-none"
       />
 
       {/* Layered Gradient Overlays for High-End Readability */}

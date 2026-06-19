@@ -1,304 +1,183 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import Image from "next/image";
 import { getPayload } from "payload";
-import configPromise from "@/payload.config";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import RichText from "@/components/RichText";
-import EnquiryButton from "@/components/EnquiryButton";
-import ProjectCard from "@/components/ProjectCard";
-import { MapPin, Home, IndianRupee, Calendar, ShieldCheck, Star } from "lucide-react";
+import configPromise from "@payload-config";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { MapPin, Info, Home as HomeIcon, IndianRupee } from "lucide-react";
 
-export const revalidate = 60; // Revalidate every minute
-
-interface Props {
-  params: Promise<{ slug: string }>;
+interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
-export async function generateStaticParams() {
+export default async function ProjectDetailPage({ params }: PageProps) {
+  const resolvedParams = await params;
   const payload = await getPayload({ config: configPromise });
+  
   const { docs: projects } = await payload.find({
     collection: "projects" as any,
-    limit: 100,
-  });
-
-  return projects.map((p: any) => ({
-    slug: p.slug,
-  }));
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const payload = await getPayload({ config: configPromise });
-
-  const { docs } = await payload.find({
-    collection: "projects" as any,
     where: {
       slug: {
-        equals: slug,
+        equals: resolvedParams.slug,
       },
     },
     limit: 1,
   });
 
-  const project = docs[0] as any;
+  const project = projects[0];
+
   if (!project) {
-    return {
-      title: "Project Not Found | Daksham Developers",
-    };
+    notFound();
   }
 
-  return {
-    title: `${project.title} | Premium Real Estate | Daksham Developers`,
-    description: `Discover the luxury estate details of ${project.title} located at ${project.location}. Price range: ${project.priceRange}. Configured with ${project.area}.`,
-  };
-}
-
-export default async function ProjectDetailPage({ params }: Props) {
-  const { slug } = await params;
-  const payload = await getPayload({ config: configPromise });
-
-  // Fetch the project details
-  const { docs } = await payload.find({
-    collection: "projects" as any,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-    limit: 1,
+  // Handle Images
+  const images = (project.images || []).map((img: any) => {
+    if (typeof img === "string") return img;
+    return img.url || "/placeholder-project.jpg";
   });
+  
+  const coverImage = images[0] || "/placeholder-project.jpg";
+  const galleryImages = images.slice(1);
 
-  const project = docs[0] as any;
-  if (!project) {
-    return notFound();
+  // Fallback description renderer if standard string, else JSON dump for complex Lexical
+  let descriptionContent = null;
+  if (typeof project.description === "string") {
+     descriptionContent = <div dangerouslySetInnerHTML={{ __html: project.description }} />;
+  } else if (project.description && typeof project.description === "object") {
+     descriptionContent = <pre className="text-xs whitespace-pre-wrap">{JSON.stringify(project.description, null, 2)}</pre>;
   }
-
-  // Fetch related projects (same status, limit to 3, exclude current)
-  const { docs: relatedProjects } = await payload.find({
-    collection: "projects" as any,
-    where: {
-      and: [
-        {
-          slug: {
-            not_equals: slug,
-          },
-        },
-        {
-          status: {
-            equals: project.status,
-          },
-        },
-      ],
-    },
-    limit: 3,
-  });
-
-  const isOngoing = project.status === "ongoing";
-  const images = project.images || [];
-  const heroImage = images[0]?.url || "/logo.png";
-  const heroAlt = images[0]?.alt || project.title;
 
   return (
-    <main className="min-h-screen flex flex-col bg-background">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "RealEstateProject",
-            "name": project.title,
-            "description": "Luxurious real estate project development by Daksham Developers.",
-            "location": {
-              "@type": "Place",
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": project.location
-              }
-            },
-            "offers": {
-              "@type": "Offer",
-              "priceSpecification": {
-                "@type": "PriceSpecification",
-                "price": project.priceRange,
-                "priceCurrency": "INR"
-              }
-            },
-            "image": heroImage ? (heroImage.startsWith("http") ? heroImage : `https://convertotools.com${heroImage}`) : ""
-          })
-        }}
-      />
-      <Navbar />
-
-      {/* Luxury Hero Banner */}
-      <section className="relative h-[60vh] md:h-[75vh] w-full bg-slate-900 flex items-end">
+    <div className="bg-white">
+      {/* Hero Header */}
+      <div className="relative h-[50vh] min-h-[400px] w-full bg-neutral-900">
         <Image
-          src={heroImage}
-          alt={heroAlt}
+          src={coverImage}
+          alt={project.title}
           fill
-          className="object-cover object-center opacity-70"
-          priority
+          className="object-cover opacity-60"
         />
-        {/* Dark gold-tinted gradient overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-foreground via-foreground/45 to-black/20 pointer-events-none" />
-
-        {/* Hero Content */}
-        <div className="relative container mx-auto px-6 pb-12 md:pb-20 z-10">
-          <div className="max-w-4xl">
-            {/* Status Badge */}
-            <span
-              className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg mb-6 ${
-                isOngoing
-                  ? "bg-amber-500 text-white"
-                  : "bg-emerald-600 text-white"
-              }`}
-            >
-              {isOngoing ? "Ongoing Development" : "Delivered Project"}
-            </span>
-
-            {/* Title */}
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-background font-medium uppercase tracking-wider mb-4 leading-tight">
+        <div className="absolute inset-0 bg-linear-to-t from-neutral-900/80 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full p-6 sm:p-12">
+          <div className="container mx-auto max-w-5xl">
+            <div className="mb-4 inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-sm font-semibold uppercase tracking-wider text-white backdrop-blur-md">
+              {project.status}
+            </div>
+            <h1 className="text-4xl font-extrabold text-white sm:text-5xl lg:text-6xl">
               {project.title}
             </h1>
-
-            {/* Location Subhead */}
-            <div className="flex items-center gap-2 text-slate-300 font-sans text-base md:text-lg">
-              <MapPin size={20} className="text-accent" />
-              <span>{project.location}</span>
+            <div className="mt-4 flex items-center text-lg text-neutral-200">
+              <MapPin className="mr-2 h-5 w-5" />
+              {project.location}
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Main Content Layout */}
-      <section className="container mx-auto px-6 py-12 md:py-20 flex-1">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          {/* Left Column: Description & Gallery */}
-          <div className="lg:col-span-8 flex flex-col gap-12">
-            <div>
-              <h2 className="font-display text-2xl md:text-3xl text-foreground font-semibold uppercase tracking-wider mb-6 border-b border-border pb-4">
-                Project Overview
-              </h2>
-              <RichText content={project.description} />
+      <div className="container mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
+          
+          {/* Main Content Area */}
+          <div className="lg:col-span-2 space-y-12">
+            
+            {/* Quick Facts */}
+            <div className="grid grid-cols-2 gap-4 rounded-2xl bg-neutral-50 p-6 sm:grid-cols-4">
+              <div className="flex flex-col space-y-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">Status</span>
+                <span className="font-medium text-neutral-900 capitalize">{project.status}</span>
+              </div>
+              <div className="flex flex-col space-y-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">Area</span>
+                <span className="font-medium text-neutral-900">{project.area}</span>
+              </div>
+              <div className="flex flex-col space-y-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">Price Range</span>
+                <span className="font-medium text-neutral-900">{project.priceRange}</span>
+              </div>
+              <div className="flex flex-col space-y-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">Location</span>
+                <span className="font-medium text-neutral-900">{project.location}</span>
+              </div>
             </div>
 
-            {/* Gallery Grid */}
-            {images.length > 1 && (
-              <div>
-                <h2 className="font-display text-2xl md:text-3xl text-foreground font-semibold uppercase tracking-wider mb-6 border-b border-border pb-4">
-                  Visual Showcase
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {images.slice(1).map((image: any, idx: number) => (
-                    <div
-                      key={image.id || idx}
-                      className="relative aspect-video rounded-xl overflow-hidden shadow-md group border border-slate-200/40"
-                    >
+            {/* Description */}
+            <div className="prose prose-neutral max-w-none">
+              <h2>About {project.title}</h2>
+              {descriptionContent || <p>Details coming soon.</p>}
+            </div>
+
+            {/* Amenities */}
+            {project.amenities && project.amenities.length > 0 && (
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-neutral-900">Amenities & Specifications</h2>
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
+                  {project.amenities.map((amenityGroup: any, idx: number) => (
+                    <div key={idx} className="space-y-3">
+                      <h3 className="font-semibold text-neutral-900 border-b pb-2">{amenityGroup.category}</h3>
+                      <ul className="space-y-2 text-neutral-600">
+                        {amenityGroup.items.split(',').map((item: string, i: number) => (
+                          <li key={i} className="flex items-start">
+                            <span className="mr-2 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-400" />
+                            <span>{item.trim()}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Image Gallery */}
+            {galleryImages.length > 0 && (
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-neutral-900">Gallery</h2>
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                  {galleryImages.map((img: string, idx: number) => (
+                    <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-xl bg-neutral-100">
                       <Image
-                        src={image.url}
-                        alt={image.alt || `${project.title} Gallery Image ${idx + 2}`}
+                        src={img}
+                        alt={`${project.title} Gallery ${idx + 1}`}
                         fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 768px) 100vw, 400px"
+                        className="object-cover transition-transform hover:scale-105"
                       />
                     </div>
                   ))}
                 </div>
               </div>
             )}
+            
           </div>
 
-          {/* Right Column: Spec Sheet & Enquiry Sticky */}
-          <div className="lg:col-span-4">
-            <div className="sticky top-28 bg-white border border-border/80 rounded-2xl shadow-xl p-6 md:p-8 flex flex-col gap-6">
-              <h3 className="font-display text-xl text-foreground font-semibold uppercase tracking-widest border-b border-border pb-4 flex items-center gap-2">
-                <Star size={18} className="text-accent fill-accent" />
-                Key Parameters
-              </h3>
-
-              {/* Specs List */}
-              <div className="flex flex-col gap-4">
-                <div className="flex justify-between items-start border-b border-slate-100 pb-3">
-                  <span className="text-sm font-sans text-slate-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                    <MapPin size={16} /> Location
-                  </span>
-                  <span className="text-sm font-sans text-foreground font-bold text-right pl-4">
-                    {project.location}
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-start border-b border-slate-100 pb-3">
-                  <span className="text-sm font-sans text-slate-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                    <Home size={16} /> Configuration
-                  </span>
-                  <span className="text-sm font-sans text-foreground font-bold text-right pl-4">
-                    {project.area}
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-start border-b border-slate-100 pb-3">
-                  <span className="text-sm font-sans text-slate-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                    <IndianRupee size={16} /> Price Range
-                  </span>
-                  <span className="text-sm font-sans text-accent font-bold text-right pl-4">
-                    {project.priceRange}
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-start border-b border-slate-100 pb-3">
-                  <span className="text-sm font-sans text-slate-500 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                    <Calendar size={16} /> Status
-                  </span>
-                  <span
-                    className={`text-sm font-sans font-bold text-right pl-4 ${
-                      isOngoing ? "text-amber-500" : "text-emerald-600"
-                    }`}
-                  >
-                    {isOngoing ? "Ongoing Construction" : "Successfully Handed Over"}
-                  </span>
-                </div>
-              </div>
-
-              {/* Service/Safety Guarantee badge */}
-              <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex gap-3 items-center">
-                <div className="text-emerald-600 shrink-0">
-                  <ShieldCheck size={28} />
-                </div>
-                <div className="text-xs font-sans text-slate-600 leading-normal">
-                  <span className="font-bold text-foreground block">Verified Luxury Landmark</span>
-                  RERA approved & bank-financeable with clear titles.
-                </div>
-              </div>
-
-              {/* enquiry CTA button */}
-              <EnquiryButton
-                projectTitle={project.title}
-                label="Enquire About This Project"
-                className="w-full bg-foreground text-background hover:bg-accent hover:text-foreground py-4 rounded-xl shadow-md text-sm cursor-pointer"
-              />
+          {/* Sticky Sidebar / Mobile Bottom Bar */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-24 rounded-2xl border bg-white p-6 shadow-sm">
+              <h3 className="mb-4 text-xl font-bold text-neutral-900">Interested in this project?</h3>
+              <p className="mb-6 text-sm text-neutral-600">
+                Get in touch with our team for more details, brochures, and site visits.
+              </p>
+              <Link
+                href={`/contact?project=${project.id}`}
+                className="flex w-full items-center justify-center rounded-lg bg-neutral-900 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-800"
+              >
+                Enquire Now
+              </Link>
             </div>
           </div>
+
         </div>
-      </section>
-
-      {/* Related Projects Section */}
-      {relatedProjects && relatedProjects.length > 0 && (
-        <section className="bg-slate-50 border-t border-slate-200/60 py-16 md:py-24">
-          <div className="container mx-auto px-6">
-            <h2 className="font-display text-2xl md:text-3xl text-foreground font-semibold uppercase tracking-wider mb-12 text-center">
-              Similar Developments
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {relatedProjects.map((p: any) => (
-                <ProjectCard key={p.id} project={p} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <Footer />
-    </main>
+      </div>
+      
+      {/* Mobile Fixed Bottom CTA */}
+      <div className="fixed bottom-0 left-0 z-40 w-full border-t bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] lg:hidden">
+         <Link
+            href={`/contact?project=${project.id}`}
+            className="flex w-full items-center justify-center rounded-lg bg-neutral-900 px-4 py-3 text-base font-medium text-white shadow-sm"
+          >
+            Enquire Now
+          </Link>
+      </div>
+    </div>
   );
 }

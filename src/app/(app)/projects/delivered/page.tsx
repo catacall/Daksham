@@ -1,20 +1,10 @@
-import type { Metadata } from "next";
 import { getPayload } from "payload";
-import configPromise from "@/payload.config";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ProjectGrid from "@/components/ProjectGrid";
-
-export const revalidate = 60; // Revalidate every minute
-
-export const metadata: Metadata = {
-  title: "Delivered Premium Real Estate | Daksham Developers",
-  description: "View our completed and successfully handed over premium landmarks. Witness the legacy of quality, excellence, and luxury delivered by Daksham Developers.",
-};
+import configPromise from "@payload-config";
+import { ProjectGrid } from "@/components/ProjectGrid";
 
 export default async function DeliveredProjectsPage() {
   const payload = await getPayload({ config: configPromise });
-
+  
   const { docs: projects } = await payload.find({
     collection: "projects" as any,
     where: {
@@ -26,10 +16,19 @@ export default async function DeliveredProjectsPage() {
   });
 
   return (
-    <main className="min-h-screen flex flex-col">
-      <Navbar />
-      <ProjectGrid projects={projects} currentFilter="delivered" />
-      <Footer />
-    </main>
+    <div className="bg-neutral-50 px-4 py-24 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-7xl">
+        <div className="mb-12">
+          <h1 className="text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl">
+            Delivered Projects
+          </h1>
+          <p className="mt-4 text-lg text-neutral-600 max-w-2xl">
+            A testament to our commitment. Explore the landmark projects we have successfully handed over to our happy customers.
+          </p>
+        </div>
+        
+        <ProjectGrid projects={projects} />
+      </div>
+    </div>
   );
 }

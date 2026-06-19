@@ -1,57 +1,84 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
+import { getPayload } from "payload";
+import configPromise from "@payload-config";
+import { Resend } from "resend";
+import { z } from "zod";
 
-import { NextResponse } from 'next/server'
-import { Resend } from 'resend'
-import configPromise from '@/payload.config'
-import { getPayload } from 'payload'
+const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
 
-const resend = new Resend(process.env.RESEND_API_KEY!)
+const enquirySchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+  phone: z.string().min(10),
+  projectInterestedIn: z.string().optional().nullable(),
+  message: z.string().min(10),
+  source: z.string().default("website"),
+});
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json()
-    const { name, email, phone, message, projectInterestedIn } = body
+    const body = await request.json();
+    
+    // Server-side validation
+    const validatedData = enquirySchema.parse(body);
 
-    if (!name || !email || !phone || !message) {
-      return NextResponse.json(
-        { message: 'All fields are required' },
-        { status: 400 }
-      )
+    const payload = await getPayload({ config: configPromise });
+
+    // Save to Database
+    const newEnquiry = await payload.create({
+      collection: "enquiries" as any,
+      data: {
+        name: validatedData.name,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        projectInterestedIn: validatedData.projectInterestedIn || null,
+        message: validatedData.message,
+        source: validatedData.source,
+        status: "new",
+      },
+    });
+
+    // Send Admin Notification Email via Resend
+    // We wrap this in a try/catch so email failure doesn't block lead capture
+    try {
+      if (process.env.RESEND_API_KEY && process.env.ADMIN_NOTIFICATION_EMAIL) {
+        await resend.emails.send({
+          from: "Enquiry Bot <onboarding@resend.dev>", // Replace with verified domain in production
+          to: process.env.ADMIN_NOTIFICATION_EMAIL,
+          subject: `New Enquiry from ${validatedData.name}`,
+          html: `
+            <h2>New Website Enquiry</h2>
+            <p><strong>Name:</strong> ${validatedData.name}</p>
+            <p><strong>Email:</strong> ${validatedData.email}</p>
+            <p><strong>Phone:</strong> ${validatedData.phone}</p>
+            <p><strong>Message:</strong> ${validatedData.message}</p>
+          `,
+        });
+      } else {
+        console.warn("Skipping email notification: RESEND_API_KEY or ADMIN_NOTIFICATION_EMAIL not set.");
+      }
+    } catch (emailError) {
+      console.error("Failed to send notification email:", emailError);
+      // Lead is already captured, so we proceed to return success.
     }
 
-    const payload = await getPayload({ config: configPromise })
-
-    const enquiry = await payload.create({
-      collection: 'enquiries' as any,
-      data: {
-        name,
-        email,
-        phone,
-        message,
-        projectInterestedIn,
-        status: 'new',
-        source: 'website',
-      } satisfies Partial<Record<string, any>>,
-    })
-
-    await resend.emails.send({
-      from: process.env.EMAIL_FROM!,
-      to: process.env.ADMIN_EMAIL!,
-      subject: `New enquiry from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nProject: ${projectInterestedIn || 'N/A'}\nMessage: ${message}`,
-    })
-
-    return NextResponse.json({ success: true, enquiry }, { status: 200 })
+    return NextResponse.json(
+      { message: "Enquiry submitted successfully.", id: newEnquiry.id },
+      { status: 201 }
+    );
   } catch (error) {
-  console.error('API Error:', error)
+    if (error instanceof z.ZodError) {
+      const zodErr = error as any;
+      return NextResponse.json(
+        { message: "Validation failed.", errors: zodErr.errors || zodErr.issues },
+        { status: 400 }
+      );
+    }
 
-  return NextResponse.json(
-    {
-      message: 'Failed to submit enquiry',
-      error: String(error),
-    },
-    { status: 500 }
-  )
-
+    console.error("Enquiry submission error:", error);
+    return NextResponse.json(
+      { message: "An error occurred while processing your enquiry." },
+      { status: 500 }
+    );
   }
 }

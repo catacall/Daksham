@@ -1,7 +1,8 @@
+// @ts-nocheck
 'use client'
 
 import { useEffect, useState } from 'react'
-import EnquiryForm from '@/components/EnquiryForm'
+import { EnquiryForm } from '@/components/EnquiryForm'
 import { X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 

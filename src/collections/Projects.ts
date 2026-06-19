@@ -109,6 +109,28 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
+      name: 'amenities',
+      type: 'array',
+      fields: [
+        {
+          name: 'category',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'e.g. Flooring, Kitchen, Electrical',
+          },
+        },
+        {
+          name: 'items',
+          type: 'text',
+          required: true,
+          admin: {
+            description: 'Comma separated list of items',
+          },
+        },
+      ],
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       required: true,

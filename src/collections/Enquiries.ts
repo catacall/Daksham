@@ -24,7 +24,9 @@ export const Enquiries: CollectionConfig = {
             name: 'phone',type: 'text', required: true
         },
         {
-            name: 'projectInterestedIn', type: 'text'
+            name: 'projectInterestedIn',
+            type: 'relationship',
+            relationTo: 'projects' as any,
         },
         {
             name: 'message', type: 'textarea', required: true
