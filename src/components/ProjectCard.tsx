@@ -5,41 +5,51 @@ import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
+import type { StaticImageData } from "next/image";
+
+interface ProjectImageObject {
+  url?: string;
+  src?: string;
+  [key: string]: unknown;
+}
+
 interface Project {
   slug: string;
   title: string;
   location: string;
   status: "ongoing" | "delivered";
-  images?: any[]; 
+  images?: Array<string | StaticImageData | ProjectImageObject>;
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { type: "spring", stiffness: 100, damping: 15 }
-  }
-};
+function isProjectImageObject(image: unknown): image is ProjectImageObject {
+  return (
+    typeof image === "object" &&
+    image !== null &&
+    "url" in image &&
+    typeof (image as ProjectImageObject).url === "string"
+  );
+}
 
 export function ProjectCard({ project }: { project: Project }) {
-  // Extract first image url safely
-  let coverImage = "/placeholder-project.jpg";
+  // Extract first image safely (string | StaticImageData | ProjectImageObject)
+  let coverImage: string | StaticImageData = "/placeholder-project.jpg";
   if (project.images && project.images.length > 0) {
-     const firstImg = project.images[0];
-     if (typeof firstImg === 'string') {
-        coverImage = firstImg; // might be id, but handle best case
-     } else if (firstImg && typeof firstImg === 'object' && firstImg.url) {
-        coverImage = firstImg.url;
-     }
+    const firstImg = project.images[0];
+    if (isProjectImageObject(firstImg)) {
+      coverImage = firstImg.url || "/placeholder-project.jpg";
+    } else if (typeof firstImg === "string") {
+      coverImage = firstImg; // string URL
+    } else {
+      // assume StaticImageData
+      coverImage = firstImg as StaticImageData;
+    }
   }
-  
-  const brief = "Experience luxury living with premium amenities and exceptional design.";
+
+  const brief =
+    "Experience luxury living with premium amenities and exceptional design.";
 
   return (
-    <motion.div 
-      className="group flex flex-col overflow-hidden rounded-2xl border border-border-light bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
-    >
+    <motion.div className="group flex flex-col overflow-hidden rounded-2xl border border-border-light bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
       <div className="relative aspect-4/3 w-full overflow-hidden bg-off-white">
         <Image
           src={coverImage}
@@ -53,7 +63,9 @@ export function ProjectCard({ project }: { project: Project }) {
         </div>
       </div>
       <div className="flex flex-1 flex-col p-4 sm:p-6">
-        <h3 className="text-lg sm:text-xl font-display font-bold text-navy mb-2 group-hover:text-gold transition-colors">{project.title}</h3>
+        <h3 className="text-lg sm:text-xl font-display font-bold text-navy mb-2 group-hover:text-gold transition-colors">
+          {project.title}
+        </h3>
         <div className="flex items-center text-xs sm:text-sm font-sans text-muted mb-3 sm:mb-4">
           <MapPin className="mr-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-cyan" />
           <span className="truncate">{project.location}</span>

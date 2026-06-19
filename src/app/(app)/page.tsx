@@ -1,10 +1,10 @@
 import FloatingBadges from "@/components/FloatingBadges";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import ShowCase from "@/components/ShowCase";
-import Connect from "@/components/Connect";
+import Hero from "@/components/Frontend/Hero";
+import About from "@/components/Frontend/About";
+import ShowCase from "@/components/Frontend/ShowCase";
+import Connect from "@/components/Frontend/Connect";
 import Enquiry from "@/components/Enquiry";
-import Ssc from "@/components/Ssc";
+import Ssc from "@/components/Frontend/ExploreVision";
 
 export default function Home() {
   return (

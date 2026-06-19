@@ -10,7 +10,7 @@ export default function SocialLinks() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           href="#"
-          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-navy hover:bg-navy-light border border-border-dark hover:border-cyan transition-all flex items-center justify-center font-bold text-sm sm:text-lg text-white"
+          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-300 hover:bg-navy-light border border-border-dark hover:border-cyan transition-all flex items-center justify-center font-bold text-sm sm:text-lg text-white"
         >
           FB
         </motion.a>
@@ -26,7 +26,7 @@ export default function SocialLinks() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
           href="#"
-          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-navy hover:bg-navy-light border border-border-dark hover:border-gold transition-all flex items-center justify-center font-bold text-sm sm:text-lg text-white"
+          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full  hover:bg-navy-light border border-border-dark hover:border-gold transition-all flex items-center justify-center font-bold text-sm sm:text-lg text-white"
         >
           <i className="fi fi-brands-instagram"></i>
         </motion.a>

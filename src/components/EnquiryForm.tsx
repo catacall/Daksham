@@ -82,18 +82,18 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
         message: "",
         source: "website",
       });
-    } catch (err: any) {
+    } catch (err) {
       if (err instanceof z.ZodError) {
-        const fieldErrors: any = {};
-        (err as any).errors.forEach((e: any) => {
-          if (e.path[0]) {
-            fieldErrors[e.path[0]] = e.message;
+        const fieldErrors: Record<string, string> = {};
+        err.issues.forEach((issue) => {
+          if (issue.path[0]) {
+            fieldErrors[String(issue.path[0])] = issue.message;
           }
         });
         setErrors(fieldErrors);
       } else {
         setSubmitStatus("error");
-        setErrorMessage(err.message || "Failed to submit enquiry. Please try again.");
+        setErrorMessage((err as Error).message || "Failed to submit enquiry. Please try again.");
       }
     } finally {
       setIsSubmitting(false);

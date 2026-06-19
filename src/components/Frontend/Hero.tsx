@@ -39,7 +39,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-radial-at-c from-transparent via-navy/30 to-navy/90 z-0 pointer-events-none" />
       
       {/* Subtle cyan glow at bottom */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-cyan/5 rounded-full blur-[100px] z-0 pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-150 h-50 bg-cyan/5 rounded-full blur-[100px] z-0 pointer-events-none" />
 
       {/* Content Layer */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 text-center max-w-5xl flex flex-col items-center">

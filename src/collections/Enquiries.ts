@@ -1,4 +1,4 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, CollectionSlug } from "payload";
 
 export const Enquiries: CollectionConfig = {
     slug: 'enquiries',
@@ -26,7 +26,7 @@ export const Enquiries: CollectionConfig = {
         {
             name: 'projectInterestedIn',
             type: 'relationship',
-            relationTo: 'projects' as any,
+            relationTo: 'projects' as unknown as CollectionSlug,
         },
         {
             name: 'message', type: 'textarea', required: true

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Send, Bot, ArrowRight } from 'lucide-react'
+import { X, Bot, ArrowRight } from 'lucide-react'
 
 interface Message {
   id: string
@@ -187,7 +187,7 @@ export default function ChatbotDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-[450px] bg-navy text-white z-50 shadow-2xl border-l border-white/10 flex flex-col"
+            className="fixed top-0 right-0 h-full w-full sm:w-112.5 bg-navy text-white z-50 shadow-2xl border-l border-white/10 flex flex-col"
           >
             {/* Drawer Header */}
             <div className="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-navy-light">

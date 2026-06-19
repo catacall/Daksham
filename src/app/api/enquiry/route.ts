@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
@@ -7,18 +8,18 @@ import { z } from "zod";
 const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
 
 const enquirySchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  phone: z.string().min(10),
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(10, "Phone must be at least 10 characters"),
   projectInterestedIn: z.string().optional().nullable(),
-  message: z.string().min(10),
+  message: z.string().min(10, "Message must be at least 10 characters"),
   source: z.string().default("website"),
 });
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
+
     // Server-side validation
     const validatedData = enquirySchema.parse(body);
 
@@ -29,6 +30,7 @@ export async function POST(request: Request) {
     if (validatedData.projectInterestedIn) {
       try {
         const project = await payload.findByID({
+          // Use a permissive cast for collections not present in Payload's generated types
           collection: "projects" as any,
           id: validatedData.projectInterestedIn,
         });
@@ -42,7 +44,10 @@ export async function POST(request: Request) {
     }
 
     // Save to Payload CMS Database
+    // Cast data to any to satisfy Payload's collection typings when fields
+    // may not exactly match the generated types (e.g. 'phone' field).
     const newEnquiry = await payload.create({
+      // Use a permissive cast for collections not present in Payload's generated types
       collection: "enquiries" as any,
       data: {
         name: validatedData.name,
@@ -52,13 +57,15 @@ export async function POST(request: Request) {
         message: validatedData.message,
         source: validatedData.source,
         status: "new",
-      },
+      } as any,
     });
 
     // Send Admin Notification Email via Resend
     // Email failure doesn't block lead capture
-    const adminEmail = process.env.ADMIN_EMAIL || process.env.ADMIN_NOTIFICATION_EMAIL;
-    const emailFrom = process.env.EMAIL_FROM || "Enquiry Bot <onboarding@resend.dev>";
+    const adminEmail =
+      process.env.ADMIN_EMAIL || process.env.ADMIN_NOTIFICATION_EMAIL;
+    const emailFrom =
+      process.env.EMAIL_FROM || "Enquiry Bot <onboarding@resend.dev>";
 
     try {
       if (process.env.RESEND_API_KEY && adminEmail) {
@@ -122,7 +129,9 @@ export async function POST(request: Request) {
           `,
         });
       } else {
-        console.warn("Skipping email notification: RESEND_API_KEY or ADMIN_EMAIL not set.");
+        console.warn(
+          "Skipping email notification: RESEND_API_KEY or ADMIN_EMAIL not set.",
+        );
       }
     } catch (emailError) {
       console.error("Failed to send notification email:", emailError);
@@ -131,21 +140,24 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       { message: "Enquiry submitted successfully.", id: newEnquiry.id },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
       const zodErr = error as any;
       return NextResponse.json(
-        { message: "Validation failed.", errors: zodErr.errors || zodErr.issues },
-        { status: 400 }
+        {
+          message: "Validation failed.",
+          errors: zodErr.errors || zodErr.issues,
+        },
+        { status: 400 },
       );
     }
 
     console.error("Enquiry submission error:", error);
     return NextResponse.json(
       { message: "An error occurred while processing your enquiry." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

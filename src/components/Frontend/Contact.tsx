@@ -1,7 +1,7 @@
 "use client";
-import SocialLinks from "./Reuse/SocialLinks";
+import SocialLinks from "../Reuse/SocialLinks";
 
-export default function Social(){
+export default function Contact(){
     return (
       <>
         <section id="connect" className="section-padding bg-off-white">

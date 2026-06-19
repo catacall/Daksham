@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import gsap from "gsap";
@@ -15,35 +16,35 @@ export default function ShowCase() {
     {
       title: "Sai World City",
       location: "Panvel, Navi Mumbai",
-      image: "/sai-world-city.jpg",
+      // image: "/sai-world-city.jpg",
       area: "2, 3 & 4 BHK Luxury Condos",
       slug: "sai-world-city",
     },
     {
       title: "Paradise Mall",
       location: "Kharghar, Navi Mumbai",
-      image: "/Paradise-mall.jpg",
+      // image: "/Paradise-mall.jpg",
       area: "Ultra-Premium Highstreet Retail",
       slug: "paradise-mall",
     },
     {
       title: "Sai World Empire",
       location: "Kharghar, Navi Mumbai",
-      image: "/sai-world-empire.jpg",
+      // image: "/sai-world-empire.jpg",
       area: "3 & 4 BHK Neo-Classical Homes",
       slug: "sai-world-empire",
     },
     {
       title: "Sai World Legend",
       location: "Dombivli, Thane",
-      image: "/sai-world-legend.jpg",
+      // image: "/sai-world-legend.jpg",
       area: "Premium Residential Towers",
       slug: "sai-world-legend",
     },
     {
       title: "Sai World Dreams",
       location: "Dombivli, Thane",
-      image: "/Sai-World-Dreams.jpg",
+      // image: "/Sai-World-Dreams.jpg",
       area: "Premium Highstreet & Multiplex Hub",
       slug: "sai-world-dreams",
     },
@@ -81,7 +82,7 @@ export default function ShowCase() {
 
     // Animate individual card zoom as it swipes center
     const cards = gsap.utils.toArray(".showcase-card");
-    cards.forEach((card: any) => {
+    cards.forEach((card: any ) => {
       const img = card.querySelector(".showcase-image");
       const details = card.querySelector(".showcase-details");
 
@@ -167,16 +168,16 @@ export default function ShowCase() {
           >
             {/* Project Image Panel */}
             <div className="relative w-full h-full overflow-hidden">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="showcase-image object-cover object-center w-full h-full pointer-events-none select-none"
-                sizes="(max-width: 768px) 80vw, 600px"
-              />
+              {/* <Img
+                // src={project.image}
+                // alt={project.title}
+                // fill
+                // className="showcase-image object-cover object-center w-full h-full pointer-events-none select-none"
+                // sizes="(max-width: 768px) 80vw, 600px"
+              // /> */}
 
               {/* Dark overlay */}
-              <div className="showcase-overlay absolute inset-0 bg-gradient-to-t from-navy via-navy/20 to-black/35 pointer-events-none z-10" />
+              <div className="showcase-overlay absolute inset-0 bg-linear-to-t from-navy via-navy/20 to-black/35 pointer-events-none z-10" />
 
               {/* Centered Image Swipe Overlay Details */}
               <div className="showcase-details absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8 z-20 flex flex-col pointer-events-none">

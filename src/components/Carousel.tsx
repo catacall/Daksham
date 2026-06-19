@@ -26,7 +26,7 @@ export default function Carousel() {
         className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-6 sm:pb-8 pt-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-navy/10 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-navy/30 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-cyan/50 transition-colors"
       >
         {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-          <div key={i} className="flex-none w-[240px] sm:w-[280px] md:w-[420px] snap-center shrink-0">
+          <div key={i} className="flex-none w-60 sm:w-70 md:w-105 snap-center shrink-0">
             <Image
               src={`/SWC-${i}.webp`}
               alt={`SWC Page ${i}`}
