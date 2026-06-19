@@ -2,6 +2,7 @@ import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { ProjectGrid } from "@/components/ProjectGrid";
 import { FadeIn } from "@/components/FadeIn";
+import { Pagination } from "@/components/Pagination";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,10 +10,19 @@ export const metadata: Metadata = {
   description: "Explore our currently developing premium real estate projects.",
 };
 
-export default async function OngoingProjectsPage() {
+export default async function OngoingProjectsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const page = typeof params?.page === "string" ? Math.max(1, parseInt(params.page, 10)) : 1;
+  const limit = 6;
+
   const payload = await getPayload({ config: configPromise });
   
-  const { docs: projects } = await payload.find({
+  const result = await payload.find({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collection: "projects" as any,
     where: {
       status: {
@@ -20,6 +30,8 @@ export default async function OngoingProjectsPage() {
       },
     },
     sort: "-publishedAt",
+    page,
+    limit,
   });
 
   return (
@@ -38,9 +50,16 @@ export default async function OngoingProjectsPage() {
             </p>
           </div>
         </FadeIn>
-        
-        <ProjectGrid projects={projects} />
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <ProjectGrid projects={result.docs as any} />
+
+        <Pagination
+          currentPage={result.page || 1}
+          totalPages={result.totalPages || 1}
+          baseUrl="/projects/ongoing"
+        />
       </div>
     </div>
   );
 }
+

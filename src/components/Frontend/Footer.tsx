@@ -63,17 +63,17 @@ export default function Footer() {
               </h4>
               <ul className="flex flex-col gap-3 text-muted text-sm">
                 <li>
-                  <a href="#" className="hover:text-cyan transition-colors">
+                  <a href="#" className="hover:text-cyan transition-colors" onClick={(e) => e.preventDefault()}>
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-cyan transition-colors">
+                  <a href="#" className="hover:text-cyan transition-colors" onClick={(e) => e.preventDefault()}>
                     Terms of Service
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-cyan transition-colors">
+                  <a href="#" className="hover:text-cyan transition-colors" onClick={(e) => e.preventDefault()}>
                     Cookie Policy
                   </a>
                 </li>
@@ -84,18 +84,52 @@ export default function Footer() {
                 Contact
               </h4>
               <ul className="flex flex-col gap-3 text-muted text-sm">
-                <li>info@pgro.com</li>
-                <li>+1 234 567 8900</li>
+                <li>
+                  <a href="mailto:info@dakshamdevelopers.com" className="hover:text-cyan transition-colors">
+                    info@dakshamdevelopers.com
+                  </a>
+                </li>
+                <li>
+                  <a href="tel:+919876543210" className="hover:text-cyan transition-colors">
+                    +91 98765 43210
+                  </a>
+                </li>
                 <li className="mt-4 flex gap-3">
                   {/* Social Icons */}
-                  <a href="#" className="w-9 h-9 rounded-full bg-navy-light border border-border-dark hover:border-cyan hover:bg-cyan/10 flex items-center justify-center text-xs text-muted hover:text-cyan transition-all">
-                    FB
+                  <a
+                    href="https://facebook.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-navy-light border border-border-dark hover:border-cyan hover:bg-cyan/10 flex items-center justify-center text-muted hover:text-cyan transition-all"
+                    aria-label="Facebook"
+                  >
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
                   </a>
-                  <a href="#" className="w-9 h-9 rounded-full bg-navy-light border border-border-dark hover:border-cyan hover:bg-cyan/10 flex items-center justify-center text-xs text-muted hover:text-cyan transition-all">
-                    IN
+                  <a
+                    href="https://instagram.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-navy-light border border-border-dark hover:border-cyan hover:bg-cyan/10 flex items-center justify-center text-muted hover:text-cyan transition-all"
+                    aria-label="Instagram"
+                  >
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                    </svg>
                   </a>
-                  <a href="#" className="w-9 h-9 rounded-full bg-navy-light border border-border-dark hover:border-cyan hover:bg-cyan/10 flex items-center justify-center text-xs text-muted hover:text-cyan transition-all">
-                    X
+                  <a
+                    href="https://twitter.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-navy-light border border-border-dark hover:border-cyan hover:bg-cyan/10 flex items-center justify-center text-muted hover:text-cyan transition-all"
+                    aria-label="X (formerly Twitter)"
+                  >
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+                    </svg>
                   </a>
                 </li>
               </ul>

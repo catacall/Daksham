@@ -6,9 +6,9 @@ import Link from "next/link";
 
 export default function FloatingBadges() {
   const badges = [
-    { icon: <MessageCircle size={20} />, href: "https://wa.me/1234567890", color: "bg-green-500 hover:bg-green-400", delay: 0.1, name: "WhatsApp" },
-    { icon: <Mail size={20} />, href: "mailto:contact@paradisegroup.com", color: "bg-cyan hover:bg-cyan-dark", delay: 0.2, name: "Email" },
-    { icon: <Phone size={20} />, href: "tel:+1234567890", color: "bg-gold hover:bg-gold-light", delay: 0.3, name: "Phone" },
+    { icon: <MessageCircle size={20} />, href: "https://wa.me/919876543210", color: "bg-green-500 hover:bg-green-400", delay: 0.1, name: "WhatsApp" },
+    { icon: <Mail size={20} />, href: "mailto:info@dakshamdevelopers.com", color: "bg-cyan hover:bg-cyan-dark", delay: 0.2, name: "Email" },
+    { icon: <Phone size={20} />, href: "tel:+919876543210", color: "bg-gold hover:bg-gold-light", delay: 0.3, name: "Phone" },
     { icon: <Bot size={20} />, href: "#chatbot", color: "bg-navy hover:bg-navy-light", delay: 0.4, name: "Chatbot" },
   ];
 

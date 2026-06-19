@@ -5,8 +5,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MapPin } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{
@@ -19,6 +20,7 @@ export const revalidate = 3600; // Revalidate at most every hour
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
   const { docs: projects } = await payload.find({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collection: "projects" as any,
     limit: 100,
   });
@@ -29,13 +31,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params }: PageProps,
-  parent: ResolvingMetadata
+  { params }: PageProps
 ): Promise<Metadata> {
   const resolvedParams = await params;
   const payload = await getPayload({ config: configPromise });
   
   const { docs: projects } = await payload.find({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collection: "projects" as any,
     where: { slug: { equals: resolvedParams.slug } },
     limit: 1,
@@ -60,6 +62,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   const payload = await getPayload({ config: configPromise });
   
   const { docs: projects } = await payload.find({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collection: "projects" as any,
     where: {
       slug: {
@@ -76,7 +79,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   }
 
   // Handle Images
-  const images = (project.images || []).map((img: any) => {
+  const images = (project.images || []).map((img: { url?: string } | string) => {
     if (typeof img === "string") return img;
     return img.url || "/placeholder-project.jpg";
   });
@@ -84,18 +87,21 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   const coverImage = images[0] || "/placeholder-project.jpg";
   const galleryImages = images.slice(1);
 
-  // Fallback description renderer if standard string, else JSON dump for complex Lexical
+  // Render description safely using Payload's RichText JSX renderer
   let descriptionContent = null;
   if (typeof project.description === "string") {
-     descriptionContent = <div dangerouslySetInnerHTML={{ __html: project.description }} />;
+     // Plain string fallback — render as text (no HTML injection)
+     descriptionContent = <p>{project.description}</p>;
   } else if (project.description && typeof project.description === "object") {
-     descriptionContent = <pre className="text-xs whitespace-pre-wrap">{JSON.stringify(project.description, null, 2)}</pre>;
+     // Lexical SerializedEditorState — render safely via Payload's RichText component
+     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     descriptionContent = <RichText data={project.description as any} />;
   }
 
   return (
     <div className="bg-off-white min-h-screen">
       {/* Hero Header */}
-      <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] min-h-[400px] sm:min-h-[450px] md:min-h-[500px] w-full bg-navy overflow-hidden">
+      <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] min-h-100 sm:min-h-112.5 md:min-h-125 w-full bg-navy overflow-hidden">
         <Image
           src={coverImage}
           alt={project.title}
@@ -105,7 +111,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="absolute inset-0 bg-linear-to-t from-navy via-navy/40 to-transparent" />
         
         {/* Subtle cyan glow */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[400px] sm:w-[600px] h-[150px] sm:h-[200px] bg-cyan/5 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-100 sm:w-150 h-37.5 sm:h-50 bg-cyan/5 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
         
         <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 md:p-12 z-10">
           <div className="container mx-auto max-w-6xl">
@@ -171,7 +177,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 <div className="space-y-6 sm:space-y-8">
                   <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">Amenities & Specs</h2>
                   <div className="grid grid-cols-1 gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2">
-                    {project.amenities.map((amenityGroup: any, idx: number) => (
+                    {project.amenities.map((amenityGroup: { category: string; items: string }, idx: number) => (
                       <div key={idx} className="space-y-3 sm:space-y-4">
                         <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-wider text-gold border-b border-border-light pb-2 sm:pb-3">{amenityGroup.category}</h3>
                         <ul className="space-y-2 sm:space-y-3 font-sans text-muted text-sm">

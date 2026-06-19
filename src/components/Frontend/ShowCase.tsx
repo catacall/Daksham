@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-// import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import gsap from "gsap";
@@ -16,35 +16,35 @@ export default function ShowCase() {
     {
       title: "Sai World City",
       location: "Panvel, Navi Mumbai",
-      // image: "/sai-world-city.jpg",
+      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
       area: "2, 3 & 4 BHK Luxury Condos",
       slug: "sai-world-city",
     },
     {
       title: "Paradise Mall",
       location: "Kharghar, Navi Mumbai",
-      // image: "/Paradise-mall.jpg",
+      image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
       area: "Ultra-Premium Highstreet Retail",
       slug: "paradise-mall",
     },
     {
       title: "Sai World Empire",
       location: "Kharghar, Navi Mumbai",
-      // image: "/sai-world-empire.jpg",
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
       area: "3 & 4 BHK Neo-Classical Homes",
       slug: "sai-world-empire",
     },
     {
       title: "Sai World Legend",
       location: "Dombivli, Thane",
-      // image: "/sai-world-legend.jpg",
+      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
       area: "Premium Residential Towers",
       slug: "sai-world-legend",
     },
     {
       title: "Sai World Dreams",
       location: "Dombivli, Thane",
-      // image: "/Sai-World-Dreams.jpg",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
       area: "Premium Highstreet & Multiplex Hub",
       slug: "sai-world-dreams",
     },
@@ -61,71 +61,76 @@ export default function ShowCase() {
 
     if (!scrollContainer || !triggerContainer) return;
 
-    // Calculate total scrollable width
-    const getScrollWidth = () => {
-      return scrollContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.35;
-    };
+    const ctx = gsap.context(() => {
+      // Calculate total scrollable width
+      const getScrollWidth = () => {
+        return scrollContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.35;
+      };
 
-    // Horizontal Scroll tween
-    const horizontalScroll = gsap.to(scrollContainer, {
-      x: () => -getScrollWidth(),
-      ease: "none",
-      scrollTrigger: {
-        trigger: triggerContainer,
-        pin: true,
-        scrub: 0.8,
-        start: "top top",
-        end: () => `+=${scrollContainer.scrollWidth}`,
-        invalidateOnRefresh: true,
-      },
-    });
+      // Horizontal Scroll tween
+      const horizontalScroll = gsap.to(scrollContainer, {
+        x: () => -getScrollWidth(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: triggerContainer,
+          pin: true,
+          scrub: 0.8,
+          start: "top top",
+          end: () => `+=${scrollContainer.scrollWidth}`,
+          invalidateOnRefresh: true,
+        },
+      });
 
-    // Animate individual card zoom as it swipes center
-    const cards = gsap.utils.toArray(".showcase-card");
-    cards.forEach((card: any ) => {
-      const img = card.querySelector(".showcase-image");
-      const details = card.querySelector(".showcase-details");
+      // Animate individual card zoom as it swipes center
+      const cards = gsap.utils.toArray(".showcase-card");
+      cards.forEach((card: any ) => {
+        const img = card.querySelector(".showcase-image");
+        const details = card.querySelector(".showcase-details");
 
-      // Scale and ease image zoom
-      gsap.fromTo(
-        img,
-        { scale: 0.85, filter: "brightness(0.55)" },
-        {
-          scale: 1.15,
-          filter: "brightness(0.9)",
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: card,
-            containerAnimation: horizontalScroll,
-            start: "left right-=10%",
-            end: "right left+=10%",
-            scrub: true,
-          },
+        // Scale and ease image zoom
+        if (img) {
+          gsap.fromTo(
+            img,
+            { scale: 0.85, filter: "brightness(0.55)" },
+            {
+              scale: 1.15,
+              filter: "brightness(0.9)",
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: card,
+                containerAnimation: horizontalScroll,
+                start: "left right-=10%",
+                end: "right left+=10%",
+                scrub: true,
+              },
+            }
+          );
         }
-      );
 
-      // Contrast card details opacity and y position
-      gsap.fromTo(
-        details,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: card,
-            containerAnimation: horizontalScroll,
-            start: "left center+=25%",
-            end: "right center-=25%",
-            scrub: true,
-          },
+        // Contrast card details opacity and y position
+        if (details) {
+          gsap.fromTo(
+            details,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: card,
+                containerAnimation: horizontalScroll,
+                start: "left center+=25%",
+                end: "right center-=25%",
+                scrub: true,
+              },
+            }
+          );
         }
-      );
-    });
+      });
+    }, containerRef);
 
     return () => {
-      // Clean up scrolltriggers
-      ScrollTrigger.getAll().forEach(t => t.kill());
+      ctx.revert();
     };
   }, []);
 
@@ -162,19 +167,20 @@ export default function ShowCase() {
         className="flex items-center gap-8 sm:gap-12 md:gap-16 px-[8vw] sm:px-[10vw] md:px-[20vw] select-none h-[55vh] sm:h-[60vh] md:h-[65vh] will-change-transform"
       >
         {showcaseProjects.map((project, idx) => (
-          <div
+          <Link
             key={idx}
-            className="showcase-card shrink-0 w-[80vw] sm:w-[70vw] md:w-[50vw] lg:w-[45vw] h-full relative overflow-hidden rounded-2xl sm:rounded-3xl bg-navy-light border border-white/5 shadow-2xl glow-cyan"
+            href={`/projects/${project.slug}`}
+            className="showcase-card shrink-0 w-[80vw] sm:w-[70vw] md:w-[50vw] lg:w-[45vw] h-full relative overflow-hidden rounded-2xl sm:rounded-3xl bg-navy-light border border-white/5 shadow-2xl glow-cyan block cursor-pointer"
           >
             {/* Project Image Panel */}
             <div className="relative w-full h-full overflow-hidden">
-              {/* <Img
-                // src={project.image}
-                // alt={project.title}
-                // fill
-                // className="showcase-image object-cover object-center w-full h-full pointer-events-none select-none"
-                // sizes="(max-width: 768px) 80vw, 600px"
-              // /> */}
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="showcase-image object-cover object-center w-full h-full pointer-events-none select-none"
+                sizes="(max-width: 768px) 80vw, 600px"
+              />
 
               {/* Dark overlay */}
               <div className="showcase-overlay absolute inset-0 bg-linear-to-t from-navy via-navy/20 to-black/35 pointer-events-none z-10" />
@@ -196,7 +202,7 @@ export default function ShowCase() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

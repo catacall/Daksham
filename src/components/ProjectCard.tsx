@@ -19,6 +19,8 @@ interface Project {
   location: string;
   status: "ongoing" | "delivered";
   images?: Array<string | StaticImageData | ProjectImageObject>;
+  area?: string;
+  priceRange?: string;
 }
 
 function isProjectImageObject(image: unknown): image is ProjectImageObject {
@@ -31,12 +33,11 @@ function isProjectImageObject(image: unknown): image is ProjectImageObject {
 }
 
 export function ProjectCard({ project }: { project: Project }) {
-  // Extract first image safely (string | StaticImageData | ProjectImageObject)
-  let coverImage: string | StaticImageData = "/placeholder-project.jpg";
+  let coverImage: string | StaticImageData = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
   if (project.images && project.images.length > 0) {
     const firstImg = project.images[0];
     if (isProjectImageObject(firstImg)) {
-      coverImage = firstImg.url || "/placeholder-project.jpg";
+      coverImage = firstImg.url || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
     } else if (typeof firstImg === "string") {
       coverImage = firstImg; // string URL
     } else {
@@ -44,9 +45,6 @@ export function ProjectCard({ project }: { project: Project }) {
       coverImage = firstImg as StaticImageData;
     }
   }
-
-  const brief =
-    "Experience luxury living with premium amenities and exceptional design.";
 
   return (
     <motion.div className="group flex flex-col overflow-hidden rounded-2xl border border-border-light bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
@@ -66,13 +64,18 @@ export function ProjectCard({ project }: { project: Project }) {
         <h3 className="text-lg sm:text-xl font-display font-bold text-navy mb-2 group-hover:text-gold transition-colors">
           {project.title}
         </h3>
-        <div className="flex items-center text-xs sm:text-sm font-sans text-muted mb-3 sm:mb-4">
+        <div className="flex items-center text-xs sm:text-sm font-sans text-muted mb-3">
           <MapPin className="mr-1 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-cyan" />
           <span className="truncate">{project.location}</span>
         </div>
-        <p className="text-xs sm:text-sm font-sans text-muted line-clamp-2 mb-4 sm:mb-6 flex-1">
-          {brief}
-        </p>
+
+        {(project.area || project.priceRange) && (
+          <div className="flex justify-between items-center text-xs font-sans text-muted/80 mb-4 pt-3 border-t border-border-light flex-1">
+            {project.area && <span>Config: {project.area}</span>}
+            {project.priceRange && <span className="text-navy font-bold">{project.priceRange}</span>}
+          </div>
+        )}
+
         <Link
           href={`/projects/${project.slug}`}
           className="inline-flex items-center justify-center rounded-xl bg-navy px-4 py-2.5 text-xs sm:text-sm font-sans font-medium text-white transition-colors hover:bg-gold hover:text-navy"
