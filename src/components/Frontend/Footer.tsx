@@ -47,14 +47,7 @@ export default function Footer() {
                     Projects
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/#awards"
-                    className="hover:text-cyan transition-colors"
-                  >
-                    Awards
-                  </Link>
-                </li>
+               
               </ul>
             </div>
             <div>
@@ -135,6 +128,7 @@ export default function Footer() {
               </ul>
             </div>
           </div>
+          
           <div className="container mx-auto px-4 sm:px-6 mt-12 md:mt-16 pt-8 border-t border-border-dark/50 text-center text-muted/50 text-sm">
             <p>&copy; 2026 Daksham Developers. All rights reserved.</p>
           </div>

@@ -44,3 +44,6 @@ next-env.d.ts
 .antigravity
 CONTEXT.md
 CLAUDE.md
+
+.agents
+.claude

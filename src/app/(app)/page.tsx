@@ -34,7 +34,7 @@ export default async function Home() {
       <About />
       {/* Showcase Placeholder */}
       <ShowCase />
-      {/* Awards */}
+     
       {/* Connect With Us */}
       <Connect />
       {/* Enquiry */}

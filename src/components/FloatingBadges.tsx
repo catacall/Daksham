@@ -4,44 +4,51 @@ import { motion } from "framer-motion";
 import { MessageCircle, Mail, Phone, Bot } from "lucide-react";
 import Link from "next/link";
 
-export default function FloatingBadges() {
-  const badges = [
-    { icon: <MessageCircle size={20} />, href: "https://wa.me/919876543210", color: "bg-green-500 hover:bg-green-400", delay: 0.1, name: "WhatsApp" },
-    { icon: <Mail size={20} />, href: "mailto:info@dakshamdevelopers.com", color: "bg-cyan hover:bg-cyan-dark", delay: 0.2, name: "Email" },
-    { icon: <Phone size={20} />, href: "tel:+919876543210", color: "bg-gold hover:bg-gold-light", delay: 0.3, name: "Phone" },
-    { icon: <Bot size={20} />, href: "#chatbot", color: "bg-navy hover:bg-navy-light", delay: 0.4, name: "Chatbot" },
-  ];
+const badges = [
+  { icon: <MessageCircle size={20} />, href: "https://wa.me/919876543210", bg: "bg-green-500", glow: "shadow-green-500/30", delay: 0.1, name: "WhatsApp" },
+  { icon: <Mail size={20} />, href: "mailto:info@dakshamdevelopers.com", bg: "bg-cyan", glow: "shadow-cyan/30", delay: 0.2, name: "Email" },
+  { icon: <Phone size={20} />, href: "tel:+919876543210", bg: "bg-gold", glow: "shadow-gold/30", delay: 0.3, name: "Call Us" },
+  { icon: <Bot size={20} />, href: "#chatbot", bg: "bg-navy", glow: "shadow-navy/30", delay: 0.4, name: "Chatbot" },
+];
 
+export default function FloatingBadges() {
   return (
     <div className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 flex flex-col gap-3 sm:gap-4 z-50">
       {badges.map((badge, index) => (
         <div key={index} className="relative group">
+          {/* Entry animation wrapper */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.5, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: badge.delay, duration: 0.5, type: "spring" }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.4, x: 24 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ delay: badge.delay, duration: 0.5, type: "spring", stiffness: 260, damping: 20 }}
           >
-            <Link
-              href={badge.href}
-              onClick={(e) => {
-                if (badge.href === "#chatbot") {
-                  e.preventDefault();
-                  window.dispatchEvent(new CustomEvent("open-chatbot"));
-                }
-              }}
-              className={`w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white shadow-lg ${badge.color} relative z-10 transition-colors border border-white/10`}
+            {/* Hover animation on the button itself */}
+            <motion.div
+              whileHover={{ scale: 1.14, y: -3 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 380, damping: 22 }}
             >
-              {badge.icon}
-            </Link>
-            
-            {/* Pulse effect */}
-            <span className={`absolute top-0 left-0 w-full h-full rounded-full ${badge.color.split(' ')[0]} opacity-40 animate-ping -z-10`} />
+              <Link
+                href={badge.href}
+                onClick={(e) => {
+                  if (badge.href === "#chatbot") {
+                    e.preventDefault();
+                    window.dispatchEvent(new CustomEvent("open-chatbot"));
+                  }
+                }}
+                className={`w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white shadow-lg ${badge.bg} ${badge.glow} shadow-md relative z-10 border border-white/15`}
+                aria-label={badge.name}
+              >
+                {badge.icon}
+              </Link>
+            </motion.div>
           </motion.div>
-          
+
+          {/* Ping pulse */}
+          <span className={`absolute top-0 left-0 w-full h-full rounded-full ${badge.bg} opacity-35 animate-ping -z-10 pointer-events-none`} />
+
           {/* Tooltip */}
-          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 sm:mr-4 px-3 py-1.5 bg-navy text-white text-xs sm:text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-border-dark shadow-lg">
+          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 px-3 py-1.5 bg-navy text-white text-xs sm:text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap pointer-events-none border border-border-dark shadow-lg -translate-x-1 group-hover:translate-x-0">
             {badge.name}
           </div>
         </div>

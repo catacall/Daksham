@@ -3,7 +3,7 @@
 import { useState, useEffect, startTransition } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, LayoutDashboard } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -15,11 +15,11 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
+  // Scroll listener
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -35,37 +35,41 @@ export default function Navbar() {
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileMenuOpen]);
+
+  // Check if a Payload admin is logged in
+  useEffect(() => {
+    fetch("/api/users/me", { credentials: "include" })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data?.user) setIsAdmin(true);
+      })
+      .catch(() => {});
+  }, []);
 
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "About", href: "/#about" },
-    { name: "Projects", href: "#" }, // Droplist trigger
+    { name: "Projects", href: "#" }, // Dropdown trigger
     { name: "Contact", href: "/contact" },
   ];
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled || !isHome
-          ? " py-2 md:py-3"
-          : " py-4 md:py-6"
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 pt-1 ${
+        isScrolled || !isHome ? "py-2 md:py-3" : "py-4 md:py-6"
       }`}
     >
-      <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center bg-navy/90  rounded-2xl border border-cyan/95">
+      <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center bg-navy rounded-2xl border border-border-dark">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="h-16 sm:h-18 md:h-20 flex items-center justify-center bg-white rounded-4xl">
+          <div className="h-16 sm:h-18 md:h-20 flex items-center justify-center ">
             <Image
               src="/daksham developers.png"
               alt="Daksham Developers Logo"
-              className="h-full w-auto object-contain  "
+              className="h-full w-auto object-contain"
               height={100}
               width={100}
               loading="eager"
@@ -132,6 +136,20 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          {/* Admin access — subtle icon always present; prominent pill when logged in */}
+          <Link
+            href={isAdmin ? "/admin" : "/admin/login"}
+            title={isAdmin ? "Payload Admin Dashboard" : "Admin Login"}
+            className={
+              isAdmin
+                ? "flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gold/10 hover:bg-gold/20 border border-gold/30 hover:border-gold/60 text-gold text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
+                : "flex items-center justify-center w-7 h-7 rounded-md text-white/20 hover:text-white/60 hover:bg-white/5 transition-all duration-200"
+            }
+          >
+            <LayoutDashboard size={isAdmin ? 13 : 14} />
+            {isAdmin && <span>Admin</span>}
+          </Link>
         </nav>
 
         {/* Mobile Menu Toggle */}
@@ -232,6 +250,26 @@ export default function Navbar() {
                   </motion.div>
                 );
               })}
+
+              {/* Mobile admin link — always present */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navLinks.length * 0.08 }}
+              >
+                <Link
+                  href={isAdmin ? "/admin" : "/admin/login"}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={
+                    isAdmin
+                      ? "flex items-center gap-2 text-gold border-b border-border-dark/50 py-4 font-display text-2xl font-medium uppercase tracking-wider hover:text-gold-light transition-colors"
+                      : "flex items-center gap-2 text-white/20 hover:text-white/40 border-b border-border-dark/20 py-4 font-sans text-sm uppercase tracking-wider transition-colors"
+                  }
+                >
+                  <LayoutDashboard size={isAdmin ? 22 : 16} />
+                  {isAdmin ? "Admin Panel" : "Admin Login"}
+                </Link>
+              </motion.div>
             </div>
 
             {/* Bottom accent line */}

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 import type { StaticImageData } from "next/image";
@@ -32,22 +32,35 @@ function isProjectImageObject(image: unknown): image is ProjectImageObject {
   );
 }
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.21, 0.47, 0.32, 0.98] as const } },
+};
+
 export function ProjectCard({ project }: { project: Project }) {
-  let coverImage: string | StaticImageData = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
+  let coverImage: string | StaticImageData =
+    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
   if (project.images && project.images.length > 0) {
     const firstImg = project.images[0];
     if (isProjectImageObject(firstImg)) {
-      coverImage = firstImg.url || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
+      coverImage =
+        firstImg.url ||
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
     } else if (typeof firstImg === "string") {
-      coverImage = firstImg; // string URL
+      coverImage = firstImg;
     } else {
-      // assume StaticImageData
       coverImage = firstImg as StaticImageData;
     }
   }
 
   return (
-    <motion.div className="group flex flex-col overflow-hidden rounded-2xl border border-border-light bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
+    <motion.div
+      variants={cardVariants}
+      /* ── Hover: lift + shadow via Framer (not Tailwind) ── */
+      whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(11,22,40,0.14), 0 4px 12px rgba(11,22,40,0.08)" }}
+      transition={{ type: "spring", stiffness: 340, damping: 28 }}
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border-light bg-white shadow-sm"
+    >
       <div className="relative aspect-4/3 w-full overflow-hidden bg-off-white">
         <Image
           src={coverImage}
@@ -60,8 +73,9 @@ export function ProjectCard({ project }: { project: Project }) {
           {project.status}
         </div>
       </div>
+
       <div className="flex flex-1 flex-col p-4 sm:p-6">
-        <h3 className="text-lg sm:text-xl font-display font-bold text-navy mb-2 group-hover:text-gold transition-colors">
+        <h3 className="text-lg sm:text-xl font-display font-bold text-navy mb-2 group-hover:text-gold transition-colors duration-200">
           {project.title}
         </h3>
         <div className="flex items-center text-xs sm:text-sm font-sans text-muted mb-3">
@@ -78,9 +92,10 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <Link
           href={`/projects/${project.slug}`}
-          className="inline-flex items-center justify-center rounded-xl bg-navy px-4 py-2.5 text-xs sm:text-sm font-sans font-medium text-white transition-colors hover:bg-gold hover:text-navy"
+          className="group/btn inline-flex items-center justify-center gap-1.5 rounded-xl bg-navy px-4 py-2.5 text-xs sm:text-sm font-sans font-medium text-white transition-colors duration-200 hover:bg-gold hover:text-navy"
         >
           View Details
+          <ArrowRight size={14} className="transition-transform duration-200 group-hover/btn:translate-x-1" />
         </Link>
       </div>
     </motion.div>

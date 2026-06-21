@@ -39,9 +39,7 @@ export default async function OngoingProjectsPage({
       <div className="container mx-auto max-w-7xl">
         <FadeIn delay={0.1}>
           <div className="mb-10 sm:mb-12 md:mb-16 border-b border-border-light pb-6 sm:pb-8">
-            <span className="text-cyan text-[10px] sm:text-xs md:text-sm font-sans font-bold tracking-[0.3em] uppercase mb-3 sm:mb-4 block">
-              Current Developments
-            </span>
+           
             <h1 className="text-3xl sm:text-4xl font-display font-medium uppercase tracking-wide text-navy md:text-5xl lg:text-6xl">
               Ongoing Projects
             </h1>
