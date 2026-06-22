@@ -8,7 +8,31 @@ export const Media: CollectionConfig = {
     update: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
   },  
-  upload: true,
+  upload: {
+    staticDir: 'media',
+    imageSizes: [
+      {
+        name: 'thumbnail',
+        width: 400,
+        height: 300,
+        position: 'centre',
+      },
+      {
+        name: 'card',
+        width: 768,
+        height: 576,
+        position: 'centre',
+      },
+      {
+        name: 'large',
+        width: 1600,
+        height: 900,
+        position: 'centre',
+      },
+    ],
+    adminThumbnail: 'thumbnail',
+    mimeTypes: ['image/*'],
+  },
   fields: [
     {
       name: 'alt',

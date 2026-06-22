@@ -14,7 +14,14 @@ export default async function ManagePage() {
   const { user } = await payload.auth({ headers: await headers() });
 
   if (!user) {
-    redirect("/admin");
+    redirect("/manage/login");
+  }
+
+  const allowedEmailsEnv = process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS || "anassayyed000@gmail.com";
+  const allowedEmails = allowedEmailsEnv.toLowerCase().split(",").map(e => e.trim());
+
+  if (!user.email || !allowedEmails.includes(user.email.toLowerCase())) {
+    redirect("/manage/login?error=unauthorized");
   }
 
   return <AdminPanel />;

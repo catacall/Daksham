@@ -106,6 +106,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           src={coverImage}
           alt={project.title}
           fill
+          sizes="100vw"
           className="object-cover opacity-40 transition-transform duration-1000 hover:scale-105"
         />
         <div className="absolute inset-0 bg-linear-to-t from-navy via-navy/40 to-transparent" />
@@ -213,6 +214,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                                 src={specImg}
                                 alt={spec.title || "Specification image"}
                                 fill
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
                                 className="object-cover"
                               />
                             </div>
@@ -249,6 +251,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                           src={img}
                           alt={`${project.title} Gallery ${idx + 1}`}
                           fill
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 250px"
                           className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-navy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

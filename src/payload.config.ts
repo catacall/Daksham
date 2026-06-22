@@ -9,7 +9,6 @@ import pg from "pg";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { SiteSettings } from "./collections/globals/SiteSettings";
-import { Pages } from "./collections/pages";
 import { Enquiries } from "./collections/Enquiries";
 import { Projects } from "./collections/Projects";
 
@@ -63,7 +62,7 @@ export default buildConfig({
   },
 
   globals: [SiteSettings],
-  collections: [Users, Media, Pages, Enquiries, Projects],
+  collections: [Users, Media, Enquiries, Projects],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
 

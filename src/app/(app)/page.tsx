@@ -36,7 +36,7 @@ export default async function Home() {
   }));
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen ">
       <Hero />
       {/* SWC Showcase Carousel */}
       <ExploreVision />
@@ -44,10 +44,8 @@ export default async function Home() {
       <About />
       {/* Showcase Placeholder */}
       <ShowCase />
-
       {/* Brochure CTA */}
       <BrochureCTA brochureUrl={brochureUrl} />
-     
       {/* Connect With Us */}
       <Connect />
       {/* Enquiry */}
