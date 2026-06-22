@@ -5,9 +5,9 @@ import { MessageCircle, Mail, Phone, Bot } from "lucide-react";
 import Link from "next/link";
 
 const badges = [
-  { icon: <MessageCircle size={20} />, href: "https://wa.me/919876543210", bg: "bg-green-500", glow: "shadow-green-500/30", delay: 0.1, name: "WhatsApp" },
+  { icon: <MessageCircle size={20} />, href: "https://wa.me/919967556073", bg: "bg-green-500", glow: "shadow-green-500/30", delay: 0.1, name: "WhatsApp" },
   { icon: <Mail size={20} />, href: "mailto:info@dakshamdevelopers.com", bg: "bg-cyan", glow: "shadow-cyan/30", delay: 0.2, name: "Email" },
-  { icon: <Phone size={20} />, href: "tel:+919876543210", bg: "bg-gold", glow: "shadow-gold/30", delay: 0.3, name: "Call Us" },
+  { icon: <Phone size={20} />, href: "tel:+919967556073", bg: "bg-gold", glow: "shadow-gold/30", delay: 0.3, name: "Call Us" },
   { icon: <Bot size={20} />, href: "#chatbot", bg: "bg-navy", glow: "shadow-navy/30", delay: 0.4, name: "Chatbot" },
 ];
 

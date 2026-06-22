@@ -74,7 +74,7 @@ export default buildConfig({
     pg: customPg,
     pool: {
       connectionString: process.env.DATABASE_URL || "",
-      max: 4,
+      max: 2,
     },
   }),
 

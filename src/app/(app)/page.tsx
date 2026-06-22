@@ -2,10 +2,10 @@ import FloatingBadges from "@/components/FloatingBadges";
 import Hero from "@/components/Frontend/Hero";
 import About from "@/components/Frontend/About";
 import ShowCase from "@/components/Frontend/ShowCase";
-import Connect from "@/components/Frontend/Connect";
 import Enquiry from "@/components/Enquiry";
 import ExploreVision from "@/components/Frontend/ExploreVision";
 import BrochureCTA from "@/components/Frontend/BrochureCTA";
+import DeveloperProfile from "@/components/Frontend/DeveloperProfile";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 
@@ -39,15 +39,16 @@ export default async function Home() {
     <main className="min-h-screen ">
       <Hero />
       {/* SWC Showcase Carousel */}
-      <ExploreVision />
+       <DeveloperProfile />
       {/* Who We Are About section*/}
       <About />
+      {/* Developer Profile / Visionary Collaboration Section */}
+     
       {/* Showcase Placeholder */}
-      <ShowCase />
+      <ShowCase brochureUrl={brochureUrl} />
       {/* Brochure CTA */}
-      <BrochureCTA brochureUrl={brochureUrl} />
-      {/* Connect With Us */}
-      <Connect />
+      
+      <ExploreVision />
       {/* Enquiry */}
       <Enquiry projects={formattedProjects} />
       <FloatingBadges />

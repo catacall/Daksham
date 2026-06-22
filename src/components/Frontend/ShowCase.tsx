@@ -3,7 +3,6 @@
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const showcaseProjectsFallback = [
@@ -44,7 +43,11 @@ const showcaseProjectsFallback = [
   },
 ];
 
-export default function ShowCase() {
+interface ShowCaseProps {
+  brochureUrl?: string | null;
+}
+
+export default function ShowCase({ brochureUrl }: ShowCaseProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [liveProjects, setLiveProjects] = useState<any[]>([]);
 
@@ -65,7 +68,6 @@ export default function ShowCase() {
     if (!el) return;
 
     const onWheel = (e: WheelEvent) => {
-      // Only hijack if the strip can still scroll horizontally
       if (el.scrollWidth <= el.clientWidth) return;
       e.preventDefault();
       el.scrollBy({ left: e.deltaY + e.deltaX, behavior: "auto" });
@@ -88,41 +90,27 @@ export default function ShowCase() {
   return (
     <section
       id="projects"
-      className="relative bg-navy py-12 sm:py-16 md:py-24"
+      className="relative bg-navy py-12 sm:py-16 md:py-20"
     >
-      {/* Header */}
-      <div className="container mx-auto px-4 sm:px-6 mb-8 sm:mb-10">
+      {/* Centered Header */}
+      <div className="container mx-auto px-4 sm:px-6 mb-8 sm:mb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6 sm:pb-8"
+          className="flex flex-col items-center text-center pb-6 border-b border-white/10"
         >
-          <div>
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-display text-white font-medium uppercase leading-tight tracking-wider">
-              Our Projects
-            </h2>
-            {/* Scroll hint — visible, honest, disappears after user scrolls */}
-            <p className="mt-2 text-xs font-sans text-white/35 tracking-wider">
-              Scroll sideways to browse &nbsp;→
-            </p>
-          </div>
-
-          <Link
-            href="/projects"
-            className="group inline-flex items-center gap-2 text-sm font-sans font-bold text-gold uppercase tracking-widest hover:text-cyan transition-colors duration-200 shrink-0"
-          >
-            View All Projects
-            <ArrowRight
-              size={16}
-              className="group-hover:translate-x-1 transition-transform duration-200"
-            />
-          </Link>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display text-white font-medium uppercase leading-tight tracking-wider">
+            Our Projects
+          </h2>
+          <p className="mt-2.5 text-xs font-sans text-white/35 tracking-widest uppercase">
+            Scroll sideways to browse &nbsp;→
+          </p>
         </motion.div>
       </div>
 
-      {/* Horizontally scrollable card strip */}
+      {/* Horizontally scrollable card strip with snapping */}
       <div
         ref={scrollRef}
         className="no-scrollbar flex gap-4 sm:gap-6 px-4 sm:px-6 md:px-12 lg:px-16 pb-2 overflow-x-auto"
@@ -133,37 +121,41 @@ export default function ShowCase() {
             key={idx}
             href={`/projects/${project.slug}`}
             style={{ scrollSnapAlign: "start" }}
-            className="group shrink-0 w-[78vw] sm:w-[52vw] md:w-[40vw] lg:w-[34vw] h-[52vh] sm:h-[58vh] md:h-[62vh] relative overflow-hidden rounded-2xl bg-navy-light border border-white/8 shadow-lg block"
+            className="group shrink-0 w-[70vw] sm:w-[46vw] md:w-[32vw] lg:w-[24vw] xl:w-[20vw] h-[34vh] sm:h-[40vh] md:h-[44vh] relative overflow-hidden rounded-[20px] bg-navy-light border border-white/8 shadow-md block"
           >
             <Image
               src={project.image}
               alt={project.title}
               fill
               className="object-cover object-center pointer-events-none select-none transition-transform duration-500 ease-out group-hover:scale-105"
-              sizes="(max-width: 640px) 78vw, (max-width: 1024px) 52vw, 600px"
+              sizes="(max-width: 640px) 70vw, (max-width: 1024px) 32vw, 380px"
             />
-
-            {/* Dark scrim */}
-            <div className="absolute inset-0 bg-navy/55 z-10" />
-
-            {/* Card info */}
-            <div className="absolute bottom-5 sm:bottom-7 left-5 sm:left-7 right-5 sm:right-7 z-20">
-              <span className="block font-sans text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-cyan mb-1">
-                {project.location}
-              </span>
-              <h3 className="font-display text-lg sm:text-2xl md:text-3xl text-white font-medium uppercase tracking-wide mb-1 sm:mb-2">
-                {project.title}
-              </h3>
-              <p className="font-sans text-[10px] sm:text-xs text-white/50 mb-3 sm:mb-4">
-                {project.area}
-              </p>
-              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-widest text-gold group-hover:text-gold-light transition-colors duration-200">
-                View Project
-                <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform duration-200" />
-              </span>
-            </div>
           </Link>
         ))}
+      </div>
+
+      {/* Action Buttons below the carousel */}
+      <div className="container mx-auto px-4 sm:px-6 mt-12 sm:mt-16">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+          <Link
+            href="/projects"
+            className="w-full sm:w-auto text-center px-8 py-4 bg-transparent hover:bg-gold border border-gold/40 hover:border-gold text-gold hover:text-navy font-sans text-xs md:text-sm font-bold uppercase tracking-widest rounded-xl transition-all duration-300 shadow-md cursor-pointer"
+          >
+            All Projects View
+          </Link>
+          
+          {brochureUrl && (
+            <a
+              href={brochureUrl}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto text-center px-8 py-4 bg-gold hover:bg-gold-light text-navy font-sans text-xs md:text-sm font-bold uppercase tracking-widest rounded-xl shadow-lg hover:shadow-gold/20 transition-all duration-300 cursor-pointer"
+            >
+              Download Brochure
+            </a>
+          )}
+        </div>
       </div>
     </section>
   );

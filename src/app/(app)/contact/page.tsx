@@ -67,17 +67,28 @@ export default async function ContactPage({
                     <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
                       <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
-                    <div className="ml-4 sm:ml-6">
+                    <div className="ml-4 sm:ml-6 space-y-4">
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">
-                        Office Address
+                        Office Addresses
                       </h3>
-                      <p className="mt-1.5 sm:mt-2 font-sans text-muted leading-relaxed text-sm">
-                        Office No. X, Vashi Plaza,
-                        <br />
-                        Sector 17, Vashi,
-                        <br />
-                        Navi Mumbai, 400703
-                      </p>
+                      <div>
+                        <span className="font-sans text-[10px] font-bold uppercase tracking-wider text-navy block">Corporate Office</span>
+                        <p className="mt-1 font-sans text-muted leading-relaxed text-sm">
+                          806, 8th Floor, Satra Plaza, Sec-19D,
+                          <br />
+                          19D, Palm Beach Road, Phase -2,
+                          <br />
+                          Vashi, Navi Mumbai - 400703
+                        </p>
+                      </div>
+                      <div>
+                        <span className="font-sans text-[10px] font-bold uppercase tracking-wider text-navy block">Registered Office</span>
+                        <p className="mt-1 font-sans text-muted leading-relaxed text-sm">
+                          39, Arenja Corner, Sector-17,
+                          <br />
+                          Vashi, Navi Mumbai - 400703
+                        </p>
+                      </div>
                     </div>
                   </div>
 
@@ -91,10 +102,10 @@ export default async function ContactPage({
                       </h3>
                       <p className="mt-1.5 sm:mt-2 font-sans text-muted text-sm">
                         <a
-                          href="tel:+919876543210"
+                          href="tel:+919967556073"
                           className="hover:text-cyan transition-colors"
                         >
-                          +91 98765 43210
+                          +91 99675 56073
                         </a>
                       </p>
                     </div>
@@ -126,7 +137,7 @@ export default async function ContactPage({
             <FadeIn delay={0.4} direction="right">
               <div className="h-62.5 sm:h-75 md:h-100 w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-border-light bg-off-white shadow-sm">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.8351543322046!2d72.99611117565863!3d19.070954252135674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c134063f9bd5%3A0x6b093156cfd8f5aa!2sVashi%20Plaza!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                  src="https://maps.google.com/maps?q=Satra%20Plaza,%20Sector%2019D,%20Vashi,%20Navi%20Mumbai&t=&z=16&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

@@ -107,10 +107,10 @@ export default function ChatbotDrawer() {
         window.location.href = '/projects/delivered'
         addMessage('bot', 'Redirecting you to our delivered landmarks page...')
       } else if (action === 'go_whatsapp') {
-        window.open('https://wa.me/919876543210', '_blank')
+        window.open('https://wa.me/919967556073', '_blank')
         addMessage('bot', 'Opening WhatsApp. How else can I assist you?')
       } else if (action === 'go_call') {
-        window.location.href = 'tel:+919876543210'
+        window.location.href = 'tel:+919967556073'
         addMessage('bot', 'Dialing phone number...')
       } else if (action === 'go_enquiry') {
         setIsOpen(false)
@@ -142,7 +142,7 @@ export default function ChatbotDrawer() {
       } else if (text.includes('whatsapp') || text.includes('chat') || text.includes('number') || text.includes('phone') || text.includes('call') || text.includes('contact')) {
         addMessage(
           'bot',
-          'You can contact us via:\n• WhatsApp: +91 98765 43210\n• Phone Support: +91 98765 43210\n• Email Support: info@dakshamdevelopers.com',
+          'You can contact us via:\n• WhatsApp: +91 99675 56073\n• Phone Support: +91 99675 56073\n• Email Support: info@dakshamdevelopers.com',
           [
             { label: 'Open WhatsApp', action: 'go_whatsapp' },
             { label: 'Call us', action: 'go_call' },

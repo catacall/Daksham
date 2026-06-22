@@ -159,7 +159,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             className={`w-full rounded-xl border bg-off-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-cyan focus:outline-none focus:ring-1 focus:ring-cyan transition-all ${
               errors.phone ? "border-red-500" : "border-border-light"
             }`}
-            placeholder="+91 98765 43210"
+            placeholder="+91 99675 56073"
           />
           {errors.phone && <p className="text-xs font-sans text-red-500">{errors.phone}</p>}
         </div>

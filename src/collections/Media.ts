@@ -10,6 +10,12 @@ export const Media: CollectionConfig = {
   },  
   upload: {
     staticDir: 'media',
+    formatOptions: {
+      format: 'webp',
+      options: {
+        quality: 85,
+      },
+    },
     imageSizes: [
       {
         name: 'thumbnail',
