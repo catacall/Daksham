@@ -5,17 +5,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-const slides = [
-  { src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80", alt: "Sai World City — Luxury Towers" },
-  { src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80", alt: "Sai World Empire — Neo-Classical Residences" },
-  { src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80", alt: "Sai World Legend — Premium Towers" },
-  { src: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80", alt: "Paradise Mall — Highstreet Retail" },
-  { src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80", alt: "Sai World Dreams — Mixed-Use Hub" },
-  { src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80", alt: "Luxury Residences — Panoramic Views" },
-  { src: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80", alt: "Premium Apartments — Modern Architecture" },
-  { src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80", alt: "Grand Lobby — Five-Star Amenities" },
-];
-
 const containerVariants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.08 } },
@@ -30,18 +19,45 @@ export default function Carousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [liveSlides, setLiveSlides] = useState<{ src: string; alt: string }[]>([]);
+
+  useEffect(() => {
+    fetch("/api/projects?limit=20&depth=1&sort=-publishedAt")
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.docs && data.docs.length > 0) {
+          const items: { src: string; alt: string }[] = [];
+          data.docs.forEach((p: any) => {
+            const url = typeof p.coverImage === "object" && p.coverImage !== null ? p.coverImage.url : null;
+            if (url) {
+              items.push({
+                src: url,
+                alt: p.title || "Project Image",
+              });
+            }
+          });
+          if (items.length > 0) {
+            setLiveSlides(items);
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const displaySlides = liveSlides.length > 0 ? liveSlides : [
+    { src: "/placeholder-project.jpg", alt: "Daksham Project" }
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
       if (scrollRef.current) {
         const { scrollLeft, clientWidth } = scrollRef.current;
-        // The width of each slide varies by breakpoint, but we can approximate it by looking at the first child
         const firstChild = scrollRef.current.firstElementChild as HTMLElement;
         const slideWidth = firstChild ? firstChild.clientWidth : (clientWidth > 768 ? 416 : 288);
-        const gap = clientWidth > 640 ? 24 : 16; // sm:gap-6 (24px) or gap-4 (16px)
+        const gap = clientWidth > 640 ? 24 : 16;
         
         const currentSlide = Math.round(scrollLeft / (slideWidth + gap));
-        setActiveIndex(Math.min(Math.max(currentSlide, 0), slides.length - 1));
+        setActiveIndex(Math.min(Math.max(currentSlide, 0), displaySlides.length - 1));
       }
     };
     const el = scrollRef.current;
@@ -49,7 +65,7 @@ export default function Carousel() {
     return () => {
       if (el) el.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [displaySlides.length]);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
@@ -64,7 +80,6 @@ export default function Carousel() {
 
   const goToSlide = (index: number) => {
     if (scrollRef.current) {
-      // Very rough approximation for snap scrolling
       const { clientWidth } = scrollRef.current;
       const scrollAmount = clientWidth > 768 ? 400 : 340;
       scrollRef.current.scrollTo({
@@ -89,7 +104,7 @@ export default function Carousel() {
         viewport={{ once: true, margin: "-80px" }}
         className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-6 sm:pb-8 pt-4 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-navy/10 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gold/60 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gold transition-colors"
       >
-        {slides.map((slide, i) => (
+        {displaySlides.map((slide, i) => (
           <motion.div
             key={i}
             variants={slideVariants}
@@ -116,7 +131,7 @@ export default function Carousel() {
 
       {/* Desktop Navigation Arrows */}
       <AnimatePresence>
-        {isHovering && (
+        {isHovering && displaySlides.length > 1 && (
           <>
             <motion.button
               initial={{ opacity: 0, x: -10 }}
@@ -143,42 +158,46 @@ export default function Carousel() {
       </AnimatePresence>
 
       {/* Mobile Controls */}
-      <div className="flex justify-center items-center gap-4 mt-2 md:hidden">
-        <motion.button
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.92 }}
-          onClick={() => scroll("left")}
-          className="w-11 h-11 flex items-center justify-center rounded-full bg-navy text-white shadow-sm border border-border-dark cursor-pointer"
-          aria-label="Previous Slide"
-        >
-          <ChevronLeft size={22} />
-        </motion.button>
-        <motion.button
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.92 }}
-          onClick={() => scroll("right")}
-          className="w-11 h-11 flex items-center justify-center rounded-full bg-navy text-white shadow-sm border border-border-dark cursor-pointer"
-          aria-label="Next Slide"
-        >
-          <ChevronRight size={22} />
-        </motion.button>
-      </div>
+      {displaySlides.length > 1 && (
+        <div className="flex justify-center items-center gap-4 mt-2 md:hidden">
+          <motion.button
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => scroll("left")}
+            className="w-11 h-11 flex items-center justify-center rounded-full bg-navy text-white shadow-sm border border-border-dark cursor-pointer"
+            aria-label="Previous Slide"
+          >
+            <ChevronLeft size={22} />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => scroll("right")}
+            className="w-11 h-11 flex items-center justify-center rounded-full bg-navy text-white shadow-sm border border-border-dark cursor-pointer"
+            aria-label="Next Slide"
+          >
+            <ChevronRight size={22} />
+          </motion.button>
+        </div>
+      )}
 
       {/* Pagination Dots */}
-      <div className="flex justify-center items-center gap-2 mt-6">
-        {slides.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => goToSlide(idx)}
-            className={`transition-all duration-300 rounded-full cursor-pointer ${
-              activeIndex === idx 
-                ? "w-8 h-2 bg-gold" 
-                : "w-2 h-2 bg-navy/20 hover:bg-navy/40"
-            }`}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
-      </div>
+      {displaySlides.length > 1 && (
+        <div className="flex justify-center items-center gap-2 mt-6">
+          {displaySlides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => goToSlide(idx)}
+              className={`transition-all duration-300 rounded-full cursor-pointer ${
+                activeIndex === idx 
+                  ? "w-8 h-2 bg-gold" 
+                  : "w-2 h-2 bg-navy/20 hover:bg-navy/40"
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -195,6 +195,48 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </FadeIn>
             )}
 
+            {/* Specifications & Interiors */}
+            {(project as any).specifications && (project as any).specifications.length > 0 && (
+              <FadeIn delay={0.2}>
+                <div className="space-y-6 sm:space-y-8">
+                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">
+                    Specifications & Interiors
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {(project as any).specifications.map((spec: any, idx: number) => {
+                      const specImg = typeof spec.image === "object" && spec.image !== null ? spec.image.url : null;
+                      return (
+                        <div key={idx} className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-xs flex flex-col">
+                          {specImg && (
+                            <div className="relative h-56 w-full bg-off-white">
+                              <Image
+                                src={specImg}
+                                alt={spec.title || "Specification image"}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          )}
+                          <div className="p-5 flex-1 flex flex-col justify-center">
+                            {spec.title && (
+                              <h3 className="font-display text-lg font-bold text-navy mb-2">
+                                {spec.title}
+                              </h3>
+                            )}
+                            {spec.description && (
+                              <p className="font-sans text-muted text-sm leading-relaxed">
+                                {spec.description}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </FadeIn>
+            )}
+
             {/* Image Gallery */}
             {galleryImages.length > 0 && (
               <FadeIn delay={0.2}>

@@ -22,6 +22,24 @@ export async function POST(request: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
+    // Check if filename already exists and rename if necessary to prevent Postgres unique constraint violations
+    let fileName = file.name;
+    const existing = await payload.find({
+      collection: "media" as any,
+      where: {
+        filename: {
+          equals: fileName,
+        },
+      },
+      limit: 1,
+    });
+
+    if (existing.docs.length > 0) {
+      const ext = fileName.includes(".") ? fileName.slice(fileName.lastIndexOf(".")) : "";
+      const base = fileName.includes(".") ? fileName.slice(0, fileName.lastIndexOf(".")) : fileName;
+      fileName = `${base}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}${ext}`;
+    }
+
     // Create the media document using Local API
     const media = await payload.create({
       collection: "media" as any,
@@ -30,7 +48,7 @@ export async function POST(request: Request) {
       },
       file: {
         data: buffer,
-        name: file.name,
+        name: fileName,
         mimetype: file.type,
         size: file.size,
       },

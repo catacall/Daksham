@@ -27,6 +27,15 @@ export const SiteSettings: GlobalConfig ={
             relationTo : 'media',
         },
         {
+            name: 'brochure',
+            type: 'upload',
+            relationTo: 'media',
+            label: 'E-Brochure (PDF)',
+            admin: {
+                description: 'Upload the general website brochure PDF here for download on the home page',
+            },
+        },
+        {
             name: 'primaryPhone',
             type: 'text',
         },

@@ -10,6 +10,12 @@ interface MediaDoc { id: string; url: string; filename?: string; }
 
 interface Highlight { id?: string; point: string; }
 
+interface Specification {
+  title?: string;
+  description?: string;
+  image?: MediaDoc | null;
+}
+
 interface Project {
   id: string;
   title: string;
@@ -25,6 +31,7 @@ interface Project {
   coverImage?: MediaDoc | null;
   images?: MediaDoc[];
   highlights?: Highlight[];
+  specifications?: Specification[];
 }
 
 interface Enquiry {
@@ -77,6 +84,20 @@ const api = {
     const r = await fetch(`/api/enquiries/${id}`, { method: "DELETE", credentials: "include" });
     return r.ok;
   },
+  async getSettings(): Promise<any> {
+    const r = await fetch("/api/globals/site-settings?depth=1", { credentials: "include" });
+    if (!r.ok) return null;
+    return await r.json();
+  },
+  async updateSettings(data: Record<string, unknown>): Promise<boolean> {
+    const r = await fetch("/api/globals/site-settings", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    return r.ok;
+  },
 };
 
 // ─── Status Config ───────────────────────────────────────────
@@ -97,10 +118,11 @@ interface EditModalProps {
   isNew: boolean;
   onClose: () => void;
   onSave: (p: Project) => void;
+  showNotification: (msg: string, type?: "success" | "error") => void;
 }
 
-function EditModal({ project, isNew, onClose, onSave }: EditModalProps) {
-  const [form, setForm] = useState<Partial<Project> & { coverImage?: MediaDoc | null; images?: MediaDoc[] }>({
+function EditModal({ project, isNew, onClose, onSave, showNotification }: EditModalProps) {
+  const [form, setForm] = useState<Partial<Project> & { coverImage?: MediaDoc | null; images?: MediaDoc[]; specifications?: Specification[] }>({
     title: project?.title || "",
     status: project?.status || "ongoing",
     location: project?.location || "",
@@ -113,13 +135,16 @@ function EditModal({ project, isNew, onClose, onSave }: EditModalProps) {
     coverImage: project?.coverImage || null,
     images: project?.images || [],
     highlights: project?.highlights || [],
+    specifications: project?.specifications || [],
   });
   const [saving, setSaving] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [newHighlight, setNewHighlight] = useState("");
+  const [uploadingSpecIdx, setUploadingSpecIdx] = useState<number | null>(null);
   const coverRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
+  const specImageRef = useRef<HTMLInputElement>(null);
 
   const set = (key: string, val: unknown) => setForm(f => ({ ...f, [key]: val }));
 
@@ -157,16 +182,52 @@ function EditModal({ project, isNew, onClose, onSave }: EditModalProps) {
     setForm(f => ({ ...f, highlights: (f.highlights || []).filter((_, i) => i !== idx) }));
   };
 
-  const handleSave = async () => {
-    if (!form.title?.trim() || !form.location?.trim()) {
-      alert("Project name and location are required.");
-      return;
+  const addSpecification = () => {
+    setForm(f => ({
+      ...f,
+      specifications: [...(f.specifications || []), { title: "", description: "", image: null }]
+    }));
+  };
+
+  const updateSpecification = (idx: number, field: keyof Specification, value: unknown) => {
+    setForm(f => {
+      const nextSpecs = [...(f.specifications || [])];
+      if (nextSpecs[idx]) {
+        nextSpecs[idx] = { ...nextSpecs[idx], [field]: value };
+      }
+      return { ...f, specifications: nextSpecs };
+    });
+  };
+
+  const removeSpecification = (idx: number) => {
+    setForm(f => ({
+      ...f,
+      specifications: (f.specifications || []).filter((_, i) => i !== idx)
+    }));
+  };
+
+  const triggerSpecImageUpload = (idx: number) => {
+    setUploadingSpecIdx(idx);
+    specImageRef.current?.click();
+  };
+
+  const handleSpecImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || uploadingSpecIdx === null) return;
+    const media = await api.uploadMedia(file);
+    if (media) {
+      updateSpecification(uploadingSpecIdx, "image", media);
     }
+    if (specImageRef.current) specImageRef.current.value = "";
+    setUploadingSpecIdx(null);
+  };
+
+  const handleSave = async () => {
     setSaving(true);
     const payload: Record<string, unknown> = {
-      title: form.title,
-      status: form.status,
-      location: form.location,
+      title: form.title || "",
+      status: form.status || "ongoing",
+      location: form.location || "",
       area: form.area || "",
       priceRange: form.priceRange || "",
       description: form.description || "",
@@ -176,6 +237,11 @@ function EditModal({ project, isNew, onClose, onSave }: EditModalProps) {
       coverImage: form.coverImage?.id || null,
       images: (form.images || []).map(img => img.id),
       highlights: form.highlights || [],
+      specifications: (form.specifications || []).map(spec => ({
+        title: spec.title || "",
+        description: spec.description || "",
+        image: spec.image?.id || null,
+      })),
       publishedAt: new Date().toISOString(),
     };
 
@@ -188,7 +254,7 @@ function EditModal({ project, isNew, onClose, onSave }: EditModalProps) {
     }
     setSaving(false);
     if (result) onSave(result);
-    else alert("Failed to save. Please try again.");
+    else showNotification("Failed to save. Please try again.", "error");
   };
 
   return (
@@ -393,6 +459,90 @@ function EditModal({ project, isNew, onClose, onSave }: EditModalProps) {
             <p className="text-[11px] text-muted">Hover image to remove. Select multiple files to upload gallery pictures.</p>
           </div>
 
+          {/* Specifications & Interior Photos */}
+          <div className="border-t border-border-light/60 pt-6">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-muted">Specifications & Interior Photos</label>
+                <p className="text-[11px] text-muted">Detail specifications (e.g. Living Room, Kitchen) and add corresponding interior images.</p>
+              </div>
+              <button 
+                type="button"
+                onClick={addSpecification}
+                className="bg-white hover:bg-off-white text-navy border border-border-light text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl transition-all"
+              >
+                + Add Specification
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {(form.specifications || []).map((spec, idx) => (
+                <div key={idx} className="p-4 border border-border-light/60 rounded-2xl bg-off-white/20 space-y-3 relative group">
+                  <button
+                    type="button"
+                    onClick={() => removeSpecification(idx)}
+                    className="absolute top-2 right-2 text-muted hover:text-red-600 font-bold text-lg p-1 transition-all"
+                    title="Remove Specification"
+                  >
+                    ×
+                  </button>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Specification image section */}
+                    <div className="md:col-span-1 flex flex-col items-center justify-center border border-dashed border-border-light/80 rounded-xl p-3 bg-white min-h-[120px]">
+                      {spec.image ? (
+                        <div className="relative w-full h-24 rounded-lg overflow-hidden group/img">
+                          <img src={spec.image.url} alt="" className="w-full h-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => updateSpecification(idx, "image", null)}
+                            className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => triggerSpecImageUpload(idx)}
+                          className="text-xs text-muted hover:text-gold font-bold flex flex-col items-center gap-1 transition-all"
+                        >
+                          <span className="text-xl">📸</span>
+                          <span>Upload Photo</span>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Specification fields section */}
+                    <div className="md:col-span-2 space-y-2">
+                      <input
+                        className="w-full px-3 py-2 bg-white border border-border-light/80 rounded-lg text-sm text-navy outline-none focus:border-gold transition-all"
+                        value={spec.title || ""}
+                        onChange={e => updateSpecification(idx, "title", e.target.value)}
+                        placeholder="Specification Title (e.g. Living Room)"
+                      />
+                      <textarea
+                        className="w-full px-3 py-2 bg-white border border-border-light/80 rounded-lg text-sm text-navy outline-none focus:border-gold transition-all resize-none"
+                        rows={2}
+                        value={spec.description || ""}
+                        onChange={e => updateSpecification(idx, "description", e.target.value)}
+                        placeholder="Specification description details..."
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Hidden file input for specification images */}
+            <input 
+              ref={specImageRef} 
+              type="file" 
+              accept="image/*" 
+              className="hidden" 
+              onChange={handleSpecImageUpload} 
+            />
+          </div>
+
         </div>
 
         {/* Footer */}
@@ -421,39 +571,51 @@ function EditModal({ project, isNew, onClose, onSave }: EditModalProps) {
 export default function AdminPanel() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
+  const [settings, setSettings] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<"projects" | "enquiries">("projects");
+  const [tab, setTab] = useState<"projects" | "enquiries" | "settings">("projects");
   const [editProject, setEditProject] = useState<Project | null>(null);
   const [isNewProject, setIsNewProject] = useState(false);
   const [expandedEnq, setExpandedEnq] = useState<string | null>(null);
   const [enqNotes, setEnqNotes] = useState<Record<string, string>>({});
   const [savingEnq, setSavingEnq] = useState<Record<string, boolean>>({});
   const [selectedEnqs, setSelectedEnqs] = useState<string[]>([]);
+  const [uploadingBrochure, setUploadingBrochure] = useState(false);
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  const brochureInputRef = useRef<HTMLInputElement>(null);
+
+  const showNotification = (message: string, type: "success" | "error" = "success") => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 3000);
+  };
 
   const handleSingleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to permanently delete this enquiry?")) return;
     const ok = await api.deleteEnquiry(id);
     if (ok) {
       setEnquiries(prev => prev.filter(e => e.id !== id));
       setSelectedEnqs(prev => prev.filter(x => x !== id));
+      showNotification("Enquiry deleted successfully");
     } else {
-      alert("Failed to delete enquiry.");
+      showNotification("Failed to delete enquiry.", "error");
     }
   };
 
   const handleBulkDelete = async () => {
-    if (!confirm(`Are you sure you want to delete ${selectedEnqs.length} selected enquiries?`)) return;
     const results = await Promise.all(selectedEnqs.map(async id => {
       const ok = await api.deleteEnquiry(id);
       return { id, ok };
     }));
     const failed = results.filter(r => !r.ok);
-    if (failed.length > 0) {
-      alert(`Failed to delete ${failed.length} enquiries.`);
-    }
     const succeeded = results.filter(r => r.ok).map(r => r.id);
     setEnquiries(prev => prev.filter(e => !succeeded.includes(e.id)));
     setSelectedEnqs(prev => prev.filter(x => !succeeded.includes(x)));
+
+    if (failed.length > 0) {
+      showNotification(`Failed to delete ${failed.length} enquiries.`, "error");
+    } else {
+      showNotification(`Successfully deleted ${succeeded.length} enquiries.`);
+    }
   };
 
   const exportToCSV = () => {
@@ -491,9 +653,14 @@ export default function AdminPanel() {
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
-    const [p, e] = await Promise.all([api.getProjects(), api.getEnquiries()]);
+    const [p, e, s] = await Promise.all([
+      api.getProjects(),
+      api.getEnquiries(),
+      api.getSettings(),
+    ]);
     setProjects(p);
     setEnquiries(e);
+    setSettings(s);
     const notes: Record<string, string> = {};
     e.forEach(enq => { notes[enq.id] = enq.notes || ""; });
     setEnqNotes(notes);
@@ -501,6 +668,31 @@ export default function AdminPanel() {
   }, []);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
+
+  const handleBrochureUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingBrochure(true);
+    const media = await api.uploadMedia(file);
+    if (media) {
+      const ok = await api.updateSettings({
+        brochure: media.id,
+      });
+      if (ok) {
+        setSettings((prev: any) => ({
+          ...prev,
+          brochure: media,
+        }));
+        showNotification("Website brochure updated successfully.");
+      } else {
+        showNotification("Failed to update website settings.", "error");
+      }
+    } else {
+      showNotification("Brochure upload failed. Please try again.", "error");
+    }
+    if (brochureInputRef.current) brochureInputRef.current.value = "";
+    setUploadingBrochure(false);
+  };
 
   const handleStatusChange = async (id: string, status: EnqStatus) => {
     setSavingEnq(s => ({ ...s, [id]: true }));
@@ -523,6 +715,7 @@ export default function AdminPanel() {
     });
     setEditProject(null);
     setIsNewProject(false);
+    showNotification("Project saved successfully.");
   };
 
   const stats = {
@@ -587,7 +780,7 @@ export default function AdminPanel() {
         {/* ── Tabs & Sub-Controls ── */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div className="flex bg-border-light/25 p-1 rounded-2xl border border-border-light/40">
-            {(["projects", "enquiries"] as const).map(t => (
+            {(["projects", "enquiries", "settings"] as const).map(t => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
@@ -597,7 +790,12 @@ export default function AdminPanel() {
                     : "text-muted hover:text-navy hover:bg-border-light/20"
                 }`}
               >
-                {t === "projects" ? `🏗️ Projects (${projects.length})` : `📋 Enquiries (${enquiries.length})`}
+                {t === "projects" 
+                  ? `🏗️ Projects (${projects.length})` 
+                  : t === "enquiries" 
+                    ? `📋 Enquiries (${enquiries.length})` 
+                    : "⚙️ Settings"
+                }
               </button>
             ))}
           </div>
@@ -864,6 +1062,68 @@ export default function AdminPanel() {
           </div>
         )}
 
+        {/* ── SETTINGS TAB ── */}
+        {tab === "settings" && (
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-border-light/60 shadow-xs space-y-6">
+            <div>
+              <h2 className="font-display text-xl font-bold text-navy mb-1">Website Settings</h2>
+              <p className="text-xs text-muted">Manage global settings, documents, and brochure downloads for the main website.</p>
+            </div>
+
+            <div className="border-t border-border-light/60 pt-6">
+              <div className="max-w-xl space-y-4">
+                <div>
+                  <h3 className="text-sm font-bold text-navy uppercase tracking-wider mb-2">Website Brochure (E-Brochure PDF)</h3>
+                  <p className="text-xs text-muted mb-4">Upload the PDF brochure that users will download when they submit the brochure request form on the home page.</p>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 border border-border-light/60 rounded-2xl bg-off-white/20">
+                  <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl shrink-0">
+                    📄
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-navy truncate">
+                      {settings?.brochure?.filename || "No brochure uploaded"}
+                    </p>
+                    <p className="text-xs text-muted">
+                      {settings?.brochure?.filesize 
+                        ? `${(settings.brochure.filesize / 1024 / 1024).toFixed(2)} MB` 
+                        : "Upload a PDF document"
+                      }
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {settings?.brochure?.url && (
+                      <a 
+                        href={settings.brochure.url} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="text-xs font-bold text-navy hover:text-gold mr-2 transition-colors"
+                      >
+                        Preview
+                      </a>
+                    )}
+                    <button
+                      onClick={() => brochureInputRef.current?.click()}
+                      disabled={uploadingBrochure}
+                      className="bg-navy hover:bg-gold text-white hover:text-navy font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all"
+                    >
+                      {uploadingBrochure ? "Uploading…" : "Upload PDF"}
+                    </button>
+                    <input 
+                      ref={brochureInputRef}
+                      type="file"
+                      accept="application/pdf"
+                      className="hidden"
+                      onChange={handleBrochureUpload}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
 
       {/* ── Modal overlay ── */}
@@ -873,7 +1133,20 @@ export default function AdminPanel() {
           isNew={isNewProject}
           onClose={() => { setEditProject(null); setIsNewProject(false); }}
           onSave={handleProjectSaved}
+          showNotification={showNotification}
         />
+      )}
+
+      {/* ── Notification Banner ── */}
+      {notification && (
+        <div className={`fixed bottom-5 right-5 z-9999 flex items-center gap-2.5 px-5 py-3.5 rounded-2xl shadow-xl border transition-all duration-300 animate-slide-in ${
+          notification.type === "error"
+            ? "bg-red-50 border-red-200 text-red-800"
+            : "bg-emerald-50 border-emerald-200 text-emerald-800"
+        }`}>
+          <span>{notification.type === "error" ? "⚠️" : "✨"}</span>
+          <span className="text-xs font-bold uppercase tracking-wider">{notification.message}</span>
+        </div>
       )}
     </div>
   );

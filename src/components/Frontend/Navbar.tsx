@@ -108,6 +108,12 @@ export default function Navbar() {
                         className="absolute top-full left-0 mt-2 w-52 glass rounded-xl shadow-xl py-2 z-50"
                       >
                         <Link
+                          href="/projects"
+                          className="block px-5 py-3 text-xs font-sans font-bold uppercase tracking-wider text-gold hover:text-cyan hover:bg-white/5 border-b border-white/5 transition-all"
+                        >
+                          View All Projects
+                        </Link>
+                        <Link
                           href="/projects/ongoing"
                           className="block px-5 py-3 text-xs font-sans font-bold uppercase tracking-wider text-white/80 hover:text-cyan hover:bg-white/5 transition-all"
                         >
@@ -212,6 +218,13 @@ export default function Navbar() {
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden flex flex-col pl-4 gap-4 pb-2"
                           >
+                            <Link
+                              href="/projects"
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="text-lg font-sans font-bold uppercase tracking-wider text-gold hover:text-cyan transition-colors"
+                            >
+                              All Projects
+                            </Link>
                             <Link
                               href="/projects/ongoing"
                               onClick={() => setMobileMenuOpen(false)}

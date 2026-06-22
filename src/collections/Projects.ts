@@ -12,19 +12,22 @@ const formatSlugHook = (fallback: string): FieldHook => ({
   originalDoc,
   data,
 }) => {
-  if (typeof value === 'string' && value) {
+  if (typeof value === 'string' && value && value.trim()) {
     return formatSlug(value)
   }
 
   if (operation === 'create' || operation === 'update') {
     const fallbackData = data?.[fallback] || originalDoc?.[fallback]
 
-    if (fallbackData && typeof fallbackData === 'string') {
+    if (fallbackData && typeof fallbackData === 'string' && fallbackData.trim()) {
       return formatSlug(fallbackData)
     }
   }
 
-  return value
+  if (originalDoc?.slug) {
+    return originalDoc.slug
+  }
+  return `project-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`
 }
 
 export const Projects: CollectionConfig = {
@@ -46,7 +49,7 @@ export const Projects: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
-      required: true,
+      required: false,
       label: 'Project Name',
       admin: {
         description: 'e.g. Sai World City',
@@ -57,7 +60,7 @@ export const Projects: CollectionConfig = {
     {
       name: 'status',
       type: 'select',
-      required: true,
+      required: false,
       defaultValue: 'ongoing',
       label: 'Project Status',
       admin: {
@@ -73,7 +76,7 @@ export const Projects: CollectionConfig = {
     {
       name: 'slug',
       type: 'text',
-      required: true,
+      required: false,
       unique: true,
       index: true,
       label: 'URL Slug (auto-generated)',
@@ -89,7 +92,7 @@ export const Projects: CollectionConfig = {
     {
       name: 'publishedAt',
       type: 'date',
-      required: true,
+      required: false,
       defaultValue: () => new Date().toISOString(),
       label: 'Date Added',
       admin: {
@@ -108,7 +111,7 @@ export const Projects: CollectionConfig = {
         {
           name: 'location',
           type: 'text',
-          required: true,
+          required: false,
           label: 'Location',
           admin: {
             description: 'e.g. Panvel, Navi Mumbai',
@@ -118,7 +121,7 @@ export const Projects: CollectionConfig = {
         {
           name: 'priceRange',
           type: 'text',
-          required: true,
+          required: false,
           label: 'Price Range',
           admin: {
             description: 'e.g. ₹45L – ₹90L or "Price on Request"',
@@ -135,7 +138,7 @@ export const Projects: CollectionConfig = {
         {
           name: 'area',
           type: 'text',
-          required: true,
+          required: false,
           label: 'Unit Configurations',
           admin: {
             description: 'e.g. 2, 3 & 4 BHK Luxury Condos',
@@ -172,7 +175,7 @@ export const Projects: CollectionConfig = {
     {
       name: 'description',
       type: 'textarea',
-      required: true,
+      required: false,
       label: 'Project Description',
       admin: {
         description: 'A short paragraph about this project. Keep it to 3–4 lines.',
@@ -192,7 +195,7 @@ export const Projects: CollectionConfig = {
         {
           name: 'point',
           type: 'text',
-          required: true,
+          required: false,
           label: 'Highlight',
           admin: {
             description: 'Keep under 5 words',
@@ -246,7 +249,7 @@ export const Projects: CollectionConfig = {
         {
           name: 'category',
           type: 'text',
-          required: true,
+          required: false,
           label: 'Category',
           admin: {
             description: 'e.g. Flooring, Kitchen, Security, Outdoor',
@@ -255,10 +258,47 @@ export const Projects: CollectionConfig = {
         {
           name: 'items',
           type: 'text',
-          required: true,
+          required: false,
           label: 'Items (comma separated)',
           admin: {
             description: 'e.g. Vitrified Tiles, Wooden Flooring, Anti-Skid Ceramic',
+          },
+        },
+      ],
+    },
+
+    // ── Specifications ──
+    {
+      name: 'specifications',
+      type: 'array',
+      label: 'Specifications & Interior Images',
+      admin: {
+        description: 'Detail room specifications and features with interior photos (e.g., Living Room, Kitchen, Bedrooms)',
+      },
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Specification Title',
+          admin: {
+            description: 'e.g. Living Room, Modular Kitchen, Bathroom Fittings',
+          },
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Specification Details',
+          admin: {
+            description: 'Provide details about materials, flooring, fittings, etc.',
+          },
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Interior/Detail Photo',
+          admin: {
+            description: 'Photo showing this specific area/specification',
           },
         },
       ],

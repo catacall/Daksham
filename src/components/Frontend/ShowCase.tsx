@@ -1,84 +1,44 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
-const showcaseProjects = [
-  {
-    title: "Sai World City",
-    location: "Panvel, Navi Mumbai",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
-    area: "2, 3 & 4 BHK Luxury Condos",
-    slug: "sai-world-city",
-  },
-  {
-    title: "Paradise Mall",
-    location: "Kharghar, Navi Mumbai",
-    image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
-    area: "Ultra-Premium Highstreet Retail",
-    slug: "paradise-mall",
-  },
-  {
-    title: "Sai World Empire",
-    location: "Kharghar, Navi Mumbai",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-    area: "3 & 4 BHK Neo-Classical Homes",
-    slug: "sai-world-empire",
-  },
-  {
-    title: "Sai World Legend",
-    location: "Dombivli, Thane",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    area: "Premium Residential Towers",
-    slug: "sai-world-legend",
-  },
-  {
-    title: "Sai World Dreams",
-    location: "Dombivli, Thane",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-    area: "Premium Highstreet & Multiplex Hub",
-    slug: "sai-world-dreams",
-  },
-];
-
-import { useState } from "react";
-
 const showcaseProjectsFallback = [
   {
     title: "Sai World City",
     location: "Panvel, Navi Mumbai",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+    image: "/placeholder-project.jpg",
     area: "2, 3 & 4 BHK Luxury Condos",
     slug: "sai-world-city",
   },
   {
     title: "Paradise Mall",
     location: "Kharghar, Navi Mumbai",
-    image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=80",
+    image: "/placeholder-project.jpg",
     area: "Ultra-Premium Highstreet Retail",
     slug: "paradise-mall",
   },
   {
     title: "Sai World Empire",
     location: "Kharghar, Navi Mumbai",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    image: "/placeholder-project.jpg",
     area: "3 & 4 BHK Neo-Classical Homes",
     slug: "sai-world-empire",
   },
   {
     title: "Sai World Legend",
     location: "Dombivli, Thane",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    image: "/placeholder-project.jpg",
     area: "Premium Residential Towers",
     slug: "sai-world-legend",
   },
   {
     title: "Sai World Dreams",
     location: "Dombivli, Thane",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+    image: "/placeholder-project.jpg",
     area: "Premium Highstreet & Multiplex Hub",
     slug: "sai-world-dreams",
   },

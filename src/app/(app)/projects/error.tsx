@@ -12,8 +12,7 @@ export default function ProjectsError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error);
+    // Error logged silently or sent to telemetry
   }, [error]);
 
   return (

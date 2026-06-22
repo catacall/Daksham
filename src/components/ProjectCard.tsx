@@ -39,13 +39,13 @@ const cardVariants = {
 
 export function ProjectCard({ project }: { project: Project }) {
   let coverImage: string | StaticImageData =
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
+    "/placeholder-project.jpg";
   if (project.images && project.images.length > 0) {
     const firstImg = project.images[0];
     if (isProjectImageObject(firstImg)) {
       coverImage =
         firstImg.url ||
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80";
+        "/placeholder-project.jpg";
     } else if (typeof firstImg === "string") {
       coverImage = firstImg;
     } else {
