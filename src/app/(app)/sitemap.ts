@@ -11,35 +11,57 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const res = await payload.find({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       collection: 'projects' as any,
-      limit: 100,
+      limit: 200,
       select: {
         slug: true,
         publishedAt: true,
       },
     })
     projects = res.docs
-  } catch (error) {
-    // Fail silently
+  } catch {
+    // Fail silently — sitemap will still include static routes
   }
 
-  const routes = [
-    '',
-    '/projects',
-    '/projects/ongoing',
-    '/projects/delivered',
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'daily' as const,
-    priority: route === '' ? 1.0 : 0.8,
-  }))
+  // Static routes with intentional priority weights
+  const staticRoutes: MetadataRoute.Sitemap = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/projects`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/projects/ongoing`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/projects/delivered`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+  ]
 
-  const projectRoutes = projects.map((p) => ({
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((p) => ({
     url: `${baseUrl}/projects/${p.slug}`,
     lastModified: p.publishedAt ? new Date(p.publishedAt) : new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.6,
+    changeFrequency: 'weekly',
+    priority: 0.8,
   }))
 
-  return [...routes, ...projectRoutes]
+  return [...staticRoutes, ...projectRoutes]
 }

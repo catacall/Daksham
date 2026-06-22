@@ -6,8 +6,16 @@ import { Pagination } from "@/components/Pagination";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Ongoing Projects | Daksham Developers",
-  description: "Explore our currently developing premium real estate projects.",
+  title: "Ongoing Residential Projects in Navi Mumbai | Daksham Developers",
+  description:
+    "Discover Daksham Developers' ongoing residential projects in Navi Mumbai & Thane. RERA approved 2, 3 & 4 BHK luxury apartments with top amenities. Book your visit today.",
+  alternates: { canonical: "https://dakshamdevelopers.com/projects/ongoing" },
+  openGraph: {
+    url: "https://dakshamdevelopers.com/projects/ongoing",
+    title: "Ongoing Residential Projects in Navi Mumbai | Daksham Developers",
+    description: "RERA approved ongoing luxury residential projects in Navi Mumbai by Daksham Developers. Enquire now.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Ongoing Projects by Daksham Developers" }],
+  },
 };
 
 export default async function OngoingProjectsPage({

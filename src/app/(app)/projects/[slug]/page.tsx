@@ -15,20 +15,8 @@ interface PageProps {
   }>;
 }
 
-export const revalidate = 0; // Revalidate immediately for real-time changes
-
-export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise });
-  const { docs: projects } = await payload.find({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    collection: "projects" as any,
-    limit: 100,
-  });
-
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
-}
+// Force dynamic rendering — no DB connections at build time
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(
   { params }: PageProps
@@ -47,13 +35,54 @@ export async function generateMetadata(
 
   if (!project) {
     return {
-      title: "Project Not Found | Daksham Developers",
+      title: "Project Not Found",
+      robots: { index: false, follow: false },
     };
   }
 
+  const baseUrl = "https://dakshamdevelopers.com";
+  const pageUrl = `${baseUrl}/projects/${project.slug}`;
+  const coverImageUrl =
+    typeof project.coverImage === "object" && project.coverImage !== null
+      ? (project.coverImage as { url?: string }).url
+      : null;
+  const ogImage = coverImageUrl || `${baseUrl}/og-image.jpg`;
+  const statusLabel = project.status === "delivered" ? "Delivered" : "Ongoing";
+
+  const title = `${project.title} | ${statusLabel} Project in ${project.location}`;
+  const description = `${project.title} is a premium ${statusLabel.toLowerCase()} real estate project by Daksham Developers in ${project.location}. ${project.area ? `Available configurations: ${project.area}.` : ""} ${project.priceRange ? `Price: ${project.priceRange}.` : ""} ${project.reraNumber ? `RERA: ${project.reraNumber}.` : ""} Enquire now.`;
+
   return {
-    title: `${project.title} | Daksham Developers`,
-    description: `Discover ${project.title}, a premium ${project.status} real estate project by Daksham Developers located in ${project.location}.`,
+    title,
+    description,
+    keywords: [
+      project.title,
+      `${project.title} ${project.location}`,
+      `real estate ${project.location}`,
+      `flats in ${project.location}`,
+      `${project.area || "apartments"} ${project.location}`,
+      "Daksham Developers",
+      "RERA approved",
+      `luxury homes ${project.location}`,
+    ].filter(Boolean),
+    alternates: { canonical: pageUrl },
+    openGraph: {
+      type: "website",
+      url: pageUrl,
+      title,
+      description,
+      siteName: "Daksham Developers",
+      locale: "en_IN",
+      images: [
+        { url: ogImage, width: 1200, height: 630, alt: project.title },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
@@ -98,8 +127,70 @@ export default async function ProjectDetailPage({ params }: PageProps) {
      descriptionContent = <RichText data={project.description as any} />;
   }
 
+  // ── JSON-LD Structured Data ──
+  const baseUrl = "https://dakshamdevelopers.com";
+  const pageUrl = `${baseUrl}/projects/${project.slug}`;
+  const descriptionText =
+    typeof project.description === "string"
+      ? project.description
+      : `Premium ${project.status} real estate project by Daksham Developers in ${project.location}.`;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Apartment",
+        "@id": pageUrl,
+        name: project.title,
+        description: descriptionText,
+        url: pageUrl,
+        image: coverImage.startsWith("http") ? coverImage : `${baseUrl}${coverImage}`,
+        ...(project.priceRange && { priceRange: project.priceRange }),
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: project.location,
+          addressRegion: "Maharashtra",
+          addressCountry: "IN",
+        },
+        amenityFeature: (project.highlights || []).map(
+          (h: { point?: string }) => ({ "@type": "LocationFeatureSpecification", name: h.point })
+        ),
+        additionalProperty: [
+          project.area && { "@type": "PropertyValue", name: "Configuration", value: project.area },
+          project.reraNumber && { "@type": "PropertyValue", name: "RERA Number", value: project.reraNumber },
+          project.status && { "@type": "PropertyValue", name: "Status", value: project.status },
+        ].filter(Boolean),
+        offers: project.priceRange
+          ? {
+              "@type": "Offer",
+              description: project.priceRange,
+              seller: {
+                "@type": "RealEstateAgent",
+                name: "Daksham Developers",
+                url: baseUrl,
+                telephone: "+919967556073",
+              },
+            }
+          : undefined,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+          { "@type": "ListItem", position: 2, name: "Projects", item: `${baseUrl}/projects` },
+          { "@type": "ListItem", position: 3, name: project.title, item: pageUrl },
+        ],
+      },
+    ],
+  };
+
   return (
     <div className="bg-off-white min-h-screen">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Header */}
       <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] min-h-100 sm:min-h-112.5 md:min-h-125 w-full bg-navy overflow-hidden">
         <Image

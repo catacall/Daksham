@@ -6,8 +6,16 @@ import { Pagination } from "@/components/Pagination";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Delivered Projects | Daksham Developers",
-  description: "Discover our successfully delivered premium real estate landmarks.",
+  title: "Delivered Residential Projects in Navi Mumbai | Daksham Developers",
+  description:
+    "Explore landmark residential projects successfully delivered by Daksham Developers in Navi Mumbai & Thane. Premium quality, on-time delivery, happy customers.",
+  alternates: { canonical: "https://dakshamdevelopers.com/projects/delivered" },
+  openGraph: {
+    url: "https://dakshamdevelopers.com/projects/delivered",
+    title: "Delivered Residential Projects in Navi Mumbai | Daksham Developers",
+    description: "Landmark luxury projects delivered by Daksham Developers in Navi Mumbai. A testament to quality and commitment.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Delivered Projects by Daksham Developers" }],
+  },
 };
 
 export default async function DeliveredProjectsPage({

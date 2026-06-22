@@ -6,9 +6,16 @@ import { FadeIn } from "@/components/FadeIn";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Daksham Developers",
+  title: "Contact Daksham Developers | Real Estate Enquiry Navi Mumbai",
   description:
-    "Get in touch with Daksham Developers for premium real estate advisory.",
+    "Get in touch with Daksham Developers for premium real estate advisory in Navi Mumbai & Thane. Visit our Vashi office or call +91 99675 56073 for site visits and enquiries.",
+  alternates: { canonical: "https://dakshamdevelopers.com/contact" },
+  openGraph: {
+    url: "https://dakshamdevelopers.com/contact",
+    title: "Contact Daksham Developers | Real Estate Enquiry Navi Mumbai",
+    description: "Enquire about luxury residential projects in Navi Mumbai. Call +91 99675 56073 or visit our Vashi office.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Contact Daksham Developers" }],
+  },
 };
 
 export default async function ContactPage({
