@@ -60,7 +60,7 @@ const api = {
     const fd = new FormData();
     fd.append("file", file);
     fd.append("alt", file.name || "Project image");
-    const r = await fetch("/api/media", { method: "POST", credentials: "include", body: fd });
+    const r = await fetch("/api/admin-data/upload", { method: "POST", credentials: "include", body: fd });
     if (!r.ok) return null;
     return (await r.json()).doc || null;
   },
@@ -456,6 +456,39 @@ export default function AdminPanel() {
     setSelectedEnqs(prev => prev.filter(x => !succeeded.includes(x)));
   };
 
+  const exportToCSV = () => {
+    if (enquiries.length === 0) return;
+    const headers = ["Name", "Phone", "Email", "Project Interested In", "Status", "Received Date", "Message", "Notes"];
+    const rows = enquiries.map(e => [
+      e.name,
+      e.phone,
+      e.email,
+      e.projectInterestedIn?.title || "—",
+      e.status,
+      new Date(e.createdAt).toLocaleDateString("en-IN"),
+      e.message.replace(/\n/g, " "),
+      (e.notes || "").replace(/\n/g, " ")
+    ]);
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => 
+        row.map(val => {
+          const cleanVal = String(val).replace(/"/g, '""');
+          return `"${cleanVal}"`;
+        }).join(",")
+      )
+    ].join("\n");
+    
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Daksham_Enquiries_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const fetchAll = useCallback(async () => {
     setLoading(true);
     const [p, e] = await Promise.all([api.getProjects(), api.getEnquiries()]);
@@ -572,9 +605,18 @@ export default function AdminPanel() {
           {tab === "projects" && (
             <button
               onClick={() => { setIsNewProject(true); setEditProject(null); }}
-              className="inline-flex items-center gap-1.5 bg-gold hover:bg-gold-light text-navy font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl shadow-xs transition-all"
+              className="inline-flex items-center gap-1.5 bg-gold hover:bg-gold-light text-navy font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
             >
               ➕ Add New Project
+            </button>
+          )}
+
+          {tab === "enquiries" && enquiries.length > 0 && (
+            <button
+              onClick={exportToCSV}
+              className="inline-flex items-center gap-1.5 bg-white hover:bg-off-white text-navy border border-border-light font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
+            >
+              📥 Export to CSV
             </button>
           )}
         </div>

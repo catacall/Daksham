@@ -96,7 +96,7 @@ export default function ShowCase() {
           setLiveProjects(data.docs);
         }
       })
-      .catch(err => console.error("Error fetching projects for showcase:", err));
+      .catch(() => {});
   }, []);
 
   // Convert vertical mouse-wheel → horizontal scroll

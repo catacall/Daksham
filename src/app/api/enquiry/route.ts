@@ -128,13 +128,8 @@ export async function POST(request: Request) {
             </div>
           `,
         });
-      } else {
-        console.warn(
-          "Skipping email notification: RESEND_API_KEY or ADMIN_EMAIL not set.",
-        );
       }
     } catch (emailError) {
-      console.error("Failed to send notification email:", emailError);
       // Lead is already captured, so we proceed to return success.
     }
 
@@ -154,7 +149,6 @@ export async function POST(request: Request) {
       );
     }
 
-    console.error("Enquiry submission error:", error);
     return NextResponse.json(
       { message: "An error occurred while processing your enquiry." },
       { status: 500 },

@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
     projects = res.docs
   } catch (error) {
-    console.error('Error compiling sitemap projects:', error)
+    // Fail silently
   }
 
   const routes = [
