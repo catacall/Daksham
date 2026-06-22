@@ -48,7 +48,7 @@ export default function EnquiryModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="absolute inset-0 bg-navy/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-navy/70"
           />
 
           {/* Smooth Modal Card */}

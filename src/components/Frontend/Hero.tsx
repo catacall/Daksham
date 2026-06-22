@@ -36,12 +36,8 @@ export default function Hero() {
         className="absolute inset-0 w-full h-full object-cover z-0 opacity-60 select-none pointer-events-none"
       />
 
-      {/* Layered gradient overlays */}
-      <div className="absolute inset-0 bg-linear-to-b from-navy/20 via-navy/12 to-navy z-0 pointer-events-none" />
-      <div className="absolute inset-0 bg-radial-at-c from-transparent via-navy/30 to-navy/90 z-0 pointer-events-none" />
-
-      {/* Cyan glow at bottom */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-cyan/5 rounded-full blur-[100px] z-0 pointer-events-none" />
+      {/* Simple dark overlay for video readability */}
+      <div className="absolute inset-0 bg-navy/50 z-0 pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 text-center max-w-5xl flex flex-col items-center">

@@ -5,12 +5,12 @@ export default function Footer() {
     return (
       <>
         {/* Cyan accent line */}
-        <div className="h-px bg-linear-to-r from-transparent via-cyan/40 to-transparent" />
+        <div className="h-px bg-cyan/30" />
         
         <footer className="bg-navy text-white py-12 md:py-16">
           <div className="container mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
             <div className="sm:col-span-2 lg:col-span-1">
-              <h3 className="font-display font-bold text-xl md:text-2xl mb-4 md:mb-6 tracking-wider text-gold-gradient">
+              <h3 className="font-display font-bold text-xl md:text-2xl mb-4 md:mb-6 tracking-wider text-gold">
                 DAKSHAM
               </h3>
               <p className="text-muted leading-relaxed text-sm max-w-xs">

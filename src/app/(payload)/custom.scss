@@ -1,0 +1,160 @@
+/*
+  Daksham Developers — Payload Admin Custom Theme
+  Light, clean, professional. No dark mode.
+  Uses Payload's CSS variable system.
+*/
+
+/* ── Force light theme always ── */
+:root,
+[data-theme="light"],
+[data-theme="dark"] {
+  /* Backgrounds */
+  --theme-bg: #f5f7fa;
+  --theme-elevation-0: #ffffff;
+  --theme-elevation-50: #f0f4f8;
+  --theme-elevation-100: #e8edf4;
+  --theme-elevation-150: #dde4ee;
+  --theme-elevation-200: #d0d9e6;
+  --theme-elevation-250: #c4cedc;
+  --theme-elevation-300: #b8c3d3;
+  --theme-elevation-400: #a0b0c4;
+  --theme-elevation-500: #8a9bb5;
+  --theme-elevation-800: #3a4d6a;
+  --theme-elevation-900: #122240;
+  --theme-elevation-1000: #0a1628;
+
+  /* Text */
+  --theme-text: #0a1628;
+  --theme-text-muted: #4a5a72;
+
+  /* Accent — Payload uses this for buttons/highlights */
+  --theme-success-100: #e6f7f0;
+  --theme-success-500: #10b981;
+  --theme-error-100: #fef2f2;
+  --theme-error-500: #ef4444;
+  --theme-warning-100: #fffbeb;
+  --theme-warning-500: #f59e0b;
+
+  /* Brand accent overrides — gold as primary action color */
+  --theme-elevation-brand: #d4af37;
+}
+
+/* ── Sidebar: clean white with subtle border ── */
+.nav {
+  background: #ffffff !important;
+  border-right: 1px solid #e0e8f0 !important;
+}
+
+/* ── Top nav bar ── */
+.app-header {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e0e8f0 !important;
+}
+
+/* ── Main content area background ── */
+.template-default__wrap,
+.collection-list,
+.document-controls {
+  background: #f5f7fa !important;
+}
+
+/* ── Cards / panels ── */
+.card,
+.payload-portal,
+.field-type.text input,
+.field-type.textarea textarea,
+.field-type.select .react-select__control {
+  background: #ffffff !important;
+  border-color: #d0d9e6 !important;
+}
+
+/* ── Input fields — white with soft border ── */
+.field-type input[type="text"],
+.field-type input[type="email"],
+.field-type input[type="tel"],
+.field-type textarea,
+.rs__control {
+  background: #ffffff !important;
+  border: 1px solid #d0d9e6 !important;
+  color: #0a1628 !important;
+  border-radius: 8px !important;
+}
+
+.field-type input:focus,
+.field-type textarea:focus {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15) !important;
+}
+
+/* ── Buttons — gold primary ── */
+.btn--style-primary {
+  background-color: #d4af37 !important;
+  color: #0a1628 !important;
+  font-weight: 600 !important;
+  border: none !important;
+}
+
+.btn--style-primary:hover {
+  background-color: #e8c547 !important;
+}
+
+/* ── Status / select pills ── */
+.pill {
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* ── Table rows ── */
+.cell-wrap {
+  background: #ffffff !important;
+}
+
+.row--odd .cell-wrap {
+  background: #f8fafc !important;
+}
+
+tr:hover .cell-wrap {
+  background: #f0f5ff !important;
+}
+
+/* ── Sidebar nav links ── */
+.nav__link:hover,
+.nav__link--active {
+  color: #d4af37 !important;
+  background: rgba(212, 175, 55, 0.08) !important;
+  border-radius: 8px !important;
+}
+
+/* ── Labels / field titles ── */
+.field-label {
+  color: #0a1628 !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+}
+
+/* ── Payload logo area — brand name ── */
+.render-admin-thumbnail {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #0a1628 !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f0f4f8;
+}
+::-webkit-scrollbar-thumb {
+  background: #c4cedc;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}

@@ -1,3 +1,4 @@
+
 @import "tailwindcss";
 
 :root {
@@ -92,30 +93,24 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* ─── Utility: Glassmorphism ─── */
+/* ─── Utility: Panel (replaces glass — no blur, no gradient border) ─── */
 @utility glass {
-  background: rgba(10, 22, 40, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 212, 255, 0.1);
+  background: rgba(10, 22, 40, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 @utility glass-light {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 221, 232, 0.6);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(212, 221, 232, 0.5);
 }
 
-/* ─── Utility: Cyan Glow ─── */
-@utility glow-cyan {
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.15), 0 0 60px rgba(0, 212, 255, 0.05);
+/* ─── Utility: Hide scrollbar (keep scroll functionality) ─── */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* ─── Utility: Gold Shimmer Text ─── */
-@utility text-gold-gradient {
-  background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Plain CSS rule — @utility can't have pseudo-elements */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

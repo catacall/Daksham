@@ -139,8 +139,8 @@ export default function Navbar() {
 
           {/* Admin access — subtle icon always present; prominent pill when logged in */}
           <Link
-            href={isAdmin ? "/admin" : "/admin/login"}
-            title={isAdmin ? "Payload Admin Dashboard" : "Admin Login"}
+            href="/manage"
+            title={isAdmin ? "Manage Portal" : "Admin Login"}
             className={
               isAdmin
                 ? "flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gold/10 hover:bg-gold/20 border border-gold/30 hover:border-gold/60 text-gold text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200"
@@ -148,7 +148,7 @@ export default function Navbar() {
             }
           >
             <LayoutDashboard size={isAdmin ? 13 : 14} />
-            {isAdmin && <span>Admin</span>}
+            {isAdmin && <span>Manage</span>}
           </Link>
         </nav>
 
@@ -170,7 +170,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 top-0 left-0 w-full h-full bg-navy backdrop-blur-xl md:hidden flex flex-col z-60"
+            className="fixed inset-0 top-0 left-0 w-full h-full bg-navy md:hidden flex flex-col z-60"
           >
             {/* Close button */}
             <div className="flex justify-end p-6">
@@ -258,7 +258,7 @@ export default function Navbar() {
                 transition={{ delay: navLinks.length * 0.08 }}
               >
                 <Link
-                  href={isAdmin ? "/admin" : "/admin/login"}
+                  href="/manage"
                   onClick={() => setMobileMenuOpen(false)}
                   className={
                     isAdmin
@@ -267,14 +267,14 @@ export default function Navbar() {
                   }
                 >
                   <LayoutDashboard size={isAdmin ? 22 : 16} />
-                  {isAdmin ? "Admin Panel" : "Admin Login"}
+                  {isAdmin ? "Manage Portal" : "Admin Login"}
                 </Link>
               </motion.div>
             </div>
 
             {/* Bottom accent line */}
             <div className="px-8 pb-8">
-              <div className="h-px bg-linear-to-r from-transparent via-cyan/50 to-transparent" />
+              <div className="h-px bg-cyan/20" />
               <p className="text-center text-muted/60 text-xs font-sans mt-4 tracking-wider uppercase">
                 Daksham Developers
               </p>

@@ -8,6 +8,8 @@ import ExploreVision from "@/components/Frontend/ExploreVision";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 
+export const revalidate = 0;
+
 export default async function Home() {
   const payload = await getPayload({ config: configPromise });
 

@@ -10,7 +10,7 @@ export default function ExploreVision() {
       className="py-12 sm:py-16 md:py-20 bg-off-white overflow-hidden relative"
     >
       {/* Top Accent Line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-gold/30 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gold/20" />
 
       <div className="container mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">

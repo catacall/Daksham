@@ -32,7 +32,8 @@ export const Projects: CollectionConfig = {
   admin: {
     group: 'Content',
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'status', 'publishedAt'],
+    defaultColumns: ['title', 'status', 'location', 'priceRange', 'publishedAt'],
+    description: 'Add or update your projects here. Changes appear on the website instantly after saving.',
   },
   access: {
     read: () => true,
@@ -41,103 +42,226 @@ export const Projects: CollectionConfig = {
     delete: ({ req }) => !!req.user,
   },
   fields: [
+    // ── Title ──
     {
       name: 'title',
       type: 'text',
       required: true,
+      label: 'Project Name',
+      admin: {
+        description: 'e.g. Sai World City',
+      },
     },
+
+    // ── Status + Slug (sidebar) ──
+    {
+      name: 'status',
+      type: 'select',
+      required: true,
+      defaultValue: 'ongoing',
+      label: 'Project Status',
+      admin: {
+        position: 'sidebar',
+        description: 'Change to Delivered when the project is complete',
+      },
+      options: [
+        { label: '🏗️ Ongoing', value: 'ongoing' },
+        { label: '✅ Delivered', value: 'delivered' },
+      ],
+    },
+
     {
       name: 'slug',
       type: 'text',
       required: true,
       unique: true,
       index: true,
+      label: 'URL Slug (auto-generated)',
       hooks: {
         beforeValidate: [formatSlugHook('title')],
       },
       admin: {
         position: 'sidebar',
+        description: 'Auto-filled from the project name. Do not edit unless needed.',
       },
     },
+
     {
-      name: 'description',
-      type: 'richText',
+      name: 'publishedAt',
+      type: 'date',
       required: true,
+      defaultValue: () => new Date().toISOString(),
+      label: 'Date Added',
+      admin: {
+        position: 'sidebar',
+        date: {
+          pickerAppearance: 'dayOnly',
+          displayFormat: 'd MMM yyyy',
+        },
+      },
     },
+
+    // ── Location + Price ──
     {
-      name: 'status',
-      type: 'select',
-      required: true,
-      defaultValue: 'ongoing',
-      options: [
+      type: 'row',
+      fields: [
         {
-          label: 'Ongoing',
-          value: 'ongoing',
+          name: 'location',
+          type: 'text',
+          required: true,
+          label: 'Location',
+          admin: {
+            description: 'e.g. Panvel, Navi Mumbai',
+            width: '50%',
+          },
         },
         {
-          label: 'Delivered',
-          value: 'delivered',
+          name: 'priceRange',
+          type: 'text',
+          required: true,
+          label: 'Price Range',
+          admin: {
+            description: 'e.g. ₹45L – ₹90L or "Price on Request"',
+            width: '50%',
+          },
         },
       ],
     },
+
+    // ── Config + RERA ──
     {
-      name: 'location',
-      type: 'text',
-      required: true,
+      type: 'row',
+      fields: [
+        {
+          name: 'area',
+          type: 'text',
+          required: true,
+          label: 'Unit Configurations',
+          admin: {
+            description: 'e.g. 2, 3 & 4 BHK Luxury Condos',
+            width: '50%',
+          },
+        },
+        {
+          name: 'reraNumber',
+          type: 'text',
+          label: 'RERA Number',
+          admin: {
+            description: 'Official RERA registration number',
+            width: '50%',
+          },
+        },
+      ],
     },
+
+    // ── Completion Date ──
     {
-      name: 'area',
-      type: 'text',
-      required: true,
+      name: 'completionDate',
+      type: 'date',
+      label: 'Expected Completion',
       admin: {
-        description: 'e.g. 2BHK | 3BHK',
+        description: 'When is this project expected to be ready?',
+        date: {
+          pickerAppearance: 'monthOnly',
+          displayFormat: 'MMM yyyy',
+        },
       },
     },
+
+    // ── Description ──
     {
-      name: 'priceRange',
-      type: 'text',
+      name: 'description',
+      type: 'textarea',
       required: true,
+      label: 'Project Description',
       admin: {
-        description: 'e.g. ₹45L – ₹90L',
+        description: 'A short paragraph about this project. Keep it to 3–4 lines.',
+        rows: 5,
       },
     },
+
+    // ── Highlights ──
+    {
+      name: 'highlights',
+      type: 'array',
+      label: 'Project Highlights',
+      admin: {
+        description: 'Short selling points shown as tags. e.g. "RERA Approved", "Ready to Move", "3 mins from Station"',
+      },
+      fields: [
+        {
+          name: 'point',
+          type: 'text',
+          required: true,
+          label: 'Highlight',
+          admin: {
+            description: 'Keep under 5 words',
+          },
+        },
+      ],
+    },
+
+    // ── Images ──
+    {
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Cover Photo',
+      admin: {
+        description: 'Main photo shown on the projects listing page. Upload one clear image.',
+      },
+    },
+
     {
       name: 'images',
       type: 'relationship',
       relationTo: 'media',
       hasMany: true,
-      required: true,
+      label: 'Gallery Photos',
+      admin: {
+        description: 'Upload all photos for this project — exterior, interior, amenities, floor plans',
+      },
     },
+
+    // ── YouTube ──
+    {
+      name: 'youtubeUrl',
+      type: 'text',
+      label: 'YouTube Video Link',
+      admin: {
+        description: 'Paste the full YouTube URL. e.g. https://youtube.com/watch?v=xxxx — will embed on the project page',
+      },
+    },
+
+    // ── Amenities ──
     {
       name: 'amenities',
       type: 'array',
+      label: 'Amenities',
+      admin: {
+        description: 'Group amenities by category for display on the project page',
+      },
       fields: [
         {
           name: 'category',
           type: 'text',
           required: true,
+          label: 'Category',
           admin: {
-            description: 'e.g. Flooring, Kitchen, Electrical',
+            description: 'e.g. Flooring, Kitchen, Security, Outdoor',
           },
         },
         {
           name: 'items',
           type: 'text',
           required: true,
+          label: 'Items (comma separated)',
           admin: {
-            description: 'Comma separated list of items',
+            description: 'e.g. Vitrified Tiles, Wooden Flooring, Anti-Skid Ceramic',
           },
         },
       ],
-    },
-    {
-      name: 'publishedAt',
-      type: 'date',
-      required: true,
-      defaultValue: () => new Date().toISOString(),
-      admin: {
-        position: 'sidebar',
-      },
     },
   ],
 }

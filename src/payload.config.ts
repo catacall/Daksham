@@ -18,34 +18,44 @@ const dirname = path.dirname(filename);
 export default buildConfig({
   admin: {
     user: Users.slug,
+
+    // ── Branding ──────────────────────────────────
+    meta: {
+      titleSuffix: "— Daksham Admin",
+      // favicon: '/favicon.ico', // uncomment if you have one at /public/favicon.ico
+    },
+
+    // ── Custom Dashboard ──────────────────────────
+    components: {
+      views: {
+        dashboard: {
+          Component: "/app/(payload)/admin/Dashboard#default",
+        },
+      },
+    },
+
+    // ── Force light theme ─────────────────────────
+    theme: "light",
+
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
+
   globals: [SiteSettings],
-  collections: [Users, Media , Pages , Enquiries, Projects],
+  collections: [Users, Media, Pages, Enquiries, Projects],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
+
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
+
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || "",
     },
   }),
+
   sharp,
-  // plugins: [
-  //   cloudinaryPlugin({
-  //     cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-  //     apiKey: process.env.CLOUDINARY_API_KEY,
-  //     apiSecret: process.env.CLOUDINARY_API_SECRET,
-  //   })
-  // ],
 });
-
-
-// function cloudinaryPlugin(_arg0: { cloudName: string | undefined; apiKey: string | undefined; apiSecret: string | undefined; }): import("payload").Plugin {
-//   throw new Error("Function not implemented.");
-// }
-

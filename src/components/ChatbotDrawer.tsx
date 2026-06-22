@@ -178,7 +178,7 @@ export default function ChatbotDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs"
+            className="fixed inset-0 z-50 bg-black/40"
           />
 
           {/* Drawer container */}

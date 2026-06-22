@@ -68,8 +68,8 @@ export function ProjectCard({ project }: { project: Project }) {
           fill
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="absolute top-3 sm:top-4 right-3 sm:right-4 rounded-full bg-navy/90 px-3 py-1 text-[10px] md:text-xs font-sans font-bold uppercase tracking-wider text-gold backdrop-blur-md shadow-sm border border-white/10">
+        <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/30 transition-colors duration-500" />
+        <div className="absolute top-3 sm:top-4 right-3 sm:right-4 rounded-full bg-navy/90 px-3 py-1 text-[10px] md:text-xs font-sans font-bold uppercase tracking-wider text-gold shadow-sm border border-white/10">
           {project.status}
         </div>
       </div>

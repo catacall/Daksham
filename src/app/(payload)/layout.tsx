@@ -1,7 +1,6 @@
 /* THIS FILE WAS GENERATED AUTOMATICALLY BY PAYLOAD. */
 /* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
 import config from "@payload-config";
-// Importing CSS from payload; suppress TS error if type declarations are missing
 import type { ServerFunctionClient } from "payload";
 import { handleServerFunctions, RootLayout } from "@payloadcms/next/layouts";
 import React from "react";
@@ -22,14 +21,17 @@ const serverFunction: ServerFunctionClient = async function (args) {
   });
 };
 
-const Layout = ({ children }: Args) => (
-  <RootLayout
-    config={config}
-    importMap={importMap}
-    serverFunction={serverFunction}
-  >
-    {children}
-  </RootLayout>
-);
+// This is the root layout - it should ALWAYS use RootLayout from Payload
+const Layout = ({ children }: Args) => {
+  return (
+    <RootLayout
+      config={config}
+      importMap={importMap}
+      serverFunction={serverFunction}
+    >
+      {children}
+    </RootLayout>
+  );
+};
 
 export default Layout;

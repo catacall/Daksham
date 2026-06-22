@@ -15,7 +15,7 @@ interface PageProps {
   }>;
 }
 
-export const revalidate = 3600; // Revalidate at most every hour
+export const revalidate = 0; // Revalidate immediately for real-time changes
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise });
