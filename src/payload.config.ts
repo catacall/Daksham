@@ -5,12 +5,32 @@ import path from "path";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
+import pg from "pg";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { SiteSettings } from "./collections/globals/SiteSettings";
 import { Pages } from "./collections/pages";
 import { Enquiries } from "./collections/Enquiries";
 import { Projects } from "./collections/Projects";
+
+// Prevent leaking connection pools during Next.js hot reloading in development.
+const CachedPool = function (this: any, options: any) {
+  if (process.env.NODE_ENV === "development") {
+    const globalVar = globalThis as any;
+    if (!globalVar.payloadDbPool) {
+      globalVar.payloadDbPool = new pg.Pool(options);
+    }
+    return globalVar.payloadDbPool;
+  }
+  return new pg.Pool(options);
+} as any;
+
+CachedPool.prototype = pg.Pool.prototype;
+
+const customPg = {
+  ...pg,
+  Pool: CachedPool,
+};
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -52,8 +72,10 @@ export default buildConfig({
   },
 
   db: postgresAdapter({
+    pg: customPg,
     pool: {
       connectionString: process.env.DATABASE_URL || "",
+      max: 4,
     },
   }),
 
