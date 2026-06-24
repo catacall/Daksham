@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle, Mail, Phone, Bot } from "lucide-react";
+import { Mail, Phone, Bot } from "lucide-react";
 import Link from "next/link";
 
 const badges = [
-  { icon: <MessageCircle size={20} />, href: "https://wa.me/919967556073", bg: "bg-green-500", glow: "shadow-green-500/30", delay: 0.1, name: "WhatsApp" },
   { icon: <Mail size={20} />, href: "mailto:info@dakshamdevelopers.com", bg: "bg-cyan", glow: "shadow-cyan/30", delay: 0.2, name: "Email" },
   { icon: <Phone size={20} />, href: "tel:+919967556073", bg: "bg-gold", glow: "shadow-gold/30", delay: 0.3, name: "Call Us" },
   { icon: <Bot size={20} />, href: "#chatbot", bg: "bg-navy", glow: "shadow-navy/30", delay: 0.4, name: "Chatbot" },
@@ -13,7 +12,7 @@ const badges = [
 
 export default function FloatingBadges() {
   return (
-    <div className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 flex flex-col gap-3 sm:gap-4 z-50">
+    <div className="fixed bottom-24 sm:bottom-28 right-[30px] sm:right-[36px] flex flex-col items-center gap-3 sm:gap-4 z-50">
       {badges.map((badge, index) => (
         <div key={index} className="relative group">
           {/* Entry animation wrapper */}
@@ -27,7 +26,7 @@ export default function FloatingBadges() {
               whileHover={{ scale: 1.14, y: -3 }}
               whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", stiffness: 380, damping: 22 }}
-            >
+            > 
               <Link
                 href={badge.href}
                 onClick={(e) => {

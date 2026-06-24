@@ -93,7 +93,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
       className="relative bg-navy py-12 sm:py-16 md:py-20"
     >
       {/* Centered Header */}
-      <div className="container mx-auto px-4 sm:px-6 mb-8 sm:mb-12">
+      <div className="container mx-auto px-5 sm:px-6 mb-8 sm:mb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -104,8 +104,8 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-display text-white font-medium uppercase leading-tight tracking-wider">
             Our Projects
           </h2>
-          <p className="mt-2.5 text-xs font-sans text-white/35 tracking-widest uppercase">
-            Scroll sideways to browse &nbsp;→
+          <p className="mt-3 text-xs font-sans text-white/50 tracking-widest uppercase">
+            Swipe or scroll to browse →
           </p>
         </motion.div>
       </div>
@@ -113,7 +113,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
       {/* Horizontally scrollable card strip with snapping */}
       <div
         ref={scrollRef}
-        className="no-scrollbar flex gap-4 sm:gap-6 px-4 sm:px-6 md:px-12 lg:px-16 pb-2 overflow-x-auto"
+        className="no-scrollbar flex gap-4 sm:gap-5 px-5 sm:px-6 md:px-12 lg:px-16 pb-3 overflow-x-auto"
         style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
       >
         {displayProjects.map((project, idx) => (
@@ -121,7 +121,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
             key={idx}
             href={`/projects/${project.slug}`}
             style={{ scrollSnapAlign: "start" }}
-            className="group shrink-0 w-[70vw] sm:w-[46vw] md:w-[32vw] lg:w-[24vw] xl:w-[20vw] h-[34vh] sm:h-[40vh] md:h-[44vh] relative overflow-hidden rounded-[20px] bg-navy-light border border-white/8 shadow-md block"
+            className="group shrink-0 w-[78vw] sm:w-[46vw] md:w-[32vw] lg:w-[24vw] xl:w-[20vw] h-[42vh] sm:h-[44vh] md:h-[46vh] relative overflow-hidden rounded-[20px] bg-navy-light border border-white/8 shadow-md block"
           >
             <Image
               src={project.image}
@@ -135,11 +135,11 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
       </div>
 
       {/* Action Buttons below the carousel */}
-      <div className="container mx-auto px-4 sm:px-6 mt-12 sm:mt-16">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+      <div className="container mx-auto px-5 sm:px-6 mt-10 sm:mt-16">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
           <Link
             href="/projects"
-            className="w-full sm:w-auto text-center px-8 py-4 bg-transparent hover:bg-gold border border-gold/40 hover:border-gold text-gold hover:text-navy font-sans text-xs md:text-sm font-bold uppercase tracking-widest rounded-xl transition-all duration-300 shadow-md cursor-pointer"
+            className="w-full sm:w-auto text-center px-8 py-4 bg-transparent hover:bg-gold border border-gold/40 hover:border-gold text-gold hover:text-navy font-sans text-xs sm:text-sm font-bold uppercase tracking-widest rounded-xl transition-all duration-300 shadow-md cursor-pointer"
           >
             All Projects View
           </Link>

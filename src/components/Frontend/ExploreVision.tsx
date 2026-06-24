@@ -13,62 +13,62 @@ export default function ExploreVision() {
   return (
     <section
       id="vision-mission-values"
-      className="py-16 sm:py-20 md:py-24 bg-off-white relative overflow-hidden"
+      className="py-14 sm:py-20 md:py-24 bg-off-white relative overflow-hidden"
     >
       {/* Top Accent Line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gold/20" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-logo/20" />
 
-      <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
+      <div className="container mx-auto px-5 sm:px-6 max-w-6xl">
         
-        {/* 3-Column Grid: Vision, Mission, Values */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-stretch text-center">
+        {/* 3-Column Grid: Vision, Mission, Values — 1-col on small mobile, 3-col on md */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-8 md:gap-12 items-stretch text-center">
           
           {/* Column 1 - OUR VISION */}
           <motion.div
             {...cardVariants(-30, 0, 0)}
-            className="rounded-3xl p-6 bg-white border border-zinc-200/50 shadow-xs flex flex-col justify-between"
+            className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 bg-white border border-zinc-200/50 shadow-xs flex flex-col justify-between"
           >
             <div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wider mb-4">
+              <h2 className="text-lg sm:text-xl font-display font-bold text-navy uppercase tracking-wider mb-3 sm:mb-4">
                 OUR VISION
               </h2>
               <p className="text-muted text-sm leading-relaxed font-sans">
                 Immerse yourself in our premier projects and architectural masterpieces, crafting landmark projects that stand the test of time.
               </p>
             </div>
-            <div className="mt-6 mx-auto w-12 h-px bg-gold opacity-60" />
+            <div className="mt-5 mx-auto w-10 h-px bg-logo opacity-60" />
           </motion.div>
 
           {/* Column 2 - OUR MISSION */}
           <motion.div
             {...cardVariants(0, 30, 0.15)}
-            className="rounded-3xl p-6 bg-white border border-zinc-200/50 shadow-xs flex flex-col justify-between"
+            className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 bg-white border border-zinc-200/50 shadow-xs flex flex-col justify-between"
           >
             <div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wider mb-4">
+              <h2 className="text-lg sm:text-xl font-display font-bold text-navy uppercase tracking-wider mb-3 sm:mb-4">
                 OUR MISSION
               </h2>
               <p className="text-muted text-sm leading-relaxed font-sans">
                 To become a leading Real Estate Company by providing a quality life to customers with the most luxurious and spacious building structures at convenient locations with world-class amenities.
               </p>
             </div>
-            <div className="mt-6 mx-auto w-12 h-px bg-gold opacity-60" />
+            <div className="mt-5 mx-auto w-10 h-px bg-logo opacity-60" />
           </motion.div>
 
           {/* Column 3 - OUR VALUES */}
           <motion.div
             {...cardVariants(30, 0, 0.3)}
-            className="rounded-3xl p-6 bg-white border border-zinc-200/50 shadow-xs flex flex-col justify-between"
+            className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 bg-white border border-zinc-200/50 shadow-xs flex flex-col justify-between"
           >
             <div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wider mb-4">
+              <h2 className="text-lg sm:text-xl font-display font-bold text-navy uppercase tracking-wider mb-3 sm:mb-4">
                 OUR VALUES
               </h2>
               <p className="text-muted text-sm leading-relaxed font-sans">
                 Transparency, integrity, innovation, and the highest standards of quality with a commitment to ensure that our customers' requirements are fully met.
               </p>
             </div>
-            <div className="mt-6 mx-auto w-12 h-px bg-gold opacity-60" />
+            <div className="mt-5 mx-auto w-10 h-px bg-logo opacity-60" />
           </motion.div>
 
         </div>
@@ -79,7 +79,7 @@ export default function ExploreVision() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="mt-16 sm:mt-20 md:mt-24 relative aspect-video w-full max-w-4xl mx-auto rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-2xl border border-zinc-200/80 bg-navy"
+          className="mt-12 sm:mt-16 md:mt-20 relative aspect-video w-full max-w-4xl mx-auto rounded-[20px] sm:rounded-[28px] overflow-hidden shadow-2xl border border-zinc-200/80 bg-navy"
         >
           <iframe
             src="https://www.youtube.com/embed/hBo6d5q9_xY?rel=0"

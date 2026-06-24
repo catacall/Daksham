@@ -3,6 +3,7 @@ import { Cinzel, Outfit } from "next/font/google";
 import "./globals.css";
 
 import ClientShell from "./ClientShell";
+import WhatsAppWidget from "@/components/Frontend/WhatsAppWidget";
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -107,7 +108,10 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-screen bg-background text-foreground antialiased"
       >
-        <ClientShell>{children}</ClientShell>
+        <ClientShell>
+          {children}
+          <WhatsAppWidget />
+        </ClientShell>
       </body>
     </html>
   );

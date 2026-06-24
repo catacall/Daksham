@@ -4,7 +4,6 @@ import About from "@/components/Frontend/About";
 import ShowCase from "@/components/Frontend/ShowCase";
 import Enquiry from "@/components/Enquiry";
 import ExploreVision from "@/components/Frontend/ExploreVision";
-import BrochureCTA from "@/components/Frontend/BrochureCTA";
 import DeveloperProfile from "@/components/Frontend/DeveloperProfile";
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
@@ -87,8 +86,6 @@ export default async function Home() {
      
       {/* Showcase Placeholder */}
       <ShowCase brochureUrl={brochureUrl} />
-      {/* Brochure CTA */}
-      
       <ExploreVision />
       {/* Enquiry */}
       <Enquiry projects={formattedProjects} />

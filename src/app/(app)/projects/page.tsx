@@ -38,17 +38,17 @@ export default async function AllProjectsPage({
   });
 
   return (
-    <div className="bg-off-white min-h-screen px-4 py-24 sm:py-28 md:py-32 sm:px-6 lg:px-8">
+    <div className="bg-off-white min-h-screen px-5 py-20 sm:py-28 md:py-32 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <FadeIn delay={0.1}>
-          <div className="mb-10 sm:mb-12 md:mb-16 border-b border-border-light pb-6 sm:pb-8">
-            <span className="text-cyan text-[10px] sm:text-xs md:text-sm font-sans font-bold tracking-[0.3em] uppercase mb-3 sm:mb-4 block">
+          <div className="mb-8 sm:mb-12 md:mb-16 border-b border-border-light pb-6 sm:pb-8">
+            <span className="eyebrow block mb-2 sm:mb-3">
               Our Portfolio
             </span>
-            <h1 className="text-3xl sm:text-4xl font-display font-medium uppercase tracking-wide text-navy md:text-5xl lg:text-6xl">
+            <h1 className="text-2xl sm:text-4xl font-display font-medium uppercase tracking-wide text-navy md:text-5xl lg:text-6xl leading-snug">
               All Developments
             </h1>
-            <p className="mt-4 sm:mt-6 text-base sm:text-lg font-sans text-muted max-w-2xl">
+            <p className="mt-3 sm:mt-5 text-sm sm:text-base font-sans text-muted max-w-2xl leading-relaxed">
               Discover our complete collection of premium real estate landmarks, blending luxury, quality, and visionary design.
             </p>
           </div>

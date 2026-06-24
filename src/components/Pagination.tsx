@@ -31,7 +31,7 @@ export function Pagination({ currentPage, totalPages, baseUrl }: PaginationProps
         <Link
           key={i}
           href={getPageUrl(i)}
-          className={`flex h-10 w-10 items-center justify-center rounded-xl font-sans text-sm font-semibold transition-all duration-300 ${
+          className={`flex h-11 w-11 items-center justify-center rounded-xl font-sans text-sm font-semibold transition-all duration-300 ${
             isActive
               ? "bg-gold text-navy shadow-md shadow-gold/20 scale-105"
               : "border border-border-light bg-white text-muted hover:border-cyan hover:text-cyan hover:scale-105"
@@ -46,18 +46,18 @@ export function Pagination({ currentPage, totalPages, baseUrl }: PaginationProps
   };
 
   return (
-    <div className="mt-12 sm:mt-16 flex items-center justify-center space-x-2">
+    <div className="mt-10 sm:mt-14 flex items-center justify-center gap-2">
       {/* Previous Button */}
       {currentPage > 1 ? (
         <Link
           href={getPageUrl(currentPage - 1)}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-light bg-white text-muted transition-all duration-300 hover:border-cyan hover:text-cyan hover:scale-105"
+          className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-light bg-white text-muted transition-all duration-300 hover:border-cyan hover:text-cyan hover:scale-105"
           aria-label="Previous Page"
         >
           <ChevronLeft className="h-5 w-5" />
         </Link>
       ) : (
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-light bg-white/50 text-muted/30 cursor-not-allowed">
+        <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-light bg-white/50 text-muted/30 cursor-not-allowed">
           <ChevronLeft className="h-5 w-5" />
         </span>
       )}
@@ -69,13 +69,13 @@ export function Pagination({ currentPage, totalPages, baseUrl }: PaginationProps
       {currentPage < totalPages ? (
         <Link
           href={getPageUrl(currentPage + 1)}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-light bg-white text-muted transition-all duration-300 hover:border-cyan hover:text-cyan hover:scale-105"
+          className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-light bg-white text-muted transition-all duration-300 hover:border-cyan hover:text-cyan hover:scale-105"
           aria-label="Next Page"
         >
           <ChevronRight className="h-5 w-5" />
         </Link>
       ) : (
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-light bg-white/50 text-muted/30 cursor-not-allowed">
+        <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-light bg-white/50 text-muted/30 cursor-not-allowed">
           <ChevronRight className="h-5 w-5" />
         </span>
       )}

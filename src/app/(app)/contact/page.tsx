@@ -79,22 +79,32 @@ export default async function ContactPage({
                         Office Addresses
                       </h3>
                       <div>
-                        <span className="font-sans text-[10px] font-bold uppercase tracking-wider text-navy block">Corporate Office</span>
-                        <p className="mt-1 font-sans text-muted leading-relaxed text-sm">
+                        <span className="font-sans text-[10px] font-bold uppercase tracking-wider text-navy block mb-1">Corporate Office</span>
+                        <a 
+                          href="https://maps.google.com/?q=Satra+Plaza,+Sector+19D,+Vashi,+Navi+Mumbai"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1 font-sans text-muted leading-relaxed text-sm hover:text-cyan transition-colors block"
+                        >
                           806, 8th Floor, Satra Plaza, Sec-19D,
                           <br />
                           19D, Palm Beach Road, Phase -2,
                           <br />
                           Vashi, Navi Mumbai - 400703
-                        </p>
+                        </a>
                       </div>
                       <div>
-                        <span className="font-sans text-[10px] font-bold uppercase tracking-wider text-navy block">Registered Office</span>
-                        <p className="mt-1 font-sans text-muted leading-relaxed text-sm">
+                        <span className="font-sans text-[10px] font-bold uppercase tracking-wider text-navy block mb-1">Registered Office</span>
+                        <a 
+                          href="https://maps.google.com/?q=Arenja+Corner,+Sector+17,+Vashi,+Navi+Mumbai"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1 font-sans text-muted leading-relaxed text-sm hover:text-cyan transition-colors block"
+                        >
                           39, Arenja Corner, Sector-17,
                           <br />
                           Vashi, Navi Mumbai - 400703
-                        </p>
+                        </a>
                       </div>
                     </div>
                   </div>

@@ -11,6 +11,7 @@ import { Media } from "./collections/Media";
 import { SiteSettings } from "./collections/globals/SiteSettings";
 import { Enquiries } from "./collections/Enquiries";
 import { Projects } from "./collections/Projects";
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 
 // Prevent leaking connection pools during Next.js hot reloading in development.
 const CachedPool = function (this: any, options: any) {
@@ -65,6 +66,15 @@ export default buildConfig({
   collections: [Users, Media, Enquiries, Projects],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
+  plugins: [
+    vercelBlobStorage({
+      enabled: true,
+      collections: {
+        media: true,
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+  ],
 
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

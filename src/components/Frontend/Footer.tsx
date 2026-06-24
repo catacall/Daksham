@@ -7,8 +7,8 @@ export default function Footer() {
       {/* Cyan accent line */}
       <div className="h-px bg-cyan/30" />
 
-      <footer className="bg-navy text-white py-12 md:py-16">
-        <div className="container mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
+      <footer className="bg-navy text-white py-10 md:py-16">
+        <div className="container mx-auto px-5 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           <div className="sm:col-span-2 lg:col-span-1">
             <h3 className="font-display font-bold text-xl md:text-2xl mb-4 md:mb-6 tracking-wider text-gold">
               DAKSHAM
@@ -55,15 +55,29 @@ export default function Footer() {
             </h4>
             <div className="flex flex-col gap-4 text-muted text-sm leading-relaxed">
               <div>
-                <span className="font-bold text-xs uppercase tracking-wider block text-white/80">Corporate Office</span>
-                806, 8th Floor, Satra Plaza, Sec-19D,<br />
-                19D, Palm Beach Road, Phase -2,<br />
-                Vashi, Navi Mumbai - 400703
+                <span className="font-bold text-xs uppercase tracking-wider block text-white/80 mb-1">Corporate Office</span>
+                <a 
+                  href="https://maps.google.com/?q=Satra+Plaza,+Sector+19D,+Vashi,+Navi+Mumbai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-cyan transition-colors block"
+                >
+                  806, 8th Floor, Satra Plaza, Sec-19D,<br />
+                  19D, Palm Beach Road, Phase -2,<br />
+                  Vashi, Navi Mumbai - 400703
+                </a>
               </div>
               <div>
-                <span className="font-bold text-xs uppercase tracking-wider block text-white/80">Registered Office</span>
-                39, Arenja Corner, Sector-17,<br />
-                Vashi, Navi Mumbai - 400703
+                <span className="font-bold text-xs uppercase tracking-wider block text-white/80 mb-1">Registered Office</span>
+                <a 
+                  href="https://maps.google.com/?q=Arenja+Corner,+Sector+17,+Vashi,+Navi+Mumbai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-cyan transition-colors block"
+                >
+                  39, Arenja Corner, Sector-17,<br />
+                  Vashi, Navi Mumbai - 400703
+                </a>
               </div>
             </div>
           </div>
@@ -92,7 +106,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 mt-12 md:mt-16 pt-8 border-t border-border-dark/50 text-center text-muted/50 text-sm">
+        <div className="container mx-auto px-5 sm:px-6 mt-10 md:mt-14 pt-6 border-t border-border-dark/50 text-center text-muted/50 text-xs sm:text-sm">
           <p>&copy; 2026 Daksham Developers. All rights reserved.</p>
         </div>
       </footer>
