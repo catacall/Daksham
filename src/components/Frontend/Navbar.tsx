@@ -72,9 +72,9 @@ export default function Navbar() {
           className="relative flex items-center justify-between
                         bg-navy rounded-xl sm:rounded-2xl
                         border border-white/8
-                        px-3 sm:px-5
+                        px-3 sm:px-5 lg:px-8
                         shadow-lg shadow-black/30
-                        h-14 sm:h-16 md:h-18"
+                        h-16 sm:h-20 md:h-24"
         >
           {/* ── LEFT: Logo ── */}
           <Link
@@ -84,26 +84,26 @@ export default function Navbar() {
           >
             <div
               className={`flex items-center transition-all duration-300 ${
-                isScrolled || !isHome ? "h-10 sm:h-11" : "h-11 sm:h-13 md:h-14"
+                isScrolled || !isHome ? "h-12 sm:h-14 md:h-16" : "h-14 sm:h-16 md:h-20"
               }`}
             >
               <Image
                 src="/daksham developers.png"
                 alt="Daksham Developers Logo"
                 className="h-full w-auto object-contain"
-                height={80}
-                width={80}
+                height={120}
+                width={120}
                 loading="eager"
-                quality={90}
+                quality={100}
                 priority
               />
             </div>
           </Link>
 
-          {/* ── CENTRE: Desktop nav links — absolutely centred in the bar ── */}
+          {/* ── CENTRE: Desktop nav links ── */}
           <nav
-            className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-                       items-center gap-0.5 lg:gap-1"
+            className="hidden md:flex flex-1 justify-center px-4
+                       items-center gap-2 lg:gap-6"
             aria-label="Main navigation"
           >
             {navLinks.map(link => {

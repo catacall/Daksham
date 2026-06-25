@@ -268,18 +268,18 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
           </h2>
           <button 
             onClick={onClose} 
-            className="w-8 h-8 rounded-full border border-border-light/40 flex items-center justify-center text-muted hover:text-navy hover:bg-off-white transition-all text-xl"
+            className="w-8 h-8 rounded-full border border-border-light/40 flex items-center justify-center text-black hover:text-navy hover:bg-off-white transition-all text-xl"
           >
             x
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-white">
+        <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-off-white">
           
           {/* Cover Photo */}
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-2">Cover Photo</label>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-2">Cover Photo</label>
             <div className="flex items-center gap-4">
               <div className="w-28 h-20 rounded-xl overflow-hidden bg-off-white border border-border-light/60 shrink-0 flex items-center justify-center">
                 {IMG(form.coverImage) ? (
@@ -296,7 +296,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
                 >
                   {uploadingCover ? "Uploading…" : "Upload Cover Photo"}
                 </button>
-                <p className="text-[11px] text-muted">Recommended: Landscape photo of site (e.g. 1600x900px)</p>
+                <p className="text-[11px] text-black ">Recommended: Landscape photo of site (e.g. 1600x900px)</p>
               </div>
               <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
             </div>
@@ -305,7 +305,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
           {/* Core Info Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">Project Name *</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">Project Name *</label>
               <input 
                 className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
                 value={form.title || ""} 
@@ -314,7 +314,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
               />
             </div>
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">Status</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">Status</label>
               <select 
                 className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all cursor-pointer"
                 value={form.status} 
@@ -325,7 +325,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
               </select>
             </div>
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">Location *</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">Location *</label>
               <input 
                 className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
                 value={form.location || ""} 
@@ -334,7 +334,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
               />
             </div>
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">Price Range</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">Price Range</label>
               <input 
                 className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
                 value={form.priceRange || ""} 
@@ -343,7 +343,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
               />
             </div>
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">Unit Types</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">Unit Types</label>
               <input 
                 className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
                 value={form.area || ""} 
@@ -352,7 +352,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
               />
             </div>
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">RERA Number</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">RERA Number</label>
               <input 
                 className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
                 value={form.reraNumber || ""} 
@@ -361,7 +361,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
               />
             </div>
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">Expected Completion</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">Expected Completion</label>
               <input 
                 className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
                 type="month" 
@@ -370,7 +370,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
               />
             </div>
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">YouTube Video Link</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">YouTube Video Link</label>
               <input 
                 className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
                 value={form.youtubeUrl || ""} 
@@ -382,7 +382,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
 
           {/* Description */}
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">Description</label>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">Description</label>
             <textarea 
               className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all resize-none"
               rows={3} 
@@ -394,7 +394,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
 
           {/* Highlights / Tags */}
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-1.5">Highlights & Features</label>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">Highlights & Features</label>
             <div className="flex flex-wrap gap-2 mb-3">
               {(form.highlights || []).map((h, i) => (
                 <span 
@@ -430,7 +430,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
 
           {/* Gallery Manager */}
           <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-2">Gallery Photos</label>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-2">Gallery Photos</label>
             <div className="flex flex-wrap gap-3 mb-2">
               {(form.images || []).map(img => (
                 <div key={img.id} className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-border-light/60 shadow-xs flex shrink-0">
@@ -443,28 +443,18 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
                   </button>
                 </div>
               ))}
-              <button 
-                onClick={() => galleryRef.current?.click()} 
-                disabled={uploadingGallery} 
-                className="w-20 h-16 border-2 border-dashed border-border-light/80 hover:border-gold rounded-xl flex items-center justify-center text-muted hover:text-gold transition-all bg-off-white/40  shrink-0"
-              >
-                {uploadingGallery ? (
-                  <span className="w-4 h-4 border-2 border-muted border-t-transparent animate-spin rounded-full" />
-                ) : (
-                  <span className="text-xl font-bold">+</span>
-                )}
-              </button>
+           
               <input ref={galleryRef} type="file" accept="image/*" multiple className="hidden" onChange={handleGalleryUpload} />
             </div>
-            <p className="text-[11px] text-muted">Hover image to remove. Select multiple files to upload gallery pictures.</p>
+            <p className="text-[11px] text-black">Hover image to remove. Select multiple files to upload gallery pictures.</p>
           </div>
 
           {/* Specifications & Interior Photos */}
           <div className="border-t border-border-light/60 pt-6">
             <div className="flex justify-between items-center mb-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-muted">Specifications & Interior Photos</label>
-                <p className="text-[11px] text-muted">Detail specifications (e.g. Living Room, Kitchen) and add corresponding interior images.</p>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-black">Specifications & Interior Photos</label>
+                <p className="text-[11px] text-black">Detail specifications (e.g. Living Room, Kitchen) and add corresponding interior images.</p>
               </div>
               <button 
                 type="button"
@@ -481,7 +471,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
                   <button
                     type="button"
                     onClick={() => removeSpecification(idx)}
-                    className="absolute top-2 right-2 text-muted hover:text-red-600 font-bold text-lg p-1 transition-all"
+                    className="absolute top-2 right-2 text-black hover:text-red-600 font-bold text-lg p-1 transition-all"
                     title="Remove Specification"
                   >
                     ×
@@ -505,7 +495,7 @@ function EditModal({ project, isNew, onClose, onSave, showNotification }: EditMo
                         <button
                           type="button"
                           onClick={() => triggerSpecImageUpload(idx)}
-                          className="text-xs text-muted hover:text-gold font-bold flex flex-col items-center gap-1 transition-all"
+                          className="text-xs text-black hover:text-gold font-bold flex flex-col items-center gap-1 transition-all"
                         >
                           <span className="text-xl">📸</span>
                           <span>Upload Photo</span>
@@ -731,7 +721,7 @@ export default function AdminPanel() {
     <div className="min-h-screen flex items-center justify-center bg-off-white">
       <div className="text-center space-y-3">
         <div className="text-5xl animate-bounce">⏳</div>
-        <p className="text-muted text-sm font-semibold tracking-wide">Loading manage dashboard…</p>
+        <p className="text-black text-sm font-semibold tracking-wide">Loading manage dashboard…</p>
       </div>
     </div>
   );
@@ -746,7 +736,7 @@ export default function AdminPanel() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-border-light/80 pb-5 mb-8">
           <div>
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-navy">Manage Console</h1>
-            <p className="text-xs text-muted mt-1 uppercase tracking-widest font-semibold">Daksham Developers — Admin Portal</p>
+            <p className="text-xs text-black mt-1 uppercase tracking-widest font-semibold">Daksham Developers — Admin Portal</p>
           </div>
           <div className="flex items-center gap-3">
             <a 
@@ -771,7 +761,7 @@ export default function AdminPanel() {
             { label: "Delivered", value: stats.delivered, color: "text-gold", border: "border-gold" },
           ].map(s => (
             <div key={s.label} className={`bg-white rounded-2xl p-4 border-t-4 ${s.border} shadow-xs transition-transform hover:-translate-y-0.5 duration-200`}>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-1">{s.label}</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-black mb-1">{s.label}</p>
               <p className={`text-2xl font-display font-extrabold ${s.color}`}>{s.value}</p>
             </div>
           ))}
@@ -787,7 +777,7 @@ export default function AdminPanel() {
                 className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all uppercase ${
                   tab === t
                     ? "bg-navy text-white shadow-xs"
-                    : "text-muted hover:text-navy hover:bg-border-light/20"
+                    : "text-black hover:text-navy hover:bg-border-light/20"
                 }`}
               >
                 {t === "projects" 
@@ -826,7 +816,7 @@ export default function AdminPanel() {
               <div className="text-center py-16 bg-white rounded-3xl border border-border-light/50 shadow-xs space-y-2">
                 <span className="text-5xl block">🏗️</span>
                 <p className="font-bold text-navy">No projects registered yet</p>
-                <p className="text-xs text-muted max-w-xs mx-auto">Click "Add New Project" to insert custom project details.</p>
+                <p className="text-xs text-black max-w-xs mx-auto">Click "Add New Project" to insert custom project details.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -842,7 +832,7 @@ export default function AdminPanel() {
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                         />
                       ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-muted/50 gap-2">
+                        <div className="w-full h-full flex flex-col items-center justify-center text-black/50 gap-2">
                           <span className="text-4xl">🏗️</span>
                           <span className="text-xs font-semibold">No Cover Photo</span>
                         </div>
@@ -861,12 +851,12 @@ export default function AdminPanel() {
                       <h3 className="font-display text-xl font-bold text-navy mb-2 group-hover:text-gold transition-colors duration-200">
                         {p.title}
                       </h3>
-                      <div className="flex items-center text-xs text-muted mb-4 font-medium">
+                      <div className="flex items-center text-xs text-black mb-4 font-medium">
                         <span className="mr-1">📍</span>
                         <span className="truncate">{p.location}</span>
                       </div>
                       
-                      <div className="flex justify-between items-center text-xs text-muted/80 pt-4 border-t border-border-light/50 mt-auto">
+                      <div className="flex justify-between items-center text-xs text-black/80 pt-4 border-t border-border-light/50 mt-auto">
                         <span>{p.area || "No Config"}</span>
                         <span className="font-bold text-navy">{p.priceRange || "Price on Request"}</span>
                       </div>
@@ -912,7 +902,7 @@ export default function AdminPanel() {
               <div className="text-center py-16 bg-white rounded-3xl border border-border-light/50 shadow-xs space-y-2">
                 <span className="text-5xl block">📭</span>
                 <p className="font-bold text-navy">No enquiries received yet</p>
-                <p className="text-xs text-muted max-w-xs mx-auto">When clients submit enquiry forms on the website, they will appear here instantly.</p>
+                <p className="text-xs text-black max-w-xs mx-auto">When clients submit enquiry forms on the website, they will appear here instantly.</p>
               </div>
             ) : (
               <div className="bg-white rounded-3xl border border-border-light/60 shadow-xs overflow-hidden">
@@ -934,12 +924,12 @@ export default function AdminPanel() {
                             className="w-4 h-4 rounded border-border-light text-navy focus:ring-gold accent-gold cursor-pointer"
                           />
                         </th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-muted">Client Details</th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-muted">Project Interested</th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-muted">Email</th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-muted">Status</th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-muted">Received Date</th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-muted w-24"></th>
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">Client Details</th>
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">Project Interested</th>
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">Email</th>
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">Status</th>
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">Received Date</th>
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black w-24"></th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-light/30">
@@ -977,7 +967,7 @@ export default function AdminPanel() {
                                 </a>
                               </td>
                               <td className="py-4 px-6 text-sm text-navy/80">{enq.projectInterestedIn?.title || "—"}</td>
-                              <td className="py-4 px-6 text-sm text-muted">{enq.email}</td>
+                              <td className="py-4 px-6 text-sm text-black">{enq.email}</td>
                               <td className="py-4 px-6" onClick={e => e.stopPropagation()}>
                                 <select
                                   value={enq.status}
@@ -991,7 +981,7 @@ export default function AdminPanel() {
                                   ))}
                                 </select>
                               </td>
-                              <td className="py-4 px-6 text-xs text-muted font-semibold whitespace-nowrap">
+                              <td className="py-4 px-6 text-xs text-black font-semibold whitespace-nowrap">
                                 {new Date(enq.createdAt).toLocaleDateString("en-IN", {
                                   day: "numeric",
                                   month: "short",
@@ -1002,14 +992,14 @@ export default function AdminPanel() {
                                 <div className="flex justify-end gap-1">
                                   <button 
                                     onClick={() => setExpandedEnq(expanded ? null : enq.id)}
-                                    className="p-2 text-muted hover:text-navy rounded-xl transition-all text-sm font-bold"
+                                    className="p-2 text-black hover:text-navy rounded-xl transition-all text-sm font-bold"
                                   >
                                     {expanded ? "▲" : "▼"}
                                   </button>
                                   <button 
                                     onClick={() => handleSingleDelete(enq.id)}
                                     title="Delete Lead"
-                                    className="p-2 text-muted hover:text-red-600 rounded-xl transition-all text-sm font-bold"
+                                    className="p-2 text-black hover:text-red-600 rounded-xl transition-all text-sm font-bold"
                                   >
                                     🗑️
                                   </button>
@@ -1023,13 +1013,13 @@ export default function AdminPanel() {
                                 <td colSpan={7} className="bg-off-white/30 p-6 border-b border-border-light/40">
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                      <span className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-2">Message Payload</span>
+                                      <span className="block text-[10px] font-bold uppercase tracking-wider text-black mb-2">Message Payload</span>
                                       <div className="bg-white rounded-2xl p-4 border border-border-light/40 text-sm text-navy leading-relaxed shadow-xs">
                                         {enq.message}
                                       </div>
                                     </div>
                                     <div>
-                                      <span className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-2">Staff Notes (Editable)</span>
+                                      <span className="block text-[10px] font-bold uppercase tracking-wider text-black mb-2">Staff Notes (Editable)</span>
                                       <div className="flex flex-col gap-2">
                                         <textarea
                                           className="w-full bg-white border border-border-light/60 rounded-2xl p-4 text-sm text-navy outline-none focus:border-gold transition-all resize-none"
@@ -1067,14 +1057,14 @@ export default function AdminPanel() {
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-border-light/60 shadow-xs space-y-6">
             <div>
               <h2 className="font-display text-xl font-bold text-navy mb-1">Website Settings</h2>
-              <p className="text-xs text-muted">Manage global settings, documents, and brochure downloads for the main website.</p>
+              <p className="text-xs text-black">Manage global settings, documents, and brochure downloads for the main website.</p>
             </div>
 
             <div className="border-t border-border-light/60 pt-6">
               <div className="max-w-xl space-y-4">
                 <div>
                   <h3 className="text-sm font-bold text-navy uppercase tracking-wider mb-2">Website Brochure (E-Brochure PDF)</h3>
-                  <p className="text-xs text-muted mb-4">Upload the PDF brochure that users will download when they submit the brochure request form on the home page.</p>
+                  <p className="text-xs text-black mb-4">Upload the PDF brochure that users will download when they submit the brochure request form on the home page.</p>
                 </div>
 
                 <div className="flex items-center gap-4 p-4 border border-border-light/60 rounded-2xl bg-off-white/20">
@@ -1085,7 +1075,7 @@ export default function AdminPanel() {
                     <p className="text-sm font-bold text-navy truncate">
                       {settings?.brochure?.filename || "No brochure uploaded"}
                     </p>
-                    <p className="text-xs text-muted">
+                    <p className="text-xs text-black">
                       {settings?.brochure?.filesize 
                         ? `${(settings.brochure.filesize / 1024 / 1024).toFixed(2)} MB` 
                         : "Upload a PDF document"

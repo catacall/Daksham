@@ -89,7 +89,7 @@ export default function Hero() {
             onClick={scrollToProjects}
             whileHover={{
               scale: 1.04,
-              boxShadow: "0 12px 32px rgba(84,143,139,0.35)", // rgba of #548F8B
+              boxShadow: "0 12px 32px bg-[#548F8B]", // rgba of #548F8B
             }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 380, damping: 26 }}
@@ -103,8 +103,8 @@ export default function Hero() {
             onClick={openEnquiry}
             whileHover={{
               scale: 1.04,
-              borderColor: "rgba(84,143,139,1)", // rgba of #548F8B
-              color: "rgba(84,143,139,1)",
+              borderColor: "bg-[#548F8B]", // rgba of #548F8B
+              // color: "bg-[#548F8B]",
               boxShadow: "0 8px 24px rgba(84,143,139,0.2)",
             }}
             whileTap={{ scale: 0.97 }}
