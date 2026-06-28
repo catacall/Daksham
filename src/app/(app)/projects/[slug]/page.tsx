@@ -352,6 +352,9 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </div>
               </FadeIn>
             )}
+
+            {/* Virtual Tour Links */}
+          
             
           </div>
 

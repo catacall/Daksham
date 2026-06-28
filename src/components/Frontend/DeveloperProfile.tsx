@@ -46,7 +46,6 @@ export default function DeveloperProfile() {
                   fill
                   sizes="(max-width: 768px) 100vw, 360px"
                   className="object-contain p-2"
-                  priority
                 />
               </div>
             </div>
@@ -59,12 +58,10 @@ export default function DeveloperProfile() {
                   alt="Visionary Leadership Profile"
                   fill
                   sizes="(max-width: 768px) 100vw, 360px"
-                  className="object-cover object-center grayscale hover:grayscale-0 transition-all duration-700"
-                  priority
+                  className="object-cover object-center transition-all duration-700 border-8 rounded-b-4xl"
                 />
               </div>
             </div>
-
           </div>
 
           {/* Description Text under the images */}

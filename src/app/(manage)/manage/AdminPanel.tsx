@@ -71,7 +71,7 @@ const api = {
     return (await r.json()).docs || [];
   },
   async createProject(data: Record<string, unknown>): Promise<Project | null> {
-    const r = await fetch("/api/projects", {
+    const r = await fetch("/api/admin-data/projects", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -84,7 +84,7 @@ const api = {
     id: string,
     data: Record<string, unknown>,
   ): Promise<boolean> {
-    const r = await fetch(`/api/projects/${id}`, {
+    const r = await fetch(`/api/admin-data/projects/${id}`, {
       method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -387,7 +387,6 @@ function EditModal({
       console.error("[handleSave] Unexpected error:", err);
       showNotification("An unexpected error occurred. Please try again.", "error");
     } finally {
-      // Always clear the saving state so the button is never permanently stuck.
       setSaving(false);
     }
   };
@@ -395,377 +394,155 @@ function EditModal({
   return (
     <div className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-border-light/50">
-        {/* Header */}
-        <div className="px-6 py-5 border-b border-border-light/60 flex items-center justify-between bg-white">
-          <h2 className="font-display text-xl font-bold text-navy">
-            {isNew ? "Add New Project" : `Edit: ${project?.title}`}
-          </h2>
+
+        {/* ── Header ── */}
+        <div className="px-6 py-5 border-b border-border-light/20 flex items-center justify-between bg-navy shrink-0">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold mb-0.5">
+              {isNew ? "New Project" : "Edit Project"}
+            </p>
+            <h2 className="font-display text-lg font-bold text-white">
+              {isNew ? "Add New Project" : project?.title}
+            </h2>
+          </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full border border-border-light/40 flex items-center justify-center text-black hover:text-navy hover:bg-off-white transition-all text-xl"
+            className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all text-base"
           >
-            x
+            ✕
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-off-white">
-          {/* Cover Photo */}
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-2">
-              Cover Photo
-            </label>
-            <div className="flex items-center gap-4">
-              <div className="w-28 h-20 rounded-xl overflow-hidden bg-off-white border border-border-light/60 shrink-0 flex items-center justify-center">
-                {IMG(form.coverImage) ? (
-                  <img
-                    src={IMG(form.coverImage)!}
-                    alt="cover"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span className="text-3xl">🏗️</span>
-                )}
-              </div>
-              <div className="flex-1 space-y-1">
-                <button
-                  onClick={() => coverRef.current?.click()}
-                  disabled={uploadingCover}
-                  className="bg-white hover:bg-off-white text-navy border border-border-light text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all"
-                >
-                  {uploadingCover ? "Uploading…" : "Upload Cover Photo"}
-                </button>
-                <p className="text-[11px] text-black ">
-                  Recommended: Landscape photo of site (e.g. 1600x900px)
-                </p>
-              </div>
-              <input
-                ref={coverRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleCoverUpload}
-              />
-            </div>
-          </div>
+        {/* ── Scrollable body ── */}
+        <div className="overflow-y-auto flex-1 bg-off-white">
+          <div className="p-6 space-y-5">
 
-          {/* Core Info Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-                Project Name *
-              </label>
-              <input
-                className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
-                value={form.title || ""}
-                onChange={e => set("title", e.target.value)}
-                placeholder="e.g. Sai World City"
-              />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-                Status
-              </label>
-              <select
-                className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all cursor-pointer"
-                value={form.status}
-                onChange={e => set("status", e.target.value)}
-              >
-                <option value="ongoing">🏗️ Ongoing</option>
-                <option value="delivered">✅ Delivered</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-                Location *
-              </label>
-              <input
-                className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
-                value={form.location || ""}
-                onChange={e => set("location", e.target.value)}
-                placeholder="e.g. Panvel, Navi Mumbai"
-              />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-                Price Range
-              </label>
-              <input
-                className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
-                value={form.priceRange || ""}
-                onChange={e => set("priceRange", e.target.value)}
-                placeholder="e.g. ₹45L – ₹90L"
-              />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-                Unit Types
-              </label>
-              <input
-                className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
-                value={form.area || ""}
-                onChange={e => set("area", e.target.value)}
-                placeholder="e.g. 2, 3 & 4 BHK"
-              />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-                RERA Number
-              </label>
-              <input
-                className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
-                value={form.reraNumber || ""}
-                onChange={e => set("reraNumber", e.target.value)}
-                placeholder="P52100XXXXX"
-              />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-                Expected Completion
-              </label>
-              <input
-                className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
-                type="month"
-                value={form.completionDate || ""}
-                onChange={e => set("completionDate", e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-                YouTube Video Link
-              </label>
-              <input
-                className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
-                value={form.youtubeUrl || ""}
-                onChange={e => set("youtubeUrl", e.target.value)}
-                placeholder="https://youtube.com/watch?v=..."
-              />
-            </div>
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-              Description
-            </label>
-            <textarea
-              className="w-full px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all resize-none"
-              rows={3}
-              value={form.description || ""}
-              onChange={e => set("description", e.target.value)}
-              placeholder="Provide a short luxury description about this project…"
-            />
-          </div>
-
-          {/* Highlights / Tags */}
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-1.5">
-              Highlights & Features
-            </label>
-            <div className="flex flex-wrap gap-2 mb-3">
-              {(form.highlights || []).map((h, i) => (
-                <span
-                  key={i}
-                  className="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 text-amber-800 rounded-full px-3 py-1 text-xs font-semibold"
-                >
-                  {h.point}
-                  <button
-                    onClick={() => removeHighlight(i)}
-                    className="text-amber-600 hover:text-amber-900 font-bold ml-0.5 text-sm"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <input
-                className="flex-1 px-4 py-3 bg-white border border-border-light/80 rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
-                value={newHighlight}
-                onChange={e => setNewHighlight(e.target.value)}
-                placeholder="Add feature e.g. Smart Home Automation"
-                onKeyDown={e =>
-                  e.key === "Enter" && (e.preventDefault(), addHighlight())
-                }
-              />
-              <button
-                onClick={addHighlight}
-                className="bg-white hover:bg-off-white text-navy border border-border-light text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-all"
-              >
-                Add
-              </button>
-            </div>
-          </div>
-
-          {/* Gallery Manager */}
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-black mb-2">
-              Gallery Photos
-            </label>
-            <div className="flex flex-wrap gap-3 mb-2">
-              {(form.images || []).map(img => (
-                <div
-                  key={img.id}
-                  className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-border-light/60 shadow-xs flex shrink-0"
-                >
-                  <img
-                    src={img.url}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                  <button
-                    onClick={() => removeGalleryImage(img.id)}
-                    className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
-                  >
-                    Remove
-                  </button>
+            {/* Cover Photo */}
+            <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Cover Photo</p>
+              <div className="flex items-center gap-4">
+                <div className="w-24 h-18 rounded-xl overflow-hidden bg-off-white border border-border-light shrink-0 flex items-center justify-center">
+                  {IMG(form.coverImage) ? (
+                    <img src={IMG(form.coverImage)!} alt="cover" className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-3xl">🏗️</span>
+                  )}
                 </div>
-              ))}
-
-              <input
-                ref={galleryRef}
-                type="file"
-                accept="image/*"
-                multiple
-                className="hidden"
-                onChange={handleGalleryUpload}
-              />
-            </div>
-            <p className="text-[11px] text-black">
-              Hover image to remove. Select multiple files to upload gallery
-              pictures.
-            </p>
-          </div>
-
-          {/* Specifications & Interior Photos */}
-          <div className="border-t border-border-light/60 pt-6">
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-black">
-                  Specifications & Interior Photos
-                </label>
-                <p className="text-[11px] text-black">
-                  Detail specifications (e.g. Living Room, Kitchen) and add
-                  corresponding interior images.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={addSpecification}
-                className="bg-white hover:bg-off-white text-navy border border-border-light text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl transition-all"
-              >
-                + Add Specification
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              {(form.specifications || []).map((spec, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 border border-border-light/60 rounded-2xl bg-off-white/20 space-y-3 relative group"
-                >
-                  <button
-                    type="button"
-                    onClick={() => removeSpecification(idx)}
-                    className="absolute top-2 right-2 text-black hover:text-red-600 font-bold text-lg p-1 transition-all"
-                    title="Remove Specification"
-                  >
-                    ×
+                <div className="space-y-1.5">
+                  <button onClick={() => coverRef.current?.click()} disabled={uploadingCover} className="bg-navy hover:bg-gold text-white hover:text-navy text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all">
+                    {uploadingCover ? "Uploading…" : "Upload Cover Photo"}
                   </button>
+                  <p className="text-[11px] text-muted">Recommended: 1600×900px landscape</p>
+                </div>
+                <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
+              </div>
+            </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {/* Specification image section */}
-                    <div className="md:col-span-1 flex flex-col items-center justify-center border border-dashed border-border-light/80 rounded-xl p-3 bg-white min-h-[120px]">
-                      {spec.image ? (
-                        <div className="relative w-full h-24 rounded-lg overflow-hidden group/img">
-                          <img
-                            src={spec.image.url}
-                            alt=""
-                            className="w-full h-full object-cover"
-                          />
-                          <button
-                            type="button"
-                            onClick={() =>
-                              updateSpecification(idx, "image", null)
-                            }
-                            className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => triggerSpecImageUpload(idx)}
-                          className="text-xs text-black hover:text-gold font-bold flex flex-col items-center gap-1 transition-all"
-                        >
-                          <span className="text-xl">📸</span>
-                          <span>Upload Photo</span>
-                        </button>
-                      )}
-                    </div>
+            {/* Core Fields */}
+            <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-4">Project Details</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Project Name *</label>
+                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.title || ""} onChange={e => set("title", e.target.value)} placeholder="e.g. Sai World City" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Status</label>
+                  <select className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all cursor-pointer" value={form.status} onChange={e => set("status", e.target.value)}>
+                    <option value="ongoing">🏗️ Ongoing</option>
+                    <option value="delivered">✅ Delivered</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Location *</label>
+                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.location || ""} onChange={e => set("location", e.target.value)} placeholder="e.g. Panvel, Navi Mumbai" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Price Range</label>
+                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.priceRange || ""} onChange={e => set("priceRange", e.target.value)} placeholder="e.g. ₹45L – ₹90L" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Unit Types</label>
+                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.area || ""} onChange={e => set("area", e.target.value)} placeholder="e.g. 2, 3 & 4 BHK" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">RERA Number</label>
+                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.reraNumber || ""} onChange={e => set("reraNumber", e.target.value)} placeholder="P52100XXXXX" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Expected Completion</label>
+                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" type="month" value={form.completionDate || ""} onChange={e => set("completionDate", e.target.value)} />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">YouTube Video Link</label>
+                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.youtubeUrl || ""} onChange={e => set("youtubeUrl", e.target.value)} placeholder="https://youtube.com/watch?v=..." />
+                </div>
+              </div>
+            </div>
 
-                    {/* Specification fields section */}
-                    <div className="md:col-span-2 space-y-2">
-                      <input
-                        className="w-full px-3 py-2 bg-white border border-border-light/80 rounded-lg text-sm text-navy outline-none focus:border-gold transition-all"
-                        value={spec.title || ""}
-                        onChange={e =>
-                          updateSpecification(idx, "title", e.target.value)
-                        }
-                        placeholder="Specification Title (e.g. Living Room)"
-                      />
-                      <textarea
-                        className="w-full px-3 py-2 bg-white border border-border-light/80 rounded-lg text-sm text-navy outline-none focus:border-gold transition-all resize-none"
-                        rows={2}
-                        value={spec.description || ""}
-                        onChange={e =>
-                          updateSpecification(
-                            idx,
-                            "description",
-                            e.target.value,
-                          )
-                        }
-                        placeholder="Specification description details..."
-                      />
-                    </div>
+            {/* Description */}
+            <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Description</label>
+              <textarea className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all resize-none" rows={4} value={form.description || ""} onChange={e => set("description", e.target.value)} placeholder="Provide a short luxury description about this project…" />
+            </div>
+
+            {/* Highlights */}
+            <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Highlights &amp; Features</label>
+              <div className="flex flex-wrap gap-2 mb-3 min-h-[28px]">
+                {(form.highlights || []).map((h, i) => (
+                  <span key={i} className="inline-flex items-center gap-1.5 bg-gold/10 border border-gold/30 text-navy rounded-full px-3 py-1 text-xs font-semibold">
+                    {h.point}
+                    <button onClick={() => removeHighlight(i)} className="text-navy/40 hover:text-red-600 font-bold leading-none transition-colors">×</button>
+                  </span>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <input className="flex-1 px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={newHighlight} onChange={e => setNewHighlight(e.target.value)} placeholder="e.g. Smart Home Automation" onKeyDown={e => e.key === "Enter" && (e.preventDefault(), addHighlight())} />
+                <button onClick={addHighlight} className="bg-navy hover:bg-gold text-white hover:text-navy text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all">Add</button>
+              </div>
+            </div>
+
+            {/* Gallery */}
+            <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Gallery Photos</p>
+              <div className="flex flex-wrap gap-3 mb-3">
+                {(form.images || []).map(img => (
+                  <div key={img.id} className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-border-light shadow-xs shrink-0">
+                    <img src={img.url} alt="" className="w-full h-full object-cover" />
+                    <button onClick={() => removeGalleryImage(img.id)} className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs">
+                      Remove
+                    </button>
                   </div>
-                </div>
-              ))}
+                ))}
+                <button onClick={() => galleryRef.current?.click()} disabled={uploadingGallery} className="w-20 h-16 rounded-xl border-2 border-dashed border-border-light flex flex-col items-center justify-center text-muted hover:border-gold hover:text-gold transition-all shrink-0 text-xl font-light">
+                  {uploadingGallery ? <span className="text-xs font-bold">…</span> : "＋"}
+                </button>
+              </div>
+              <p className="text-[11px] text-muted">Hover over image to remove. Click ＋ to add more.</p>
+              <input ref={galleryRef} type="file" accept="image/*" multiple className="hidden" onChange={handleGalleryUpload} />
             </div>
-            {/* Hidden file input for specification images */}
-            <input
-              ref={specImageRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleSpecImageUpload}
-            />
+
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-4 border-t border-border-light/60 bg-off-white/30 flex justify-end gap-3">
-          <button
-            onClick={onClose}
-            className="bg-white hover:bg-off-white text-navy border border-border-light text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-all"
-          >
+        {/* ── Footer — always pinned ── */}
+        <div className="px-6 py-4 border-t border-border-light/60 bg-white flex justify-end gap-3 shrink-0">
+          <button onClick={onClose} className="text-navy border border-border-light bg-off-white hover:bg-border-light text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-all">
             Cancel
           </button>
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="bg-gold hover:bg-gold-light text-navy font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all shadow-sm shadow-gold/10"
-          >
+          <button onClick={handleSave} disabled={saving} className="bg-gold hover:bg-gold-light text-navy font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed">
             {saving ? "Saving…" : isNew ? "Create Project" : "Save Changes"}
           </button>
         </div>
+
       </div>
     </div>
   );
 }
 
 // ─── Main Admin Panel ─────────────────────────────────────────
+
 export default function AdminPanel() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
