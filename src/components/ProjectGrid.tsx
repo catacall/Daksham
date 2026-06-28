@@ -1,5 +1,5 @@
 "use client";
-import { ProjectCard } from "./ProjectCard";
+import { ProjectCard } from "@/components/ProjectCard";
 import { motion } from "framer-motion";
 
 // Project type not required in this file; remove unused declaration

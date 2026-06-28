@@ -33,6 +33,7 @@ export default async function AllProjectsPage({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collection: "projects" as any,
     sort: "-publishedAt",
+    depth: 2,
     page,
     limit,
   });

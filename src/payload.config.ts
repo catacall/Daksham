@@ -6,13 +6,12 @@ import { buildConfig } from "payload";
 import { fileURLToPath } from "url";
 import sharp from "sharp";
 import pg from "pg";
-import { Users } from "./collections/Users";
-import { Media } from "./collections/Media";
-import { SiteSettings } from "./collections/globals/SiteSettings";
-import { Enquiries } from "./collections/Enquiries";
-import { Projects } from "./collections/Projects";
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
-
+import { Users } from "@/collections/Users";
+import { Media } from "@/collections/Media";
+import { SiteSettings } from "@/collections/globals/SiteSettings";
+import { Enquiries } from "@/collections/Enquiries";
+import { Projects } from "@/collections/Projects";
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';import { resendAdapter } from "@payloadcms/email-resend";
 // Prevent leaking connection pools during Next.js hot reloading in development.
 const CachedPool = function (this: any, options: any) {
   if (process.env.NODE_ENV === "development") {
@@ -68,7 +67,7 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || "",
   plugins: [
     vercelBlobStorage({
-      enabled: true,
+      enabled: process.env.NODE_ENV === 'production',
       collections: {
         media: true,
       },
@@ -89,4 +88,14 @@ export default buildConfig({
   }),
 
   sharp,
+
+
+
+
+  email: resendAdapter({
+    defaultFromAddress: 'dev@payloadcms.com',
+    defaultFromName: 'Payload CMS',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
+
 });

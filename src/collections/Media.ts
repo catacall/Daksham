@@ -1,4 +1,9 @@
 import type { CollectionConfig } from 'payload'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -7,16 +12,11 @@ export const Media: CollectionConfig = {
     create: ({ req }) => !!req.user,
     update: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
-  },  
+  },
   upload: {
-    staticDir: 'media',
-    disableLocalStorage: true,
-    formatOptions: {
-      format: 'webp',
-      options: {
-        quality: 85,
-      },
-    },
+    staticDir: path.resolve(dirname, '../../media'),
+    // Allow images AND PDFs (for brochure uploads)
+    mimeTypes: ['image/*', 'application/pdf'],
     imageSizes: [
       {
         name: 'thumbnail',
@@ -38,13 +38,12 @@ export const Media: CollectionConfig = {
       },
     ],
     adminThumbnail: 'thumbnail',
-    mimeTypes: ['image/*'],
   },
   fields: [
     {
       name: 'alt',
       type: 'text',
-      required: true,
+      required: false,
     },
   ],
 }

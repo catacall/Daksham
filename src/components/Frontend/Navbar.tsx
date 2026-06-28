@@ -61,20 +61,14 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        isScrolled || !isHome ? "py-1.5" : "py-2 md:py-3"
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 border-b ${
+        isScrolled || !isHome ? "bg-white border-border shadow-sm py-0" : "bg-transparent border-transparent py-2 md:py-4"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}
-      <div className="container mx-auto px-3 sm:px-5 lg:px-8">
-        {/* Use relative positioning on the bar so the nav can be absolutely centred */}
+      <div className="w-full px-6 sm:px-12 lg:px-20">
         <div
-          className="relative flex items-center justify-between
-                        bg-navy rounded-xl sm:rounded-2xl
-                        border border-white/8
-                        px-3 sm:px-5 lg:px-8
-                        shadow-lg shadow-black/30
-                        h-16 sm:h-20 md:h-24"
+          className="relative flex items-center justify-between h-16 sm:h-20 md:h-24"
         >
           {/* ── LEFT: Logo ── */}
           <Link
@@ -116,21 +110,21 @@ export default function Navbar() {
                     onMouseLeave={() => setDropdownOpen(false)}
                   >
                     <button
-                      className={`flex items-center gap-1 px-3 lg:px-4 py-2 rounded-lg
-                        text-xs lg:text-sm font-sans font-semibold uppercase tracking-wide
+                      className={`flex items-center gap-1 px-3 lg:px-4 py-2
+                        text-xs font-sans font-bold uppercase tracking-[0.15em]
                         transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                          dropdownOpen
-                            ? "text-logo bg-white"
-                            : "text-white/80 hover:text-logo hover:bg-white"
+                          (isScrolled || !isHome)
+                            ? (dropdownOpen ? "text-logo" : "text-navy hover:text-logo")
+                            : (dropdownOpen ? "text-logo" : "text-navy hover:text-logo")
                         }`}
                     >
                       Projects
                       <ChevronDown
-                        size={13}
+                        size={14}
                         className={`shrink-0 transform transition-transform duration-300 ${
                           dropdownOpen
                             ? "rotate-180 text-logo"
-                            : "text-white/40"
+                            : "text-navy/40"
                         }`}
                       />
                     </button>
@@ -142,36 +136,36 @@ export default function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.97 }}
                           transition={{ duration: 0.18 }}
-                          className="absolute top-full left-0 mt-2 w-52
-                                     glass rounded-xl shadow-2xl shadow-black/50
-                                     py-1.5 z-50 overflow-hidden"
+                          className="absolute top-full left-0 mt-2 w-56
+                                     structural-panel shadow-xl
+                                     py-2 z-50 overflow-hidden"
                         >
                           <Link
                             href="/projects"
-                            className="flex items-center gap-2 px-4 py-3 text-xs font-sans
-                                       font-bold uppercase tracking-wider text-logo
-                                       hover:text-logo-light hover:bg-white/5
-                                       border-b border-white/5 transition-all"
+                            className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
+                                       font-bold uppercase tracking-widest text-navy
+                                       hover:text-logo hover:bg-off-white
+                                       border-b border-border transition-all"
                           >
-                            <span className="w-1.5 h-1.5 rounded-full bg-logo shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-none bg-logo shrink-0" />
                             View All Projects
                           </Link>
                           <Link
                             href="/projects/ongoing"
-                            className="flex items-center gap-2 px-4 py-3 text-xs font-sans
-                                       font-semibold uppercase tracking-wider text-white/70
-                                       hover:text-logo hover:bg-white/5 transition-all"
+                            className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
+                                       font-bold uppercase tracking-widest text-navy/70
+                                       hover:text-logo hover:bg-off-white transition-all"
                           >
-                            <span className="w-1.5 h-1.5 rounded-full bg-white/30 shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
                             Ongoing Projects
                           </Link>
                           <Link
                             href="/projects/delivered"
-                            className="flex items-center gap-2 px-4 py-3 text-xs font-sans
-                                       font-semibold uppercase tracking-wider text-white/70
-                                       hover:text-logo hover:bg-white/5 transition-all"
+                            className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
+                                       font-bold uppercase tracking-widest text-navy/70
+                                       hover:text-logo hover:bg-off-white transition-all"
                           >
-                            <span className="w-1.5 h-1.5 rounded-full bg-white/30 shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
                             Delivered Projects
                           </Link>
                         </motion.div>
@@ -182,19 +176,19 @@ export default function Navbar() {
               }
 
               return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`flex items-center justify-center px-3 lg:px-4 py-2 rounded-lg
-                    text-xs lg:text-sm font-sans font-semibold uppercase tracking-wide
-                    transition-all duration-200 whitespace-nowrap ${
-                      isActive(link.href)
-                        ? "text-logo bg-white"
-                        : "text-white/80 hover:text-logo hover:bg-white"
-                    }`}
-                >
-                  {link.name}
-                </Link>
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`flex items-center justify-center px-3 lg:px-4 py-2
+                      text-xs font-sans font-bold uppercase tracking-[0.15em]
+                      transition-all duration-200 whitespace-nowrap ${
+                        isActive(link.href)
+                          ? "text-logo"
+                          : ((isScrolled || !isHome) ? "text-navy hover:text-logo" : "text-navy hover:text-logo")
+                      }`}
+                  >
+                    {link.name}
+                  </Link>
               );
             })}
           </nav>
@@ -207,10 +201,9 @@ export default function Navbar() {
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
               className="hidden md:inline-flex items-center gap-1.5
-                         px-4 py-2 rounded-lg
-                         bg-accent hover:bg-amber-300 text-navy
-                         text-xs lg:text-sm font-sans font-bold
-                         uppercase tracking-wider
+                         px-6 py-3 bg-navy hover:bg-logo text-white
+                         text-[11px] font-sans font-bold
+                         uppercase tracking-[0.15em]
                          transition-all duration-200 cursor-pointer whitespace-nowrap"
               style={{ minHeight: "unset" }}
             >
@@ -283,21 +276,21 @@ export default function Navbar() {
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
               className="fixed top-0 right-0 h-full w-[min(82vw,320px)]
-                         bg-navy border-l border-white/8
+                         bg-off-white border-l border-border
                          flex flex-col z-60 md:hidden shadow-2xl"
             >
               {/* Panel header */}
-              <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-white/8">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-logo" />
-                  <span className="text-white/50 text-[10px] font-sans uppercase tracking-[0.25em]">
+              <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-border">
+                <div className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 rounded-none bg-logo" />
+                  <span className="text-navy/50 text-[10px] font-sans uppercase tracking-[0.25em] font-bold">
                     Navigation
                   </span>
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg
-                             text-white/60 hover:text-white hover:bg-white/8 transition-colors"
+                  className="flex items-center justify-center w-8 h-8
+                             text-navy/60 hover:text-logo hover:bg-navy/5 transition-colors"
                   style={{ minHeight: "unset" }}
                   aria-label="Close Menu"
                 >
@@ -317,12 +310,12 @@ export default function Navbar() {
                           transition={{ delay: i * 0.06, duration: 0.28 }}
                           onClick={() => setMobileProjectsOpen(prev => !prev)}
                           className={`w-full flex items-center justify-between
-                            px-4 py-3.5 rounded-xl
-                            text-sm font-display font-medium uppercase tracking-wider
+                            px-6 py-4 border-b border-border-light
+                            text-xs font-sans font-bold uppercase tracking-[0.15em]
                             transition-all cursor-pointer ${
                               mobileProjectsOpen
-                                ? "text-logo bg-logo/10"
-                                : "text-white/85 hover:text-logo hover:bg-white/5"
+                                ? "text-logo bg-navy/5"
+                                : "text-navy hover:text-logo hover:bg-navy/5"
                             }`}
                           style={{ minHeight: "unset" }}
                         >
@@ -332,7 +325,7 @@ export default function Navbar() {
                             className={`transform transition-transform duration-300 ${
                               mobileProjectsOpen
                                 ? "rotate-180 text-logo"
-                                : "text-white/30"
+                                : "text-navy/30"
                             }`}
                           />
                         </motion.button>
@@ -346,31 +339,31 @@ export default function Navbar() {
                               transition={{ duration: 0.2 }}
                               className="overflow-hidden"
                             >
-                              <div className="flex flex-col ml-4 pl-3 py-1 gap-0.5 border-l-2 border-logo/25">
+                              <div className="flex flex-col pl-6 py-2 gap-1 border-b border-border-light bg-navy/5">
                                 <Link
                                   href="/projects"
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="px-3 py-2.5 rounded-lg text-xs font-sans font-bold uppercase
-                                             tracking-wider text-logo hover:text-logo-light
-                                             hover:bg-white/5 transition-colors"
+                                  className="px-4 py-3 text-[11px] font-sans font-bold uppercase
+                                             tracking-[0.15em] text-logo hover:text-logo-light
+                                             transition-colors"
                                 >
                                   All Projects
                                 </Link>
                                 <Link
                                   href="/projects/ongoing"
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="px-3 py-2.5 rounded-lg text-xs font-sans font-semibold uppercase
-                                             tracking-wider text-white/55 hover:text-logo
-                                             hover:bg-white/5 transition-colors"
+                                  className="px-4 py-3 text-[11px] font-sans font-bold uppercase
+                                             tracking-[0.15em] text-navy/70 hover:text-logo
+                                             transition-colors"
                                 >
                                   Ongoing Projects
                                 </Link>
                                 <Link
                                   href="/projects/delivered"
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="px-3 py-2.5 rounded-lg text-xs font-sans font-semibold uppercase
-                                             tracking-wider text-white/55 hover:text-logo
-                                             hover:bg-white/5 transition-colors"
+                                  className="px-4 py-3 text-[11px] font-sans font-bold uppercase
+                                             tracking-[0.15em] text-navy/70 hover:text-logo
+                                             transition-colors"
                                 >
                                   Delivered Projects
                                 </Link>
@@ -392,12 +385,12 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`block px-4 py-3.5 rounded-xl
-                          text-sm font-display font-medium uppercase tracking-wider
+                        className={`block px-6 py-4 border-b border-border-light
+                          text-xs font-sans font-bold uppercase tracking-[0.15em]
                           transition-all ${
                             isActive(link.href)
-                              ? "text-logo bg-logo/10"
-                              : "text-white/85 hover:text-logo hover:bg-white/5"
+                              ? "text-logo bg-navy/5"
+                              : "text-navy hover:text-logo hover:bg-navy/5"
                           }`}
                       >
                         {link.name}
@@ -431,14 +424,14 @@ export default function Navbar() {
               </div>
 
               {/* Bottom CTA */}
-              <div className="px-4 pb-5 pt-3 border-t border-white/8">
+              <div className="px-6 pb-8 pt-6 border-t border-border mt-auto">
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     window.dispatchEvent(new CustomEvent("open-enquiry-modal"));
                   }}
-                  className="w-full py-3.5 rounded-xl bg-logo hover:bg-logo-light
-                             text-white font-sans text-sm font-bold uppercase tracking-widest
+                  className="w-full py-4 bg-navy hover:bg-logo
+                             text-white font-sans text-xs font-bold uppercase tracking-[0.15em]
                              transition-all duration-200 active:scale-95 cursor-pointer"
                   style={{ minHeight: "unset" }}
                 >

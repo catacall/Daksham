@@ -30,16 +30,16 @@ export default function DeveloperProfile() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="bg-zinc-200/60 border border-zinc-300/40 rounded-2xl sm:rounded-[32px] p-5 sm:p-8 md:p-14 shadow-xl relative overflow-hidden"
+          className="structural-panel p-5 sm:p-8 md:p-14 shadow-xl relative overflow-hidden bg-white"
         >
           {/* Subtle decorative glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan/5 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[80px] pointer-events-none" />
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
             
             {/* Left Box: dd.png (Partnership logo graphic) */}
             <div className="flex justify-center">
-              <div className="relative w-full max-w-[280px] sm:max-w-[360px] aspect-square rounded-2xl overflow-hidden shadow-lg border border-zinc-300 bg-white p-2">
+              <div className="relative w-full max-w-[280px] sm:max-w-[360px] aspect-square overflow-hidden border border-border-light bg-white p-2">
                 <Image
                   src="/dd.png"
                   alt="Dashanzi, Daksham & Saar Collaboration"
@@ -53,13 +53,13 @@ export default function DeveloperProfile() {
 
             {/* Right Box: dakshampp.jpeg (Founder / Leader Photo) */}
             <div className="flex justify-center">
-              <div className="relative w-full max-w-[280px] sm:max-w-[360px] aspect-4/5 rounded-2xl overflow-hidden shadow-lg border border-zinc-300 bg-white">
+              <div className="relative w-full max-w-[280px] sm:max-w-[360px] aspect-4/5 overflow-hidden border border-border-light bg-white">
                 <Image
                   src="/dakshampp.jpeg"
                   alt="Visionary Leadership Profile"
                   fill
                   sizes="(max-width: 768px) 100vw, 360px"
-                  className="object-cover object-center"
+                  className="object-cover object-center grayscale hover:grayscale-0 transition-all duration-700"
                   priority
                 />
               </div>

@@ -197,7 +197,7 @@ export default function ChatbotDrawer() {
                 </div>
                 <div>
                   <h3 className="font-display font-medium text-lg tracking-wider text-white">
-                    Private Advisor
+                    Daksham bot
                   </h3>
                   <div className="flex items-center gap-1.5">
                     <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />

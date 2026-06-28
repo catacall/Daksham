@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 28 },
+  initial: { opacity: 0, y: 40 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.85, delay, ease: [0.21, 0.47, 0.32, 0.98] as const },
+  transition: { duration: 1, delay, ease: [0.16, 1, 0.3, 1] as const },
 });
 
 export default function Hero() {
@@ -23,51 +23,62 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="min-h-screen w-full bg-white relative overflow-hidden flex flex-col items-center justify-center pt-32 pb-20 sm:pt-40 sm:pb-24"
+      className="relative min-h-screen w-full bg-off-white flex flex-col lg:flex-row overflow-hidden"
     >
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-5 sm:px-6 text-center max-w-5xl flex flex-col items-center w-full">
-        {/* Eyebrow */}
-        <motion.span
-          {...fadeUp(0)}
-          className="text-accent text-[11px] sm:text-xs md:text-sm font-sans font-bold tracking-[0.28em] uppercase mb-4 sm:mb-6 block"
-        >
-          Daksham Developers
-        </motion.span>
+      {/* Left Column: Editorial Typography */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-12 lg:px-20 pt-32 pb-16 lg:py-32 z-10">
+        <div className="max-w-xl">
+          <motion.span
+            {...fadeUp(0)}
+            className="eyebrow block mb-8"
+          >
+            Daksham Developers
+          </motion.span>
 
-        {/* Heading — readable on all mobile widths */}
-        <motion.h1
-          {...fadeUp(0.15)}
-          className="font-display text-[1.85rem] sm:text-4xl md:text-6xl lg:text-7xl text-logo font-medium uppercase leading-[1.15] tracking-wide mb-5 sm:mb-8"
-        >
-          Engineering Luxury
-          <span className="block mt-1 sm:mt-2 relative">
+          <motion.h1
+            {...fadeUp(0.1)}
+            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-navy uppercase tracking-tight mb-8"
+          >
+            Engineering<br />
+            <span className="italic text-gold">Luxury</span><br />
             Landmarks
-            {/* Underline Decoration similar to wireframe */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-              className="absolute -bottom-2 sm:-bottom-4 left-0 right-0 h-1 sm:h-1.5 bg-accent rounded-full origin-left opacity-80"
-            />
-          </span>
-        </motion.h1>
+          </motion.h1>
 
-        {/* Description */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.1, delay: 0.4 }}
-          className="font-sans text-sm sm:text-base md:text-lg text-logo/80 font-light max-w-xs sm:max-w-xl md:max-w-2xl leading-relaxed mb-10 sm:mb-14"
-        >
-          Crafting upscale spaces that blend timeless architectural brilliance,
-          refined finishes, and modern engineering precision.
-        </motion.p>
+          <motion.p
+            {...fadeUp(0.2)}
+            className="font-sans text-lg sm:text-xl text-navy-light font-light leading-relaxed mb-12 max-w-md"
+          >
+            Crafting upscale spaces that blend timeless architectural brilliance,
+            refined finishes, and modern engineering precision.
+          </motion.p>
 
-        {/* Video Block (Inline, replaces background) */}
+          <motion.div
+            {...fadeUp(0.3)}
+            className="flex flex-col sm:flex-row gap-4 sm:gap-6"
+          >
+            <button
+              onClick={scrollToProjects}
+              className="px-8 py-4 bg-navy text-white font-sans text-xs font-bold uppercase tracking-[0.15em] hover:bg-logo transition-colors duration-300 w-full sm:w-auto text-center"
+            >
+              View Residences
+            </button>
+            <button
+              onClick={openEnquiry}
+              className="px-8 py-4 bg-transparent border border-navy text-navy font-sans text-xs font-bold uppercase tracking-[0.15em] hover:bg-border-light transition-colors duration-300 w-full sm:w-auto text-center"
+            >
+              Enquire Now
+            </button>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Right Column: Framed Media (Passepartout) */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-20 lg:pl-0">
         <motion.div
-          {...fadeUp(0.6)}
-          className="w-full max-w-4xl aspect-video rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-navy-light mb-10 sm:mb-16 relative group"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full aspect-4/5 lg:aspect-auto lg:h-[40vh] relative structural-panel-dark overflow-hidden group"
         >
           <video
             src="/videoplayback.mp4"
@@ -75,46 +86,15 @@ export default function Hero() {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105 opacity-90"
           />
-        </motion.div>
-
-        {/* CTAs — stacked on mobile, side-by-side on sm+ */}
-        <motion.div
-          {...fadeUp(0.8)}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-5 w-full max-w-[320px] sm:max-w-none sm:w-auto items-stretch sm:items-center justify-center"
-        >
-          {/* Logo primary button */}
-          <motion.button
-            onClick={scrollToProjects}
-            whileHover={{
-              scale: 1.04,
-              boxShadow: "0 12px 32px bg-[#548F8B]", // rgba of #548F8B
-            }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 380, damping: 26 }}
-            className="w-full sm:w-auto text-center px-7 sm:px-8 py-3.5 sm:py-4 bg-logo text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-widest rounded-xl shadow-lg cursor-pointer"
-          >
-            Explore Landmark
-          </motion.button>
-
-          {/* Ghost button */}
-          <motion.button
-            onClick={openEnquiry}
-            whileHover={{
-              scale: 1.04,
-              borderColor: "bg-[#548F8B]", // rgba of #548F8B
-              // color: "bg-[#548F8B]",
-              boxShadow: "0 8px 24px rgba(84,143,139,0.2)",
-            }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 380, damping: 26 }}
-            className="w-full sm:w-auto px-7 sm:px-8 py-3.5 sm:py-4 bg-white border border-logo/40 text-black font-sans text-xs sm:text-sm font-bold uppercase tracking-widest rounded-xl cursor-pointer"
-          >
-            Enquire Now
-          </motion.button>
+          {/* Subtle inner border for editorial feel */}
+          <div className="absolute inset-4 sm:inset-6 border border-border-verse pointer-events-none z-10" />
         </motion.div>
       </div>
+      
+      {/* Structural Hairline Divider (Desktop only) */}
+      {/* <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-border" /> */}
     </section>
   );
 }

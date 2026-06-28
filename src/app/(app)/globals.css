@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── Cyan · Gold · White · Navy Blue Luxury Palette ─── */
-  --navy: #0a1628;
-  --navy-light: #122240;
-  --cyan: #00d4ff;
-  --cyan-dark: #00a8cc;
-  --gold: #d4af37;
-  --gold-light: #e8c547;
+  /* ─── Editorial Navy & Gold Palette ─── */
+  --navy: #0A192F;
+  --navy-light: #112240;
+  --gold: #D4AF37;
+  --gold-light: #F3E5AB;
   --white: #ffffff;
-  --off-white: #f0f4f8;
-  --muted: #8a9bb5;
-  --border: #1e3054;
-  --border-light: #d4dde8;
-  /* Brand / Logo teal accent */
-  --logo: #548f8b;
-  --logo-light: #6aada9;
-  --logo-dark: #3d6b68;
+  --off-white: #F8F9FA;
+  --muted: #8892B0;
+  --border: rgba(10, 25, 47, 0.15);
+  --border-light: rgba(10, 25, 47, 0.05);
+  --border-inverse: rgba(255, 255, 255, 0.15);
+  
+  /* Brand / Logo teal accent (keeping if they still want logo to be standard, or I can make logo gold) */
+  --logo: #D4AF37;
+  --logo-light: #F3E5AB;
+  --logo-dark: #B8860B;
 
   /* Semantic aliases */
   --background: var(--off-white);
   --foreground: var(--navy);
-  --accent: var(--gold);
+  --accent: var(--logo);
 }
 
 @theme inline {
@@ -29,67 +29,53 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-muted: var(--muted);
-  --color-border: var(--border-light);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-border-inverse: var(--border-inverse);
 
   /* Extended palette exposed to Tailwind */
   --color-navy: var(--navy);
   --color-navy-light: var(--navy-light);
-  --color-cyan: var(--cyan);
-  --color-cyan-dark: var(--cyan-dark);
   --color-gold: var(--gold);
   --color-gold-light: var(--gold-light);
   --color-off-white: var(--off-white);
-  --color-border-dark: var(--border);
-  /* Logo teal exposed to Tailwind */
+  
   --color-logo: var(--logo);
   --color-logo-light: var(--logo-light);
   --color-logo-dark: var(--logo-dark);
 
-  --font-sans: var(--font-outfit), Arial, Helvetica, sans-serif;
-  --font-display: var(--font-cinzel), serif;
+  --font-sans: var(--font-dm-sans), Arial, Helvetica, sans-serif;
+  --font-display: var(--font-marcellus), serif;
 }
 
 /* ─── Base Styles ─── */
 html {
-  /* Comfortable 16px base for readability on all screen sizes */
   font-size: 16px;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  /* Prevent horizontal overflow on mobile */
   overflow-x: hidden;
-  /* Improve text rendering on mobile */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
 /* ─── Typography ─── */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  /* Better line-height for mobile readability */
-  line-height: 1.2;
+  line-height: 1.1;
+  font-weight: 400; /* Marcellus is best at 400 */
 }
 
-p,
-li,
-span {
+p, li, span {
   font-family: var(--font-sans);
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 /* ─── Mobile-first minimum touch targets ─── */
-button,
-a,
-[role="button"] {
-  /* Ensure minimum 44×44px touch target on mobile */
+button, a, [role="button"] {
   min-height: 44px;
 }
 
@@ -101,47 +87,49 @@ a,
 
 /* ─── Custom Scrollbar ─── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--navy);
+  background: var(--off-white);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 9999px;
+  background: var(--gold);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--cyan-dark);
+  background: var(--logo);
 }
 
 /* ─── Utility: Section Padding ─── */
 @utility section-padding {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
   @media (min-width: 640px) {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
   }
   @media (min-width: 768px) {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-top: 9rem;
+    padding-bottom: 9rem;
   }
   @media (min-width: 1024px) {
-    padding-top: 8rem;
-    padding-bottom: 8rem;
+    padding-top: 12rem;
+    padding-bottom: 12rem;
   }
 }
 
-/* ─── Utility: Panel (replaces glass — no blur, no gradient border) ─── */
-@utility glass {
-  background: rgba(10, 22, 40, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* ─── Utility: Structural blocks ─── */
+@utility structural-panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  /* Hard edges for editorial look */
+  border-radius: 0px; 
 }
 
-@utility glass-light {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(212, 221, 232, 0.5);
+@utility structural-panel-dark {
+  background: var(--navy);
+  border: 1px solid var(--border-inverse);
+  border-radius: 0px;
 }
 
 /* ─── Utility: Hide scrollbar (keep scroll functionality) ─── */
@@ -150,7 +138,6 @@ a,
   -ms-overflow-style: none;
 }
 
-/* Plain CSS rule — @utility can't have pseudo-elements */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -158,21 +145,16 @@ a,
 /* ─── Eyebrow label utility ─── */
 .eyebrow {
   font-family: var(--font-sans);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--gold);
 }
 
 @media (min-width: 640px) {
-  .eyebrow {
-    font-size: 0.75rem;
-  }
+  .eyebrow { font-size: 0.8rem; }
 }
-
 @media (min-width: 768px) {
-  .eyebrow {
-    font-size: 0.875rem;
-  }
+  .eyebrow { font-size: 0.85rem; }
 }

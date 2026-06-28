@@ -52,7 +52,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
   const [liveProjects, setLiveProjects] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch("/api/projects?limit=10&depth=1&sort=-publishedAt")
+    fetch("/api/admin-data/projects", { cache: "no-store" })
       .then(res => res.json())
       .then(data => {
         if (data && data.docs && data.docs.length > 0) {
@@ -90,21 +90,21 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
   return (
     <section
       id="projects"
-      className="relative bg-navy py-12 sm:py-16 md:py-20"
+      className="relative bg-navy py-20 sm:py-24 md:py-32"
     >
       {/* Centered Header */}
-      <div className="container mx-auto px-5 sm:px-6 mb-8 sm:mb-12">
+      <div className="container mx-auto px-6 sm:px-12 lg:px-20 mb-12 sm:mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col items-center text-center pb-6 border-b border-white/10"
+          className="flex flex-col items-center text-center pb-8 border-b border-border-inverse"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-display text-white font-medium uppercase leading-tight tracking-wider">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-display text-white uppercase tracking-tight">
             Our Projects
           </h2>
-          <p className="mt-3 text-xs font-sans text-white/50 tracking-widest uppercase">
+          <p className="mt-6 eyebrow text-gold">
             Swipe or scroll to browse →
           </p>
         </motion.div>
@@ -113,7 +113,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
       {/* Horizontally scrollable card strip with snapping */}
       <div
         ref={scrollRef}
-        className="no-scrollbar flex gap-4 sm:gap-5 px-5 sm:px-6 md:px-12 lg:px-16 pb-3 overflow-x-auto"
+        className="no-scrollbar flex gap-6 sm:gap-8 px-6 sm:px-12 lg:px-20 pb-4 overflow-x-auto"
         style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
       >
         {displayProjects.map((project, idx) => (
@@ -121,27 +121,30 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
             key={idx}
             href={`/projects/${project.slug}`}
             style={{ scrollSnapAlign: "start" }}
-            className="group shrink-0 w-[78vw] sm:w-[46vw] md:w-[32vw] lg:w-[24vw] xl:w-[20vw] h-[42vh] sm:h-[44vh] md:h-[46vh] relative overflow-hidden rounded-[20px] bg-navy-light border border-white/8 shadow-md block"
+            className="group shrink-0 w-[85vw] sm:w-[50vw] md:w-[35vw] lg:w-[28vw] xl:w-[22vw] h-[45vh] sm:h-[50vh] md:h-[55vh] relative structural-panel-dark p-3 sm:p-4 block"
           >
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover object-center pointer-events-none select-none transition-transform duration-500 ease-out group-hover:scale-105"
-              sizes="(max-width: 640px) 70vw, (max-width: 1024px) 32vw, 380px"
-            />
+            {/* The Passepartout Inner Frame */}
+            <div className="relative w-full h-full overflow-hidden border border-border-inverse/50">
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover object-center pointer-events-none select-none transition-transform duration-[2s] ease-out group-hover:scale-105 opacity-90"
+                sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 400px"
+              />
+            </div>
           </Link>
         ))}
       </div>
 
       {/* Action Buttons below the carousel */}
-      <div className="container mx-auto px-5 sm:px-6 mt-10 sm:mt-16">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+      <div className="container mx-auto px-6 sm:px-12 lg:px-20 mt-16 sm:mt-24">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
           <Link
             href="/projects"
-            className="w-full sm:w-auto text-center px-8 py-4 bg-transparent hover:bg-gold border border-gold/40 hover:border-gold text-gold hover:text-navy font-sans text-xs sm:text-sm font-bold uppercase tracking-widest rounded-xl transition-all duration-300 shadow-md cursor-pointer"
+            className="w-full sm:w-auto text-center px-10 py-4 bg-transparent hover:bg-border-inverse border border-gold text-gold font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer"
           >
-            All Projects View
+            View All Projects
           </Link>
           
           {brochureUrl && (
@@ -150,7 +153,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
               download
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto text-center px-8 py-4 bg-gold hover:bg-gold-light text-navy font-sans text-xs md:text-sm font-bold uppercase tracking-widest rounded-xl shadow-lg hover:shadow-gold/20 transition-all duration-300 cursor-pointer"
+              className="w-full sm:w-auto text-center px-10 py-4 bg-gold hover:bg-gold-light text-navy font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer"
             >
               Download Brochure
             </a>

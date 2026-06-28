@@ -106,8 +106,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="container mx-auto px-5 sm:px-6 mt-10 md:mt-14 pt-6 border-t border-border-dark/50 text-center text-muted/50 text-xs sm:text-sm">
+        <div className="container mx-auto px-5 sm:px-6 mt-10 md:mt-14 pt-6 border-t border-border-dark/50 flex flex-col md:flex-row justify-between items-center gap-4 text-muted/50 text-xs sm:text-sm">
           <p>&copy; 2026 Daksham Developers. All rights reserved.</p>
+          <div className="flex gap-4 md:gap-6">
+            <Link href="/privacy-policy" className="hover:text-cyan transition-colors">Privacy Policy</Link>
+            <Link href="/terms-and-conditions" className="hover:text-cyan transition-colors">Terms & Conditions</Link>
+          </div>
         </div>
       </footer>
     </>

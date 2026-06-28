@@ -13,7 +13,7 @@ export async function POST(request: Request) {
 
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
-    const alt = formData.get("alt") as string | null;
+    const alt = (formData.get("alt") as string | null) || "";
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -22,40 +22,46 @@ export async function POST(request: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Check if filename already exists and rename if necessary to prevent Postgres unique constraint violations
-    let fileName = file.name;
-    const existing = await payload.find({
-      collection: "media" as any,
-      where: {
-        filename: {
-          equals: fileName,
-        },
-      },
-      limit: 1,
-    });
-
-    if (existing.docs.length > 0) {
+    // Deduplicate filename to prevent Postgres unique constraint violations
+    let fileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+    try {
+      const existing = await payload.find({
+        collection: "media" as any,
+        where: { filename: { equals: fileName } },
+        limit: 1,
+      });
+      if (existing.docs.length > 0) {
+        const ext = fileName.includes(".") ? fileName.slice(fileName.lastIndexOf(".")) : "";
+        const base = fileName.includes(".") ? fileName.slice(0, fileName.lastIndexOf(".")) : fileName;
+        fileName = `${base}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}${ext}`;
+      }
+    } catch {
+      // If duplicate check fails, just timestamp the file to be safe
       const ext = fileName.includes(".") ? fileName.slice(fileName.lastIndexOf(".")) : "";
       const base = fileName.includes(".") ? fileName.slice(0, fileName.lastIndexOf(".")) : fileName;
-      fileName = `${base}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}${ext}`;
+      fileName = `${base}-${Date.now()}${ext}`;
     }
 
-    // Create the media document using Local API
+    // Create the media document using Payload's local API
     const media = await payload.create({
       collection: "media" as any,
       data: {
-        alt: alt || file.name || "Uploaded image",
+        alt: alt || file.name,
       },
       file: {
         data: buffer,
         name: fileName,
-        mimetype: file.type,
+        mimetype: file.type || "application/octet-stream",
         size: file.size,
       },
     });
 
     return NextResponse.json({ doc: media });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || "Upload failed" }, { status: 500 });
+    console.error("[POST /api/admin-data/upload] Upload error:", error);
+    return NextResponse.json(
+      { error: error.message || "Upload failed" },
+      { status: 500 },
+    );
   }
 }

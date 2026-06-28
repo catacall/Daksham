@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
-import { Cinzel, Outfit } from "next/font/google";
+import { Marcellus, DM_Sans } from "next/font/google";
 import "./globals.css";
 
 import ClientShell from "./ClientShell";
 import WhatsAppWidget from "@/components/Frontend/WhatsAppWidget";
 
-const cinzel = Cinzel({
-  variable: "--font-cinzel",
+const marcellus = Marcellus({
+  weight: "400",
+  variable: "--font-marcellus",
   subsets: ["latin"],
   display: "swap",
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -102,7 +103,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${cinzel.variable} ${outfit.variable} data-scroll-behavior="smooth"`}
+      className={`${marcellus.variable} ${dmSans.variable} data-scroll-behavior="smooth"`}
     >
       <body
         suppressHydrationWarning

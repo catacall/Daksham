@@ -1,81 +1,107 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { getPayload } from "payload";
-import configPromise from "@payload-config";
+import config from "@payload-config";
 import { Resend } from "resend";
-import { z } from "zod";
 
 const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
 
-const enquirySchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone must be at least 10 characters"),
-  projectInterestedIn: z.string().optional().nullable(),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-  source: z.string().default("website"),
-});
+function validateBody(body: any): { ok: true; data: any } | { ok: false; error: string } {
+  const { name, email, phone, message, projectInterestedIn, source } = body ?? {};
+
+  if (!name || typeof name !== "string" || name.trim().length < 2) {
+    return { ok: false, error: "Name must be at least 2 characters." };
+  }
+  if (!email || typeof email !== "string" || !email.includes("@")) {
+    return { ok: false, error: "A valid email address is required." };
+  }
+  if (!phone || typeof phone !== "string" || phone.trim().length < 7) {
+    return { ok: false, error: "Phone must be at least 7 characters." };
+  }
+  if (!message || typeof message !== "string" || message.trim().length < 5) {
+    return { ok: false, error: "Message must be at least 5 characters." };
+  }
+
+  return {
+    ok: true,
+    data: {
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      phone: phone.trim(),
+      message: message.trim(),
+      projectInterestedIn: projectInterestedIn ?? null,
+      source: (typeof source === "string" ? source.trim() : null) || "website",
+    },
+  };
+}
 
 export async function POST(request: Request) {
+  let body: any;
   try {
-    const body = await request.json();
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ message: "Invalid JSON body." }, { status: 400 });
+  }
 
-    // Server-side validation
-    const validatedData = enquirySchema.parse(body);
+  const validation = validateBody(body);
+  if (!validation.ok) {
+    return NextResponse.json({ message: validation.error }, { status: 400 });
+  }
 
-    const payload = await getPayload({ config: configPromise });
+  const data = validation.data;
 
-    // Resolve project title if an ID was provided
+  try {
+    const payload = await getPayload({ config });
+
+    // Resolve project title for the email notification
     let projectTitle = "Not specified";
-    if (validatedData.projectInterestedIn) {
-      try {
-        const project = await payload.findByID({
-          // Use a permissive cast for collections not present in Payload's generated types
-          collection: "projects" as any,
-          id: validatedData.projectInterestedIn,
-        });
-        if (project?.title) {
-          projectTitle = project.title;
+    let projectRelationId: number | null = null;
+
+    if (data.projectInterestedIn) {
+      const rawId = data.projectInterestedIn;
+      const numId = parseInt(String(rawId), 10);
+
+      if (!isNaN(numId)) {
+        try {
+          const project = await payload.findByID({
+            collection: "projects" as any,
+            id: numId,
+          });
+          if (project && (project as any).title) {
+            projectTitle = (project as any).title;
+            projectRelationId = numId;
+          }
+        } catch {
+          // Project not found — skip relation, still capture the lead
         }
-      } catch {
-        // If project lookup fails, use the raw value
-        projectTitle = validatedData.projectInterestedIn;
       }
     }
 
-    // Save to Payload CMS Database
-    // Cast data to any to satisfy Payload's collection typings when fields
-    // may not exactly match the generated types (e.g. 'phone' field).
+    // Save enquiry to database
     const newEnquiry = await payload.create({
-      // Use a permissive cast for collections not present in Payload's generated types
       collection: "enquiries" as any,
       data: {
-        name: validatedData.name,
-        email: validatedData.email,
-        phone: validatedData.phone,
-        projectInterestedIn: validatedData.projectInterestedIn || null,
-        message: validatedData.message,
-        source: validatedData.source,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        projectInterestedIn: projectRelationId,
+        message: data.message,
+        source: data.source,
         status: "new",
-      } as any,
+      },
     });
 
-    // Send Admin Notification Email via Resend
-    // Email failure doesn't block lead capture
-    const adminEmail =
-      process.env.ADMIN_EMAIL || process.env.ADMIN_NOTIFICATION_EMAIL;
-    const emailFrom =
-      process.env.EMAIL_FROM || "Enquiry Bot <onboarding@resend.dev>";
+    // Send admin notification email — failure does NOT block lead capture
+    const adminEmail = process.env.ADMIN_EMAIL || process.env.ADMIN_NOTIFICATION_EMAIL;
+    const emailFrom = process.env.EMAIL_FROM || "Enquiry Bot <onboarding@resend.dev>";
 
     try {
-      if (process.env.RESEND_API_KEY && adminEmail) {
+      if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== "re_placeholder" && adminEmail) {
         await resend.emails.send({
           from: emailFrom,
           to: adminEmail,
-          subject: `🏠 New Enquiry from ${validatedData.name}`,
+          subject: `🏠 New Enquiry from ${data.name}`,
           html: `
             <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f0f4f8; border-radius: 16px; overflow: hidden;">
-              <!-- Header -->
               <div style="background: linear-gradient(135deg, #0a1628, #122240); padding: 32px 24px; text-align: center;">
                 <h1 style="color: #d4af37; font-size: 24px; margin: 0 0 8px 0; letter-spacing: 2px; text-transform: uppercase;">
                   New Website Enquiry
@@ -84,24 +110,22 @@ export async function POST(request: Request) {
                   Received on ${new Date().toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })} at ${new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}
                 </p>
               </div>
-              
-              <!-- Body -->
               <div style="padding: 32px 24px;">
                 <table style="width: 100%; border-collapse: collapse;">
                   <tr>
                     <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; width: 140px; vertical-align: top;">Name</td>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 16px; font-weight: 600;">${validatedData.name}</td>
+                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 16px; font-weight: 600;">${data.name}</td>
                   </tr>
                   <tr>
                     <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Email</td>
                     <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 16px;">
-                      <a href="mailto:${validatedData.email}" style="color: #00a8cc; text-decoration: none;">${validatedData.email}</a>
+                      <a href="mailto:${data.email}" style="color: #00a8cc; text-decoration: none;">${data.email}</a>
                     </td>
                   </tr>
                   <tr>
                     <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Phone</td>
                     <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 16px;">
-                      <a href="tel:${validatedData.phone}" style="color: #00a8cc; text-decoration: none;">${validatedData.phone}</a>
+                      <a href="tel:${data.phone}" style="color: #00a8cc; text-decoration: none;">${data.phone}</a>
                     </td>
                   </tr>
                   <tr>
@@ -110,19 +134,17 @@ export async function POST(request: Request) {
                   </tr>
                   <tr>
                     <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Source</td>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 14px;">${validatedData.source}</td>
+                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 14px;">${data.source}</td>
                   </tr>
                   <tr>
                     <td style="padding: 12px 0; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Message</td>
-                    <td style="padding: 12px 0; color: #0a1628; font-size: 15px; line-height: 1.6;">${validatedData.message.replace(/\n/g, "<br>")}</td>
+                    <td style="padding: 12px 0; color: #0a1628; font-size: 15px; line-height: 1.6;">${data.message.replace(/\n/g, "<br>")}</td>
                   </tr>
                 </table>
               </div>
-              
-              <!-- Footer -->
               <div style="background: #0a1628; padding: 20px 24px; text-align: center;">
                 <p style="color: #8a9bb5; font-size: 12px; margin: 0;">
-                  This enquiry has been saved to the <a href="${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/admin/collections/enquiries" style="color: #00d4ff; text-decoration: none;">Payload Admin Panel</a>
+                  Saved to the <a href="${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/manage" style="color: #00d4ff; text-decoration: none;">Manage Dashboard</a>
                 </p>
               </div>
             </div>
@@ -130,27 +152,17 @@ export async function POST(request: Request) {
         });
       }
     } catch (emailError) {
-      // Lead is already captured, so we proceed to return success.
+      console.warn("[enquiry] Email notification failed (lead still captured):", emailError);
     }
 
     return NextResponse.json(
       { message: "Enquiry submitted successfully.", id: newEnquiry.id },
       { status: 201 },
     );
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      const zodErr = error as any;
-      return NextResponse.json(
-        {
-          message: "Validation failed.",
-          errors: zodErr.errors || zodErr.issues,
-        },
-        { status: 400 },
-      );
-    }
-
+  } catch (error: any) {
+    console.error("[POST /api/enquiry] Database error:", error);
     return NextResponse.json(
-      { message: "An error occurred while processing your enquiry." },
+      { message: `Failed to save enquiry: ${error?.message || "Unknown database error"}` },
       { status: 500 },
     );
   }

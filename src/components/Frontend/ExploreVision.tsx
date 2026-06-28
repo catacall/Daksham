@@ -26,7 +26,7 @@ export default function ExploreVision() {
           {/* Column 1 - OUR VISION */}
           <motion.div
             {...cardVariants(-30, 0, 0)}
-            className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 bg-white border border-zinc-200/50 shadow-xs flex flex-col justify-between"
+            className="structural-panel p-5 sm:p-6 bg-white shadow-xs flex flex-col justify-between"
           >
             <div>
               <h2 className="text-lg sm:text-xl font-display font-bold text-navy uppercase tracking-wider mb-3 sm:mb-4">
@@ -42,7 +42,7 @@ export default function ExploreVision() {
           {/* Column 2 - OUR MISSION */}
           <motion.div
             {...cardVariants(0, 30, 0.15)}
-            className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 bg-white border border-zinc-200/50 shadow-xs flex flex-col justify-between"
+            className="structural-panel p-5 sm:p-6 bg-white shadow-xs flex flex-col justify-between"
           >
             <div>
               <h2 className="text-lg sm:text-xl font-display font-bold text-navy uppercase tracking-wider mb-3 sm:mb-4">
@@ -58,7 +58,7 @@ export default function ExploreVision() {
           {/* Column 3 - OUR VALUES */}
           <motion.div
             {...cardVariants(30, 0, 0.3)}
-            className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 bg-white border border-zinc-200/50 shadow-xs flex flex-col justify-between"
+            className="structural-panel p-5 sm:p-6 bg-white shadow-xs flex flex-col justify-between"
           >
             <div>
               <h2 className="text-lg sm:text-xl font-display font-bold text-navy uppercase tracking-wider mb-3 sm:mb-4">
@@ -79,7 +79,7 @@ export default function ExploreVision() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="mt-12 sm:mt-16 md:mt-20 relative aspect-video w-full max-w-4xl mx-auto rounded-[20px] sm:rounded-[28px] overflow-hidden shadow-2xl border border-zinc-200/80 bg-navy"
+          className="mt-12 sm:mt-16 md:mt-20 relative aspect-video w-full max-w-4xl mx-auto overflow-hidden shadow-2xl border border-border-light bg-navy"
         >
           <iframe
             src="https://www.youtube.com/embed/hBo6d5q9_xY?rel=0"

@@ -18,6 +18,7 @@ interface Project {
   title: string;
   location: string;
   status: "ongoing" | "delivered";
+  coverImage?: string | StaticImageData | ProjectImageObject | null;
   images?: Array<string | StaticImageData | ProjectImageObject>;
   area?: string;
   priceRange?: string;
@@ -37,20 +38,21 @@ const cardVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.21, 0.47, 0.32, 0.98] as const } },
 };
 
+function resolveImageUrl(img: unknown): string | StaticImageData {
+  if (!img) return "/placeholder-project.jpg";
+  if (typeof img === "string") return img || "/placeholder-project.jpg";
+  if (isProjectImageObject(img)) return img.url || "/placeholder-project.jpg";
+  return img as StaticImageData;
+}
+
 export function ProjectCard({ project }: { project: Project }) {
-  let coverImage: string | StaticImageData =
-    "/placeholder-project.jpg";
-  if (project.images && project.images.length > 0) {
-    const firstImg = project.images[0];
-    if (isProjectImageObject(firstImg)) {
-      coverImage =
-        firstImg.url ||
-        "/placeholder-project.jpg";
-    } else if (typeof firstImg === "string") {
-      coverImage = firstImg;
-    } else {
-      coverImage = firstImg as StaticImageData;
-    }
+  // Priority: coverImage > images[0] > placeholder
+  let coverImage: string | StaticImageData = "/placeholder-project.jpg";
+
+  if (project.coverImage) {
+    coverImage = resolveImageUrl(project.coverImage);
+  } else if (project.images && project.images.length > 0) {
+    coverImage = resolveImageUrl(project.images[0]);
   }
 
   return (

@@ -38,6 +38,7 @@ export default async function DeliveredProjectsPage({
       },
     },
     sort: "-publishedAt",
+    depth: 2,
     page,
     limit,
   });

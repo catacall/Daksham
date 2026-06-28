@@ -38,6 +38,7 @@ export default async function OngoingProjectsPage({
       },
     },
     sort: "-publishedAt",
+    depth: 2,
     page,
     limit,
   });

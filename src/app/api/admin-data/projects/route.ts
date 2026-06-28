@@ -8,8 +8,9 @@ export async function GET() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await payload.find({
       collection: "projects" as any,
-      depth: 0,
+      depth: 2,
       pagination: false,
+      limit: 100,
       sort: "-publishedAt",
     });
     return NextResponse.json(result);
