@@ -228,6 +228,9 @@ function EditModal({
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [newHighlight, setNewHighlight] = useState("");
   const [uploadingSpecIdx, setUploadingSpecIdx] = useState<number | null>(null);
+  // Use a ref so the file-input onChange callback always reads the latest index,
+  // avoiding the stale-closure problem with async setState.
+  const uploadingSpecIdxRef = useRef<number | null>(null);
   const coverRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
   const specImageRef = useRef<HTMLInputElement>(null);
@@ -312,6 +315,8 @@ function EditModal({
   };
 
   const triggerSpecImageUpload = (idx: number) => {
+    // Write to both ref (for the callback) and state (for UI indicator).
+    uploadingSpecIdxRef.current = idx;
     setUploadingSpecIdx(idx);
     specImageRef.current?.click();
   };
@@ -320,59 +325,71 @@ function EditModal({
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = e.target.files?.[0];
-    if (!file || uploadingSpecIdx === null) return;
+    // Read from ref — guaranteed to be the latest value regardless of React
+    // render cycles, unlike the state variable which may be stale here.
+    const idx = uploadingSpecIdxRef.current;
+    if (!file || idx === null) return;
     const media = await api.uploadMedia(file);
     if (media) {
-      updateSpecification(uploadingSpecIdx, "image", media);
+      updateSpecification(idx, "image", media);
     }
     if (specImageRef.current) specImageRef.current.value = "";
+    uploadingSpecIdxRef.current = null;
     setUploadingSpecIdx(null);
   };
 
   const handleSave = async () => {
     setSaving(true);
-    const payload: Record<string, unknown> = {
-      title: form.title || "",
-      status: form.status || "ongoing",
-      location: form.location || "",
-      area: form.area || "",
-      priceRange: form.priceRange || "",
-      description: form.description || "",
-      reraNumber: form.reraNumber || undefined,
-      youtubeUrl: form.youtubeUrl || undefined,
-      completionDate: form.completionDate
-        ? form.completionDate + "-01"
-        : undefined,
-      coverImage: form.coverImage?.id || null,
-      images: (form.images || []).map(img => img.id),
-      highlights: form.highlights || [],
-      specifications: (form.specifications || []).map(spec => ({
-        title: spec.title || "",
-        description: spec.description || "",
-        image: spec.image?.id || null,
-      })),
-      publishedAt: new Date().toISOString(),
-    };
+    try {
+      const payload: Record<string, unknown> = {
+        title: form.title || "",
+        status: form.status || "ongoing",
+        location: form.location || "",
+        area: form.area || "",
+        priceRange: form.priceRange || "",
+        description: form.description || "",
+        reraNumber: form.reraNumber || undefined,
+        youtubeUrl: form.youtubeUrl || undefined,
+        completionDate: form.completionDate
+          ? form.completionDate + "-01"
+          : undefined,
+        coverImage: form.coverImage?.id || null,
+        images: (form.images || []).map(img => img.id),
+        highlights: form.highlights || [],
+        specifications: (form.specifications || []).map(spec => ({
+          title: spec.title || "",
+          description: spec.description || "",
+          image: spec.image?.id || null,
+        })),
+        publishedAt: new Date().toISOString(),
+      };
 
-    let result: Project | null = null;
-    if (isNew) {
-      result = await api.createProject(payload);
-    } else if (project) {
-      const ok = await api.updateProject(project.id, payload);
-      if (ok)
-        result = {
-          ...project,
-          ...form,
-          title: form.title || "",
-          status: form.status || "ongoing",
-          location: form.location || "",
-          area: form.area || "",
-          priceRange: form.priceRange || "",
-        } as Project;
+      let result: Project | null = null;
+      if (isNew) {
+        result = await api.createProject(payload);
+      } else if (project) {
+        const ok = await api.updateProject(project.id, payload);
+        if (ok)
+          result = {
+            ...project,
+            ...form,
+            title: form.title || "",
+            status: form.status || "ongoing",
+            location: form.location || "",
+            area: form.area || "",
+            priceRange: form.priceRange || "",
+          } as Project;
+      }
+
+      if (result) onSave(result);
+      else showNotification("Failed to save. Please try again.", "error");
+    } catch (err) {
+      console.error("[handleSave] Unexpected error:", err);
+      showNotification("An unexpected error occurred. Please try again.", "error");
+    } finally {
+      // Always clear the saving state so the button is never permanently stuck.
+      setSaving(false);
     }
-    setSaving(false);
-    if (result) onSave(result);
-    else showNotification("Failed to save. Please try again.", "error");
   };
 
   return (
@@ -940,17 +957,6 @@ export default function AdminPanel() {
     delivered: projects.filter(p => p.status === "delivered").length,
   };
 
-  if (loading)
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-off-white">
-        <div className="text-center space-y-3">
-          <div className="text-5xl animate-bounce">⏳</div>
-          <p className="text-black text-sm font-semibold tracking-wide">
-            Loading manage dashboard…
-          </p>
-        </div>
-      </div>
-    );
 
   return (
     <div className="min-h-screen bg-off-white font-sans pb-16">
@@ -1033,56 +1039,67 @@ export default function AdminPanel() {
 
         {/* ── Stats Grid (neat & compact) ── */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
-          {[
-            {
-              label: "Total Enquiries",
-              value: stats.total,
-              color: "text-navy",
-              border: "border-navy",
-            },
-            {
-              label: "New Leads",
-              value: stats.newLeads,
-              color: "text-amber-600",
-              border: "border-amber-500",
-            },
-            {
-              label: "In Progress",
-              value: stats.inProgress,
-              color: "text-indigo-600",
-              border: "border-indigo-500",
-            },
-            {
-              label: "Won / Closed",
-              value: stats.won,
-              color: "text-emerald-600",
-              border: "border-emerald-500",
-            },
-            {
-              label: "Ongoing",
-              value: stats.ongoing,
-              color: "text-cyan-600",
-              border: "border-cyan",
-            },
-            {
-              label: "Delivered",
-              value: stats.delivered,
-              color: "text-gold",
-              border: "border-gold",
-            },
-          ].map(s => (
-            <div
-              key={s.label}
-              className={`bg-white rounded-2xl p-4 border-t-4 ${s.border} shadow-xs transition-transform hover:-translate-y-0.5 duration-200`}
-            >
-              <p className="text-[10px] font-bold uppercase tracking-wider text-black mb-1">
-                {s.label}
-              </p>
-              <p className={`text-2xl font-display font-extrabold ${s.color}`}>
-                {s.value}
-              </p>
-            </div>
-          ))}
+          {loading
+            ? /* Skeleton cards while data loads */
+              Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-2xl p-4 border-t-4 border-border-light/40 shadow-xs animate-pulse"
+                >
+                  <div className="h-2.5 w-20 bg-border-light/60 rounded mb-3" />
+                  <div className="h-7 w-10 bg-border-light/40 rounded" />
+                </div>
+              ))
+            : [
+                {
+                  label: "Total Enquiries",
+                  value: stats.total,
+                  color: "text-navy",
+                  border: "border-navy",
+                },
+                {
+                  label: "New Leads",
+                  value: stats.newLeads,
+                  color: "text-amber-600",
+                  border: "border-amber-500",
+                },
+                {
+                  label: "In Progress",
+                  value: stats.inProgress,
+                  color: "text-indigo-600",
+                  border: "border-indigo-500",
+                },
+                {
+                  label: "Won / Closed",
+                  value: stats.won,
+                  color: "text-emerald-600",
+                  border: "border-emerald-500",
+                },
+                {
+                  label: "Ongoing",
+                  value: stats.ongoing,
+                  color: "text-cyan-600",
+                  border: "border-cyan",
+                },
+                {
+                  label: "Delivered",
+                  value: stats.delivered,
+                  color: "text-gold",
+                  border: "border-gold",
+                },
+              ].map(s => (
+                <div
+                  key={s.label}
+                  className={`bg-white rounded-2xl p-4 border-t-4 ${s.border} shadow-xs transition-transform hover:-translate-y-0.5 duration-200`}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-black mb-1">
+                    {s.label}
+                  </p>
+                  <p className={`text-2xl font-display font-extrabold ${s.color}`}>
+                    {s.value}
+                  </p>
+                </div>
+              ))}
         </div>
 
         {/* ── Tabs & Sub-Controls ── */}
@@ -1099,9 +1116,9 @@ export default function AdminPanel() {
                 }`}
               >
                 {t === "projects"
-                  ? `🏗️ Projects (${projects.length})`
+                  ? loading ? "🏗️ Projects" : `🏗️ Projects (${projects.length})`
                   : t === "enquiries"
-                    ? `📋 Enquiries (${enquiries.length})`
+                    ? loading ? "📋 Enquiries" : `📋 Enquiries (${enquiries.length})`
                     : "⚙️ Settings"}
               </button>
             ))}
@@ -1132,7 +1149,28 @@ export default function AdminPanel() {
         {/* ── PROJECTS TAB ── */}
         {tab === "projects" && (
           <div>
-            {projects.length === 0 ? (
+            {loading ? (
+              /* Skeleton grid while projects load */
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="bg-white rounded-3xl overflow-hidden border border-border-light/60 shadow-xs flex flex-col"
+                  >
+                    <div className="h-56 bg-border-light/30" />
+                    <div className="p-6 space-y-3 flex-1">
+                      <div className="h-5 bg-border-light/40 rounded w-3/4" />
+                      <div className="h-3 bg-border-light/30 rounded w-1/2" />
+                      <div className="h-px bg-border-light/40 mt-4" />
+                      <div className="flex gap-2 pt-2">
+                        <div className="flex-1 h-10 bg-border-light/30 rounded-2xl" />
+                        <div className="w-20 h-10 bg-border-light/20 rounded-2xl" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : projects.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-3xl border border-border-light/50 shadow-xs space-y-2">
                 <span className="text-5xl block">🏗️</span>
                 <p className="font-bold text-navy">
@@ -1245,7 +1283,25 @@ export default function AdminPanel() {
               </div>
             )}
 
-            {enquiries.length === 0 ? (
+            {loading ? (
+              /* Skeleton table rows while enquiries load */
+              <div className="bg-white rounded-3xl border border-border-light/60 shadow-xs overflow-hidden animate-pulse">
+                <div className="h-12 bg-off-white border-b border-border-light/60" />
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="flex items-center gap-4 px-6 py-4 border-b border-border-light/20">
+                    <div className="w-4 h-4 rounded bg-border-light/40 shrink-0" />
+                    <div className="flex-1 space-y-1.5">
+                      <div className="h-3.5 bg-border-light/40 rounded w-32" />
+                      <div className="h-2.5 bg-border-light/30 rounded w-24" />
+                    </div>
+                    <div className="h-3 bg-border-light/30 rounded w-28 hidden md:block" />
+                    <div className="h-3 bg-border-light/30 rounded w-36 hidden md:block" />
+                    <div className="h-7 bg-border-light/30 rounded-full w-24 hidden lg:block" />
+                    <div className="h-3 bg-border-light/20 rounded w-20 hidden xl:block" />
+                  </div>
+                ))}
+              </div>
+            ) : enquiries.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-3xl border border-border-light/50 shadow-xs space-y-2">
                 <span className="text-5xl block">📭</span>
                 <p className="font-bold text-navy">No enquiries received yet</p>
@@ -1440,47 +1496,59 @@ export default function AdminPanel() {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 border border-border-light/60 rounded-2xl bg-off-white/20">
-                  <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl shrink-0">
-                    📄
+                {loading ? (
+                  /* Skeleton while settings load */
+                  <div className="flex items-center gap-4 p-4 border border-border-light/60 rounded-2xl bg-off-white/20 animate-pulse">
+                    <div className="w-12 h-12 rounded-xl bg-border-light/40 shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-3.5 bg-border-light/40 rounded w-40" />
+                      <div className="h-2.5 bg-border-light/30 rounded w-24" />
+                    </div>
+                    <div className="h-9 w-28 bg-border-light/30 rounded-xl" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-navy truncate">
-                      {settings?.brochure?.filename || "No brochure uploaded"}
-                    </p>
-                    <p className="text-xs text-black">
-                      {settings?.brochure?.filesize
-                        ? `${(settings.brochure.filesize / 1024 / 1024).toFixed(2)} MB`
-                        : "Upload a PDF document"}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {settings?.brochure?.url && (
-                      <a
-                        href={settings.brochure.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs font-bold text-navy hover:text-gold mr-2 transition-colors"
+                ) : (
+                  <div className="flex items-center gap-4 p-4 border border-border-light/60 rounded-2xl bg-off-white/20">
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl shrink-0">
+                      📄
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-navy truncate">
+                        {settings?.brochure?.filename || "No brochure uploaded"}
+                      </p>
+                      <p className="text-xs text-black">
+                        {settings?.brochure?.filesize
+                          ? `${(settings.brochure.filesize / 1024 / 1024).toFixed(2)} MB`
+                          : "Upload a PDF document"}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {settings?.brochure?.url && (
+                        <a
+                          href={settings.brochure.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-xs font-bold text-navy hover:text-gold mr-2 transition-colors"
+                        >
+                          Preview
+                        </a>
+                      )}
+                      <button
+                        onClick={() => brochureInputRef.current?.click()}
+                        disabled={uploadingBrochure}
+                        className="bg-navy hover:bg-gold text-white hover:text-navy font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all"
                       >
-                        Preview
-                      </a>
-                    )}
-                    <button
-                      onClick={() => brochureInputRef.current?.click()}
-                      disabled={uploadingBrochure}
-                      className="bg-navy hover:bg-gold text-white hover:text-navy font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all"
-                    >
-                      {uploadingBrochure ? "Uploading…" : "Upload new PDF"}
-                    </button>
-                    <input
-                      ref={brochureInputRef}
-                      type="file"
-                      accept="application/pdf"
-                      className="hidden"
-                      onChange={handleBrochureUpload}
-                    />
+                        {uploadingBrochure ? "Uploading…" : "Upload new PDF"}
+                      </button>
+                      <input
+                        ref={brochureInputRef}
+                        type="file"
+                        accept="application/pdf"
+                        className="hidden"
+                        onChange={handleBrochureUpload}
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
