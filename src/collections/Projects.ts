@@ -227,6 +227,19 @@ export const Projects: CollectionConfig = {
       },
     },
 
+    // ── Amenity Photos ──
+    {
+      name: 'amenityPhotos',
+      type: 'relationship',
+      relationTo: 'media',
+      hasMany: true,
+      label: 'Amenity Photos',
+      admin: {
+        description: 'Photos showcasing amenities — pool, gym, lobby, garden, living spaces, etc. Shown in a dedicated section on the project page.',
+      },
+    },
+
+
     // ── YouTube ──
     {
       name: 'youtubeUrl',

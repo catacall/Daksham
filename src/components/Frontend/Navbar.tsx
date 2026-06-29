@@ -231,7 +231,7 @@ export default function Navbar() {
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
               className="md:hidden text-logo border border-logo/40 bg-logo/10
-                         rounded-lg px-3 py-1.5
+                          px-3 py-1.5
                          text-[10px] font-sans font-bold uppercase tracking-wider
                          whitespace-nowrap leading-none"
               style={{ minHeight: "unset" }}
@@ -243,7 +243,7 @@ export default function Navbar() {
             <button
               className="md:hidden flex items-center justify-center
                          w-9 h-9 rounded-lg
-                         text-white/80 hover:text-white
+                         text-black hover:text-accent
                          hover:bg-white/8 transition-colors cursor-pointer"
               style={{ minHeight: "unset" }}
               onClick={() => setMobileMenuOpen(true)}
@@ -276,16 +276,14 @@ export default function Navbar() {
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
               className="fixed top-0 right-0 h-full w-[min(82vw,320px)]
-                         bg-off-white border-l border-border
+                         bg-white border-l border-border
                          flex flex-col z-60 md:hidden shadow-2xl"
             >
               {/* Panel header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-border">
                 <div className="flex items-center gap-3">
-                  <div className="w-1.5 h-1.5 rounded-none bg-logo" />
-                  <span className="text-navy/50 text-[10px] font-sans uppercase tracking-[0.25em] font-bold">
-                    Navigation
-                  </span>
+                
+                  
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}

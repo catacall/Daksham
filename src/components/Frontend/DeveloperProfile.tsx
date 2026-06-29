@@ -15,9 +15,7 @@ export default function DeveloperProfile() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-center mb-12 md:mb-16"
         >
-          <span className="eyebrow block mb-3">
-            Visionary Collaboration
-          </span>
+          <span className="eyebrow block mb-3">Visionary Collaboration</span>
           <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-display text-navy font-medium uppercase leading-snug tracking-wide max-w-3xl mx-auto">
             The Strength Behind Our Landmarks
           </h2>
@@ -34,9 +32,8 @@ export default function DeveloperProfile() {
         >
           {/* Subtle decorative glow */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[80px] pointer-events-none" />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
-            
             {/* Left Box: dd.png (Partnership logo graphic) */}
             <div className="flex justify-center">
               <div className="relative w-full max-w-[280px] sm:max-w-[360px] aspect-square overflow-hidden border border-border-light bg-white p-2">
@@ -46,6 +43,7 @@ export default function DeveloperProfile() {
                   fill
                   sizes="(max-width: 768px) 100vw, 360px"
                   className="object-contain p-2"
+                  loading="eager"
                 />
               </div>
             </div>
@@ -70,15 +68,16 @@ export default function DeveloperProfile() {
               Strategic Partnerships & Visionary Leadership
             </h3>
             <p className="font-sans text-muted text-sm sm:text-base leading-relaxed max-w-3xl mx-auto">
-              Our landmarks are built on a foundation of trust, collaboration, and unmatched expertise. 
-              By uniting the pioneering design philosophies of <strong>Dashanzi Developers</strong>, 
-              the engineering precision of <strong>Daksham Developers</strong>, and the robust marketing 
-              networks of <strong>Saar Properties</strong>, we deliver modern luxury homes that stand as 
-              testaments to quality. Guided by a customer-centric vision, our joint ventures ensure 
-              uncompromised excellence in every square foot we construct.
+              Our landmarks are built on a foundation of trust, collaboration,
+              and unmatched expertise. By uniting the pioneering design
+              philosophies of <strong>Dashanzi Developers</strong>, the
+              engineering precision of <strong>Daksham Developers</strong>, and
+              the robust marketing networks of <strong>Saar Properties</strong>,
+              we deliver modern luxury homes that stand as testaments to
+              quality. Guided by a customer-centric vision, our joint ventures
+              ensure uncompromised excellence in every square foot we construct.
             </p>
           </div>
-
         </motion.div>
       </div>
     </section>

@@ -107,14 +107,44 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  // ── Image URL extraction helper ──────────────────────────────────────────
+  // Handles three possible shapes an image entry can have:
+  //  1. Payload-resolved object   → { url: "https://..." }
+  //  2. Plain blob URL string      → "https://xxx.blob.vercel-storage.com/..."
+  //  3. Fallback url:-prefixed ID  → "url:https://..." (when DB insert failed)
+  const extractUrl = (img: unknown): string => {
+    if (!img) return "";
+    if (typeof img === "object" && img !== null && "url" in img) {
+      return (img as { url?: string }).url || "";
+    }
+    if (typeof img === "string") {
+      // Strip the fallback "url:" prefix if present
+      return img.startsWith("url:") ? img.slice(4) : img;
+    }
+    return "";
+  };
+
   // Handle Images
-  const images = (project.images || []).map((img: { url?: string } | string) => {
-    if (typeof img === "string") return img;
-    return img.url || "/placeholder-project.jpg";
-  });
-  
-  const coverImage = images[0] || "/placeholder-project.jpg";
-  const galleryImages = images.slice(1);
+  const images = (project.images || [])
+    .map(extractUrl)
+    .filter((u: string) => u.startsWith("http") || u.startsWith("/"));
+
+  // Amenity Photos
+  const amenityPhotos = (project.amenityPhotos || [])
+    .map(extractUrl)
+    .filter((u: string) => u.startsWith("http") || u.startsWith("/")) as string[];
+
+  const coverImage =
+    (project.coverImage && typeof project.coverImage === "object" && "url" in project.coverImage
+      ? (project.coverImage as { url?: string }).url
+      : typeof project.coverImage === "string"
+      ? (project.coverImage as string).startsWith("url:")
+        ? (project.coverImage as string).slice(4)
+        : project.coverImage
+      : null) ||
+    images[0] ||
+    "/placeholder-project.jpg";
+  const galleryImages = images.filter((u: string) => u !== coverImage);
 
   // Render description safely using Payload's RichText JSX renderer
   let descriptionContent = null;
@@ -262,6 +292,40 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 {descriptionContent || <p>Details coming soon.</p>}
               </div>
             </FadeIn>
+
+            {/* Amenity Photos Grid */}
+            {amenityPhotos.length > 0 && (
+              <FadeIn delay={0.25}>
+                <div className="space-y-5 sm:space-y-6">
+                  <div className="flex items-center gap-3">
+                    <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">Amenities</h2>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-gold border border-gold/40 bg-gold/5 px-3 py-1 rounded-full">{amenityPhotos.length} photos</span>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {amenityPhotos.map((photoUrl, idx) => (
+                      <div
+                        key={idx}
+                        className={`relative overflow-hidden rounded-2xl bg-off-white border border-border-light group shadow-sm ${
+                          idx === 0 ? "col-span-2 sm:col-span-2 row-span-2 aspect-video sm:aspect-square" : "aspect-square"
+                        }`}
+                      >
+                        <Image
+                          src={photoUrl}
+                          alt={`${project.title} amenity ${idx + 1}`}
+                          fill
+                          sizes={idx === 0
+                            ? "(max-width: 640px) 100vw, (max-width: 1024px) 66vw, 500px"
+                            : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 250px"
+                          }
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+            )}
 
             {/* Amenities */}
             {project.amenities && project.amenities.length > 0 && (

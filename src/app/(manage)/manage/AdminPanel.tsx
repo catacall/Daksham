@@ -43,6 +43,7 @@ interface Project {
   completionDate?: string;
   coverImage?: MediaDoc | null;
   images?: MediaDoc[];
+  amenityPhotos?: MediaDoc[];
   highlights?: Highlight[];
   specifications?: Specification[];
 }
@@ -117,8 +118,13 @@ const api = {
       credentials: "include",
       body: fd,
     });
-    if (!r.ok) return null;
-    return (await r.json()).doc || null;
+    if (!r.ok) {
+      const body = await r.json().catch(() => ({}));
+      console.error("[uploadMedia] failed:", r.status, body);
+      return null;
+    }
+    const json = await r.json();
+    return json.doc || null;
   },
   async getEnquiries(): Promise<Enquiry[]> {
     const r = await fetch("/api/admin-data/enquiries", {
@@ -204,6 +210,7 @@ function EditModal({
     Partial<Project> & {
       coverImage?: MediaDoc | null;
       images?: MediaDoc[];
+      amenityPhotos?: MediaDoc[];
       specifications?: Specification[];
     }
   >({
@@ -220,19 +227,20 @@ function EditModal({
       : "",
     coverImage: project?.coverImage || null,
     images: project?.images || [],
+    amenityPhotos: project?.amenityPhotos || [],
     highlights: project?.highlights || [],
     specifications: project?.specifications || [],
   });
   const [saving, setSaving] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
-  const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [uploadingAmenity, setUploadingAmenity] = useState(false);
   const [newHighlight, setNewHighlight] = useState("");
   const [uploadingSpecIdx, setUploadingSpecIdx] = useState<number | null>(null);
   // Use a ref so the file-input onChange callback always reads the latest index,
   // avoiding the stale-closure problem with async setState.
   const uploadingSpecIdxRef = useRef<number | null>(null);
   const coverRef = useRef<HTMLInputElement>(null);
-  const galleryRef = useRef<HTMLInputElement>(null);
+  const amenityRef = useRef<HTMLInputElement>(null);
   const specImageRef = useRef<HTMLInputElement>(null);
 
   const set = (key: string, val: unknown) =>
@@ -243,27 +251,49 @@ function EditModal({
     if (!file) return;
     setUploadingCover(true);
     const media = await api.uploadMedia(file);
-    if (media) set("coverImage", media);
+    if (media) {
+      set("coverImage", media);
+    } else {
+      showNotification(
+        "Cover photo upload failed. Check console for details.",
+        "error",
+      );
+    }
     setUploadingCover(false);
+    if (coverRef.current) coverRef.current.value = "";
   };
 
-  const handleGalleryUpload = async (
+  const handleAmenityUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
-    setUploadingGallery(true);
+    setUploadingAmenity(true);
+    let failed = 0;
     for (const file of files) {
       const media = await api.uploadMedia(file);
-      if (media) setForm(f => ({ ...f, images: [...(f.images || []), media] }));
+      if (media) {
+        setForm(f => ({
+          ...f,
+          amenityPhotos: [...(f.amenityPhotos || []), media],
+        }));
+      } else {
+        failed++;
+      }
     }
-    setUploadingGallery(false);
+    if (failed > 0)
+      showNotification(
+        `${failed} amenity photo(s) failed to upload. Try again.`,
+        "error",
+      );
+    setUploadingAmenity(false);
+    if (amenityRef.current) amenityRef.current.value = "";
   };
 
-  const removeGalleryImage = (id: string) => {
+  const removeAmenityPhoto = (id: string) => {
     setForm(f => ({
       ...f,
-      images: (f.images || []).filter(img => img.id !== id),
+      amenityPhotos: (f.amenityPhotos || []).filter(img => img.id !== id),
     }));
   };
 
@@ -341,6 +371,21 @@ function EditModal({
   const handleSave = async () => {
     setSaving(true);
     try {
+      // Helper: convert a MediaDoc id to a valid Payload relationship id.
+      // Fallback url:-prefixed ids are not real DB rows — exclude them so
+      // Payload doesn't silently drop the entire images array.
+      const toRelId = (id: string): number | null => {
+        const n = Number(id);
+        return Number.isFinite(n) && n > 0 ? n : null;
+      };
+
+      const coverImageId = form.coverImage?.id
+        ? toRelId(form.coverImage.id)
+        : null;
+      const amenityIds = (form.amenityPhotos || [])
+        .map(img => toRelId(img.id))
+        .filter((id): id is number => id !== null);
+
       const payload: Record<string, unknown> = {
         title: form.title || "",
         status: form.status || "ongoing",
@@ -353,13 +398,13 @@ function EditModal({
         completionDate: form.completionDate
           ? form.completionDate + "-01"
           : undefined,
-        coverImage: form.coverImage?.id || null,
-        images: (form.images || []).map(img => img.id),
+        coverImage: coverImageId,
+        amenityPhotos: amenityIds,
         highlights: form.highlights || [],
         specifications: (form.specifications || []).map(spec => ({
           title: spec.title || "",
           description: spec.description || "",
-          image: spec.image?.id || null,
+          image: spec.image?.id ? toRelId(spec.image.id) : null,
         })),
         publishedAt: new Date().toISOString(),
       };
@@ -385,7 +430,10 @@ function EditModal({
       else showNotification("Failed to save. Please try again.", "error");
     } catch (err) {
       console.error("[handleSave] Unexpected error:", err);
-      showNotification("An unexpected error occurred. Please try again.", "error");
+      showNotification(
+        "An unexpected error occurred. Please try again.",
+        "error",
+      );
     } finally {
       setSaving(false);
     }
@@ -394,7 +442,6 @@ function EditModal({
   return (
     <div className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-border-light/50">
-
         {/* ── Header ── */}
         <div className="px-6 py-5 border-b border-border-light/20 flex items-center justify-between bg-navy shrink-0">
           <div>
@@ -416,126 +463,286 @@ function EditModal({
         {/* ── Scrollable body ── */}
         <div className="overflow-y-auto flex-1 bg-off-white">
           <div className="p-6 space-y-5">
-
             {/* Cover Photo */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Cover Photo</p>
-              <div className="flex items-center gap-4">
-                <div className="w-24 h-18 rounded-xl overflow-hidden bg-off-white border border-border-light shrink-0 flex items-center justify-center">
-                  {IMG(form.coverImage) ? (
-                    <img src={IMG(form.coverImage)!} alt="cover" className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-3xl">🏗️</span>
-                  )}
-                </div>
-                <div className="space-y-1.5">
-                  <button onClick={() => coverRef.current?.click()} disabled={uploadingCover} className="bg-navy hover:bg-gold text-white hover:text-navy text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all">
-                    {uploadingCover ? "Uploading…" : "Upload Cover Photo"}
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">
+                Cover Photo
+              </p>
+              <div className="flex flex-wrap gap-3 mb-3">
+                {IMG(form.coverImage) && (
+                  <div className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-border-light shadow-xs shrink-0">
+                    <img
+                      src={IMG(form.coverImage)!}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      onClick={() => set("coverImage", null)}
+                      className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
+                {!IMG(form.coverImage) && (
+                  <button
+                    onClick={() => coverRef.current?.click()}
+                    disabled={uploadingCover}
+                    className="w-20 h-16 rounded-xl border-2 border-dashed border-border-light flex flex-col items-center justify-center text-muted hover:border-gold hover:text-gold transition-all shrink-0 text-xl font-light"
+                  >
+                    {uploadingCover ? (
+                      <span className="text-xs font-bold">…</span>
+                    ) : (
+                      "＋"
+                    )}
                   </button>
-                  <p className="text-[11px] text-muted">Recommended: 1600×900px landscape</p>
-                </div>
-                <input ref={coverRef} type="file" accept="image/*" className="hidden" onChange={handleCoverUpload} />
+                )}
               </div>
+              <p className="text-[11px] text-muted">
+                {IMG(form.coverImage)
+                  ? "Hover over image to remove."
+                  : "Click ＋ to upload. Recommended: 1600×900px landscape"}
+              </p>
+              <input
+                ref={coverRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleCoverUpload}
+              />
             </div>
 
             {/* Core Fields */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-4">Project Details</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-4">
+                Project Details
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Project Name *</label>
-                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.title || ""} onChange={e => set("title", e.target.value)} placeholder="e.g. Sai World City" />
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                    Project Name *
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    value={form.title || ""}
+                    onChange={e => set("title", e.target.value)}
+                    placeholder="e.g. Sai World City"
+                  />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Status</label>
-                  <select className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all cursor-pointer" value={form.status} onChange={e => set("status", e.target.value)}>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                    Status
+                  </label>
+                  <select
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all cursor-pointer"
+                    value={form.status}
+                    onChange={e => set("status", e.target.value)}
+                  >
                     <option value="ongoing">🏗️ Ongoing</option>
                     <option value="delivered">✅ Delivered</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Location *</label>
-                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.location || ""} onChange={e => set("location", e.target.value)} placeholder="e.g. Panvel, Navi Mumbai" />
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                    Location *
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    value={form.location || ""}
+                    onChange={e => set("location", e.target.value)}
+                    placeholder="e.g. Panvel, Navi Mumbai"
+                  />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Price Range</label>
-                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.priceRange || ""} onChange={e => set("priceRange", e.target.value)} placeholder="e.g. ₹45L – ₹90L" />
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                    Price Range
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    value={form.priceRange || ""}
+                    onChange={e => set("priceRange", e.target.value)}
+                    placeholder="e.g. ₹45L – ₹90L"
+                  />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Unit Types</label>
-                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.area || ""} onChange={e => set("area", e.target.value)} placeholder="e.g. 2, 3 & 4 BHK" />
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                    Unit Types
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    value={form.area || ""}
+                    onChange={e => set("area", e.target.value)}
+                    placeholder="e.g. 2, 3 & 4 BHK"
+                  />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">RERA Number</label>
-                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.reraNumber || ""} onChange={e => set("reraNumber", e.target.value)} placeholder="P52100XXXXX" />
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                    RERA Number
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    value={form.reraNumber || ""}
+                    onChange={e => set("reraNumber", e.target.value)}
+                    placeholder="P52100XXXXX"
+                  />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">Expected Completion</label>
-                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" type="month" value={form.completionDate || ""} onChange={e => set("completionDate", e.target.value)} />
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                    Expected Completion
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    type="month"
+                    value={form.completionDate || ""}
+                    onChange={e => set("completionDate", e.target.value)}
+                  />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">YouTube Video Link</label>
-                  <input className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={form.youtubeUrl || ""} onChange={e => set("youtubeUrl", e.target.value)} placeholder="https://youtube.com/watch?v=..." />
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                    YouTube Video Link
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    value={form.youtubeUrl || ""}
+                    onChange={e => set("youtubeUrl", e.target.value)}
+                    placeholder="https://youtube.com/watch?v=..."
+                  />
                 </div>
               </div>
             </div>
 
             {/* Description */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Description</label>
-              <textarea className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all resize-none" rows={4} value={form.description || ""} onChange={e => set("description", e.target.value)} placeholder="Provide a short luxury description about this project…" />
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-3">
+                Description
+              </label>
+              <textarea
+                className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all resize-none"
+                rows={4}
+                value={form.description || ""}
+                onChange={e => set("description", e.target.value)}
+                placeholder="Provide a short luxury description about this project…"
+              />
             </div>
 
             {/* Highlights */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Highlights &amp; Features</label>
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-3">
+                Highlights &amp; Features
+              </label>
               <div className="flex flex-wrap gap-2 mb-3 min-h-[28px]">
                 {(form.highlights || []).map((h, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 bg-gold/10 border border-gold/30 text-navy rounded-full px-3 py-1 text-xs font-semibold">
+                  <span
+                    key={i}
+                    className="inline-flex items-center gap-1.5 bg-gold/10 border border-gold/30 text-navy rounded-full px-3 py-1 text-xs font-semibold"
+                  >
                     {h.point}
-                    <button onClick={() => removeHighlight(i)} className="text-navy/40 hover:text-red-600 font-bold leading-none transition-colors">×</button>
+                    <button
+                      onClick={() => removeHighlight(i)}
+                      className="text-navy/40 hover:text-red-600 font-bold leading-none transition-colors"
+                    >
+                      ×
+                    </button>
                   </span>
                 ))}
               </div>
               <div className="flex gap-2">
-                <input className="flex-1 px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all" value={newHighlight} onChange={e => setNewHighlight(e.target.value)} placeholder="e.g. Smart Home Automation" onKeyDown={e => e.key === "Enter" && (e.preventDefault(), addHighlight())} />
-                <button onClick={addHighlight} className="bg-navy hover:bg-gold text-white hover:text-navy text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all">Add</button>
+                <input
+                  className="flex-1 px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                  value={newHighlight}
+                  onChange={e => setNewHighlight(e.target.value)}
+                  placeholder="e.g. Smart Home Automation"
+                  onKeyDown={e =>
+                    e.key === "Enter" && (e.preventDefault(), addHighlight())
+                  }
+                />
+                <button
+                  onClick={addHighlight}
+                  className="bg-navy hover:bg-gold text-white hover:text-navy text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all"
+                >
+                  Add
+                </button>
               </div>
             </div>
 
-            {/* Gallery */}
+            {/* Amenity Photos */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">Gallery Photos</p>
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted">
+                    Amenity Photos
+                  </p>
+                  <p className="text-[11px] text-muted mt-0.5">
+                    Pool, gym, lobby, garden, living spaces — showcased on the
+                    project page
+                  </p>
+                </div>
+                <span className="text-[10px] bg-gold/10 border border-gold/30 text-gold font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0 ml-2">
+                  Displayed on site
+                </span>
+              </div>
               <div className="flex flex-wrap gap-3 mb-3">
-                {(form.images || []).map(img => (
-                  <div key={img.id} className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-border-light shadow-xs shrink-0">
-                    <img src={img.url} alt="" className="w-full h-full object-cover" />
-                    <button onClick={() => removeGalleryImage(img.id)} className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs">
+                {(form.amenityPhotos || []).map(img => (
+                  <div
+                    key={img.id}
+                    className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-gold/30 shadow-xs shrink-0"
+                  >
+                    <img
+                      src={img.url}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      onClick={() => removeAmenityPhoto(img.id)}
+                      className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
+                    >
                       Remove
                     </button>
                   </div>
                 ))}
-                <button onClick={() => galleryRef.current?.click()} disabled={uploadingGallery} className="w-20 h-16 rounded-xl border-2 border-dashed border-border-light flex flex-col items-center justify-center text-muted hover:border-gold hover:text-gold transition-all shrink-0 text-xl font-light">
-                  {uploadingGallery ? <span className="text-xs font-bold">…</span> : "＋"}
+                <button
+                  onClick={() => amenityRef.current?.click()}
+                  disabled={uploadingAmenity}
+                  className="w-20 h-16 rounded-xl border-2 border-dashed border-gold/40 flex flex-col items-center justify-center text-gold hover:border-gold hover:bg-gold/5 transition-all shrink-0 text-xl font-light"
+                >
+                  {uploadingAmenity ? (
+                    <span className="text-xs font-bold">…</span>
+                  ) : (
+                    "＋"
+                  )}
                 </button>
               </div>
-              <p className="text-[11px] text-muted">Hover over image to remove. Click ＋ to add more.</p>
-              <input ref={galleryRef} type="file" accept="image/*" multiple className="hidden" onChange={handleGalleryUpload} />
+              <p className="text-[11px] text-muted">
+                Hover over image to remove. Click ＋ to add more.
+              </p>
+              <input
+                ref={amenityRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={handleAmenityUpload}
+              />
             </div>
-
           </div>
         </div>
 
         {/* ── Footer — always pinned ── */}
         <div className="px-6 py-4 border-t border-border-light/60 bg-white flex justify-end gap-3 shrink-0">
-          <button onClick={onClose} className="text-navy border border-border-light bg-off-white hover:bg-border-light text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-all">
+          <button
+            onClick={onClose}
+            className="text-navy border border-border-light bg-off-white hover:bg-border-light text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-all"
+          >
             Cancel
           </button>
-          <button onClick={handleSave} disabled={saving} className="bg-gold hover:bg-gold-light text-navy font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed">
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-gold hover:bg-gold-light text-navy font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             {saving ? "Saving…" : isNew ? "Create Project" : "Save Changes"}
           </button>
         </div>
-
       </div>
     </div>
   );
@@ -556,9 +763,12 @@ export default function AdminPanel() {
   const [expandedEnq, setExpandedEnq] = useState<string | null>(null);
   const [savingEnq, setSavingEnq] = useState<Record<string, boolean>>({});
   const [selectedEnqs, setSelectedEnqs] = useState<string[]>([]);
-  const [deleteConfirmProject, setDeleteConfirmProject] = useState<Project | null>(null);
+  const [deleteConfirmProject, setDeleteConfirmProject] =
+    useState<Project | null>(null);
   const [isDeletingProject, setIsDeletingProject] = useState(false);
-  const [deleteProjectError, setDeleteProjectError] = useState<string | null>(null);
+  const [deleteProjectError, setDeleteProjectError] = useState<string | null>(
+    null,
+  );
   const [uploadingBrochure, setUploadingBrochure] = useState(false);
   const [notification, setNotification] = useState<{
     message: string;
@@ -574,8 +784,6 @@ export default function AdminPanel() {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 3000);
   };
-
-
 
   const exportToCSV = () => {
     if (enquiries.length === 0) return;
@@ -675,7 +883,6 @@ export default function AdminPanel() {
     setSavingEnq(s => ({ ...s, [id]: false }));
   };
 
-
   const handleProjectSaved = (saved: Project) => {
     setProjects(prev => {
       const idx = prev.findIndex(p => p.id === saved.id);
@@ -717,7 +924,10 @@ export default function AdminPanel() {
     }
 
     if (failed.length > 0) {
-      showNotification(`Deleted ${succeeded.length}, failed ${failed.length}.`, "error");
+      showNotification(
+        `Deleted ${succeeded.length}, failed ${failed.length}.`,
+        "error",
+      );
     } else {
       showNotification(`Successfully deleted ${succeeded.length} enquiries.`);
     }
@@ -734,22 +944,27 @@ export default function AdminPanel() {
     delivered: projects.filter(p => p.status === "delivered").length,
   };
 
-
   return (
     <div className="min-h-screen bg-off-white font-sans pb-16">
       {deleteConfirmProject && (
         <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-border-light">
-            <h3 className="font-display font-bold text-navy text-xl mb-2">Delete Project?</h3>
-            <p className="text-sm text-black mb-4">Are you sure you want to delete <span className="font-bold">{deleteConfirmProject.title}</span>? This will permanently remove it from the website galleries.</p>
-            
+            <h3 className="font-display font-bold text-navy text-xl mb-2">
+              Delete Project?
+            </h3>
+            <p className="text-sm text-black mb-4">
+              Are you sure you want to delete{" "}
+              <span className="font-bold">{deleteConfirmProject.title}</span>?
+              This will permanently remove it from the website galleries.
+            </p>
+
             {deleteProjectError && (
               <div className="mb-4 p-3 bg-red-50 text-red-700 text-xs rounded-xl border border-red-100">
                 <strong className="block mb-1">Error Deleting:</strong>
                 <span className="wrap-break-words">{deleteProjectError}</span>
               </div>
             )}
-            
+
             <div className="flex gap-3">
               <button
                 onClick={() => setDeleteConfirmProject(null)}
@@ -765,9 +980,9 @@ export default function AdminPanel() {
                   const projectId = String(p.id);
                   setIsDeletingProject(true);
                   setDeleteProjectError(null);
-                  
+
                   const result = await api.deleteProject(projectId);
-                  
+
                   if (result.ok) {
                     // Re-fetch from server — source of truth is always the DB
                     const fresh = await api.getProjects();
@@ -776,7 +991,10 @@ export default function AdminPanel() {
                     setDeleteConfirmProject(null);
                     setIsDeletingProject(false);
                   } else {
-                    setDeleteProjectError(result.error || "Server returned an error. Check your network tab for details.");
+                    setDeleteProjectError(
+                      result.error ||
+                        "Server returned an error. Check your network tab for details.",
+                    );
                     setIsDeletingProject(false);
                   }
                 }}
@@ -872,7 +1090,9 @@ export default function AdminPanel() {
                   <p className="text-[10px] font-bold uppercase tracking-wider text-black mb-1">
                     {s.label}
                   </p>
-                  <p className={`text-2xl font-display font-extrabold ${s.color}`}>
+                  <p
+                    className={`text-2xl font-display font-extrabold ${s.color}`}
+                  >
                     {s.value}
                   </p>
                 </div>
@@ -893,9 +1113,13 @@ export default function AdminPanel() {
                 }`}
               >
                 {t === "projects"
-                  ? loading ? "🏗️ Projects" : `🏗️ Projects (${projects.length})`
+                  ? loading
+                    ? "🏗️ Projects"
+                    : `🏗️ Projects (${projects.length})`
                   : t === "enquiries"
-                    ? loading ? "📋 Enquiries" : `📋 Enquiries (${enquiries.length})`
+                    ? loading
+                      ? "📋 Enquiries"
+                      : `📋 Enquiries (${enquiries.length})`
                     : "⚙️ Settings"}
               </button>
             ))}
@@ -1065,7 +1289,10 @@ export default function AdminPanel() {
               <div className="bg-white rounded-3xl border border-border-light/60 shadow-xs overflow-hidden animate-pulse">
                 <div className="h-12 bg-off-white border-b border-border-light/60" />
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex items-center gap-4 px-6 py-4 border-b border-border-light/20">
+                  <div
+                    key={i}
+                    className="flex items-center gap-4 px-6 py-4 border-b border-border-light/20"
+                  >
                     <div className="w-4 h-4 rounded bg-border-light/40 shrink-0" />
                     <div className="flex-1 space-y-1.5">
                       <div className="h-3.5 bg-border-light/40 rounded w-32" />
@@ -1102,7 +1329,9 @@ export default function AdminPanel() {
                             }
                             onChange={e => {
                               if (e.target.checked) {
-                                setSelectedEnqs(enquiries.map(enq => String(enq.id)));
+                                setSelectedEnqs(
+                                  enquiries.map(enq => String(enq.id)),
+                                );
                               } else {
                                 setSelectedEnqs([]);
                               }
@@ -1146,11 +1375,15 @@ export default function AdminPanel() {
                               >
                                 <input
                                   type="checkbox"
-                                  checked={selectedEnqs.includes(String(enq.id))}
+                                  checked={selectedEnqs.includes(
+                                    String(enq.id),
+                                  )}
                                   onChange={() => {
                                     setSelectedEnqs(prev =>
                                       prev.includes(String(enq.id))
-                                        ? prev.filter(id => id !== String(enq.id))
+                                        ? prev.filter(
+                                            id => id !== String(enq.id),
+                                          )
                                         : [...prev, String(enq.id)],
                                     );
                                   }}

@@ -45,5 +45,22 @@ export const Media: CollectionConfig = {
       type: 'text',
       required: false,
     },
+    {
+      name: 'cloudinaryUrl',
+      type: 'text',
+      admin: {
+        readOnly: true,
+      },
+    },
   ],
+  hooks: {
+    afterRead: [
+      ({ doc }) => {
+        if (doc.cloudinaryUrl) {
+          doc.url = doc.cloudinaryUrl;
+        }
+        return doc;
+      },
+    ],
+  },
 }
