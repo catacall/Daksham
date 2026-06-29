@@ -28,7 +28,7 @@ export default function DeveloperProfile() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="structural-panel p-5 sm:p-8 md:p-14 shadow-xl relative overflow-hidden bg-white"
+          className="structural-panel p-5 sm:p-8 md:p-14 shadow-xl  relative overflow-hidden bg-white "
         >
           {/* Subtle decorative glow */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[80px] pointer-events-none" />

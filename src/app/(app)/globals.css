@@ -2,21 +2,21 @@
 
 :root {
   /* ─── Editorial Navy & Gold Palette ─── */
-  --navy: #0A192F;
+  --navy: #0a192f;
   --navy-light: #112240;
-  --gold: #D4AF37;
-  --gold-light: #F3E5AB;
+  --gold: #d4af37;
+  --gold-light: #f3e5ab;
   --white: #ffffff;
-  --off-white: #F8F9FA;
-  --muted: #8892B0;
+  --off-white: #f8f9fa;
+  --muted: #8892b0;
   --border: rgba(10, 25, 47, 0.15);
   --border-light: rgba(10, 25, 47, 0.05);
   --border-inverse: rgba(255, 255, 255, 0.15);
-  
+
   /* Brand / Logo teal accent (keeping if they still want logo to be standard, or I can make logo gold) */
-  --logo: #D4AF37;
-  --logo-light: #F3E5AB;
-  --logo-dark: #B8860B;
+  --logo: #d4af37;
+  --logo-light: #f3e5ab;
+  --logo-dark: #b8860b;
 
   /* Semantic aliases */
   --background: var(--off-white);
@@ -39,7 +39,7 @@
   --color-gold: var(--gold);
   --color-gold-light: var(--gold-light);
   --color-off-white: var(--off-white);
-  
+
   --color-logo: var(--logo);
   --color-logo-light: var(--logo-light);
   --color-logo-dark: var(--logo-dark);
@@ -63,19 +63,28 @@ body {
 }
 
 /* ─── Typography ─── */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   line-height: 1.1;
   font-weight: 400; /* Marcellus is best at 400 */
 }
 
-p, li, span {
+p,
+li,
+span {
   font-family: var(--font-sans);
   line-height: 1.6;
 }
 
 /* ─── Mobile-first minimum touch targets ─── */
-button, a, [role="button"] {
+button,
+a,
+[role="button"] {
   min-height: 44px;
 }
 
@@ -123,7 +132,7 @@ button, a, [role="button"] {
   background: var(--white);
   border: 1px solid var(--border);
   /* Hard edges for editorial look */
-  border-radius: 0px; 
+  border-radius: 0px;
 }
 
 @utility structural-panel-dark {
@@ -153,8 +162,12 @@ button, a, [role="button"] {
 }
 
 @media (min-width: 640px) {
-  .eyebrow { font-size: 0.8rem; }
+  .eyebrow {
+    font-size: 0.8rem;
+  }
 }
 @media (min-width: 768px) {
-  .eyebrow { font-size: 0.85rem; }
+  .eyebrow {
+    font-size: 0.85rem;
+  }
 }

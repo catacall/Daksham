@@ -162,7 +162,7 @@ export default async function ContactPage({
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Office Location Map"
-                  className="grayscale hover:grayscale-0 transition-all duration-700"
+                  className="transition-all duration-700"
                 />
               </div>
             </FadeIn>

@@ -62,29 +62,31 @@ export default function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 border-b ${
-        isScrolled || !isHome ? "bg-white border-border shadow-sm py-0" : "bg-transparent border-transparent py-2 md:py-4"
+        isScrolled || !isHome
+          ? "bg-white border-border shadow-sm py-0"
+          : "bg-transparent border-transparent py-2 md:py-4"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}
       <div className="w-full px-6 sm:px-12 lg:px-20">
-        <div
-          className="relative flex items-center justify-between h-16 sm:h-20 md:h-24"
-        >
+        <div className="relative flex items-center justify-between h-16 sm:h-20 md:h-24">
           {/* ── LEFT: Logo ── */}
           <Link
             href="/"
-            className="flex items-center shrink-0 z-10"
+            className="flex items-center shrink-0 z-10 "
             aria-label="Daksham Developers Home"
           >
             <div
-              className={`flex items-center transition-all duration-300 ${
-                isScrolled || !isHome ? "h-12 sm:h-14 md:h-16" : "h-14 sm:h-16 md:h-20"
+              className={`flex items-center transition-all duration-300  ${
+                isScrolled || !isHome
+                  ? "h-12 sm:h-14 md:h-16"
+                  : "h-14 sm:h-16 md:h-20"
               }`}
             >
               <Image
                 src="/daksham developers.png"
                 alt="Daksham Developers Logo"
-                className="h-full w-auto object-contain"
+                className="h-full mx-auto w-full my-auto object-contain "
                 height={120}
                 width={120}
                 loading="eager"
@@ -113,18 +115,20 @@ export default function Navbar() {
                       className={`flex items-center gap-1 px-3 lg:px-4 py-2
                         text-xs font-sans font-bold uppercase tracking-[0.15em]
                         transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                          (isScrolled || !isHome)
-                            ? (dropdownOpen ? "text-logo" : "text-navy hover:text-logo")
-                            : (dropdownOpen ? "text-logo" : "text-navy hover:text-logo")
+                          isScrolled || !isHome
+                            ? dropdownOpen
+                              ? "text-logo"
+                              : "text-navy hover:text-logo"
+                            : dropdownOpen
+                              ? "text-logo"
+                              : "text-navy hover:text-logo"
                         }`}
                     >
                       Projects
                       <ChevronDown
                         size={14}
                         className={`shrink-0 transform transition-transform duration-300 ${
-                          dropdownOpen
-                            ? "rotate-180 text-logo"
-                            : "text-navy/40"
+                          dropdownOpen ? "rotate-180 text-logo" : "text-navy/40"
                         }`}
                       />
                     </button>
@@ -176,19 +180,21 @@ export default function Navbar() {
               }
 
               return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`flex items-center justify-center px-3 lg:px-4 py-2
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`flex items-center justify-center px-3 lg:px-4 py-2
                       text-xs font-sans font-bold uppercase tracking-[0.15em]
                       transition-all duration-200 whitespace-nowrap ${
                         isActive(link.href)
                           ? "text-logo"
-                          : ((isScrolled || !isHome) ? "text-navy hover:text-logo" : "text-navy hover:text-logo")
+                          : isScrolled || !isHome
+                            ? "text-navy hover:text-logo"
+                            : "text-navy hover:text-logo"
                       }`}
-                  >
-                    {link.name}
-                  </Link>
+                >
+                  {link.name}
+                </Link>
               );
             })}
           </nav>
@@ -281,10 +287,7 @@ export default function Navbar() {
             >
               {/* Panel header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-border">
-                <div className="flex items-center gap-3">
-                
-                  
-                </div>
+                <div className="flex items-center gap-3"></div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center justify-center w-8 h-8

@@ -78,7 +78,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full aspect-4/5 lg:aspect-auto lg:h-[40vh] relative structural-panel-dark overflow-hidden group"
+          className="w-full aspect-4/5 lg:aspect-auto lg:h-[40vh] lg:w-[40vw] md:h-[20vh] md:w-[70vw] sm:h-[10vh] sm:w-[30vw] relative structural-panel-dark overflow-hidden group mt-20 mr-10 ml-10 mb-3 "
         >
           <video
             src="/videoplayback.mp4"
@@ -86,7 +86,7 @@ export default function Hero() {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105 opacity-90"
+            className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105 opacity-90 "
           />
 
           {/* Subtle inner border for editorial feel */}
@@ -97,7 +97,7 @@ export default function Hero() {
             <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">
               Virtual Tour
             </h2>
-            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-border-light bg-navy shadow-xl">
+            <div className="relative overflow-hidden bg- sm:rounded-3xl border border-border-light bg-navy shadow-xl">
               {/* Background glow */}
               <div className="absolute inset-0 bg-linear-to-br from-gold/10 via-transparent to-cyan/10 pointer-events-none" />
               <div className="absolute -top-20 -right-20 w-64 h-64 bg-gold/5 rounded-full blur-[60px] pointer-events-none" />
@@ -178,7 +178,6 @@ export default function Hero() {
                     rel="noopener noreferrer"
                     className="group flex items-center gap-3 px-5 py-3.5 rounded-xl bg-white/10 text-white border border-white/20 font-sans font-bold text-xs uppercase tracking-widest transition-all duration-300 hover:bg-white/20 hover:border-white/40 active:scale-95"
                   >
-                   
                     Enter Amenities Floor Tour
                     <svg
                       className="w-4 h-4 ml-auto transition-transform duration-300 group-hover:translate-x-1"
