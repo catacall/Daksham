@@ -122,16 +122,21 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
   }
 
   return (
-    <motion.form 
+    <motion.form
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      onSubmit={handleSubmit} 
-      className="space-y-4 sm:space-y-6 rounded-sm border border-gold/20 bg-background p-5 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+      onSubmit={handleSubmit}
+      className="space-y-4 sm:space-y-6 rounded-sm border border-gold/20  p-5 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-[#7AE2CF]"
     >
-      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 ">
         <div className="space-y-1.5 sm:space-y-2">
-          <label htmlFor="name" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Full Name *</label>
+          <label
+            htmlFor="name"
+            className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+          >
+            Full Name *
+          </label>
           <input
             id="name"
             name="name"
@@ -144,11 +149,18 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             }`}
             placeholder="John Doe"
           />
-          {errors.name && <p className="text-xs font-sans text-red-500">{errors.name}</p>}
+          {errors.name && (
+            <p className="text-xs font-sans text-red-500">{errors.name}</p>
+          )}
         </div>
 
         <div className="space-y-1.5 sm:space-y-2">
-          <label htmlFor="phone" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Phone Number *</label>
+          <label
+            htmlFor="phone"
+            className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+          >
+            Phone Number *
+          </label>
           <input
             id="phone"
             name="phone"
@@ -161,12 +173,19 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             }`}
             placeholder="+91 99675 56073"
           />
-          {errors.phone && <p className="text-xs font-sans text-red-500">{errors.phone}</p>}
+          {errors.phone && (
+            <p className="text-xs font-sans text-red-500">{errors.phone}</p>
+          )}
         </div>
       </div>
 
       <div className="space-y-1.5 sm:space-y-2">
-        <label htmlFor="email" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Email Address *</label>
+        <label
+          htmlFor="email"
+          className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+        >
+          Email Address *
+        </label>
         <input
           id="email"
           name="email"
@@ -179,11 +198,18 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           }`}
           placeholder="john@example.com"
         />
-        {errors.email && <p className="text-xs font-sans text-red-500">{errors.email}</p>}
+        {errors.email && (
+          <p className="text-xs font-sans text-red-500">{errors.email}</p>
+        )}
       </div>
 
       <div className="space-y-1.5 sm:space-y-2">
-        <label htmlFor="projectInterestedIn" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Project Interested In</label>
+        <label
+          htmlFor="projectInterestedIn"
+          className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+        >
+          Project Interested In
+        </label>
         <select
           id="projectInterestedIn"
           name="projectInterestedIn"
@@ -192,14 +218,21 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           className="w-full rounded-sm border border-border-light bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-all"
         >
           <option value="">Select a project (Optional)</option>
-          {projects.map((p) => (
-            <option key={p.id} value={p.id}>{p.title}</option>
+          {projects.map(p => (
+            <option key={p.id} value={p.id}>
+              {p.title}
+            </option>
           ))}
         </select>
       </div>
 
       <div className="space-y-1.5 sm:space-y-2">
-        <label htmlFor="message" className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">Your Message *</label>
+        <label
+          htmlFor="message"
+          className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+        >
+          Your Message *
+        </label>
         <textarea
           id="message"
           name="message"
@@ -212,7 +245,9 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           }`}
           placeholder="How can we help you?"
         />
-        {errors.message && <p className="text-xs font-sans text-red-500">{errors.message}</p>}
+        {errors.message && (
+          <p className="text-xs font-sans text-red-500">{errors.message}</p>
+        )}
       </div>
 
       {submitStatus === "error" && (

@@ -70,35 +70,32 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
   };
 
   return (
-    <section className="relative py-16 sm:py-24 overflow-hidden bg-navy">
+    <section className="relative py-24 sm:py-32 overflow-hidden bg-off-white z-10">
       {/* Background patterns */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.08),transparent_50%)]" />
-      <div className="absolute bottom-0 left-10 w-96 h-96 bg-cyan/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.05),transparent_50%)]" />
 
-      <div className="container mx-auto max-w-5xl px-4 relative z-10">
-        <div className="bg-linear-to-r from-navy-light/40 to-navy-light/10 border border-gold/20 rounded-3xl p-8 sm:p-12 md:p-16 text-center space-y-6 sm:space-y-8 backdrop-blur-md shadow-2xl relative">
-          {/* Subtle golden corner accents */}
-          <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-gold/30 rounded-tl-3xl pointer-events-none" />
-          <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-gold/30 rounded-tr-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-gold/30 rounded-bl-3xl pointer-events-none" />
-          <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-gold/30 rounded-br-3xl pointer-events-none" />
+      <div className="container mx-auto max-w-5xl px-6 sm:px-12 relative z-10">
+        <div className="bg-navy rounded-[3rem] border border-gold p-10 sm:p-16 md:p-24 text-center space-y-8 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group">
+          {/* Subtle glow */}
+          <div className="absolute inset-0 bg-linear-to-br from-gold/10 via-transparent to-cyan/10 pointer-events-none" />
+          <div className="absolute top-0 left-0 w-64 h-64 bg-gold/5 rounded-full blur-[80px] pointer-events-none transition-transform duration-700 group-hover:scale-110" />
 
-          <div className="space-y-3 sm:space-y-4">
-            <span className="text-xs sm:text-sm font-sans font-bold uppercase tracking-[0.25em] text-gold block">
+          <div className="space-y-4 relative z-10">
+            <span className="text-sm font-sans font-bold uppercase tracking-[0.25em] text-gold block">
               Premium E-Brochure
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium uppercase tracking-wide text-white">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium uppercase tracking-wide text-gold mb-6">
               Discover Daksham Developments
             </h2>
-            <p className="font-sans text-muted text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            <p className="font-sans text-gold/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
               Download our comprehensive project portfolio containing floor plans, site master layouts, pricing options, and complete specification sheets.
             </p>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center relative z-10 mt-8">
             <button
               onClick={() => setShowModal(true)}
-              className="inline-flex items-center justify-center rounded-xl bg-gold px-8 py-4 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy transition-all duration-300 hover:bg-gold-light hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-gold/10"
+              className="inline-flex items-center justify-center rounded-xl bg-gold px-10 py-5 font-sans text-sm font-bold uppercase tracking-widest text-navy transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 shadow-lg"
             >
               📥 Download Brochure
             </button>

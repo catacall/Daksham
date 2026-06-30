@@ -112,7 +112,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
   return (
     <section
       id="projects"
-      className="relative bg-navy py-20 sm:py-24 md:py-32"
+      className="relative bg-off-white py-20 sm:py-24 md:py-32"
     >
       {/* Centered Header */}
       <div className="container mx-auto px-6 sm:px-12 lg:px-20 mb-12 sm:mb-16">
@@ -123,21 +123,20 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex flex-col items-center text-center pb-8 border-b border-border-inverse"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-display text-white uppercase tracking-tight">
-            Our Projects
+          <h2 className="text-5xl sm:text-6xl md:text-7xl font-display text-navy uppercase tracking-tight drop-shadow-sm font-black">
+            Projects
           </h2>
-
         </motion.div>
       </div>
 
       {/* Infinite Marquee Slider */}
-      <div 
-        className="w-full overflow-hidden cursor-grab active:cursor-grabbing pb-4"
+      <div
+        className="w-full overflow-hidden cursor-grab active:cursor-grabbing "
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <motion.div
-          className="flex w-max"
+          className="flex w-max pb-4 pt-4 mb-4 m-3 rounded-2xl"
           style={{ x: baseX }}
           drag="x"
           dragConstraints={{ left: -100000, right: 100000 }} // Effectively infinite
@@ -146,25 +145,46 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
           onDragEnd={() => (isDragging.current = false)}
         >
           {/* Set 1 (Measured) */}
-          <div ref={measureRef} className="flex gap-6 sm:gap-8 pr-6 sm:pr-8 pl-6 sm:pl-12 lg:pl-20">
+          <div
+            ref={measureRef}
+            className="flex gap-6 sm:gap-8 pr-6 sm:pr-8 pl-6 sm:pl-12 lg:pl-20 "
+          >
             {displayProjects.map((project, idx) => (
               <div
                 key={`set1-${idx}`}
-                className="group shrink-0 w-[85vw] sm:w-[50vw] md:w-[35vw] lg:w-[28vw] xl:w-[22vw] h-[45vh] sm:h-[50vh] md:h-[55vh] relative structural-panel-dark p-3 sm:p-4 block"
+                className="group shrink-0 w-[85vw] sm:w-[50vw] md:w-[35vw] lg:w-[28vw] xl:w-[22vw] h-[45vh] sm:h-[50vh] md:h-[55vh] relative p-3 sm:p-4 block pb-4 pt-4 mb-4 m-3 rounded-2xl"
               >
-                <Link href={`/projects/${project.slug}`} className="block w-full h-full" draggable={false}>
-                  <div className="relative w-full h-full overflow-hidden border border-border-inverse/50">
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="block w-full h-full"
+                  draggable={false}
+                >
+                  <div className="relative w-full h-full overflow-hidden rounded-3xl border border-gold/20 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                     <Image
                       src={project.image}
                       alt={project.title}
                       fill
                       draggable={false}
-                      className="object-cover object-center pointer-events-none select-none transition-transform duration-[2s] ease-out group-hover:scale-105 opacity-90"
-                      sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 400px" />
-                    <div className="absolute inset-0 bg-linear-to-t from-navy/90 via-navy/20 to-transparent flex flex-col justify-end p-5 sm:p-6 pointer-events-none">
-                      <p className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1.5">{project.location}</p>
-                      <h3 className="text-white font-display text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-1">{project.title}</h3>
-                      <p className="text-white/80 text-xs sm:text-sm font-sans font-light">{project.area}</p>
+                      className="object-cover object-center pointer-events-none select-none transition-transform duration-[2s] ease-out group-hover:scale-110 opacity-90"
+                      sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 400px"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-navy via-navy/40 to-transparent flex flex-col justify-end p-6 sm:p-8 pointer-events-none transition-colors duration-500 group-hover:from-navy/90 group-hover:via-navy/60">
+                      <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-12 sm:translate-y-14 group-hover:translate-y-0">
+                        <p className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2">
+                          {project.location}
+                        </p>
+                        <h3 className="text-white font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2">
+                          {project.title}
+                        </h3>
+                        <p className="text-white/80 text-xs sm:text-sm font-sans font-light mb-6">
+                          {project.area}
+                        </p>
+                        <div className="opacity-0 transform translate-y-4 transition-all duration-500 delay-100 group-hover:opacity-100 group-hover:translate-y-0">
+                          <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#7AE2CF] text-white font-bold text-[10px] sm:text-xs uppercase tracking-widest shadow-lg">
+                            View Project
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -177,27 +197,46 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
             {displayProjects.map((project, idx) => (
               <div
                 key={`set2-${idx}`}
-                className="group shrink-0 w-[85vw] sm:w-[50vw] md:w-[35vw] lg:w-[28vw] xl:w-[22vw] h-[45vh] sm:h-[50vh] md:h-[55vh] relative structural-panel-dark p-3 sm:p-4 block"
+                className="group shrink-0 w-[85vw] sm:w-[50vw] md:w-[35vw] lg:w-[28vw] xl:w-[22vw] h-[45vh] sm:h-[50vh] md:h-[55vh] relative p-3 sm:p-4 block pb-4 pt-4 mb-4 m-3 rounded-2xl"
               >
-                <Link href={`/projects/${project.slug}`} className="block w-full h-full" draggable={false}>
-                  <div className="relative w-full h-full overflow-hidden border border-border-inverse/50">
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="block w-full h-full"
+                  draggable={false}
+                >
+                  <div className="relative w-full h-full overflow-hidden rounded-3xl border border-gold/20 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
                     <Image
                       src={project.image}
                       alt={project.title}
                       fill
                       draggable={false}
-                      className="object-cover object-center pointer-events-none select-none transition-transform duration-[2s] ease-out group-hover:scale-105 opacity-90"
-                      sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 400px" />
-                    <div className="absolute inset-0 bg-linear-to-t from-navy/90 via-navy/20 to-transparent flex flex-col justify-end p-5 sm:p-6 pointer-events-none">
-                      <p className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1.5">{project.location}</p>
-                      <h3 className="text-white font-display text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-1">{project.title}</h3>
-                      <p className="text-white/80 text-xs sm:text-sm font-sans font-light">{project.area}</p>
+                      className="object-cover object-center pointer-events-none select-none transition-transform duration-[2s] ease-out group-hover:scale-110 opacity-90"
+                      sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 400px"
+                    />
+                     <div className="absolute inset-0 bg-linear-to-t from-navy via-navy/40 to-transparent flex flex-col justify-end p-6 sm:p-8 pointer-events-none transition-colors duration-500 group-hover:from-navy/90 group-hover:via-navy/60">
+                      <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-12 sm:translate-y-14 group-hover:translate-y-0">
+                        <p className="text-gold text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2">
+                          {project.location}
+                        </p>
+                        <h3 className="text-white font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2">
+                          {project.title}
+                        </h3>
+                        <p className="text-white/80 text-xs sm:text-sm font-sans font-light mb-6">
+                          {project.area}
+                        </p>
+                        <div className="opacity-0 transform translate-y-4 transition-all duration-500 delay-100 group-hover:opacity-100 group-hover:translate-y-0">
+                          <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#7AE2CF] text-white font-bold text-[10px] sm:text-xs uppercase tracking-widest shadow-lg">
+                            View Project
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </Link>
               </div>
             ))}
           </div>
+
         </motion.div>
       </div>
 
@@ -206,18 +245,18 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
           <Link
             href="/projects"
-            className="w-full sm:w-auto text-center px-10 py-4 bg-transparent hover:bg-border-inverse border border-gold text-gold font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer"
+            className="w-full sm:w-auto text-center px-10 py-4 rounded-xl bg-navy hover:bg-gold border-2 border-gold text-gold hover:text-navy font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer"
           >
             View All Projects
           </Link>
-          
+
           {brochureUrl && (
             <a
               href={brochureUrl}
               download
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto text-center px-10 py-4 bg-gold hover:bg-gold-light text-navy font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer"
+              className="w-full sm:w-auto text-center px-10 py-4 rounded-xl bg-[#7AE2CF] hover:bg-gold text-white font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer shadow-lg"
             >
               Download Brochure
             </a>

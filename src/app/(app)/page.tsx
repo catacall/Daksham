@@ -81,12 +81,14 @@ export default async function Home() {
       {/* SWC Showcase Carousel */}
        <DeveloperProfile />
       {/* Who We Are About section*/}
-      <About />
+      
       {/* Developer Profile / Visionary Collaboration Section */}
      
       {/* Showcase Placeholder */}
       <ShowCase brochureUrl={brochureUrl} />
+      <About />
       <ExploreVision />
+      
       {/* Enquiry */}
       <Enquiry projects={formattedProjects} />
       <FloatingBadges />

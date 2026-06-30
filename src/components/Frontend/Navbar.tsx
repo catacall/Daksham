@@ -64,7 +64,7 @@ export default function Navbar() {
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 border-b ${
         isScrolled || !isHome
           ? "bg-white border-border shadow-sm py-0"
-          : "bg-transparent border-transparent py-2 md:py-4"
+          : "bg-white border-[#7AE2CF] py-1 md:py-1"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}
@@ -112,23 +112,24 @@ export default function Navbar() {
                     onMouseLeave={() => setDropdownOpen(false)}
                   >
                     <button
-                      className={`flex items-center gap-1 px-3 lg:px-4 py-2
-                        text-xs font-sans font-bold uppercase tracking-[0.15em]
+                      className={`flex items-center gap-1 px-4 lg:px-6 py-3
+                        text-base font-sans font-bold uppercase tracking-[0.15em]
+                        hover:underline hover:decoration-[#7AE2CF] hover:decoration-2 hover:underline-offset-8
                         transition-all duration-200 cursor-pointer whitespace-nowrap ${
                           isScrolled || !isHome
                             ? dropdownOpen
-                              ? "text-logo"
-                              : "text-navy hover:text-logo"
+                              ? "text-gold underline decoration-gold decoration-2 underline-offset-8"
+                              : "text-logo hover:text-[#7AE2CF]"
                             : dropdownOpen
-                              ? "text-logo"
-                              : "text-navy hover:text-logo"
+                              ? "text-gold underline decoration-gold decoration-2 underline-offset-8"
+                              : "text-logo hover:text-[#7AE2CF]"
                         }`}
                     >
                       Projects
                       <ChevronDown
-                        size={14}
+                        size={16}
                         className={`shrink-0 transform transition-transform duration-300 ${
-                          dropdownOpen ? "rotate-180 text-logo" : "text-navy/40"
+                          dropdownOpen ? "rotate-180 text-gold" : "text-logo/80"
                         }`}
                       />
                     </button>
@@ -183,14 +184,15 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`flex items-center justify-center px-3 lg:px-4 py-2
-                      text-xs font-sans font-bold uppercase tracking-[0.15em]
+                  className={`flex items-center justify-center px-4 lg:px-6 py-3
+                      text-base font-sans font-bold uppercase tracking-[0.15em]
+                      hover:underline hover:decoration-[#7AE2CF] hover:decoration-2 hover:underline-offset-8
                       transition-all duration-200 whitespace-nowrap ${
                         isActive(link.href)
-                          ? "text-logo"
+                          ? "text-gold underline decoration-gold decoration-2 underline-offset-8"
                           : isScrolled || !isHome
-                            ? "text-navy hover:text-logo"
-                            : "text-navy hover:text-logo"
+                            ? "text-logo hover:text-[#7AE2CF]"
+                            : "text-logo hover:text-[#7AE2CF]"
                       }`}
                 >
                   {link.name}
@@ -207,8 +209,8 @@ export default function Navbar() {
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
               className="hidden md:inline-flex items-center gap-1.5
-                         px-6 py-3 bg-navy hover:bg-logo text-white
-                         text-[11px] font-sans font-bold
+                         px-8 py-4 rounded-xl bg-[#7AE2CF] hover:bg-gold text-white hover:text-navy
+                         text-base font-sans font-bold
                          uppercase tracking-[0.15em]
                          transition-all duration-200 cursor-pointer whitespace-nowrap"
               style={{ minHeight: "unset" }}
@@ -312,11 +314,11 @@ export default function Navbar() {
                           onClick={() => setMobileProjectsOpen(prev => !prev)}
                           className={`w-full flex items-center justify-between
                             px-6 py-4 border-b border-border-light
-                            text-xs font-sans font-bold uppercase tracking-[0.15em]
+                            text-sm font-sans font-bold uppercase tracking-[0.15em]
                             transition-all cursor-pointer ${
                               mobileProjectsOpen
-                                ? "text-logo bg-navy/5"
-                                : "text-navy hover:text-logo hover:bg-navy/5"
+                                ? "text-gold bg-navy/5"
+                                : "text-logo hover:text-gold hover:bg-navy/5"
                             }`}
                           style={{ minHeight: "unset" }}
                         >
@@ -387,11 +389,11 @@ export default function Navbar() {
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={`block px-6 py-4 border-b border-border-light
-                          text-xs font-sans font-bold uppercase tracking-[0.15em]
+                          text-sm font-sans font-bold uppercase tracking-[0.15em]
                           transition-all ${
                             isActive(link.href)
-                              ? "text-logo bg-navy/5"
-                              : "text-navy hover:text-logo hover:bg-navy/5"
+                              ? "text-gold bg-navy/5"
+                              : "text-logo hover:text-gold hover:bg-navy/5"
                           }`}
                       >
                         {link.name}
@@ -431,8 +433,8 @@ export default function Navbar() {
                     setMobileMenuOpen(false);
                     window.dispatchEvent(new CustomEvent("open-enquiry-modal"));
                   }}
-                  className="w-full py-4 bg-navy hover:bg-logo
-                             text-white font-sans text-xs font-bold uppercase tracking-[0.15em]
+                  className="w-full py-5 rounded-xl bg-[#7AE2CF] hover:bg-gold hover:text-navy
+                             text-white font-sans text-base font-bold uppercase tracking-[0.15em]
                              transition-all duration-200 active:scale-95 cursor-pointer"
                   style={{ minHeight: "unset" }}
                 >
