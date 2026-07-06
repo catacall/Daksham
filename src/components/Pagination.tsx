@@ -33,7 +33,7 @@ export function Pagination({ currentPage, totalPages, baseUrl }: PaginationProps
           href={getPageUrl(i)}
           className={`flex h-11 w-11 items-center justify-center rounded-xl font-sans text-sm font-semibold transition-all duration-300 ${
             isActive
-              ? "bg-gold text-navy shadow-md shadow-gold/20 scale-105"
+              ? "gold-gradient text-navy shadow-md shadow-gold/20 scale-105"
               : "border border-border-light bg-white text-muted hover:border-cyan hover:text-cyan hover:scale-105"
           }`}
         >

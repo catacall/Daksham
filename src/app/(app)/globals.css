@@ -14,7 +14,7 @@
   --gold-light: #fdf5a3; /* lighter bright gold */
   --white: #ffffff;
   --off-white: var(--platinum);
-  
+
   /* Adjusted muted & borders to match the new theme */
   --muted: #5e646d;
   --border: rgba(42, 46, 52, 0.15); /* based on jet-black for subtle borders */
@@ -30,6 +30,9 @@
   --background: var(--platinum);
   --foreground: var(--onyx);
   --accent: var(--bright-gold);
+
+  /* ─── Shiny gold gradient (single source of truth) ─── */
+  --gold-gradient: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
 }
 
 @theme inline {
@@ -60,7 +63,7 @@
 
   /* --font-sans: var(--font-dm-sans), Arial, Helvetica, sans-serif;
   --font-display: var(--font-marcellus), serif; */
-  
+
 }
 
 /* ─── Base Styles ─── */
@@ -118,10 +121,11 @@ a,
   background: var(--off-white);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--gold);
+  background: var(--gold-gradient);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--logo);
+  background: var(--gold-gradient);
+  filter: brightness(1.1);
 }
 
 /* ─── Utility: Section Padding ─── */
@@ -166,14 +170,18 @@ a,
   display: none;
 }
 
-/* ─── Eyebrow label utility ─── */
+/* ─── Eyebrow label utility (now shiny gold gradient text) ─── */
 .eyebrow {
   font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--gold);
+  background: var(--gold-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 @media (min-width: 640px) {
@@ -185,4 +193,19 @@ a,
   .eyebrow {
     font-size: 0.85rem;
   }
+}
+
+/* ─── Gold gradient background (for cards, buttons, badges, etc.) ─── */
+.gold-gradient {
+  background: var(--gold-gradient);
+}
+
+/* ─── Gold gradient TEXT (for headings, links, highlighted words, etc.) ─── */
+.gold-gradient-text {
+  background: var(--gold-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
 }

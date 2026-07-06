@@ -192,7 +192,7 @@ export default function ChatbotDrawer() {
             {/* Drawer Header */}
             <div className="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-navy-light">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 bg-gold rounded-full flex items-center justify-center text-navy">
+                <div className="h-10 w-10 gold-gradient rounded-full flex items-center justify-center text-navy">
                   <Bot size={22} className="stroke-[2.5]" />
                 </div>
                 <div>
@@ -207,13 +207,13 @@ export default function ChatbotDrawer() {
                   </div>
                 </div>
               </div>
-              <button
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                 onClick={() => setIsOpen(false)}
                 className="text-muted hover:text-cyan transition-colors cursor-pointer"
                 aria-label="Close chat"
               >
                 <X size={24} />
-              </button>
+              </motion.button>
             </div>
 
             {/* Message Area */}
@@ -233,7 +233,7 @@ export default function ChatbotDrawer() {
                   <div
                     className={`rounded-2xl px-4 py-3.5 text-sm font-sans whitespace-pre-wrap leading-relaxed shadow-sm border ${
                       message.sender === 'user'
-                        ? 'bg-gold text-navy border-gold font-semibold rounded-tr-none'
+                        ? 'gold-gradient text-navy border-transparent font-semibold rounded-tr-none'
                         : 'bg-navy-light text-white/90 border-white/5 rounded-tl-none'
                     }`}
                   >
@@ -243,14 +243,14 @@ export default function ChatbotDrawer() {
                   {message.actions && message.actions.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-3.5">
                       {message.actions.map((act, index) => (
-                        <button
+                        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                           key={index}
                           onClick={() => handleActionClick(act.action)}
                           className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-sans font-bold bg-white/5 border border-white/15 hover:border-cyan hover:text-cyan rounded-lg text-white/70 transition-all cursor-pointer hover:bg-white/10"
                         >
                           {act.label}
                           <ArrowRight size={12} />
-                        </button>
+                        </motion.button>
                       ))}
                     </div>
                   )}
@@ -283,13 +283,13 @@ export default function ChatbotDrawer() {
                   placeholder="Ask advisor about pricing, projects..."
                   className="flex-1 bg-transparent text-sm text-white font-sans focus:outline-hidden pl-2"
                 />
-                <button
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={handleSend}
-                  className="h-9 w-9 bg-gold hover:bg-gold-light text-navy rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  className="h-9 w-9 gold-gradient hover:gold-gradient-light text-navy rounded-lg flex items-center justify-center transition-colors cursor-pointer"
                   aria-label="Send message"
                 >
                   <ArrowRight size={16} />
-                </button>
+                </motion.button>
               </div>
             </div>
           </motion.div>

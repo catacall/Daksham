@@ -238,7 +238,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 md:p-12 z-10">
           <div className="container mx-auto max-w-6xl">
             <FadeIn delay={0.1}>
-              <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-gold/50 bg-navy/50 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.2em] text-gold shadow-lg">
+              <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-transparent/50 bg-navy/50 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.2em] gold-gradient-text shadow-lg">
                 {project.status}
               </div>
             </FadeIn>
@@ -299,7 +299,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 <div className="space-y-5 sm:space-y-6">
                   <div className="flex items-center gap-3">
                     <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">Amenities</h2>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-gold border border-gold/40 bg-gold/5 px-3 py-1 rounded-full">{amenityPhotos.length} photos</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest gold-gradient-text border border-transparent/40 gold-gradient/5 px-3 py-1 rounded-full">{amenityPhotos.length} photos</span>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {amenityPhotos.map((photoUrl, idx) => (
@@ -335,7 +335,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   <div className="grid grid-cols-1 gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2">
                     {project.amenities.map((amenityGroup: { category: string; items: string }, idx: number) => (
                       <div key={idx} className="space-y-3 sm:space-y-4">
-                        <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-wider text-gold border-b border-border-light pb-2 sm:pb-3">{amenityGroup.category}</h3>
+                        <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-wider gold-gradient-text border-b border-border-light pb-2 sm:pb-3">{amenityGroup.category}</h3>
                         <ul className="space-y-2 sm:space-y-3 font-sans text-muted text-sm">
                           {amenityGroup.items.split(',').map((item: string, i: number) => (
                             <li key={i} className="flex items-start">
@@ -432,7 +432,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </p>
                 <Link
                   href={`/contact?project=${project.id}`}
-                  className="flex w-full items-center justify-center rounded-xl bg-gold px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy transition-all hover:bg-gold-light hover:shadow-lg"
+                  className="flex w-full items-center justify-center rounded-xl gold-gradient px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy transition-all hover:gold-gradient-light hover:shadow-lg"
                 >
                   Enquire Now
                 </Link>
@@ -447,7 +447,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       <div className="fixed bottom-0 left-0 z-40 w-full border-t border-border-dark bg-navy p-3 sm:p-4 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.3)] lg:hidden">
          <Link
             href={`/contact?project=${project.id}`}
-            className="flex w-full items-center justify-center rounded-xl bg-gold px-4 py-3 sm:py-3.5 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy shadow-md active:scale-95 transition-transform"
+            className="flex w-full items-center justify-center rounded-xl gold-gradient px-4 py-3 sm:py-3.5 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy shadow-md active:scale-95 transition-transform"
           >
             Enquire Now
           </Link>

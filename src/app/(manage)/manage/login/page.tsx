@@ -4,6 +4,7 @@ import { useState, useEffect, startTransition, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Lock, Mail, AlertCircle, ArrowRight, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 // Inner component that uses searchParams
 function LoginForm() {
@@ -124,7 +125,7 @@ function LoginForm() {
               placeholder="email@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-10 pr-4 py-3.5 bg-navy/60 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all font-sans"
+              className="w-full pl-10 pr-4 py-3.5 bg-navy/60 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all font-sans"
               disabled={loading}
             />
           </div>
@@ -144,16 +145,16 @@ function LoginForm() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-10 pr-4 py-3.5 bg-navy/60 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 transition-all font-sans"
+              className="w-full pl-10 pr-4 py-3.5 bg-navy/60 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all font-sans"
               disabled={loading}
             />
           </div>
         </div>
 
-        <button
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 bg-gold hover:bg-gold-light disabled:bg-gold/50 text-navy font-bold text-xs uppercase tracking-widest py-4 rounded-xl transition-all cursor-pointer shadow-lg shadow-gold/10 mt-2"
+          className="w-full flex items-center justify-center gap-2 gold-gradient hover:gold-gradient-light disabled:gold-gradient/50 text-navy font-bold text-xs uppercase tracking-widest py-4 rounded-xl transition-all cursor-pointer shadow-lg shadow-gold/10 mt-2"
         >
           {loading ? (
             <>
@@ -166,7 +167,7 @@ function LoginForm() {
               <ArrowRight size={14} />
             </>
           )}
-        </button>
+        </motion.button>
       </form>
 
       {/* Footer info */}
@@ -182,7 +183,7 @@ function LoginForm() {
 function LoginLoading() {
   return (
     <div className="w-full max-w-md bg-navy-light/40 rounded-3xl border border-white/5 p-8 shadow-2xl relative z-10 flex flex-col items-center justify-center min-h-[400px]">
-      <Loader2 className="w-8 h-8 animate-spin text-gold" />
+      <Loader2 className="w-8 h-8 animate-spin gold-gradient-text" />
       <p className="text-xs text-muted/80 font-sans mt-4 uppercase tracking-widest font-semibold">
         Initializing Console...
       </p>
@@ -195,7 +196,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-navy px-4 relative overflow-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gold/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 gold-gradient/5 rounded-full blur-[100px] pointer-events-none" />
 
       {/* Suspense Container for CSR Search Params */}
       <Suspense fallback={<LoginLoading />}>

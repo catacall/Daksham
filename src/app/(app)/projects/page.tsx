@@ -13,8 +13,16 @@ export const metadata: Metadata = {
   openGraph: {
     url: "https://dakshamdevelopers.com/projects",
     title: "Real Estate Projects in Navi Mumbai | Daksham Developers",
-    description: "Premium RERA-approved residential projects in Navi Mumbai & Thane by Daksham Developers.",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Daksham Developers Projects" }],
+    description:
+      "Premium RERA-approved residential projects in Navi Mumbai & Thane by Daksham Developers.",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Daksham Developers Projects",
+      },
+    ],
   },
 };
 
@@ -24,11 +32,14 @@ export default async function AllProjectsPage({
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = await searchParams;
-  const page = typeof params?.page === "string" ? Math.max(1, parseInt(params.page, 10)) : 1;
+  const page =
+    typeof params?.page === "string"
+      ? Math.max(1, parseInt(params.page, 10))
+      : 1;
   const limit = 6;
 
   const payload = await getPayload({ config: configPromise });
-  
+
   const result = await payload.find({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collection: "projects" as any,
@@ -43,20 +54,18 @@ export default async function AllProjectsPage({
       <div className="container mx-auto max-w-7xl">
         <FadeIn delay={0.1}>
           <div className="mb-8 sm:mb-12 md:mb-16 border-b border-border-light pb-6 sm:pb-8">
-            <span className="eyebrow block mb-2 sm:mb-3">
-              Our Portfolio
-            </span>
             <h1 className="text-2xl sm:text-4xl font-display font-medium uppercase tracking-wide text-navy md:text-5xl lg:text-6xl leading-snug">
               All Developments
             </h1>
             <p className="mt-3 sm:mt-5 text-sm sm:text-base font-sans text-muted max-w-2xl leading-relaxed">
-              Discover our complete collection of premium real estate landmarks, blending luxury, quality, and visionary design.
+              Discover our complete collection of premium real estate landmarks,
+              blending luxury, quality, and visionary design.
             </p>
           </div>
         </FadeIn>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         <ProjectGrid projects={result.docs as any} />
-        
+
         <Pagination
           currentPage={result.page || 1}
           totalPages={result.totalPages || 1}
@@ -66,4 +75,3 @@ export default async function AllProjectsPage({
     </div>
   );
 }
-

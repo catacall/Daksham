@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 interface BrochureCTAProps {
   brochureUrl?: string | null;
@@ -49,7 +50,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
       }
 
       setSuccess(true);
-      
+
       // Trigger PDF/image download
       const targetUrl = brochureUrl || "/placeholder-project.jpg";
       const link = document.createElement("a");
@@ -75,30 +76,32 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,175,55,0.05),transparent_50%)]" />
 
       <div className="container mx-auto max-w-5xl px-6 sm:px-12 relative z-10">
-        <div className="bg-navy rounded-[3rem] border border-gold p-10 sm:p-16 md:p-24 text-center space-y-8 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group">
+        <div className="bg-navy rounded-[3rem] border border-transparent p-10 sm:p-16 md:p-24 text-center space-y-8 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden group">
           {/* Subtle glow */}
           <div className="absolute inset-0 bg-linear-to-br from-gold/10 via-transparent to-cyan/10 pointer-events-none" />
-          <div className="absolute top-0 left-0 w-64 h-64 bg-gold/5 rounded-full blur-[80px] pointer-events-none transition-transform duration-700 group-hover:scale-110" />
+          <div className="absolute top-0 left-0 w-64 h-64 gold-gradient/5 rounded-full blur-[80px] pointer-events-none transition-transform duration-700 group-hover:scale-110" />
 
           <div className="space-y-4 relative z-10">
-            <span className="text-sm font-sans font-bold uppercase tracking-[0.25em] text-gold block">
+            <span className="text-sm font-sans font-bold uppercase tracking-[0.25em] gold-gradient-text block">
               Premium E-Brochure
             </span>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium uppercase tracking-wide text-gold mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium uppercase tracking-wide gold-gradient-text mb-6">
               Discover Daksham Developments
             </h2>
-            <p className="font-sans text-gold/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              Download our comprehensive project portfolio containing floor plans, site master layouts, pricing options, and complete specification sheets.
+            <p className="font-sans gold-gradient-text/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+              Download our comprehensive project portfolio containing floor
+              plans, site master layouts, pricing options, and complete
+              specification sheets.
             </p>
           </div>
 
           <div className="flex justify-center relative z-10 mt-8">
-            <button
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={() => setShowModal(true)}
-              className="inline-flex items-center justify-center rounded-xl bg-gold px-10 py-5 font-sans text-sm font-bold uppercase tracking-widest text-navy transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 shadow-lg"
+              className="inline-flex items-center justify-center rounded-xl gold-gradient px-10 py-5 font-sans text-sm font-bold uppercase tracking-wide text-navy transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 shadow-lg"
             >
-               Download Brochure
-            </button>
+              Download Brochure
+            </motion.button>
           </div>
         </div>
       </div>
@@ -107,12 +110,12 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/80 animate-fade-in">
           <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-border-light overflow-hidden p-6 sm:p-8 space-y-6">
-            <button
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={() => setShowModal(false)}
               className="absolute top-4 right-4 text-muted hover:text-navy text-xl font-bold w-8 h-8 rounded-full border border-border-light/50 flex items-center justify-center hover:bg-off-white transition-all"
             >
               ×
-            </button>
+            </motion.button>
 
             <div className="text-center space-y-2">
               <span className="text-2xl">📋</span>
@@ -130,9 +133,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
                 <h4 className="font-sans text-base font-bold text-emerald-600">
                   Thank You!
                 </h4>
-                <p className="text-xs text-muted">
-                  Your download has started.
-                </p>
+                <p className="text-xs text-muted">Your download has started.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -149,9 +150,9 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
                   <input
                     type="text"
                     required
-                    className="w-full px-4 py-3 bg-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
+                    className="w-full px-4 py-3 bg-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent transition-all"
                     value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    onChange={e => setForm({ ...form, name: e.target.value })}
                     placeholder="Enter your name"
                   />
                 </div>
@@ -163,9 +164,9 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
                   <input
                     type="email"
                     required
-                    className="w-full px-4 py-3 bg-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
+                    className="w-full px-4 py-3 bg-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent transition-all"
                     value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    onChange={e => setForm({ ...form, email: e.target.value })}
                     placeholder="name@example.com"
                   />
                 </div>
@@ -178,20 +179,25 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
                     type="tel"
                     required
                     maxLength={10}
-                    className="w-full px-4 py-3 bg-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold transition-all"
+                    className="w-full px-4 py-3 bg-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent transition-all"
                     value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/\D/g, "") })}
+                    onChange={e =>
+                      setForm({
+                        ...form,
+                        phone: e.target.value.replace(/\D/g, ""),
+                      })
+                    }
                     placeholder="10-digit mobile number"
                   />
                 </div>
 
-                <button
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   type="submit"
                   disabled={submitting}
-                  className="w-full inline-flex items-center justify-center rounded-xl bg-gold hover:bg-gold-light text-navy font-bold text-xs sm:text-sm uppercase tracking-widest py-4 transition-all duration-300 disabled:opacity-50"
+                  className="w-full inline-flex items-center justify-center rounded-xl gold-gradient hover:gold-gradient-light text-navy font-bold text-xs sm:text-sm uppercase tracking-widest py-4 transition-all duration-300 disabled:opacity-50"
                 >
                   {submitting ? "Processing..." : "Submit & Download"}
-                </button>
+                </motion.button>
               </form>
             )}
           </div>

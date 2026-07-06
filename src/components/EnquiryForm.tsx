@@ -9,7 +9,9 @@ export const enquirySchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
   projectInterestedIn: z.string().optional(),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+  message: z
+    .string()
+    .min(10, { message: "Message must be at least 10 characters." }),
   source: z.string().default("website"),
 });
 
@@ -22,7 +24,12 @@ interface EnquiryFormProps {
   onSuccess?: () => void;
 }
 
-export function EnquiryForm({ projects = [], preselectedProjectId, defaultProject, onSuccess }: EnquiryFormProps) {
+export function EnquiryForm({
+  projects = [],
+  preselectedProjectId,
+  defaultProject,
+  onSuccess,
+}: EnquiryFormProps) {
   const [formData, setFormData] = useState<EnquiryFormData>({
     name: "",
     email: "",
@@ -32,17 +39,25 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
     source: "website",
   });
 
-  const [errors, setErrors] = useState<Partial<Record<keyof EnquiryFormData, string>>>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof EnquiryFormData, string>>
+  >({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
     // Clear error when typing
     if (errors[name as keyof EnquiryFormData]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
+      setErrors(prev => ({ ...prev, [name]: undefined }));
     }
   };
 
@@ -85,7 +100,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
     } catch (err) {
       if (err instanceof z.ZodError) {
         const fieldErrors: Record<string, string> = {};
-        err.issues.forEach((issue) => {
+        err.issues.forEach(issue => {
           if (issue.path[0]) {
             fieldErrors[String(issue.path[0])] = issue.message;
           }
@@ -93,7 +108,10 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
         setErrors(fieldErrors);
       } else {
         setSubmitStatus("error");
-        setErrorMessage((err as Error).message || "Failed to submit enquiry. Please try again.");
+        setErrorMessage(
+          (err as Error).message ||
+            "Failed to submit enquiry. Please try again.",
+        );
       }
     } finally {
       setIsSubmitting(false);
@@ -102,21 +120,24 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
 
   if (submitStatus === "success") {
     return (
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="rounded-sm border border-gold/30 bg-gold/5 p-6 sm:p-8 text-center shadow-"
+        className="rounded-sm border border-transparent/30 gold-gradient/5 p-6 sm:p-8 text-center shadow-"
       >
-        <h3 className="mb-3 font-display text-xl sm:text-2xl font-bold uppercase tracking-wider text-gold">Thank you!</h3>
+        <h3 className="mb-3 font-display text-xl sm:text-2xl font-bold uppercase tracking-wider gold-gradient-text">
+          Thank you!
+        </h3>
         <p className="font-sans text-muted text-sm sm:text-base font-medium">
-          Your enquiry has been submitted successfully. Our team will get back to you shortly.
+          Your enquiry has been submitted successfully. Our team will get back
+          to you shortly.
         </p>
-        <button
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
           onClick={() => setSubmitStatus("idle")}
-          className="mt-6 sm:mt-8 rounded-sm bg-navy px-6 sm:px-8 py-3 font-sans text-xs sm:text-sm font-extrabold uppercase tracking-widest text-white transition-colors hover:bg-gold hover:text-navy"
+          className="mt-6 sm:mt-8 rounded-sm bg-navy px-6 sm:px-8 py-3 font-sans text-xs sm:text-sm font-extrabold uppercase tracking-widest text-white transition-colors hover:gold-gradient hover:text-navy"
         >
-          Submit another enquiry
-        </button>
+          Submit Another
+        </motion.button>
       </motion.div>
     );
   }
@@ -127,7 +148,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       onSubmit={handleSubmit}
-      className="space-y-4 sm:space-y-6 rounded-sm border border-gold/20 p-5 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white"
+      className="space-y-4 sm:space-y-6 rounded-sm border border-transparent/20 p-5 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white"
     >
       <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 ">
         <div className="space-y-1.5 sm:space-y-2">
@@ -135,7 +156,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             htmlFor="name"
             className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
           >
-            Full Name 
+            Full Name
           </label>
           <input
             id="name"
@@ -144,7 +165,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             required
             value={formData.name}
             onChange={handleChange}
-            className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
+            className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
               errors.name ? "border-red-500" : "border-border-light"
             }`}
             placeholder="John Doe"
@@ -159,7 +180,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             htmlFor="phone"
             className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
           >
-            Phone Number 
+            Phone Number
           </label>
           <input
             id="phone"
@@ -168,7 +189,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             required
             value={formData.phone}
             onChange={handleChange}
-            className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
+            className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
               errors.phone ? "border-red-500" : "border-border-light"
             }`}
             placeholder="+91 99675 56073"
@@ -184,7 +205,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           htmlFor="email"
           className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
         >
-          Email Address 
+          Email Address
         </label>
         <input
           id="email"
@@ -193,7 +214,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           required
           value={formData.email}
           onChange={handleChange}
-          className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
+          className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
             errors.email ? "border-red-500" : "border-border-light"
           }`}
           placeholder="john@example.com"
@@ -215,7 +236,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           name="projectInterestedIn"
           value={formData.projectInterestedIn}
           onChange={handleChange}
-          className="w-full rounded-sm border border-border-light bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-all"
+          className="w-full rounded-sm border border-border-light bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all"
         >
           <option value="">Select a project (Optional)</option>
           {projects.map(p => (
@@ -231,7 +252,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           htmlFor="message"
           className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
         >
-          Your Message 
+          Your Message
         </label>
         <textarea
           id="message"
@@ -240,7 +261,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           rows={4}
           value={formData.message}
           onChange={handleChange}
-          className={`w-full resize-none rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
+          className={`w-full resize-none rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
             errors.message ? "border-red-500" : "border-border-light"
           }`}
           placeholder="How can we help you?"
@@ -256,17 +277,17 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
         </div>
       )}
 
-      <button
+      <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-sm bg-gold px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-extrabold uppercase tracking-widest text-navy transition-all hover:bg-gold-light disabled:opacity-70 flex justify-center items-center shadow-md active:scale-[0.98]"
+        className="w-full rounded-sm gold-gradient px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-extrabold uppercase tracking-widest text-navy transition-all hover:gold-gradient-light disabled:opacity-70 flex justify-center items-center shadow-md active:scale-[0.98]"
       >
         {isSubmitting ? (
           <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-navy border-r-transparent" />
         ) : (
           "Submit Enquiry"
         )}
-      </button>
+      </motion.button>
     </motion.form>
   );
 }

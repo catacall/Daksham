@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle, RefreshCw } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function ProjectsError({
   error,
@@ -32,13 +33,13 @@ export default function ProjectsError({
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-          <button
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={() => reset()}
-            className="flex items-center justify-center gap-2 rounded-xl bg-gold px-6 py-3 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy transition-all hover:bg-gold-light active:scale-95 shadow-lg shadow-gold/10"
+            className="flex items-center justify-center gap-2 rounded-xl gold-gradient px-6 py-3 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy transition-all hover:gold-gradient-light active:scale-95 shadow-lg shadow-gold/10"
           >
             <RefreshCw className="h-4 w-4" />
             Try Again
-          </button>
+          </motion.button>
           
           <Link
             href="/"

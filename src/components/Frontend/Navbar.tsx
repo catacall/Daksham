@@ -63,8 +63,8 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 border-b rounded-b-2xl ${
         isScrolled || !isHome
-          ? "bg-slate-600/50  border-border shadow-sm py-0"
-          : "bg-gray-500 border-transparent py-1 md:py-1"
+          ? "bg-platinum  border-border shadow-sm py-0 "
+          : "bg-platinum border-transparent py-1 md:py-1"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}
@@ -113,22 +113,21 @@ export default function Navbar() {
                     <button
                       className={`flex items-center gap-1 px-4 lg:px-6 py-3
                         text-lg font-sans font-bold uppercase tracking-[0.2em] leading-loose
-                        hover:underline hover:decoration-gold hover:decoration-2 hover:underline-offset-8
                         transition-all duration-200 cursor-pointer whitespace-nowrap ${
                           isScrolled || !isHome
                             ? dropdownOpen
-                              ? "text-gold underline decoration-gold decoration-2 underline-offset-8"
-                              : "text-logo hover:text-gold"
+                              ? "text-navy"
+                              : "text-navy/70 hover:text-navy"
                             : dropdownOpen
-                              ? "text-gold underline decoration-gold decoration-2 underline-offset-8"
-                              : "text-logo hover:text-gold"
+                              ? "text-navy"
+                              : "text-navy/70 hover:text-navy"
                         }`}
                     >
                       Projects
                       <ChevronDown
                         size={16}
                         className={`shrink-0 transform transition-transform duration-300 ${
-                          dropdownOpen ? "rotate-180 text-gold" : "text-logo/80"
+                          dropdownOpen ? "rotate-180 text-navy" : "text-navy/80"
                         }`}
                       />
                     </button>
@@ -148,7 +147,7 @@ export default function Navbar() {
                             href="/projects"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
                                        font-bold uppercase tracking-widest text-navy
-                                       hover:text-logo hover:bg-off-white
+                                       hover:hover:bg-off-white
                                        border-b border-border transition-all"
                           >
                             <span className="w-1.5 h-1.5 rounded-none bg-logo shrink-0" />
@@ -158,7 +157,7 @@ export default function Navbar() {
                             href="/projects/ongoing"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
                                        font-bold uppercase tracking-widest text-navy/70
-                                       hover:text-logo hover:bg-off-white transition-all"
+                                       hover:hover:bg-off-white transition-all"
                           >
                             <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
                             Ongoing Projects
@@ -167,7 +166,7 @@ export default function Navbar() {
                             href="/projects/delivered"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
                                        font-bold uppercase tracking-widest text-navy/70
-                                       hover:text-logo hover:bg-off-white transition-all"
+                                       hover:hover:bg-off-white transition-all"
                           >
                             <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
                             Delivered Projects
@@ -185,13 +184,12 @@ export default function Navbar() {
                   href={link.href}
                   className={`flex items-center justify-center px-4 lg:px-6 py-3
                       text-lg font-sans font-bold uppercase tracking-[0.2em] leading-loose
-                      hover:underline hover:decoration-gold hover:decoration-2 hover:underline-offset-8
                       transition-all duration-200 whitespace-nowrap ${
                         isActive(link.href)
-                          ? "text-gold underline decoration-gold decoration-2 underline-offset-8"
+                          ? "text-navy"
                           : isScrolled || !isHome
-                            ? "text-logo hover:text-gold"
-                            : "text-logo hover:text-gold"
+                            ? "text-navy/70 hover:text-navy"
+                            : "text-navy/70 hover:text-navy"
                       }`}
                 >
                   {link.name}
@@ -203,19 +201,21 @@ export default function Navbar() {
           {/* ── RIGHT: CTA + Admin (desktop) / Enquire + Hamburger (mobile) ── */}
           <div className="flex items-center justify-end gap-2 z-10">
             {/* Desktop CTA */}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() =>
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
               className="hidden md:inline-flex items-center gap-1.5
-                         px-8 py-4 rounded-xl bg-gold hover:bg-white text-navy hover:text-navy
+                         px-8 py-4 rounded-xl gold-gradient hover:bg-white text-navy hover:text-navy
                          text-lg font-sans font-bold
                          uppercase tracking-[0.2em] leading-loose
                          transition-all duration-200 cursor-pointer whitespace-nowrap"
               style={{ minHeight: "unset" }}
             >
               Enquire Now
-            </button>
+            </motion.button>
 
             {/* Desktop Admin */}
             <Link
@@ -237,7 +237,7 @@ export default function Navbar() {
               onClick={() =>
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
-              className="md:hidden text-logo border border-logo/40 bg-logo/10
+              className="md:hidden border border-logo/40 bg-logo/10
                           px-3 py-1.5
                          text-[10px] font-sans font-bold uppercase tracking-wider
                          whitespace-nowrap leading-none"
@@ -292,7 +292,7 @@ export default function Navbar() {
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center justify-center w-8 h-8
-                             text-navy/60 hover:text-logo hover:bg-navy/5 transition-colors"
+                             text-navy/60 hover:hover:bg-navy/5 transition-colors"
                   style={{ minHeight: "unset" }}
                   aria-label="Close Menu"
                 >
@@ -316,8 +316,8 @@ export default function Navbar() {
                             text-sm font-sans font-bold uppercase tracking-[0.15em]
                             transition-all cursor-pointer ${
                               mobileProjectsOpen
-                                ? "text-gold bg-navy/5"
-                                : "text-logo hover:text-gold hover:bg-navy/5"
+                                ? "gold-gradient-text bg-navy/5"
+                                : "hover:gold-gradient-text hover:bg-navy/5"
                             }`}
                           style={{ minHeight: "unset" }}
                         >
@@ -346,7 +346,7 @@ export default function Navbar() {
                                   href="/projects"
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="px-4 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-[0.15em] text-logo hover:text-logo-light
+                                             tracking-[0.15em] hover:text-logo-light
                                              transition-colors"
                                 >
                                   All Projects
@@ -391,8 +391,8 @@ export default function Navbar() {
                           text-sm font-sans font-bold uppercase tracking-[0.15em]
                           transition-all ${
                             isActive(link.href)
-                              ? "text-gold bg-navy/5"
-                              : "text-logo hover:text-gold hover:bg-navy/5"
+                              ? "gold-gradient-text bg-navy/5"
+                              : "hover:gold-gradient-text hover:bg-navy/5"
                           }`}
                       >
                         {link.name}
@@ -414,7 +414,7 @@ export default function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={
                       isAdmin
-                        ? "flex items-center gap-2 px-4 py-3.5 rounded-xl text-logo hover:text-logo-light hover:bg-white/5 font-display text-sm font-medium uppercase tracking-wider transition-colors"
+                        ? "flex items-center gap-2 px-4 py-3.5 rounded-xl hover:text-logo-light hover:bg-white/5 font-display text-sm font-medium uppercase tracking-wider transition-colors"
                         : "flex items-center gap-2 px-4 py-3 rounded-xl text-white/20 hover:text-white/45 hover:bg-white/5 font-sans text-xs uppercase tracking-wider transition-colors"
                     }
                     style={{ minHeight: "unset" }}
@@ -432,7 +432,7 @@ export default function Navbar() {
                     setMobileMenuOpen(false);
                     window.dispatchEvent(new CustomEvent("open-enquiry-modal"));
                   }}
-                  className="w-full py-5 rounded-xl bg-gold hover:bg-white hover:text-navy
+                  className="w-full py-5 rounded-xl gold-gradient hover:bg-white hover:text-navy
                              text-navy font-sans text-base font-bold uppercase tracking-[0.15em]
                              transition-all duration-200 active:scale-95 cursor-pointer"
                   style={{ minHeight: "unset" }}

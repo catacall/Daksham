@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, Fragment } from "react";
+import { motion } from "framer-motion";
 
 // ─── Types ───────────────────────────────────────────────────
 type ProjectStatus = "ongoing" | "delivered";
@@ -445,19 +446,19 @@ function EditModal({
         {/* ── Header ── */}
         <div className="px-6 py-5 border-b border-border-light/20 flex items-center justify-between bg-navy shrink-0">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold mb-0.5">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] gold-gradient-text mb-0.5">
               {isNew ? "New Project" : "Edit Project"}
             </p>
             <h2 className="font-display text-lg font-bold text-white">
               {isNew ? "Add New Project" : project?.title}
             </h2>
           </div>
-          <button
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={onClose}
             className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all text-base"
           >
             ✕
-          </button>
+          </motion.button>
         </div>
 
         {/* ── Scrollable body ── */}
@@ -476,26 +477,26 @@ function EditModal({
                       alt=""
                       className="w-full h-full object-cover"
                     />
-                    <button
+                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                       onClick={() => set("coverImage", null)}
                       className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
                     >
                       Remove
-                    </button>
+                    </motion.button>
                   </div>
                 )}
                 {!IMG(form.coverImage) && (
-                  <button
+                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                     onClick={() => coverRef.current?.click()}
                     disabled={uploadingCover}
-                    className="w-20 h-16 rounded-xl border-2 border-dashed border-border-light flex flex-col items-center justify-center text-muted hover:border-gold hover:text-gold transition-all shrink-0 text-xl font-light"
+                    className="w-20 h-16 rounded-xl border-2 border-dashed border-border-light flex flex-col items-center justify-center text-muted hover:border-transparent hover:gold-gradient-text transition-all shrink-0 text-xl font-light"
                   >
                     {uploadingCover ? (
                       <span className="text-xs font-bold">…</span>
                     ) : (
                       "＋"
                     )}
-                  </button>
+                  </motion.button>
                 )}
               </div>
               <p className="text-[11px] text-muted">
@@ -523,7 +524,7 @@ function EditModal({
                     Project Name *
                   </label>
                   <input
-                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
                     value={form.title || ""}
                     onChange={e => set("title", e.target.value)}
                     placeholder="e.g. Sai World City"
@@ -534,7 +535,7 @@ function EditModal({
                     Status
                   </label>
                   <select
-                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all cursor-pointer"
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all cursor-pointer"
                     value={form.status}
                     onChange={e => set("status", e.target.value)}
                   >
@@ -547,7 +548,7 @@ function EditModal({
                     Location *
                   </label>
                   <input
-                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
                     value={form.location || ""}
                     onChange={e => set("location", e.target.value)}
                     placeholder="e.g. Panvel, Navi Mumbai"
@@ -558,7 +559,7 @@ function EditModal({
                     Price Range
                   </label>
                   <input
-                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
                     value={form.priceRange || ""}
                     onChange={e => set("priceRange", e.target.value)}
                     placeholder="e.g. ₹45L – ₹90L"
@@ -569,7 +570,7 @@ function EditModal({
                     Unit Types
                   </label>
                   <input
-                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
                     value={form.area || ""}
                     onChange={e => set("area", e.target.value)}
                     placeholder="e.g. 2, 3 & 4 BHK"
@@ -580,7 +581,7 @@ function EditModal({
                     RERA Number
                   </label>
                   <input
-                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
                     value={form.reraNumber || ""}
                     onChange={e => set("reraNumber", e.target.value)}
                     placeholder="P52100XXXXX"
@@ -591,7 +592,7 @@ function EditModal({
                     Expected Completion
                   </label>
                   <input
-                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
                     type="month"
                     value={form.completionDate || ""}
                     onChange={e => set("completionDate", e.target.value)}
@@ -602,7 +603,7 @@ function EditModal({
                     YouTube Video Link
                   </label>
                   <input
-                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
                     value={form.youtubeUrl || ""}
                     onChange={e => set("youtubeUrl", e.target.value)}
                     placeholder="https://youtube.com/watch?v=..."
@@ -617,7 +618,7 @@ function EditModal({
                 Description
               </label>
               <textarea
-                className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all resize-none"
+                className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all resize-none"
                 rows={4}
                 value={form.description || ""}
                 onChange={e => set("description", e.target.value)}
@@ -634,21 +635,21 @@ function EditModal({
                 {(form.highlights || []).map((h, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center gap-1.5 bg-gold/10 border border-gold/30 text-navy rounded-full px-3 py-1 text-xs font-semibold"
+                    className="inline-flex items-center gap-1.5 gold-gradient/10 border border-transparent/30 text-navy rounded-full px-3 py-1 text-xs font-semibold"
                   >
                     {h.point}
-                    <button
+                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                       onClick={() => removeHighlight(i)}
                       className="text-navy/40 hover:text-red-600 font-bold leading-none transition-colors"
                     >
                       ×
-                    </button>
+                    </motion.button>
                   </span>
                 ))}
               </div>
               <div className="flex gap-2">
                 <input
-                  className="flex-1 px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all"
+                  className="flex-1 px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
                   value={newHighlight}
                   onChange={e => setNewHighlight(e.target.value)}
                   placeholder="e.g. Smart Home Automation"
@@ -656,12 +657,12 @@ function EditModal({
                     e.key === "Enter" && (e.preventDefault(), addHighlight())
                   }
                 />
-                <button
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={addHighlight}
-                  className="bg-navy hover:bg-gold text-white hover:text-navy text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all"
+                  className="bg-navy hover:gold-gradient text-white hover:text-navy text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all"
                 >
                   Add
-                </button>
+                </motion.button>
               </div>
             </div>
 
@@ -677,7 +678,7 @@ function EditModal({
                     project page
                   </p>
                 </div>
-                <span className="text-[10px] bg-gold/10 border border-gold/30 text-gold font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0 ml-2">
+                <span className="text-[10px] gold-gradient/10 border border-transparent/30 gold-gradient-text font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0 ml-2">
                   Displayed on site
                 </span>
               </div>
@@ -685,32 +686,32 @@ function EditModal({
                 {(form.amenityPhotos || []).map(img => (
                   <div
                     key={img.id}
-                    className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-gold/30 shadow-xs shrink-0"
+                    className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-transparent/30 shadow-xs shrink-0"
                   >
                     <img
                       src={img.url}
                       alt=""
                       className="w-full h-full object-cover"
                     />
-                    <button
+                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                       onClick={() => removeAmenityPhoto(img.id)}
                       className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
                     >
                       Remove
-                    </button>
+                    </motion.button>
                   </div>
                 ))}
-                <button
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={() => amenityRef.current?.click()}
                   disabled={uploadingAmenity}
-                  className="w-20 h-16 rounded-xl border-2 border-dashed border-gold/40 flex flex-col items-center justify-center text-gold hover:border-gold hover:bg-gold/5 transition-all shrink-0 text-xl font-light"
+                  className="w-20 h-16 rounded-xl border-2 border-dashed border-transparent/40 flex flex-col items-center justify-center gold-gradient-text hover:border-transparent hover:gold-gradient/5 transition-all shrink-0 text-xl font-light"
                 >
                   {uploadingAmenity ? (
                     <span className="text-xs font-bold">…</span>
                   ) : (
                     "＋"
                   )}
-                </button>
+                </motion.button>
               </div>
               <p className="text-[11px] text-muted">
                 Hover over image to remove. Click ＋ to add more.
@@ -729,19 +730,19 @@ function EditModal({
 
         {/* ── Footer — always pinned ── */}
         <div className="px-6 py-4 border-t border-border-light/60 bg-white flex justify-end gap-3 shrink-0">
-          <button
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={onClose}
             className="text-navy border border-border-light bg-off-white hover:bg-border-light text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-all"
           >
             Cancel
-          </button>
-          <button
+          </motion.button>
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={handleSave}
             disabled={saving}
-            className="bg-gold hover:bg-gold-light text-navy font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="gold-gradient hover:gold-gradient-light text-navy font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? "Saving…" : isNew ? "Create Project" : "Save Changes"}
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>
@@ -966,14 +967,14 @@ export default function AdminPanel() {
             )}
 
             <div className="flex gap-3">
-              <button
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                 onClick={() => setDeleteConfirmProject(null)}
                 disabled={isDeletingProject}
                 className="flex-1 bg-off-white hover:bg-border-light/30 text-navy font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition-all disabled:opacity-50"
               >
                 Cancel
-              </button>
-              <button
+              </motion.button>
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                 onClick={async () => {
                   const p = deleteConfirmProject;
                   if (!p) return;
@@ -1002,7 +1003,7 @@ export default function AdminPanel() {
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition-all shadow-xs disabled:opacity-50 flex items-center justify-center"
               >
                 {isDeletingProject ? "Deleting..." : "Delete"}
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
@@ -1013,7 +1014,7 @@ export default function AdminPanel() {
         {/* ── Title block & Quick Links (no giant header box) ── */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-border-light/80 pb-5 mb-8">
           <div>
-            <h1 className="font-display text-3xl font-extrabold tracking-tight text-navy">
+            <h1 className="font-display text-3xl font-extrabold tracking-wide text-navy">
               Manage Console
             </h1>
             <p className="text-xs text-black mt-1 uppercase tracking-widest font-semibold">
@@ -1025,7 +1026,7 @@ export default function AdminPanel() {
               href="/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-navy hover:text-gold border border-border-light hover:border-gold px-4 py-2.5 rounded-xl bg-white shadow-xs transition-all"
+              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-navy hover:gold-gradient-text border border-border-light hover:border-transparent px-4 py-2.5 rounded-xl bg-white shadow-xs transition-all"
             >
               View Website
             </a>
@@ -1079,8 +1080,8 @@ export default function AdminPanel() {
                 {
                   label: "Delivered",
                   value: stats.delivered,
-                  color: "text-gold",
-                  border: "border-gold",
+                  color: "gold-gradient-text",
+                  border: "border-transparent",
                 },
               ].map(s => (
                 <div
@@ -1103,7 +1104,7 @@ export default function AdminPanel() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div className="flex bg-border-light/25 p-1 rounded-2xl border border-border-light/40">
             {(["projects", "enquiries", "settings"] as const).map(t => (
-              <button
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                 key={t}
                 onClick={() => setTab(t)}
                 className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all uppercase ${
@@ -1121,29 +1122,29 @@ export default function AdminPanel() {
                       ? "📋 Enquiries"
                       : `📋 Enquiries (${enquiries.length})`
                     : "⚙️ Settings"}
-              </button>
+              </motion.button>
             ))}
           </div>
 
           {tab === "projects" && (
-            <button
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={() => {
                 setIsNewProject(true);
                 setEditProject(null);
               }}
-              className="inline-flex items-center gap-1.5 bg-gold hover:bg-gold-light text-navy font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 gold-gradient hover:gold-gradient-light text-navy font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
             >
               ➕ Add New Project
-            </button>
+            </motion.button>
           )}
 
           {tab === "enquiries" && enquiries.length > 0 && (
-            <button
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={exportToCSV}
               className="inline-flex items-center gap-1.5 bg-white hover:bg-off-white text-navy border border-border-light font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
             >
               📥 Export to CSV
-            </button>
+            </motion.button>
           )}
         </div>
 
@@ -1186,7 +1187,7 @@ export default function AdminPanel() {
                 {projects.map(p => (
                   <div
                     key={p.id}
-                    className="group bg-white rounded-3xl overflow-hidden border border-border-light/60 hover:border-gold/40 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col"
+                    className="group bg-white rounded-3xl overflow-hidden border border-border-light/60 hover:border-transparent/40 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col"
                   >
                     {/* Image and status cover */}
                     <div className="relative h-56 bg-border-light/20 overflow-hidden">
@@ -1219,7 +1220,7 @@ export default function AdminPanel() {
 
                     {/* Metadata & Actions */}
                     <div className="p-6 flex flex-col flex-1">
-                      <h3 className="font-display text-xl font-bold text-navy mb-2 group-hover:text-gold transition-colors duration-200">
+                      <h3 className="font-display text-xl font-bold text-navy mb-2 group-hover:gold-gradient-text transition-colors duration-200">
                         {p.title}
                       </h3>
                       <div className="flex items-center text-xs text-black mb-4 font-medium">
@@ -1235,22 +1236,22 @@ export default function AdminPanel() {
                       </div>
 
                       <div className="mt-5 flex gap-2">
-                        <button
+                        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                           onClick={() => {
                             setEditProject(p);
                             setIsNewProject(false);
                           }}
-                          className="flex-2 inline-flex items-center justify-center gap-1.5 bg-navy hover:bg-gold text-white hover:text-navy font-bold text-xs uppercase tracking-wider py-3.5 rounded-2xl transition-all duration-200"
+                          className="flex-2 inline-flex items-center justify-center gap-1.5 bg-navy hover:gold-gradient text-white hover:text-navy font-bold text-xs uppercase tracking-wider py-3.5 rounded-2xl transition-all duration-200"
                         >
                           ✏️ Edit
-                        </button>
-                        <button
+                        </motion.button>
+                        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                           onClick={() => setDeleteConfirmProject(p)}
                           title="Delete Project"
                           className="flex-1 inline-flex items-center justify-center bg-red-50 hover:bg-red-600 text-red-600 hover:text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider px-2 py-3.5 rounded-2xl transition-all duration-200"
                         >
                           🗑️ Delete
-                        </button>
+                        </motion.button>
                       </div>
                     </div>
                   </div>
@@ -1269,18 +1270,18 @@ export default function AdminPanel() {
                 <span className="text-xs text-red-800 font-bold">
                   {selectedEnqs.length} lead(s) selected
                 </span>
-                <button
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={handleBulkDelete}
                   className="bg-red-600 hover:bg-red-700 text-white font-bold text-[11px] uppercase tracking-wider px-4 py-2 rounded-xl transition-all shadow-xs"
                 >
                   🗑️ Delete Selected
-                </button>
-                <button
+                </motion.button>
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedEnqs([])}
                   className="bg-white hover:bg-off-white text-navy border border-border-light text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-xl transition-all"
                 >
                   Deselect All
-                </button>
+                </motion.button>
               </div>
             )}
 
@@ -1397,7 +1398,7 @@ export default function AdminPanel() {
                                 <a
                                   href={`tel:${enq.phone}`}
                                   onClick={e => e.stopPropagation()}
-                                  className="text-xs text-gold hover:text-gold-light font-bold inline-flex items-center gap-1 mt-1 transition-colors"
+                                  className="text-xs gold-gradient-text hover:gold-gradient-text-light font-bold inline-flex items-center gap-1 mt-1 transition-colors"
                                 >
                                   📞 {enq.phone}
                                 </a>
@@ -1422,7 +1423,7 @@ export default function AdminPanel() {
                                   }
                                   disabled={savingEnq[enq.id]}
                                   style={{ background: st.bg, color: st.fg }}
-                                  className="px-3.5 py-1.5 rounded-full text-xs font-bold border border-transparent focus:border-gold outline-none cursor-pointer transition-all shadow-xs"
+                                  className="px-3.5 py-1.5 rounded-full text-xs font-bold border border-transparent focus:border-transparent outline-none cursor-pointer transition-all shadow-xs"
                                 >
                                   {Object.entries(ENQ_STATUS).map(([k, v]) => (
                                     <option key={k} value={k}>
@@ -1446,14 +1447,14 @@ export default function AdminPanel() {
                                 onClick={e => e.stopPropagation()}
                               >
                                 <div className="flex justify-end gap-1">
-                                  <button
+                                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                                     onClick={() =>
                                       setExpandedEnq(expanded ? null : enq.id)
                                     }
                                     className="p-2 text-black hover:text-navy rounded-xl transition-all text-sm font-bold"
                                   >
                                     {expanded ? "▲" : "▼"}
-                                  </button>
+                                  </motion.button>
                                 </div>
                               </td>
                             </tr>
@@ -1518,7 +1519,7 @@ export default function AdminPanel() {
                   </div>
                 ) : (
                   <div className="flex items-center gap-4 p-4 border border-border-light/60 rounded-2xl bg-off-white/20">
-                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl shrink-0">
+                    <div className="w-12 h-12 rounded-xl gold-gradient/10 flex items-center justify-center gold-gradient-text text-2xl shrink-0">
                       📄
                     </div>
                     <div className="flex-1 min-w-0">
@@ -1537,18 +1538,18 @@ export default function AdminPanel() {
                           href={settings.brochure.url}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-xs font-bold text-navy hover:text-gold mr-2 transition-colors"
+                          className="text-xs font-bold text-navy hover:gold-gradient-text mr-2 transition-colors"
                         >
                           Preview
                         </a>
                       )}
-                      <button
+                      <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                         onClick={() => brochureInputRef.current?.click()}
                         disabled={uploadingBrochure}
-                        className="bg-navy hover:bg-gold text-white hover:text-navy font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all"
+                        className="bg-navy hover:gold-gradient text-white hover:text-navy font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all"
                       >
                         {uploadingBrochure ? "Uploading…" : "Upload new PDF"}
-                      </button>
+                      </motion.button>
                       <input
                         ref={brochureInputRef}
                         type="file"

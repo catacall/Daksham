@@ -72,17 +72,17 @@ export function ProjectCard({ project }: { project: Project }) {
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/30 transition-colors duration-500" />
-        <div className="absolute top-3 right-3 rounded-full bg-navy/90 px-3 py-1 text-[10px] font-sans font-bold uppercase tracking-wider text-gold shadow-sm border border-white/10">
+        <div className="absolute top-3 right-3 rounded-full bg-navy/90 px-3 py-1 text-[10px] font-sans font-bold uppercase  gold-gradient-text shadow-sm border border-white/10">
           {project.status}
         </div>
       </div>
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <h3 className="text-base sm:text-lg font-display font-bold text-navy mb-1.5 sm:mb-2 group-hover:text-gold transition-colors duration-200 leading-snug">
+        <h3 className="text-base sm:text-lg font-display font-bold text-navy mb-1.5 sm:mb-2 group-hover:gold-gradient-text transition-colors duration-200 leading-snug">
           {project.title}
         </h3>
         <div className="flex items-center text-xs font-sans text-muted mb-3">
-          <MapPin className="mr-1 h-3.5 w-3.5 shrink-0 text-cyan" />
+          <MapPin className="mr-1 h-3.5 w-3.5 shrink-0" />
           <span className="truncate">{project.location}</span>
         </div>
 
@@ -95,10 +95,10 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <Link
           href={`/projects/${project.slug}`}
-          className="group/btn inline-flex items-center justify-center gap-1.5 rounded-xl bg-navy px-4 py-3 text-xs sm:text-sm font-sans font-medium text-white transition-colors duration-200 hover:bg-gold hover:text-navy"
+          className="group/btn inline-flex items-center justify-center gap-1.5 rounded-xl bg-navy px-4 py-3 text-xs sm:text-sm font-sans font-medium text-white hover:text-white transition-colors duration-200 hover:gold-gradient "
         >
           View Details
-          <ArrowRight size={14} className="transition-transform duration-200 group-hover/btn:translate-x-1" />
+         
         </Link>
       </div>
     </motion.div>
