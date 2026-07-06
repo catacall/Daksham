@@ -93,19 +93,7 @@ export default async function ContactPage({
                           Vashi, Navi Mumbai - 400703
                         </a>
                       </div>
-                      <div>
-                        <span className="font-sans text-[10px] font-bold uppercase tracking-wider text-navy block mb-1">Registered Office</span>
-                        <a 
-                          href="https://maps.google.com/?q=Arenja+Corner,+Sector+17,+Vashi,+Navi+Mumbai"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-1 font-sans text-muted leading-relaxed text-sm hover:text-cyan transition-colors block"
-                        >
-                          39, Arenja Corner, Sector-17,
-                          <br />
-                          Vashi, Navi Mumbai - 400703
-                        </a>
-                      </div>
+                      
                     </div>
                   </div>
 

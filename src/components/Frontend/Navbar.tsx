@@ -61,10 +61,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 border-b ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 border-b rounded-b-2xl ${
         isScrolled || !isHome
-          ? "bg-white border-border shadow-sm py-0"
-          : "bg-black border-transparent py-1 md:py-1"
+          ? "bg-slate-600/50  border-border shadow-sm py-0"
+          : "bg-gray-500 border-transparent py-1 md:py-1"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}
@@ -86,7 +86,6 @@ export default function Navbar() {
               <Image
                 src="/daksham developers.png"
                 alt="Daksham Developers Logo"
-                className="h-full mx-auto w-full my-auto object-contain "
                 height={120}
                 width={120}
                 loading="eager"
@@ -113,7 +112,7 @@ export default function Navbar() {
                   >
                     <button
                       className={`flex items-center gap-1 px-4 lg:px-6 py-3
-                        text-base font-sans font-bold uppercase tracking-[0.15em]
+                        text-lg font-sans font-bold uppercase tracking-[0.2em] leading-loose
                         hover:underline hover:decoration-gold hover:decoration-2 hover:underline-offset-8
                         transition-all duration-200 cursor-pointer whitespace-nowrap ${
                           isScrolled || !isHome
@@ -185,7 +184,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={`flex items-center justify-center px-4 lg:px-6 py-3
-                      text-base font-sans font-bold uppercase tracking-[0.15em]
+                      text-lg font-sans font-bold uppercase tracking-[0.2em] leading-loose
                       hover:underline hover:decoration-gold hover:decoration-2 hover:underline-offset-8
                       transition-all duration-200 whitespace-nowrap ${
                         isActive(link.href)
@@ -210,8 +209,8 @@ export default function Navbar() {
               }
               className="hidden md:inline-flex items-center gap-1.5
                          px-8 py-4 rounded-xl bg-gold hover:bg-white text-navy hover:text-navy
-                         text-base font-sans font-bold
-                         uppercase tracking-[0.15em]
+                         text-lg font-sans font-bold
+                         uppercase tracking-[0.2em] leading-loose
                          transition-all duration-200 cursor-pointer whitespace-nowrap"
               style={{ minHeight: "unset" }}
             >
