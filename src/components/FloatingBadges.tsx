@@ -5,8 +5,8 @@ import { Mail, Phone, Bot } from "lucide-react";
 import Link from "next/link";
 
 const badges = [
-  { icon: <Mail size={20} />, href: "mailto:info@dakshamdevelopers.com", bg: "bg-navy-light", glow: "shadow-navy-light/30", delay: 0.2, name: "Email" },
-  { icon: <Phone size={20} />, href: "tel:+919967556073", bg: "bg-gold", glow: "shadow-gold/30", delay: 0.3, name: "Call Us" },
+  { icon: <Mail size={20} />, href: "mailto:dashanzidevelopers@gmail.com", bg: "bg-navy-light", glow: "shadow-navy-light/30", delay: 0.2, name: "Email" },
+  { icon: <Phone size={20} />, href: "tel:+919653307030", bg: "bg-gold", glow: "shadow-gold/30", delay: 0.3, name: "Call Us" },
   { icon: <Bot size={20} />, href: "#chatbot", bg: "bg-navy", glow: "shadow-navy/30", delay: 0.4, name: "Chatbot" },
 ];
 

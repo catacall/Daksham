@@ -8,12 +8,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact Daksham Developers | Real Estate Enquiry Navi Mumbai",
   description:
-    "Get in touch with Daksham Developers for premium real estate advisory in Navi Mumbai & Thane. Visit our Vashi office or call +91 99675 56073 for site visits and enquiries.",
+    "Get in touch with Dashanzi Developers for premium real estate advisory in Navi Mumbai & Thane. Visit our Vashi office or call +91 96533 07030 for site visits and enquiries.",
   alternates: { canonical: "https://dakshamdevelopers.com/contact" },
   openGraph: {
     url: "https://dakshamdevelopers.com/contact",
     title: "Contact Daksham Developers | Real Estate Enquiry Navi Mumbai",
-    description: "Enquire about luxury residential projects in Navi Mumbai. Call +91 99675 56073 or visit our Vashi office.",
+    description: "Enquire about luxury residential projects in Navi Mumbai. Call +91 96533 07030 or visit our Vashi office.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Contact Daksham Developers" }],
   },
 };
@@ -117,12 +117,24 @@ export default async function ContactPage({
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">
                         Phone
                       </h3>
-                      <p className="mt-1.5 sm:mt-2 font-sans text-muted text-sm">
+                      <p className="mt-1.5 sm:mt-2 font-sans text-muted text-sm flex flex-col gap-1">
                         <a
-                          href="tel:+919967556073"
+                          href="tel:+919653307030"
                           className="hover:text-cyan transition-colors"
                         >
-                          +91 99675 56073
+                          +91 96533 07030
+                        </a>
+                        <a
+                          href="tel:+919653313244"
+                          className="hover:text-cyan transition-colors"
+                        >
+                          +91 96533 13244
+                        </a>
+                        <a
+                          href="tel:02246099724"
+                          className="hover:text-cyan transition-colors"
+                        >
+                          022 - 4609 9724
                         </a>
                       </p>
                     </div>
@@ -138,10 +150,10 @@ export default async function ContactPage({
                       </h3>
                       <p className="mt-1.5 sm:mt-2 font-sans text-muted text-sm">
                         <a
-                          href="mailto:info@dakshamdevelopers.com"
+                          href="mailto:dashanzidevelopers@gmail.com"
                           className="hover:text-cyan transition-colors"
                         >
-                          info@dakshamdevelopers.com
+                          dashanzidevelopers@gmail.com
                         </a>
                       </p>
                     </div>

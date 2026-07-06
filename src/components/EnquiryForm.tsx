@@ -105,7 +105,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="rounded-sm border border-gold/30 bg-gold/5 p-6 sm:p-8 text-center"
+        className="rounded-sm border border-gold/30 bg-gold/5 p-6 sm:p-8 text-center shadow-"
       >
         <h3 className="mb-3 font-display text-xl sm:text-2xl font-bold uppercase tracking-wider text-gold">Thank you!</h3>
         <p className="font-sans text-muted text-sm sm:text-base font-medium">

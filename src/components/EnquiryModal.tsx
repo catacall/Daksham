@@ -57,7 +57,7 @@ export default function EnquiryModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-white p-5 sm:p-6 md:p-8 shadow-2xl shadow-navy/20 border border-border-light z-10"
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-platinum p-5 sm:p-6 md:p-8 shadow-2xl shadow-navy/20 border border-border-light z-10"
           >
             <button
               onClick={() => setIsOpen(false)}

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | Daksham Developers",
   },
   description:
-    "Daksham Developers — Engineering luxury landmarks in Navi Mumbai & Thane. Explore ongoing & delivered premium residential projects. RERA approved. Call +91 99675 56073.",
+    "Daksham Developers — Engineering luxury landmarks in Navi Mumbai & Thane. Explore ongoing & delivered premium residential projects. RERA approved. Call +91 96533 07030.",
 
   keywords: [
     "Daksham Developers",

@@ -95,18 +95,34 @@ export default function Footer() {
             <ul className="flex flex-col gap-4 text-white text-base">
               <li>
                 <a
-                  href="mailto:info@dakshamdevelopers.com"
+                  href="mailto:dashanzidevelopers@gmail.com"
                   className="hover:text-gold transition-colors"
                 >
-                  info@dakshamdevelopers.com
+                  dashanzidevelopers@gmail.com
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+919967556073"
+                  href="tel:+919653307030"
                   className="hover:text-gold transition-colors"
                 >
-                  +91 99675 56073
+                  +91 96533 07030
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+919653313244"
+                  className="hover:text-gold transition-colors"
+                >
+                  +91 96533 13244
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:02246099724"
+                  className="hover:text-gold transition-colors"
+                >
+                  022 - 4609 9724
                 </a>
               </li>
             </ul>

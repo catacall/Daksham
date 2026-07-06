@@ -198,7 +198,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 "@type": "RealEstateAgent",
                 name: "Daksham Developers",
                 url: baseUrl,
-                telephone: "+919967556073",
+                telephone: "+919653307030",
               },
             }
           : undefined,

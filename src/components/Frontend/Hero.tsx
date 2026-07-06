@@ -39,7 +39,7 @@ export default function Hero() {
         scale: 0.95,
         opacity: 0,
         duration: 1.5,
-        ease: "power3.out"
+        ease: "power1.out"
       });
     }, containerRef);
     return () => ctx.revert();

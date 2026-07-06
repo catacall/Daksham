@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: "https://dakshamdevelopers.com",
     title: "Daksham Developers | Premium Real Estate in Navi Mumbai & Thane",
     description:
-      "Engineering luxury landmarks in Navi Mumbai & Thane. RERA approved. Call +91 99675 56073.",
+      "Engineering luxury landmarks in Navi Mumbai & Thane. RERA approved. Call +91 96533 07030.",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Daksham Developers" }],
   },
 };
@@ -57,8 +57,8 @@ export default async function Home() {
     logo: "https://dakshamdevelopers.com/logo.png",
     description:
       "Premium real estate developer in Navi Mumbai and Thane. RERA approved luxury residential projects.",
-    telephone: "+919967556073",
-    email: "info@dakshamdevelopers.com",
+    telephone: "+919653307030",
+    email: "dashanzidevelopers@gmail.com",
     address: {
       "@type": "PostalAddress",
       streetAddress: "806, 8th Floor, Satra Plaza, Sector 19D, Palm Beach Road",
