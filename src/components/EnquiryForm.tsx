@@ -127,7 +127,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       onSubmit={handleSubmit}
-      className="space-y-4 sm:space-y-6 rounded-sm border border-gold/20  p-5 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-[#7AE2CF]"
+      className="space-y-4 sm:space-y-6 rounded-sm border border-gold/20 p-5 sm:p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] bg-white"
     >
       <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 ">
         <div className="space-y-1.5 sm:space-y-2">
@@ -135,7 +135,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             htmlFor="name"
             className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
           >
-            Full Name *
+            Full Name 
           </label>
           <input
             id="name"
@@ -159,7 +159,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
             htmlFor="phone"
             className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
           >
-            Phone Number *
+            Phone Number 
           </label>
           <input
             id="phone"
@@ -184,7 +184,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           htmlFor="email"
           className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
         >
-          Email Address *
+          Email Address 
         </label>
         <input
           id="email"
@@ -231,7 +231,7 @@ export function EnquiryForm({ projects = [], preselectedProjectId, defaultProjec
           htmlFor="message"
           className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
         >
-          Your Message *
+          Your Message 
         </label>
         <textarea
           id="message"

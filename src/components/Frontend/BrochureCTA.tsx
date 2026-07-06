@@ -97,7 +97,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
               onClick={() => setShowModal(true)}
               className="inline-flex items-center justify-center rounded-xl bg-gold px-10 py-5 font-sans text-sm font-bold uppercase tracking-widest text-navy transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 shadow-lg"
             >
-              📥 Download Brochure
+               Download Brochure
             </button>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
 
       {/* Popup Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/80 backdrop-blur-sm animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/80 animate-fade-in">
           <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-border-light overflow-hidden p-6 sm:p-8 space-y-6">
             <button
               onClick={() => setShowModal(false)}

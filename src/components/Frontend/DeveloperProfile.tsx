@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function DeveloperProfile() {
-  return (
+  return ( <>
     <section
       id="leadership"
-      className="py-24 sm:py-32 bg-off-white relative z-10"
+      className="py-24 sm:py-32 bg-platinum relative z-10"
     >
       <div className="container mx-auto px-6 sm:px-12 lg:px-20 max-w-7xl">
         {/* Section Header */}
@@ -39,20 +39,9 @@ export default function DeveloperProfile() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
             {/* Left Box: dd.png (Partnership logo graphic) */}
             <div className="flex justify-center">
-              <div className="relative w-full max-w-[280px] sm:max-w-[360px] aspect-square overflow-hidden rounded-3xl border border-border-inverse/50 bg-white shadow-xl transition-transform duration-500 group-hover:scale-105 p-6">
-                <Image
-                  src="/dd.png"
-                  alt="Dashanzi, Daksham & Saar Collaboration"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 360px"
-                  className="object-contain p-4"
-                  loading="eager"
-                />
-              </div>
-            </div>
 
             {/* Right Box: dakshampp.jpeg (Founder / Leader Photo) */}
-            <div className="flex justify-center">
+           
               <div className="relative w-full max-w-[280px] sm:max-w-[360px] aspect-4/5 overflow-hidden rounded-3xl border border-border-inverse/50 shadow-xl transition-transform duration-500 group-hover:-translate-y-4">
                 <Image
                   src="/dakshampp.jpeg"
@@ -63,7 +52,8 @@ export default function DeveloperProfile() {
                 />
               </div>
             </div>
-          </div>
+         
+        
 
           {/* Description Text under the images */}
           <div className="mt-16 sm:mt-24 text-center max-w-4xl mx-auto relative z-10">
@@ -72,24 +62,25 @@ export default function DeveloperProfile() {
             </h3>
             <p className="font-sans text-white text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
               Our landmarks are built on a foundation of trust, collaboration,
-              and unmatched expertise. By uniting the pioneering design
-              philosophies of{" "}
-              <strong className="text-gold font-bold">
-                Dashanzi Developers
-              </strong>
+              and unmatched expertise
               , the engineering precision of{" "}
               <strong className="text-gold font-bold">
-                Daksham Developers
+                Daksham Developers {" "}
               </strong>
-              , and the robust marketing networks of{" "}
-              <strong className="text-gold font-bold">Saar Properties</strong>,
-              we deliver modern luxury homes that stand as testaments to
-              quality. Guided by a customer-centric vision, our joint ventures
+               and the robust marketing networks of{" "}
+              <strong className="text-gold font-bold">modern luxury homes</strong>,
+              we deliver  that stand as testaments to
+              quality.
+              <strong className="text-gold font-bold">customer-centric vision</strong> Guided by a , our joint ventures
               ensure uncompromised excellence in every square foot we construct.
             </p>
           </div>
+        </div>
         </motion.div>
+        
       </div>
+     
     </section>
-  );
+    </>
+  )
 }

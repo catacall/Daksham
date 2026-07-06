@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
-import { Marcellus, DM_Sans } from "next/font/google";
+import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 import ClientShell from "./ClientShell";
 import WhatsAppWidget from "@/components/Frontend/WhatsAppWidget";
 
-const marcellus = Marcellus({
-  weight: "400",
-  variable: "--font-marcellus",
-  subsets: ["latin"],
+const europaGrotesk = localFont({
+  src: "../../../public/EuropaGroteskSH-Med.otf",
+  variable: "--font-display",
   display: "swap",
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
@@ -103,7 +104,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${marcellus.variable} ${dmSans.variable} data-scroll-behavior="smooth"`}
+      className={`${europaGrotesk.variable} ${poppins.variable} data-scroll-behavior="smooth"`}
     >
       <body
         suppressHydrationWarning

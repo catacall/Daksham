@@ -26,7 +26,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/#hero"
-                  className="hover:text-[#7AE2CF] transition-colors"
+                  className="hover:text-gold transition-colors"
                 >
                   Home
                 </Link>
@@ -34,7 +34,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/#about"
-                  className="hover:text-[#7AE2CF] transition-colors"
+                  className="hover:text-gold transition-colors"
                 >
                   Who We Are
                 </Link>
@@ -42,7 +42,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/projects/ongoing"
-                  className="hover:text-[#7AE2CF] transition-colors"
+                  className="hover:text-gold transition-colors"
                 >
                   Projects
                 </Link>
@@ -62,7 +62,7 @@ export default function Footer() {
                   href="https://maps.google.com/?q=Satra+Plaza,+Sector+19D,+Vashi,+Navi+Mumbai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#7AE2CF] transition-colors block"
+                  className="hover:text-gold transition-colors block"
                 >
                   806, 8th Floor, Satra Plaza, Sec-19D,
                   <br />
@@ -79,7 +79,7 @@ export default function Footer() {
                   href="https://maps.google.com/?q=Arenja+Corner,+Sector+17,+Vashi,+Navi+Mumbai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#7AE2CF] transition-colors block"
+                  className="hover:text-gold transition-colors block"
                 >
                   39, Arenja Corner, Sector-17,
                   <br />
@@ -96,7 +96,7 @@ export default function Footer() {
               <li>
                 <a
                   href="mailto:info@dakshamdevelopers.com"
-                  className="hover:text-[#7AE2CF] transition-colors"
+                  className="hover:text-gold transition-colors"
                 >
                   info@dakshamdevelopers.com
                 </a>
@@ -118,13 +118,13 @@ export default function Footer() {
           <div className="flex gap-4 md:gap-6 text-white">
             <Link
               href="/privacy-policy"
-              className="hover:text-[#7AE2CF] transition-colors"
+              className="hover:text-gold transition-colors"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms-and-conditions"
-              className="hover:text-[#7AE2CF] transition-colors"
+              className="hover:text-gold transition-colors"
             >
               Terms & Conditions
             </Link>

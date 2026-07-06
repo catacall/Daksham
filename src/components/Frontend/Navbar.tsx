@@ -64,7 +64,7 @@ export default function Navbar() {
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 border-b ${
         isScrolled || !isHome
           ? "bg-white border-border shadow-sm py-0"
-          : "bg-white border-[#7AE2CF] py-1 md:py-1"
+          : "bg-black border-transparent py-1 md:py-1"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}
@@ -79,8 +79,8 @@ export default function Navbar() {
             <div
               className={`flex items-center transition-all duration-300  ${
                 isScrolled || !isHome
-                  ? "h-12 sm:h-14 md:h-16"
-                  : "h-14 sm:h-16 md:h-20"
+                  ? "h-40 sm:h-14 md:h-16"
+                  : "h-40 sm:h-16 md:h-20"
               }`}
             >
               <Image
@@ -114,15 +114,15 @@ export default function Navbar() {
                     <button
                       className={`flex items-center gap-1 px-4 lg:px-6 py-3
                         text-base font-sans font-bold uppercase tracking-[0.15em]
-                        hover:underline hover:decoration-[#7AE2CF] hover:decoration-2 hover:underline-offset-8
+                        hover:underline hover:decoration-gold hover:decoration-2 hover:underline-offset-8
                         transition-all duration-200 cursor-pointer whitespace-nowrap ${
                           isScrolled || !isHome
                             ? dropdownOpen
                               ? "text-gold underline decoration-gold decoration-2 underline-offset-8"
-                              : "text-logo hover:text-[#7AE2CF]"
+                              : "text-logo hover:text-gold"
                             : dropdownOpen
                               ? "text-gold underline decoration-gold decoration-2 underline-offset-8"
-                              : "text-logo hover:text-[#7AE2CF]"
+                              : "text-logo hover:text-gold"
                         }`}
                     >
                       Projects
@@ -186,13 +186,13 @@ export default function Navbar() {
                   href={link.href}
                   className={`flex items-center justify-center px-4 lg:px-6 py-3
                       text-base font-sans font-bold uppercase tracking-[0.15em]
-                      hover:underline hover:decoration-[#7AE2CF] hover:decoration-2 hover:underline-offset-8
+                      hover:underline hover:decoration-gold hover:decoration-2 hover:underline-offset-8
                       transition-all duration-200 whitespace-nowrap ${
                         isActive(link.href)
                           ? "text-gold underline decoration-gold decoration-2 underline-offset-8"
                           : isScrolled || !isHome
-                            ? "text-logo hover:text-[#7AE2CF]"
-                            : "text-logo hover:text-[#7AE2CF]"
+                            ? "text-logo hover:text-gold"
+                            : "text-logo hover:text-gold"
                       }`}
                 >
                   {link.name}
@@ -209,7 +209,7 @@ export default function Navbar() {
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
               className="hidden md:inline-flex items-center gap-1.5
-                         px-8 py-4 rounded-xl bg-[#7AE2CF] hover:bg-gold text-white hover:text-navy
+                         px-8 py-4 rounded-xl bg-gold hover:bg-white text-navy hover:text-navy
                          text-base font-sans font-bold
                          uppercase tracking-[0.15em]
                          transition-all duration-200 cursor-pointer whitespace-nowrap"
@@ -273,7 +273,7 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-59 md:hidden"
+              className="fixed inset-0 bg-black/60 z-59 md:hidden"
               onClick={() => setMobileMenuOpen(false)}
             />
 
@@ -433,8 +433,8 @@ export default function Navbar() {
                     setMobileMenuOpen(false);
                     window.dispatchEvent(new CustomEvent("open-enquiry-modal"));
                   }}
-                  className="w-full py-5 rounded-xl bg-[#7AE2CF] hover:bg-gold hover:text-navy
-                             text-white font-sans text-base font-bold uppercase tracking-[0.15em]
+                  className="w-full py-5 rounded-xl bg-gold hover:bg-white hover:text-navy
+                             text-navy font-sans text-base font-bold uppercase tracking-[0.15em]
                              transition-all duration-200 active:scale-95 cursor-pointer"
                   style={{ minHeight: "unset" }}
                 >

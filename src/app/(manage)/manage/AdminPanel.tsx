@@ -440,7 +440,7 @@ function EditModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-navy/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-navy/60 z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-border-light/50">
         {/* ── Header ── */}
         <div className="px-6 py-5 border-b border-border-light/20 flex items-center justify-between bg-navy shrink-0">
@@ -947,7 +947,7 @@ export default function AdminPanel() {
   return (
     <div className="min-h-screen bg-off-white font-sans pb-16">
       {deleteConfirmProject && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-border-light">
             <h3 className="font-display font-bold text-navy text-xl mb-2">
               Delete Project?

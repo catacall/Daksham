@@ -238,7 +238,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 md:p-12 z-10">
           <div className="container mx-auto max-w-6xl">
             <FadeIn delay={0.1}>
-              <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-gold/50 bg-navy/50 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.2em] text-gold backdrop-blur-md shadow-lg">
+              <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-gold/50 bg-navy/50 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.2em] text-gold shadow-lg">
                 {project.status}
               </div>
             </FadeIn>
@@ -265,7 +265,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             
             {/* Quick Facts */}
             <FadeIn delay={0.4}>
-              <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 rounded-2xl sm:rounded-3xl border border-border-light bg-white/80 backdrop-blur-sm p-5 sm:p-6 md:p-8 sm:grid-cols-4 shadow-sm">
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 rounded-2xl sm:rounded-3xl border border-border-light bg-white/80 p-5 sm:p-6 md:p-8 sm:grid-cols-4 shadow-sm">
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
                   <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Status</span>
                   <span className="font-display text-base sm:text-lg font-medium text-navy capitalize">{project.status}</span>

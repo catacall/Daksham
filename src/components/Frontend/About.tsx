@@ -34,9 +34,6 @@ export default function About() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-center mb-16 sm:mb-24"
         >
-          <span className="text-gold font-bold tracking-[0.3em] uppercase mb-6 text-sm md:text-base drop-shadow-sm block">
-            Our Legacy
-          </span>
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-navy font-black uppercase tracking-tight leading-[1.1] max-w-4xl mx-auto">
             Developing Quality Real Estate Since 1990
           </h2>

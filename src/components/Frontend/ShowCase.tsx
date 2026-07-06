@@ -180,7 +180,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
                           {project.area}
                         </p>
                         <div className="opacity-0 transform translate-y-4 transition-all duration-500 delay-100 group-hover:opacity-100 group-hover:translate-y-0">
-                          <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#7AE2CF] text-white font-bold text-[10px] sm:text-xs uppercase tracking-widest shadow-lg">
+                          <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gold text-navy font-bold text-[10px] sm:text-xs uppercase tracking-widest shadow-lg">
                             View Project
                           </span>
                         </div>
@@ -225,7 +225,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
                           {project.area}
                         </p>
                         <div className="opacity-0 transform translate-y-4 transition-all duration-500 delay-100 group-hover:opacity-100 group-hover:translate-y-0">
-                          <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#7AE2CF] text-white font-bold text-[10px] sm:text-xs uppercase tracking-widest shadow-lg">
+                          <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gold text-navy font-bold text-[10px] sm:text-xs uppercase tracking-widest shadow-lg">
                             View Project
                           </span>
                         </div>
@@ -251,15 +251,12 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
           </Link>
 
           {brochureUrl && (
-            <a
-              href={brochureUrl}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto text-center px-10 py-4 rounded-xl bg-[#7AE2CF] hover:bg-gold text-white font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer shadow-lg"
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-enquiry-modal"))}
+              className="w-full sm:w-auto text-center px-10 py-4 rounded-xl bg-gold hover:bg-white text-navy font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer shadow-lg"
             >
               Download Brochure
-            </a>
+            </button>
           )}
         </div>
       </div>

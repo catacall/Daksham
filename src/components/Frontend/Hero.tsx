@@ -1,15 +1,50 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/FadeIn";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 40 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 1, delay, ease: [0.16, 1, 0.3, 1] as const },
-});
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+
 
 export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current || !videoContainerRef.current) return;
+    
+    const ctx = gsap.context(() => {
+      // Scale up effect on scroll
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+        animation: gsap.to(videoContainerRef.current, {
+          scale: 0.9,
+          borderRadius: "3rem",
+          y: 50,
+          ease: "none"
+        })
+      });
+
+      // Initial intro animation
+      gsap.from(videoContainerRef.current, {
+        scale: 0.95,
+        opacity: 0,
+        duration: 1.5,
+        ease: "power3.out"
+      });
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
+
   const openEnquiry = () => {
     window.dispatchEvent(new CustomEvent("open-enquiry-modal"));
   };
@@ -22,63 +57,70 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative w-full flex flex-col">
-      {/* Video Background Hero Section */}
-      <div className="relative w-full h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-navy">
-        <video
-          src="/videoplayback.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-navy/40 via-navy/20 to-navy/90 z-0 pointer-events-none" />
+    <section
+      id="hero"
+      ref={containerRef}
+      className="relative w-full flex flex-col bg-[#bdbcbcd8] overflow-hidden"
+    >
+      {/* Video Background Hero Section Container */}
+      <div className="w-full min-h-screen pt-28 px-4 sm:px-6 md:px-8 pb-8 flex items-center justify-center">
+        <div
+          ref={videoContainerRef}
+          className="relative w-full h-[calc(100vh-140px)] flex flex-col justify-end overflow-hidden rounded-[2.5rem] bg-navy shadow-2xl origin-center"
+        >
+          <video
+            src="/videoplayback.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
+          />
+          <div className="absolute inset-0 bg-linear-to-b from-navy/30 via-navy/10 to-navy/90 z-0 pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 w-full max-w-7xl mx-auto pt-20">
-          <motion.span
-            {...fadeUp(0)}
-            className="text-gold font-bold tracking-[0.3em] uppercase mb-6 text-sm md:text-base drop-shadow-md"
-          ></motion.span>
-
-          <motion.h1
-            {...fadeUp(0.1)}
-            className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black text-[#7AE2CF] uppercase tracking-tighter leading-[0.9] mb-8 drop-shadow-2xl w-full"
-          >
-            Experience
-            <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-gold via-yellow-200 to-gold">
-              True Luxury
-            </span>
-            <br />
-            Living
-          </motion.h1>
-
-          <motion.p
-            {...fadeUp(0.2)}
-            className="font-sans text-lg sm:text-2xl text-white/90 font-medium mb-12 max-w-3xl drop-shadow-lg mx-auto"
-          >
-            Discover homes that redefine elegance and comfort, crafted for those
-            who expect the extraordinary.
-          </motion.p>
-
-          <motion.div
-            {...fadeUp(0.3)}
-            className="flex flex-col sm:flex-row gap-6 w-full justify-center sm:w-auto"
-          >
-            <button
-              onClick={scrollToProjects}
-              className="px-10 py-5 bg-gold text-navy font-sans text-sm font-black uppercase tracking-[0.2em] hover:bg-white hover:text-navy transition-all duration-300 w-full sm:w-auto text-center shadow-xl hover:scale-105 rounded-2xl"
+          <div className="relative z-10 flex flex-col items-start p-2 md:p-12 lg:p-16 h-full text-left w-full max-w-7xl mx-auto justify-evenly align-bottom">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className=""
             >
-              View Residences
-            </button>
-            <button
-              onClick={openEnquiry}
-              className="px-10 py-5 bg-[#7AE2CF]/40 backdrop-blur-md border-2 border-white/30 text-white font-sans text-sm font-black uppercase tracking-[0.2em] hover:bg-white hover:text-navy hover:border-white transition-all duration-300 w-full sm:w-auto text-center shadow-xl hover:scale-105 rounded-2xl"
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-wide leading-none mb-6 drop-shadow-lg">
+                SHAPING THE SKYLINE
+                <br />
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-gold via-yellow-200 to-gold tracking-tight ">
+                  DEFINING
+                </span>
+                <br />
+                YOU.
+              </h1>
+
+              <p className="font-sans text-base sm:text-lg md:text-xl text-white/90 font-medium">
+                Discover homes that redefine elegance and comfort, crafted for
+                those who expect the extraordinary.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
             >
-              Enquire Now
-            </button>
-          </motion.div>
+              <button
+                onClick={scrollToProjects}
+                className="px-8 py-4 bg-gold text-navy font-sans text-sm font-black uppercase tracking-[0.2em] hover:bg-white hover:text-navy transition-all duration-300 w-full sm:w-auto text-center shadow-xl hover:scale-105 rounded-xl"
+              >
+                View Residences
+              </button>
+              <button
+                onClick={openEnquiry}
+                className="px-8 py-4 bg-white/20 border border-white/30 text-white font-sans text-sm font-black uppercase tracking-[0.2em] hover:bg-white hover:text-navy hover:border-white transition-all duration-300 w-full sm:w-auto text-center shadow-xl hover:scale-105 rounded-xl"
+              >
+                Enquire Now
+              </button>
+            </motion.div>
+          </div>
         </div>
       </div>
 
@@ -87,11 +129,12 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="font-display text-4xl sm:text-5xl font-bold uppercase tracking-wide text-navy mb-4">
-              Have a look
+              THE ART OF LIVING REFILTERED.
             </h2>
             <p className="font-sans text-lg text-navy-light max-w-2xl mx-auto">
-              Walk through the property from anywhere in the world. Choose a
-              section to begin your 360° virtual tour.
+              Walk through the property from anywhere in the world. begin your{" "}
+              <strong className="">360°</strong>
+              virtual tour.
             </p>
           </div>
 
@@ -135,7 +178,6 @@ export default function Hero() {
                     className="inline-flex items-center gap-4 px-8 py-4 rounded-xl bg-gold text-navy font-sans font-bold text-sm uppercase tracking-widest transition-all duration-300 hover:bg-white hover:shadow-lg hover:shadow-gold/20 active:scale-95 self-start"
                   >
                     Enter Tour
-                    
                   </a>
                 </div>
               </div>
@@ -180,7 +222,6 @@ export default function Hero() {
                     className="inline-flex items-center gap-4 px-8 py-4 rounded-xl bg-white/10 text-white border border-white/20 font-sans font-bold text-sm uppercase tracking-widest transition-all duration-300 hover:bg-white hover:text-navy hover:border-white active:scale-95 self-start"
                   >
                     Enter Tour
-                    
                   </a>
                 </div>
               </div>

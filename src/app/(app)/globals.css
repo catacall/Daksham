@@ -1,27 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  /* ─── Editorial Navy & Gold Palette ─── */
-  --navy: #0a192f;
-  --navy-light: #112240;
-  --gold: #d4af37;
-  --gold-light: #f3e5ab;
-  --white: #ffffff;
-  --off-white: #f8f9fa;
-  --muted: #8892b0;
-  --border: rgba(10, 25, 47, 0.15);
-  --border-light: rgba(10, 25, 47, 0.05);
-  --border-inverse: rgba(255, 255, 255, 0.15);
+  /* ─── Platinum, Jet Black & Onyx, Bright Gold Palette ─── */
+  --platinum: #E9EAEC;
+  --onyx: #0B0C0C;
+  --jet-black: #2A2E34;
+  --bright-gold: #FBE134;
 
-  /* Brand / Logo teal accent (keeping if they still want logo to be standard, or I can make logo gold) */
-  --logo: #d4af37;
-  --logo-light: #f3e5ab;
-  --logo-dark: #b8860b;
+  /* Aliasing old names so we don't break existing Tailwind classes */
+  --navy: var(--onyx);
+  --navy-light: var(--jet-black);
+  --gold: var(--bright-gold);
+  --gold-light: #fdf5a3; /* lighter bright gold */
+  --white: #ffffff;
+  --off-white: var(--platinum);
+  
+  /* Adjusted muted & borders to match the new theme */
+  --muted: #5e646d;
+  --border: rgba(42, 46, 52, 0.15); /* based on jet-black for subtle borders */
+  --border-light: rgba(42, 46, 52, 0.05);
+  --border-inverse: rgba(233, 234, 236, 0.15); /* based on platinum */
+
+  /* Brand / Logo */
+  --logo: var(--bright-gold);
+  --logo-light: #fdf5a3;
+  --logo-dark: #d2b921;
 
   /* Semantic aliases */
-  --background: var(--off-white);
-  --foreground: var(--navy);
-  --accent: var(--logo);
+  --background: var(--platinum);
+  --foreground: var(--onyx);
+  --accent: var(--bright-gold);
 }
 
 @theme inline {
@@ -34,6 +42,12 @@
   --color-border-inverse: var(--border-inverse);
 
   /* Extended palette exposed to Tailwind */
+  --color-platinum: var(--platinum);
+  --color-onyx: var(--onyx);
+  --color-jet-black: var(--jet-black);
+  --color-bright-gold: var(--bright-gold);
+
+  /* Aliases for backwards compatibility */
   --color-navy: var(--navy);
   --color-navy-light: var(--navy-light);
   --color-gold: var(--gold);
@@ -44,8 +58,9 @@
   --color-logo-light: var(--logo-light);
   --color-logo-dark: var(--logo-dark);
 
-  --font-sans: var(--font-dm-sans), Arial, Helvetica, sans-serif;
-  --font-display: var(--font-marcellus), serif;
+  /* --font-sans: var(--font-dm-sans), Arial, Helvetica, sans-serif;
+  --font-display: var(--font-marcellus), serif; */
+  
 }
 
 /* ─── Base Styles ─── */
@@ -129,15 +144,15 @@ a,
 
 /* ─── Utility: Structural blocks ─── */
 @utility structural-panel {
-  background: var(--white);
-  border: 1px solid var(--border);
+  background: var(--platinum);
+  border: 1px solid var(--jet-black);
   /* Hard edges for editorial look */
   border-radius: 0px;
 }
 
 @utility structural-panel-dark {
-  background: var(--navy);
-  border: 1px solid var(--border-inverse);
+  background: var(--onyx);
+  border: 1px solid var(--jet-black);
   border-radius: 0px;
 }
 

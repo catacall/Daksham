@@ -83,7 +83,6 @@ export default function ExploreVision() {
           <iframe
             src="https://www.youtube.com/embed/hBo6d5q9_xY?rel=0"
             title="Daksham Developers - Video Presentation"
-            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             className=" inset-0 w-full h-full relative z-10"

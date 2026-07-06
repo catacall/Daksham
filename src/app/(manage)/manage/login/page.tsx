@@ -78,7 +78,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md bg-navy-light/40 backdrop-blur-md rounded-3xl border border-white/5 p-8 shadow-2xl relative z-10">
+    <div className="w-full max-w-md bg-navy-light/40 rounded-3xl border border-white/5 p-8 shadow-2xl relative z-10">
       
       {/* Logo and Brand */}
       <div className="flex flex-col items-center mb-8">
@@ -181,7 +181,7 @@ function LoginForm() {
 // Loading state while searchParams are loading in Suspense
 function LoginLoading() {
   return (
-    <div className="w-full max-w-md bg-navy-light/40 backdrop-blur-md rounded-3xl border border-white/5 p-8 shadow-2xl relative z-10 flex flex-col items-center justify-center min-h-[400px]">
+    <div className="w-full max-w-md bg-navy-light/40 rounded-3xl border border-white/5 p-8 shadow-2xl relative z-10 flex flex-col items-center justify-center min-h-[400px]">
       <Loader2 className="w-8 h-8 animate-spin text-gold" />
       <p className="text-xs text-muted/80 font-sans mt-4 uppercase tracking-widest font-semibold">
         Initializing Console...
