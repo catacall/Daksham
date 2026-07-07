@@ -49,7 +49,7 @@ export default function TermsAndConditionsPage() {
 
             <h2 className="text-2xl font-bold text-navy mt-10 mb-4">6. Contact Information</h2>
             <p className="mb-6">
-              If you have any questions about these Terms and Conditions, please contact us at <strong>dashanzidevelopers@gmail.com</strong>.
+              If you have any questions about these Terms and Conditions, please contact us at <strong>dakshamdevelopers@gmail.com</strong>.
             </p>
           </div>
         </div>

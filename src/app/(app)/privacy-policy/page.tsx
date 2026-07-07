@@ -50,7 +50,7 @@ export default function PrivacyPolicyPage() {
 
             <h2 className="text-2xl font-bold text-navy mt-10 mb-4">5. Contact Us</h2>
             <p className="mb-6">
-              If you have any questions or concerns about this Privacy Policy or how your data is handled, please contact us at <strong>dashanzidevelopers@gmail.com</strong>.
+              If you have any questions or concerns about this Privacy Policy or how your data is handled, please contact us at <strong>dakshamdevelopers@gmail.com</strong>.
             </p>
           </div>
         </div>

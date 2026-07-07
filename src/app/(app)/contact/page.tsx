@@ -1,5 +1,4 @@
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
+import { getPayloadClient } from "@/lib/payloadClient";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
@@ -23,7 +22,7 @@ export default async function ContactPage({
 }: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const payload = await getPayload({ config: configPromise });
+  const payload = await getPayloadClient();
 
   // Fetch only necessary fields for the dropdown
   const { docs: projects } = await payload.find({
@@ -138,10 +137,10 @@ export default async function ContactPage({
                       </h3>
                       <p className="mt-1.5 sm:mt-2 font-sans text-muted text-sm">
                         <a
-                          href="mailto:dashanzidevelopers@gmail.com"
+                          href="mailto:dakshamdevelopers@gmail.com"
                           className="hover:text-cyan transition-colors"
                         >
-                          dashanzidevelopers@gmail.com
+                          dakshamdevelopers@gmail.com
                         </a>
                       </p>
                     </div>

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPayload } from "payload";
-import config from "@payload-config";
+import { getPayloadClient } from "@/lib/payloadClient";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
@@ -50,7 +49,7 @@ export async function POST(request: Request) {
   const data = validation.data;
 
   try {
-    const payload = await getPayload({ config });
+    const payload = await getPayloadClient();
 
     // Resolve project title for the email notification
     let projectTitle = "Not specified";

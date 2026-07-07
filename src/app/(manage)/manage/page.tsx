@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
+import { getPayloadClient, isFrontendMockMode } from "@/lib/payloadClient";
 import AdminPanel from "./AdminPanel";
 
 export const metadata = {
@@ -10,7 +9,11 @@ export const metadata = {
 };
 
 export default async function ManagePage() {
-  const payload = await getPayload({ config: configPromise });
+  if (isFrontendMockMode) {
+    return <AdminPanel />;
+  }
+
+  const payload = await getPayloadClient();
   const { user } = await payload.auth({ headers: await headers() });
 
   if (!user) {

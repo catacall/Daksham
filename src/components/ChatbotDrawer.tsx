@@ -142,7 +142,7 @@ export default function ChatbotDrawer() {
       } else if (text.includes('whatsapp') || text.includes('chat') || text.includes('number') || text.includes('phone') || text.includes('call') || text.includes('contact')) {
         addMessage(
           'bot',
-          'You can contact us via:\n• WhatsApp: +91 96533 07030\n• Phone Support: +91 96533 07030\n• Email Support: dashanzidevelopers@gmail.com',
+          'You can contact us via:\n• WhatsApp: +91 96533 07030\n• Phone Support: +91 96533 07030\n• Email Support: dakshamdevelopers@gmail.com',
           [
             { label: 'Open WhatsApp', action: 'go_whatsapp' },
             { label: 'Call us', action: 'go_call' },

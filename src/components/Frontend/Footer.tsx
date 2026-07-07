@@ -80,10 +80,10 @@ export default function Footer() {
             <ul className="flex flex-col gap-5 text-white text-lg font-sans tracking-wide leading-loose">
               <li>
                 <a
-                  href="mailto:dashanzidevelopers@gmail.com"
+                  href="mailto:dakshamdevelopers@gmail.com"
                   className="hover:gold-gradient-text transition-colors"
                 >
-                  dashanzidevelopers@gmail.com
+                  dakshamdevelopers@gmail.com
                 </a>
               </li>
               <li>

@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { getPayloadClient } from "@/lib/payloadClient";
 import { headers } from "next/headers";
-import configPromise from "@payload-config";
 
 // GET — list all projects
 export async function GET() {
   try {
-    const payload = await getPayload({ config: configPromise });
+    const payload = await getPayloadClient();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await payload.find({
       collection: "projects" as any,
@@ -24,7 +23,7 @@ export async function GET() {
 // POST — create a new project
 export async function POST(req: Request) {
   try {
-    const payload = await getPayload({ config: configPromise });
+    const payload = await getPayloadClient();
 
     const { user } = await payload.auth({ headers: await headers() });
     if (!user) {

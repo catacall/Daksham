@@ -1,13 +1,12 @@
 import type { MetadataRoute } from 'next'
-import { getPayload } from 'payload'
-import configPromise from '@/payload.config'
+import { getPayloadClient } from '@/lib/payloadClient'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://dakshamdevelopers.com'
 
   let projects: { slug: string; publishedAt?: string }[] = []
   try {
-    const payload = await getPayload({ config: configPromise })
+    const payload = await getPayloadClient()
     const res = await payload.find({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       collection: 'projects' as any,
@@ -17,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         publishedAt: true,
       },
     })
-    projects = res.docs
+    projects = res.docs as { slug: string; publishedAt?: string }[]
   } catch {
     // Fail silently — sitemap will still include static routes
   }

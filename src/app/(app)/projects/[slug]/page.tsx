@@ -1,5 +1,4 @@
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
+import { getPayloadClient } from "@/lib/payloadClient";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -22,7 +21,7 @@ export async function generateMetadata(
   { params }: PageProps
 ): Promise<Metadata> {
   const resolvedParams = await params;
-  const payload = await getPayload({ config: configPromise });
+  const payload = await getPayloadClient();
   
   const { docs: projects } = await payload.find({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,7 +87,7 @@ export async function generateMetadata(
 
 export default async function ProjectDetailPage({ params }: PageProps) {
   const resolvedParams = await params;
-  const payload = await getPayload({ config: configPromise });
+  const payload = await getPayloadClient();
   
   const { docs: projects } = await payload.find({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

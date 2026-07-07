@@ -5,8 +5,7 @@ import ShowCase from "@/components/Frontend/ShowCase";
 import Enquiry from "@/components/Enquiry";
 import ExploreVision from "@/components/Frontend/ExploreVision";
 import DeveloperProfile from "@/components/Frontend/DeveloperProfile";
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
+import { getPayloadClient } from "@/lib/payloadClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -26,7 +25,7 @@ export const metadata: Metadata = {
 export const revalidate = 0;
 
 export default async function Home() {
-  const payload = await getPayload({ config: configPromise });
+  const payload = await getPayloadClient();
 
   // Fetch only necessary fields for the dropdown
   const { docs: projects } = await payload.find({
@@ -58,7 +57,7 @@ export default async function Home() {
     description:
       "Premium real estate developer in Navi Mumbai and Thane. RERA approved luxury residential projects.",
     telephone: "+919653307030",
-    email: "dashanzidevelopers@gmail.com",
+    email: "dakshamdevelopers@gmail.com",
     address: {
       "@type": "PostalAddress",
       streetAddress: "806, 8th Floor, Satra Plaza, Sector 19D, Palm Beach Road",

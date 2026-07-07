@@ -1,5 +1,4 @@
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
+import { getPayloadClient } from "@/lib/payloadClient";
 import { ProjectGrid } from "@/components/ProjectGrid";
 import { FadeIn } from "@/components/FadeIn";
 import { Pagination } from "@/components/Pagination";
@@ -27,7 +26,7 @@ export default async function OngoingProjectsPage({
   const page = typeof params?.page === "string" ? Math.max(1, parseInt(params.page, 10)) : 1;
   const limit = 6;
 
-  const payload = await getPayload({ config: configPromise });
+  const payload = await getPayloadClient();
   
   const result = await payload.find({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
