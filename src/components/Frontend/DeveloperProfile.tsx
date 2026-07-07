@@ -150,14 +150,14 @@ export default function DeveloperProfile() {
                       key={`${groupIndex}-${index}`}
                       whileHover={{ y: -8, boxShadow: "0 20px 50px rgba(212, 175, 55, 0.3)" }}
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                      className="min-w-[350px] max-w-[350px] flex-shrink-0 rounded-[1.5rem] overflow-hidden shadow-[0_12px_35px_rgba(7,18,42,0.25)]"
+                      className="min-w-[280px] sm:min-w-[320px] md:min-w-[350px] max-w-[280px] sm:max-w-[320px] md:max-w-[350px] flex-shrink-0 rounded-[1.5rem] overflow-hidden shadow-[0_12px_35px_rgba(7,18,42,0.25)]"
                       style={{
                         background: "linear-gradient(135deg, rgba(11, 22, 40, 0.95), rgba(7, 18, 42, 0.98))",
                       }}
                     >
-                      <div className="flex gap-5 p-6 h-full">
+                      <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 p-4 sm:p-6 h-full">
                         {/* Profile Photo - Left */}
-                        <div className="w-20 h-24 flex-shrink-0 rounded-lg overflow-hidden shadow-lg bg-gray-200">
+                        <div className="w-16 h-20 sm:w-20 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden shadow-lg bg-gray-200">
                           <img
                             src={item.image}
                             alt={item.name}
@@ -174,11 +174,11 @@ export default function DeveloperProfile() {
 
                         {/* Quote and Name - Right */}
                         <div className="flex flex-col justify-between flex-1 min-w-0">
-                          <p className="text-sm leading-relaxed text-gray-100 font-sans tracking-normal">
+                          <p className="text-xs sm:text-sm leading-relaxed text-gray-100 font-sans tracking-normal">
                             "{item.quote}"
                           </p>
-                          <div className="mt-3 pt-3">
-                            <p className="font-display text-base font-bold text-gold truncate">
+                          <div className="mt-2 sm:mt-3 pt-2 sm:pt-3">
+                            <p className="font-display text-sm sm:text-base font-bold text-gold truncate">
                               {item.name}
                             </p>
                             <p className="text-xs text-white tracking-normal">
