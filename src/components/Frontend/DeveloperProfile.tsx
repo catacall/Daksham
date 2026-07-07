@@ -136,9 +136,9 @@ export default function DeveloperProfile() {
             </div>
             
             <div className="relative overflow-hidden">
-              {/* Edge fades only over the marquee (cards) so header text remains unaffected */}
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-platinum via-platinum to-transparent z-1" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-28 bg-gradient-to-l from-platinum via-platinum to-transparent z-1" />
+              {/* Edge fades only over the marquee (cards) — responsive width and opacity for mobile */}
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-20 md:w-28 bg-gradient-to-r from-platinum via-platinum/60 sm:via-platinum to-transparent z-1" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-20 md:w-28 bg-gradient-to-l from-platinum via-platinum/60 sm:via-platinum to-transparent z-1" />
 
               <div
                 className="flex gap-5 whitespace-nowrap"
@@ -150,7 +150,7 @@ export default function DeveloperProfile() {
                       key={`${groupIndex}-${index}`}
                       whileHover={{ y: -8, boxShadow: "0 20px 50px rgba(212, 175, 55, 0.3)" }}
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                      className="min-w-[280px] sm:min-w-[320px] md:min-w-[350px] max-w-[280px] sm:max-w-[320px] md:max-w-[350px] flex-shrink-0 rounded-[1.5rem] overflow-hidden shadow-[0_12px_35px_rgba(7,18,42,0.25)]"
+                      className="min-w-[90vw] sm:min-w-[320px] md:min-w-[350px] max-w-[90vw] sm:max-w-[320px] md:max-w-[350px] flex-shrink-0 rounded-[1.5rem] overflow-hidden shadow-[0_12px_35px_rgba(7,18,42,0.25)]"
                       style={{
                         background: "linear-gradient(135deg, rgba(11, 22, 40, 0.95), rgba(7, 18, 42, 0.98))",
                       }}
