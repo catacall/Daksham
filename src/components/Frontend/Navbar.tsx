@@ -232,15 +232,15 @@ export default function Navbar() {
               {isAdmin && <span>Manage</span>}
             </Link>
 
-            {/* Mobile Enquire pill */}
+            {/* Mobile Enquire pill (match gold-theme CTA) */}
             <button
               onClick={() =>
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
-              className="md:hidden border border-logo/40 bg-logo/10
-                          px-3 py-1.5
-                         text-[10px] font-sans font-bold uppercase tracking-wider
-                         whitespace-nowrap leading-none"
+              className="md:hidden inline-flex items-center justify-center gap-1.5
+                          px-4 py-2 rounded-xl gold-gradient text-navy
+                          text-sm font-sans font-bold uppercase tracking-[0.15em]
+                          whitespace-nowrap leading-none transition-all duration-200"
               style={{ minHeight: "unset" }}
             >
               Enquire
@@ -251,7 +251,7 @@ export default function Navbar() {
               className="md:hidden flex items-center justify-center
                          w-9 h-9 rounded-lg
                          text-black hover:text-accent
-                         hover:bg-white/8 transition-colors cursor-pointer"
+                         hover:bg-white/8 transition-colors cursor-pointer z-100"
               style={{ minHeight: "unset" }}
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open Navigation"
@@ -316,7 +316,7 @@ export default function Navbar() {
                             text-sm font-sans font-bold uppercase tracking-[0.15em]
                             transition-all cursor-pointer ${
                               mobileProjectsOpen
-                                ? "gold-gradient-text bg-navy/5"
+                                ? "gold-gradient-text bg-navy/5 hover:bg-navy/5"
                                 : "hover:gold-gradient-text hover:bg-navy/5"
                             }`}
                           style={{ minHeight: "unset" }}
@@ -339,7 +339,7 @@ export default function Navbar() {
                               animate={{ height: "auto", opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
                               transition={{ duration: 0.2 }}
-                              className="overflow-hidden"
+                              className="overflow-hidden "
                             >
                               <div className="flex flex-col pl-6 py-2 gap-1 border-b border-border-light bg-navy/5">
                                 <Link
@@ -400,6 +400,23 @@ export default function Navbar() {
                     </motion.div>
                   );
                 })}
+
+                {/* Mobile-only Testimonials link */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.06, duration: 0.28 }}
+                >
+                  <Link
+                    href="/#testimonials"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-6 py-4 border-b border-border-light
+                               text-sm font-sans font-bold uppercase tracking-[0.15em]
+                               transition-all hover:gold-gradient-text hover:bg-navy/5"
+                  >
+                    Testimonials
+                  </Link>
+                </motion.div>
 
                 <div className="h-px bg-white/8 my-2 mx-1" />
 

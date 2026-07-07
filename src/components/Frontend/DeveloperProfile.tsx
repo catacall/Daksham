@@ -116,9 +116,10 @@ export default function DeveloperProfile() {
           </motion.div>
 
           {/* Testimonials Marquee */}
-          
-          
+
+
           <div
+            id="testimonials"
             className="relative mt-14 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 px-4 py-8 sm:px-6 sm:py-10"
           >
                 <p className="text-xs uppercase  text-cyan font-bold">
