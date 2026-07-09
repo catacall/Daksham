@@ -51,6 +51,7 @@ export default function Navbar() {
     { name: "Home", href: "/" },
     { name: "About", href: "/#about" },
     { name: "Projects", href: "#" },
+    { name: "Testimonials", href: "/#testimonials" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -63,42 +64,37 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 border-b rounded-b-2xl ${
         isScrolled || !isHome
-          ? "bg-platinum  border-border shadow-sm py-0 "
-          : "bg-platinum border-transparent py-1 md:py-1"
+          ? "bg-platinum border-border shadow-sm"
+          : "bg-platinum border-transparent"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}
-      <div className="w-full px-6 sm:px-12 lg:px-20">
-        <div className="relative flex items-center justify-between h-16 sm:h-20 md:h-24">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-20">
+        <div className="relative flex items-center justify-between h-14 sm:h-18 md:h-20 lg:h-22">
+
           {/* ── LEFT: Logo ── */}
           <Link
             href="/"
-            className="flex items-center shrink-0 z-10 "
+            className="flex items-center shrink-0 z-10"
             aria-label="Daksham Developers Home"
           >
-            <div
-              className={`flex items-center transition-all duration-300  ${
-                isScrolled || !isHome
-                  ? "h-40 sm:h-14 md:h-16"
-                  : "h-40 sm:h-16 md:h-20"
-              }`}
-            >
+            <div className="flex items-center h-14 sm:h-16 md:h-20 transition-all duration-300">
               <Image
                 src="/daksham developers.png"
                 alt="Daksham Developers Logo"
-                height={120}
-                width={120}
+                height={180}
+                width={180}
                 loading="eager"
                 quality={100}
                 priority
+                className="h-full w-auto object-contain"
               />
             </div>
           </Link>
 
           {/* ── CENTRE: Desktop nav links ── */}
           <nav
-            className="hidden md:flex flex-1 justify-center px-4
-                       items-center gap-2 lg:gap-6"
+            className="hidden md:flex flex-1 justify-center items-center gap-1 lg:gap-2 xl:gap-4"
             aria-label="Main navigation"
           >
             {navLinks.map(link => {
@@ -111,21 +107,15 @@ export default function Navbar() {
                     onMouseLeave={() => setDropdownOpen(false)}
                   >
                     <button
-                      className={`flex items-center gap-1 px-4 lg:px-6 py-3
-                        text-lg font-sans font-bold uppercase tracking-[0.2em] leading-loose
+                      className={`flex items-center gap-1 px-3 lg:px-4 xl:px-5 py-2.5
+                        text-[13px] lg:text-sm xl:text-base font-sans font-bold uppercase tracking-[0.15em] lg:tracking-[0.2em]
                         transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                          isScrolled || !isHome
-                            ? dropdownOpen
-                              ? "text-navy"
-                              : "text-navy/70 hover:text-navy"
-                            : dropdownOpen
-                              ? "text-navy"
-                              : "text-navy/70 hover:text-navy"
+                          dropdownOpen ? "text-navy" : "text-navy/70 hover:text-navy"
                         }`}
                     >
                       Projects
                       <ChevronDown
-                        size={16}
+                        size={14}
                         className={`shrink-0 transform transition-transform duration-300 ${
                           dropdownOpen ? "rotate-180 text-navy" : "text-navy/80"
                         }`}
@@ -139,7 +129,7 @@ export default function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.97 }}
                           transition={{ duration: 0.18 }}
-                          className="absolute top-full left-0 mt-2 w-56
+                          className="absolute top-full left-0 mt-2 w-64
                                      structural-panel shadow-xl
                                      py-2 z-50 overflow-hidden"
                         >
@@ -147,7 +137,7 @@ export default function Navbar() {
                             href="/projects"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
                                        font-bold uppercase tracking-widest text-navy
-                                       hover:hover:bg-off-white
+                                       hover:bg-off-white
                                        border-b border-border transition-all"
                           >
                             <span className="w-1.5 h-1.5 rounded-none bg-logo shrink-0" />
@@ -157,7 +147,7 @@ export default function Navbar() {
                             href="/projects/ongoing"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
                                        font-bold uppercase tracking-widest text-navy/70
-                                       hover:hover:bg-off-white transition-all"
+                                       hover:bg-off-white transition-all"
                           >
                             <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
                             Ongoing Projects
@@ -166,10 +156,29 @@ export default function Navbar() {
                             href="/projects/delivered"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
                                        font-bold uppercase tracking-widest text-navy/70
-                                       hover:hover:bg-off-white transition-all"
+                                       hover:bg-off-white transition-all"
                           >
                             <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
                             Delivered Projects
+                          </Link>
+                          <div className="mx-5 my-1 h-px bg-border" />
+                          <Link
+                            href="/projects/ce-la-vie-ground-floor"
+                            className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
+                                       font-bold uppercase tracking-widest text-navy/70
+                                       hover:bg-off-white transition-all"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-none bg-logo shrink-0" />
+                            Ce La Vie &mdash; Ground Floor
+                          </Link>
+                          <Link
+                            href="/projects/ce-la-vie-amenities"
+                            className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
+                                       font-bold uppercase tracking-widest text-navy/70
+                                       hover:bg-off-white transition-all"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-none bg-logo shrink-0" />
+                            Ce La Vie &mdash; Amenities
                           </Link>
                         </motion.div>
                       )}
@@ -182,14 +191,12 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`flex items-center justify-center px-4 lg:px-6 py-3
-                      text-lg font-sans font-bold uppercase tracking-[0.2em] leading-loose
+                  className={`flex items-center justify-center px-3 lg:px-4 xl:px-5 py-2.5
+                      text-[13px] lg:text-sm xl:text-base font-sans font-bold uppercase tracking-[0.15em] lg:tracking-[0.2em]
                       transition-all duration-200 whitespace-nowrap ${
                         isActive(link.href)
                           ? "text-navy"
-                          : isScrolled || !isHome
-                            ? "text-navy/70 hover:text-navy"
-                            : "text-navy/70 hover:text-navy"
+                          : "text-navy/70 hover:text-navy"
                       }`}
                 >
                   {link.name}
@@ -199,20 +206,20 @@ export default function Navbar() {
           </nav>
 
           {/* ── RIGHT: CTA + Admin (desktop) / Enquire + Hamburger (mobile) ── */}
-          <div className="flex items-center justify-end gap-2 z-10">
+          <div className="flex items-center justify-end gap-2 sm:gap-3 z-10">
+
             {/* Desktop CTA */}
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
               onClick={() =>
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
               className="hidden md:inline-flex items-center gap-1.5
-                         px-8 py-4 rounded-xl gold-gradient hover:bg-white text-navy hover:text-navy
-                         text-lg font-sans font-bold
-                         uppercase tracking-[0.2em] leading-loose
+                         px-5 lg:px-7 py-2.5 lg:py-3 rounded-xl gold-gradient hover:opacity-90
+                         text-navy text-sm lg:text-base font-sans font-bold
+                         uppercase tracking-[0.15em] lg:tracking-[0.2em]
                          transition-all duration-200 cursor-pointer whitespace-nowrap"
-              style={{ minHeight: "unset" }}
             >
               Enquire Now
             </motion.button>
@@ -226,22 +233,20 @@ export default function Navbar() {
                   ? "gap-1.5 px-3 py-1.5 rounded-lg bg-logo hover:bg-logo-light text-navy text-xs font-sans font-bold uppercase tracking-wider"
                   : "w-8 h-8 rounded-md bg-logo hover:bg-logo-light text-navy"
               }`}
-              style={{ minHeight: "unset" }}
             >
               <LayoutDashboard size={isAdmin ? 13 : 14} />
               {isAdmin && <span>Manage</span>}
             </Link>
 
-            {/* Mobile Enquire pill (match gold-theme CTA) */}
+            {/* Mobile Enquire pill */}
             <button
               onClick={() =>
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
-              className="md:hidden inline-flex items-center justify-center gap-1.5
-                          px-4 py-2 rounded-xl gold-gradient text-navy
-                          text-sm font-sans font-bold uppercase tracking-[0.15em]
-                          whitespace-nowrap leading-none transition-all duration-200"
-              style={{ minHeight: "unset" }}
+              className="md:hidden inline-flex items-center justify-center
+                          px-3 py-1.5 rounded-lg gold-gradient text-navy
+                          text-xs font-sans font-bold uppercase tracking-[0.12em]
+                          whitespace-nowrap leading-none transition-all duration-200 active:scale-95"
             >
               Enquire
             </button>
@@ -249,14 +254,13 @@ export default function Navbar() {
             {/* Hamburger */}
             <button
               className="md:hidden flex items-center justify-center
-                         w-9 h-9 rounded-lg
-                         text-black hover:text-accent
-                         hover:bg-white/8 transition-colors cursor-pointer z-100"
-              style={{ minHeight: "unset" }}
+                         w-8 h-8 rounded-lg
+                         text-navy hover:text-navy/60
+                         hover:bg-navy/5 transition-colors cursor-pointer"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open Navigation"
             >
-              <Menu size={22} />
+              <Menu size={20} />
             </button>
           </div>
         </div>
@@ -272,7 +276,7 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="fixed inset-0 bg-black/60 z-59 md:hidden"
+              className="fixed inset-0 bg-black/60 z-[59] md:hidden"
               onClick={() => setMobileMenuOpen(false)}
             />
 
@@ -282,52 +286,58 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
-              className="fixed top-0 right-0 h-full w-[min(82vw,320px)]
+              className="fixed top-0 right-0 h-full w-[min(80vw,300px)]
                          bg-white border-l border-border
-                         flex flex-col z-60 md:hidden shadow-2xl"
+                         flex flex-col z-[60] md:hidden shadow-2xl"
             >
               {/* Panel header */}
-              <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-border">
-                <div className="flex items-center gap-3"></div>
+              <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-border">
+                <div className="flex items-center gap-2">
+                  <Image
+                    src="/daksham developers.png"
+                    alt="Daksham Developers"
+                    width={80}
+                    height={32}
+                    className="h-7 w-auto object-contain"
+                  />
+                </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center w-8 h-8
-                             text-navy/60 hover:hover:bg-navy/5 transition-colors"
-                  style={{ minHeight: "unset" }}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg
+                             text-navy/60 hover:bg-navy/5 transition-colors"
                   aria-label="Close Menu"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
               </div>
 
               {/* Links */}
-              <div className="flex-1 overflow-y-auto px-3 py-3 flex flex-col gap-0.5">
+              <div className="flex-1 overflow-y-auto py-2 flex flex-col">
                 {navLinks.map((link, i) => {
                   if (link.name === "Projects") {
                     return (
                       <div key={link.name}>
                         <motion.button
-                          initial={{ opacity: 0, x: 20 }}
+                          initial={{ opacity: 0, x: 16 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.06, duration: 0.28 }}
+                          transition={{ delay: i * 0.055, duration: 0.25 }}
                           onClick={() => setMobileProjectsOpen(prev => !prev)}
                           className={`w-full flex items-center justify-between
-                            px-6 py-4 border-b border-border-light
-                            text-sm font-sans font-bold uppercase tracking-[0.15em]
+                            px-5 py-3.5 border-b border-border/50
+                            text-[11px] font-sans font-bold uppercase tracking-[0.15em]
                             transition-all cursor-pointer ${
                               mobileProjectsOpen
-                                ? "gold-gradient-text bg-navy/5 hover:bg-navy/5"
-                                : "hover:gold-gradient-text hover:bg-navy/5"
+                                ? "gold-gradient-text bg-navy/5"
+                                : "text-navy hover:text-navy/60 hover:bg-navy/[0.03]"
                             }`}
-                          style={{ minHeight: "unset" }}
                         >
                           <span>Projects</span>
                           <ChevronDown
-                            size={16}
+                            size={14}
                             className={`transform transition-transform duration-300 ${
                               mobileProjectsOpen
                                 ? "rotate-180 text-logo"
-                                : "text-navy/30"
+                                : "text-navy/40"
                             }`}
                           />
                         </motion.button>
@@ -339,14 +349,14 @@ export default function Navbar() {
                               animate={{ height: "auto", opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
                               transition={{ duration: 0.2 }}
-                              className="overflow-hidden "
+                              className="overflow-hidden"
                             >
-                              <div className="flex flex-col pl-6 py-2 gap-1 border-b border-border-light bg-navy/5">
+                              <div className="flex flex-col border-b border-border/50 bg-navy/[0.03]">
                                 <Link
                                   href="/projects"
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="px-4 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-[0.15em] hover:text-logo-light
+                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
+                                             tracking-[0.15em] text-navy hover:text-logo
                                              transition-colors"
                                 >
                                   All Projects
@@ -354,8 +364,8 @@ export default function Navbar() {
                                 <Link
                                   href="/projects/ongoing"
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="px-4 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-[0.15em] text-navy/70 hover:text-logo
+                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
+                                             tracking-[0.15em] text-navy/60 hover:text-logo
                                              transition-colors"
                                 >
                                   Ongoing Projects
@@ -363,11 +373,30 @@ export default function Navbar() {
                                 <Link
                                   href="/projects/delivered"
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="px-4 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-[0.15em] text-navy/70 hover:text-logo
+                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
+                                             tracking-[0.15em] text-navy/60 hover:text-logo
                                              transition-colors"
                                 >
                                   Delivered Projects
+                                </Link>
+                                <div className="mx-6 my-1 h-px bg-border" />
+                                <Link
+                                  href="/projects/ce-la-vie-ground-floor"
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
+                                             tracking-[0.15em] text-navy/60 hover:text-logo
+                                             transition-colors"
+                                >
+                                  Ce La Vie &mdash; Ground Floor
+                                </Link>
+                                <Link
+                                  href="/projects/ce-la-vie-amenities"
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
+                                             tracking-[0.15em] text-navy/60 hover:text-logo
+                                             transition-colors"
+                                >
+                                  Ce La Vie &mdash; Amenities
                                 </Link>
                               </div>
                             </motion.div>
@@ -380,19 +409,19 @@ export default function Navbar() {
                   return (
                     <motion.div
                       key={link.name}
-                      initial={{ opacity: 0, x: 20 }}
+                      initial={{ opacity: 0, x: 16 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.06, duration: 0.28 }}
+                      transition={{ delay: i * 0.055, duration: 0.25 }}
                     >
                       <Link
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`block px-6 py-4 border-b border-border-light
-                          text-sm font-sans font-bold uppercase tracking-[0.15em]
+                        className={`block px-5 py-3.5 border-b border-border/50
+                          text-[11px] font-sans font-bold uppercase tracking-[0.15em]
                           transition-all ${
                             isActive(link.href)
                               ? "gold-gradient-text bg-navy/5"
-                              : "hover:gold-gradient-text hover:bg-navy/5"
+                              : "text-navy hover:text-navy/60 hover:bg-navy/[0.03]"
                           }`}
                       >
                         {link.name}
@@ -401,65 +430,45 @@ export default function Navbar() {
                   );
                 })}
 
-                {/* Mobile-only Testimonials link */}
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: navLinks.length * 0.06, duration: 0.28 }}
-                >
-                  <Link
-                    href="/#testimonials"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block px-6 py-4 border-b border-border-light
-                               text-sm font-sans font-bold uppercase tracking-[0.15em]
-                               transition-all hover:gold-gradient-text hover:bg-navy/5"
-                  >
-                    Testimonials
-                  </Link>
-                </motion.div>
 
-                <div className="h-px bg-white/8 my-2 mx-1" />
+
+                <div className="h-px bg-navy/10 my-3 mx-4" />
 
                 {/* Admin */}
                 <motion.div
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: 16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: navLinks.length * 0.06, duration: 0.28 }}
+                  transition={{ delay: (navLinks.length + 1) * 0.055, duration: 0.25 }}
                 >
                   <Link
                     href="/manage"
                     onClick={() => setMobileMenuOpen(false)}
                     className={
                       isAdmin
-                        ? "flex items-center gap-2 px-4 py-3.5 rounded-xl hover:text-logo-light hover:bg-white/5 font-display text-sm font-medium uppercase tracking-wider transition-colors"
-                        : "flex items-center gap-2 px-4 py-3 rounded-xl text-white/20 hover:text-white/45 hover:bg-white/5 font-sans text-xs uppercase tracking-wider transition-colors"
+                        ? "flex items-center gap-2 px-5 py-3 text-[11px] font-sans font-bold uppercase tracking-wider text-navy hover:text-logo transition-colors"
+                        : "flex items-center gap-2 px-5 py-3 text-[11px] font-sans font-bold uppercase tracking-wider text-navy/30 hover:text-navy/50 transition-colors"
                     }
-                    style={{ minHeight: "unset" }}
                   >
-                    <LayoutDashboard size={isAdmin ? 16 : 13} />
+                    <LayoutDashboard size={isAdmin ? 14 : 12} />
                     {isAdmin ? "Manage Portal" : "Admin Login"}
                   </Link>
                 </motion.div>
               </div>
 
               {/* Bottom CTA */}
-              <div className="px-6 pb-8 pt-6 border-t border-border mt-auto">
+              <div className="px-5 pb-6 pt-4 border-t border-border">
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     window.dispatchEvent(new CustomEvent("open-enquiry-modal"));
                   }}
-                  className="w-full py-5 rounded-xl gold-gradient hover:bg-white hover:text-navy
-                             text-navy font-sans text-base font-bold uppercase tracking-[0.15em]
+                  className="w-full py-4 rounded-xl gold-gradient
+                             text-navy font-sans text-sm font-bold uppercase tracking-[0.15em]
                              transition-all duration-200 active:scale-95 cursor-pointer"
-                  style={{ minHeight: "unset" }}
                 >
                   Book an Enquiry
                 </button>
-                <p
-                  className="text-center text-white/20 text-[9px] font-sans mt-3
-                              tracking-[0.25em] uppercase"
-                >
+                <p className="text-center text-navy/25 text-[9px] font-sans mt-3 tracking-[0.2em] uppercase">
                   Daksham Developers
                 </p>
               </div>
