@@ -129,7 +129,7 @@ export default function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.97 }}
                           transition={{ duration: 0.18 }}
-                          className="absolute top-full left-0 mt-2 w-64
+                          className="absolute top-full left-0 mt-2 w-52
                                      structural-panel shadow-xl
                                      py-2 z-50 overflow-hidden"
                         >
@@ -160,25 +160,6 @@ export default function Navbar() {
                           >
                             <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
                             Delivered Projects
-                          </Link>
-                          <div className="mx-5 my-1 h-px bg-border" />
-                          <Link
-                            href="/projects/ce-la-vie-ground-floor"
-                            className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
-                                       font-bold uppercase tracking-widest text-navy/70
-                                       hover:bg-off-white transition-all"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-none bg-logo shrink-0" />
-                            Ce La Vie &mdash; Ground Floor
-                          </Link>
-                          <Link
-                            href="/projects/ce-la-vie-amenities"
-                            className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
-                                       font-bold uppercase tracking-widest text-navy/70
-                                       hover:bg-off-white transition-all"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-none bg-logo shrink-0" />
-                            Ce La Vie &mdash; Amenities
                           </Link>
                         </motion.div>
                       )}
@@ -378,25 +359,6 @@ export default function Navbar() {
                                              transition-colors"
                                 >
                                   Delivered Projects
-                                </Link>
-                                <div className="mx-6 my-1 h-px bg-border" />
-                                <Link
-                                  href="/projects/ce-la-vie-ground-floor"
-                                  onClick={() => setMobileMenuOpen(false)}
-                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-[0.15em] text-navy/60 hover:text-logo
-                                             transition-colors"
-                                >
-                                  Ce La Vie &mdash; Ground Floor
-                                </Link>
-                                <Link
-                                  href="/projects/ce-la-vie-amenities"
-                                  onClick={() => setMobileMenuOpen(false)}
-                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-[0.15em] text-navy/60 hover:text-logo
-                                             transition-colors"
-                                >
-                                  Ce La Vie &mdash; Amenities
                                 </Link>
                               </div>
                             </motion.div>
