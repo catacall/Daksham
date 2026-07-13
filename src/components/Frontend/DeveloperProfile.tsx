@@ -27,7 +27,7 @@ const testimonials = [
   },
   {
     quote:
-      "Amit Karla's leadership brings credibility and clarity to every partnership we've built together. A truly reliable developer.",
+      "Amit Kalra's leadership brings credibility and clarity to every partnership we've built together. A truly reliable developer.",
     name: "Neha Sharma",
     role: "Strategic Partner",
     image:
@@ -284,8 +284,9 @@ export default function DeveloperProfile() {
                 >
                   <Image
                     src="/dakshampp.jpeg"
-                    alt="Amit Karla — Founder, Daksham Developers"
+                    alt="Amit Kalra — Founder, Daksham Developers"
                     fill
+                    quality={90}
                     sizes="(max-width: 640px) 224px, (max-width: 768px) 288px, 320px"
                     className="object-cover object-center"
                   />
@@ -297,7 +298,7 @@ export default function DeveloperProfile() {
               {/* Bio */}
               <div className="flex flex-col justify-center text-center md:text-left">
                 <h3 className="gold-gradient-text font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-wide mb-5">
-                  Amit Karla
+                  Amit Kalra
                 </h3>
                 <p className="font-sans text-platinum/75 text-sm sm:text-base leading-7 tracking-normal">
                   Our landmarks are built on a foundation of trust,

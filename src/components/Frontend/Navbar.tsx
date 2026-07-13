@@ -85,8 +85,9 @@ export default function Navbar() {
                 height={180}
                 width={180}
                 loading="eager"
-                quality={100}
+                quality={90}
                 priority
+                sizes="(max-width: 640px) 56px, (max-width: 768px) 64px, 80px"
                 className="h-full w-auto object-contain"
               />
             </div>

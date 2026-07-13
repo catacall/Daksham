@@ -56,7 +56,7 @@ export default function Footer() {
             <div className="flex flex-col gap-5 text-white text-lg font-sans tracking-wide leading-loose">
               <div>
                 <span className="font-bold font-sans text-base uppercase tracking-widest block gold-gradient-text mb-2">
-                  Corporate Office
+                  Regd. Office
                 </span>
                 <a
                   href="https://maps.google.com/?q=Satra+Plaza,+Sector+19D,+Vashi,+Navi+Mumbai"
@@ -64,9 +64,11 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:gold-gradient-text transition-colors block"
                 >
-                  806, 8th Floor, Satra Plaza, Sec-19D, Plot No 20 ,
+                  806, 8th Floor, Satra Plaza,
                   <br />
-                  Vashi, Navi Mumbai - 400703
+                  Sector 19D, Plot No. 20,
+                  <br />
+                  Vashi, Navi Mumbai – 400703
                 </a>
               </div>
             </div>
