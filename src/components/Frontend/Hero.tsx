@@ -157,7 +157,7 @@ export default function Hero() {
                  
 
                   <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-wide mb-3 sm:mb-4">
-                    Ground Floor
+                  Ce La Vie &mdash; Ground Floor
                   </h3>
                   <p className="font-sans text-sm sm:text-base text-white mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">
                     Explore the lavish entrance, grand lobby, and the
@@ -189,7 +189,7 @@ export default function Hero() {
                   
 
                   <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-wide mb-3 sm:mb-4">
-                    Amenities Floor
+                  Ce La Vie &mdash; Amenities
                   </h3>
                   <p className="font-sans text-sm sm:text-base text-white mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">
                     Discover world-class recreational facilities, fitness

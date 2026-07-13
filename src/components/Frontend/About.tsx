@@ -4,21 +4,22 @@ import { motion } from "framer-motion";
 
 const stats = [
   {
-    value: "125+",
-    label: "Successful Projects",
+    value: "12",
+    label: "Projects",
   },
   {
-    value: "25,000+",
-    label: "Happy Residents Living the Paradise Life",
+    value: "400–600",
+    label: "Happy Families",
   },
   {
-    value: "2 Cr",
-    unit: "Sq.Ft.",
-    label: "Of Landmark Projects Under Construction",
+    value: "5L",
+    unit: "Sq.ft.",
+    label: "Delivered",
   },
   {
-    value: "14,000",
-    label: "Themed Luxury Residencies In Making",
+    value: "3–4L",
+    unit: "Sq.ft.",
+    label: "Ongoing & Upcoming",
   },
 ];
 
@@ -35,7 +36,7 @@ export default function About() {
           className="text-center mb-16 sm:mb-24"
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-navy font-black uppercase tracking-wide leading-[1.1] max-w-4xl mx-auto">
-            Developing Quality Real Estate Since 1990
+            Developing Quality Real Estate Since 2015
           </h2>
           <div className="mt-8 w-24 h-1.5 gold-gradient mx-auto rounded-full" />
         </motion.div>
@@ -67,11 +68,11 @@ export default function About() {
 
               <div className="space-y-6 text-left">
                 <p className="text-base sm:text-lg text-white leading-relaxed font-sans">
-                  For more than three decades, Daksham Developers has crafted a
-                  legendary journey in the real estate landscape. Our legacy
-                  reflects a glorious past, a prestigious present, and a
-                  progressive future, creating spaces that elevate lifestyles
-                  and redefine modern living.
+                  Since 2015, Daksham Developers has crafted a legendary
+                  journey in the real estate landscape. Our legacy reflects a
+                  glorious past, a prestigious present, and a progressive
+                  future, creating spaces that elevate lifestyles and redefine
+                  modern living.
                 </p>
 
                 <p className="text-base sm:text-lg text-white leading-relaxed font-sans">
