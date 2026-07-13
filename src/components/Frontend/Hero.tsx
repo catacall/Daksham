@@ -89,10 +89,10 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.3 }}
               className="max-w-2xl lg:max-w-3xl"
             >
-              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white uppercase tracking-wide leading-[1.1] mb-4 sm:mb-5 md:mb-6 drop-shadow-lg">
+              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white uppercase tracking-normal leading-[1.1] mb-4 sm:mb-5 md:mb-6 drop-shadow-lg">
                 SHAPING THE SKYLINE
                 <br />
-                <span className="bg-clip-text tracking-widest drop-shadow-[0_0_20px_rgba(251,225,52,0.5)] gold-gradient-text">
+                <span className="bg-clip-text tracking-normal drop-shadow-[0_0_20px_rgba(251,225,52,0.5)] gold-gradient-text">
                   DEFINING
                 </span>
                 <br />
@@ -116,7 +116,7 @@ export default function Hero() {
                 onClick={scrollToProjects}
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 sm:px-8 sm:py-4 gold-gradient text-navy font-sans text-xs sm:text-sm font-black uppercase tracking-[0.2em] transition-all duration-300 w-full sm:w-auto text-center shadow-xl rounded-xl"
+                className="px-6 py-3 sm:px-8 sm:py-4 gold-gradient text-navy font-sans text-xs sm:text-sm font-black uppercase tracking-normal transition-all duration-300 w-full sm:w-auto text-center shadow-xl rounded-xl"
               >
                 View Residences
               </motion.button>
@@ -124,7 +124,7 @@ export default function Hero() {
                 onClick={openEnquiry}
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 sm:px-8 sm:py-4 bg-white/20 border border-white/30 text-white font-sans text-xs sm:text-sm font-black uppercase tracking-[0.2em] hover:bg-white hover:text-navy hover:border-white transition-all duration-300 w-full sm:w-auto text-center shadow-xl rounded-xl"
+                className="px-6 py-3 sm:px-8 sm:py-4 bg-white/20 border border-white/30 text-white font-sans text-xs sm:text-sm font-black uppercase tracking-normal hover:bg-white hover:text-navy hover:border-white transition-all duration-300 w-full sm:w-auto text-center shadow-xl rounded-xl"
               >
                 Enquire Now
               </motion.button>
@@ -137,7 +137,7 @@ export default function Hero() {
       <div className="w-full bg-off-white py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-20 relative -mt-10 z-20 rounded-t-4xl sm:rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.3)]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            {/* <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-wide text-navy mb-3 sm:mb-4">
+            {/* <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-normal text-navy mb-3 sm:mb-4">
               THE ART OF LIVING REFILTERED.
             </h2>
             <p className="font-sans text-sm sm:text-base md:text-lg text-navy-light max-w-2xl mx-auto leading-relaxed">
@@ -156,7 +156,7 @@ export default function Hero() {
                 <div className="relative p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full z-10">
                  
 
-                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-wide mb-3 sm:mb-4">
+                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-normal mb-3 sm:mb-4">
                   Ce La Vie &mdash; Ground Floor
                   </h3>
                   <p className="font-sans text-sm sm:text-base text-white mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">
@@ -171,7 +171,7 @@ export default function Hero() {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05, y: -5 }}
                     whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-3 sm:gap-4 px-6 py-3 sm:px-8 sm:py-4 rounded-xl gold-gradient text-navy font-sans font-bold text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 shadow-lg hover:shadow-gold/20 self-start"
+                    className="inline-flex items-center gap-3 sm:gap-4 px-6 py-3 sm:px-8 sm:py-4 rounded-xl gold-gradient text-navy font-sans font-bold text-xs sm:text-sm uppercase tracking-normal transition-all duration-300 shadow-lg hover:shadow-gold/20 self-start"
                   >
                     Enter Tour
                   </motion.a>
@@ -188,7 +188,7 @@ export default function Hero() {
                 <div className="relative p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full z-10">
                   
 
-                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-wide mb-3 sm:mb-4">
+                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-normal mb-3 sm:mb-4">
                   Ce La Vie &mdash; Amenities
                   </h3>
                   <p className="font-sans text-sm sm:text-base text-white mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">
@@ -203,7 +203,7 @@ export default function Hero() {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05, y: -5 }}
                     whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-3 sm:gap-4 px-6 py-3 sm:px-8 sm:py-4 rounded-xl bg-white/10 text-white border border-white/20 font-sans font-bold text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 hover:bg-white hover:text-navy hover:border-white self-start"
+                    className="inline-flex items-center gap-3 sm:gap-4 px-6 py-3 sm:px-8 sm:py-4 rounded-xl bg-white/10 text-white border border-white/20 font-sans font-bold text-xs sm:text-sm uppercase tracking-normal transition-all duration-300 hover:bg-white hover:text-navy hover:border-white self-start"
                   >
                     Enter Tour
                   </motion.a>

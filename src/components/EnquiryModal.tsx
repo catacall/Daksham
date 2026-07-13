@@ -67,11 +67,11 @@ export default function EnquiryModal() {
               <X size={20} />
             </motion.button>
 
-            <h2 className="mb-2 text-xl sm:text-2xl md:text-3xl font-display font-medium text-navy uppercase tracking-wide">
+            <h2 className="mb-2 text-xl sm:text-2xl md:text-3xl font-display font-medium text-navy uppercase tracking-normal">
               Enquire Now
             </h2>
             {selectedProject && (
-              <p className="mb-4 text-xs sm:text-sm font-sans gold-gradient-text font-semibold uppercase tracking-wider">
+              <p className="mb-4 text-xs sm:text-sm font-sans gold-gradient-text font-semibold uppercase tracking-normal">
                 Interested in: {selectedProject}
               </p>
             )}

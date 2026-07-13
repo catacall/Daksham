@@ -79,7 +79,7 @@ export default function ChatbotDrawer() {
       if (action === 'status') {
         addMessage(
           'bot',
-          'Here is the status of our current luxurious developments:\n\n Ongoing construction: \n• Sai World City (Panvel, Navi Mumbai) — 2, 3 & 4 BHK Luxury Condos\n• Sai World Empire (Kharghar, Navi Mumbai) — 3 & 4 BHK Neo-Classical Homes\n\nSuccessfully Delivered:\n• Paradise Mall (Kharghar, Navi Mumbai) — Ultra-Premium Highstreet Retail\n• Sai World Legend (Dombivli, Thane) — Premium Residential Towers\n• Sai World Dreams (Dombivli, Thane) — Highstreet & Multiplex Hub',
+          'Here is the status of our current luxurious developments:\n\n• Ce La Vie — Ground Floor\n• Ce La Vie — Amenities\n\nMore projects coming soon!',
           [
             { label: 'View Ongoing Projects', action: 'view_ongoing' },
             { label: 'View Delivered Projects', action: 'view_delivered' },
@@ -196,12 +196,12 @@ export default function ChatbotDrawer() {
                   <Bot size={22} className="stroke-[2.5]" />
                 </div>
                 <div>
-                  <h3 className="font-display font-medium text-lg tracking-wider text-white">
+                  <h3 className="font-display font-medium text-lg tracking-normal text-white">
                     Daksham bot
                   </h3>
                   <div className="flex items-center gap-1.5">
                     <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-sans text-emerald-400 font-bold uppercase tracking-wider">
+                    <span className="text-[10px] font-sans text-emerald-400 font-bold uppercase tracking-normal">
                       Online Support
                     </span>
                   </div>
@@ -225,7 +225,7 @@ export default function ChatbotDrawer() {
                     message.sender === 'user' ? 'self-end items-end' : 'self-start items-start'
                   }`}
                 >
-                  <span className="text-[9px] font-sans text-muted mb-1.5 uppercase tracking-wider font-semibold">
+                  <span className="text-[9px] font-sans text-muted mb-1.5 uppercase tracking-normal font-semibold">
                     {message.sender === 'bot' ? 'Advisory Desk' : 'You'} •{' '}
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
@@ -259,7 +259,7 @@ export default function ChatbotDrawer() {
 
               {isTyping && (
                 <div className="self-start flex flex-col items-start max-w-[80%]">
-                  <span className="text-[9px] font-sans text-muted mb-1.5 uppercase tracking-wider font-semibold">
+                  <span className="text-[9px] font-sans text-muted mb-1.5 uppercase tracking-normal font-semibold">
                     Advisory Desk is typing...
                   </span>
                   <div className="bg-navy-light border border-white/5 text-white/90 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">

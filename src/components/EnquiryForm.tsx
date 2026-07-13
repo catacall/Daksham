@@ -125,7 +125,7 @@ export function EnquiryForm({
         animate={{ opacity: 1, scale: 1 }}
         className="rounded-sm border border-transparent/30 gold-gradient/5 p-6 sm:p-8 text-center shadow-"
       >
-        <h3 className="mb-3 font-display text-xl sm:text-2xl font-bold uppercase tracking-wider gold-gradient-text">
+        <h3 className="mb-3 font-display text-xl sm:text-2xl font-bold uppercase tracking-normal gold-gradient-text">
           Thank you!
         </h3>
         <p className="font-sans text-muted text-sm sm:text-base font-medium">
@@ -134,7 +134,7 @@ export function EnquiryForm({
         </p>
         <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
           onClick={() => setSubmitStatus("idle")}
-          className="mt-6 sm:mt-8 rounded-sm bg-navy px-6 sm:px-8 py-3 font-sans text-xs sm:text-sm font-extrabold uppercase tracking-widest text-white transition-colors hover:gold-gradient hover:text-navy"
+          className="mt-6 sm:mt-8 rounded-sm bg-navy px-6 sm:px-8 py-3 font-sans text-xs sm:text-sm font-extrabold uppercase tracking-normal text-white transition-colors hover:gold-gradient hover:text-navy"
         >
           Submit Another
         </motion.button>
@@ -154,7 +154,7 @@ export function EnquiryForm({
         <div className="space-y-1.5 sm:space-y-2">
           <label
             htmlFor="name"
-            className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+            className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy"
           >
             Full Name
           </label>
@@ -178,7 +178,7 @@ export function EnquiryForm({
         <div className="space-y-1.5 sm:space-y-2">
           <label
             htmlFor="phone"
-            className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+            className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy"
           >
             Phone Number
           </label>
@@ -203,7 +203,7 @@ export function EnquiryForm({
       <div className="space-y-1.5 sm:space-y-2">
         <label
           htmlFor="email"
-          className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+          className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy"
         >
           Email Address
         </label>
@@ -227,7 +227,7 @@ export function EnquiryForm({
       <div className="space-y-1.5 sm:space-y-2">
         <label
           htmlFor="projectInterestedIn"
-          className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+          className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy"
         >
           Project Interested In
         </label>
@@ -250,7 +250,7 @@ export function EnquiryForm({
       <div className="space-y-1.5 sm:space-y-2">
         <label
           htmlFor="message"
-          className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy"
+          className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy"
         >
           Your Message
         </label>
@@ -280,7 +280,7 @@ export function EnquiryForm({
       <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-sm gold-gradient px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-extrabold uppercase tracking-widest text-navy transition-all hover:gold-gradient-light disabled:opacity-70 flex justify-center items-center shadow-md active:scale-[0.98]"
+        className="w-full rounded-sm gold-gradient px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-extrabold uppercase tracking-normal text-navy transition-all hover:gold-gradient-light disabled:opacity-70 flex justify-center items-center shadow-md active:scale-[0.98]"
       >
         {isSubmitting ? (
           <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-solid border-navy border-r-transparent" />

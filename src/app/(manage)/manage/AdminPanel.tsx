@@ -446,7 +446,7 @@ function EditModal({
         {/* ── Header ── */}
         <div className="px-6 py-5 border-b border-border-light/20 flex items-center justify-between bg-navy shrink-0">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] gold-gradient-text mb-0.5">
+            <p className="text-[10px] font-bold uppercase tracking-normal gold-gradient-text mb-0.5">
               {isNew ? "New Project" : "Edit Project"}
             </p>
             <h2 className="font-display text-lg font-bold text-white">
@@ -466,7 +466,7 @@ function EditModal({
           <div className="p-6 space-y-5">
             {/* Cover Photo */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-3">
+              <p className="text-[10px] font-bold uppercase tracking-normal text-muted mb-3">
                 Cover Photo
               </p>
               <div className="flex flex-wrap gap-3 mb-3">
@@ -515,12 +515,12 @@ function EditModal({
 
             {/* Core Fields */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-4">
+              <p className="text-[10px] font-bold uppercase tracking-normal text-muted mb-4">
                 Project Details
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
                     Project Name *
                   </label>
                   <input
@@ -531,7 +531,7 @@ function EditModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
                     Status
                   </label>
                   <select
@@ -544,7 +544,7 @@ function EditModal({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
                     Location *
                   </label>
                   <input
@@ -555,7 +555,7 @@ function EditModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
                     Price Range
                   </label>
                   <input
@@ -566,7 +566,7 @@ function EditModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
                     Unit Types
                   </label>
                   <input
@@ -577,7 +577,7 @@ function EditModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
                     RERA Number
                   </label>
                   <input
@@ -588,7 +588,7 @@ function EditModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
                     Expected Completion
                   </label>
                   <input
@@ -599,7 +599,7 @@ function EditModal({
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-navy mb-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
                     YouTube Video Link
                   </label>
                   <input
@@ -614,7 +614,7 @@ function EditModal({
 
             {/* Description */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-3">
+              <label className="block text-[10px] font-bold uppercase tracking-normal text-muted mb-3">
                 Description
               </label>
               <textarea
@@ -628,7 +628,7 @@ function EditModal({
 
             {/* Highlights */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-3">
+              <label className="block text-[10px] font-bold uppercase tracking-normal text-muted mb-3">
                 Highlights &amp; Features
               </label>
               <div className="flex flex-wrap gap-2 mb-3 min-h-[28px]">
@@ -659,7 +659,7 @@ function EditModal({
                 />
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={addHighlight}
-                  className="bg-navy hover:gold-gradient text-white hover:text-navy text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all"
+                  className="bg-navy hover:gold-gradient text-white hover:text-navy text-xs font-bold uppercase tracking-normal px-5 py-2.5 rounded-xl transition-all"
                 >
                   Add
                 </motion.button>
@@ -670,7 +670,7 @@ function EditModal({
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted">
+                  <p className="text-[10px] font-bold uppercase tracking-normal text-muted">
                     Amenity Photos
                   </p>
                   <p className="text-[11px] text-muted mt-0.5">
@@ -678,7 +678,7 @@ function EditModal({
                     project page
                   </p>
                 </div>
-                <span className="text-[10px] gold-gradient/10 border border-transparent/30 gold-gradient-text font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0 ml-2">
+                <span className="text-[10px] gold-gradient/10 border border-transparent/30 gold-gradient-text font-bold px-2.5 py-1 rounded-full uppercase tracking-normal shrink-0 ml-2">
                   Displayed on site
                 </span>
               </div>
@@ -732,14 +732,14 @@ function EditModal({
         <div className="px-6 py-4 border-t border-border-light/60 bg-white flex justify-end gap-3 shrink-0">
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={onClose}
-            className="text-navy border border-border-light bg-off-white hover:bg-border-light text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-all"
+            className="text-navy border border-border-light bg-off-white hover:bg-border-light text-xs font-bold uppercase tracking-normal px-5 py-3 rounded-xl transition-all"
           >
             Cancel
           </motion.button>
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={handleSave}
             disabled={saving}
-            className="gold-gradient hover:gold-gradient-light text-navy font-bold text-xs uppercase tracking-widest px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="gold-gradient hover:gold-gradient-light text-navy font-bold text-xs uppercase tracking-normal px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? "Saving…" : isNew ? "Create Project" : "Save Changes"}
           </motion.button>
@@ -970,7 +970,7 @@ export default function AdminPanel() {
               <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                 onClick={() => setDeleteConfirmProject(null)}
                 disabled={isDeletingProject}
-                className="flex-1 bg-off-white hover:bg-border-light/30 text-navy font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition-all disabled:opacity-50"
+                className="flex-1 bg-off-white hover:bg-border-light/30 text-navy font-bold text-xs uppercase tracking-normal py-3 rounded-xl transition-all disabled:opacity-50"
               >
                 Cancel
               </motion.button>
@@ -1000,7 +1000,7 @@ export default function AdminPanel() {
                   }
                 }}
                 disabled={isDeletingProject}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition-all shadow-xs disabled:opacity-50 flex items-center justify-center"
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-normal py-3 rounded-xl transition-all shadow-xs disabled:opacity-50 flex items-center justify-center"
               >
                 {isDeletingProject ? "Deleting..." : "Delete"}
               </motion.button>
@@ -1014,10 +1014,10 @@ export default function AdminPanel() {
         {/* ── Title block & Quick Links (no giant header box) ── */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-border-light/80 pb-5 mb-8">
           <div>
-            <h1 className="font-display text-3xl font-extrabold tracking-wide text-navy">
+            <h1 className="font-display text-3xl font-extrabold tracking-normal text-navy">
               Manage Console
             </h1>
-            <p className="text-xs text-black mt-1 uppercase tracking-widest font-semibold">
+            <p className="text-xs text-black mt-1 uppercase tracking-normal font-semibold">
               Daksham Developers — Admin Portal
             </p>
           </div>
@@ -1026,7 +1026,7 @@ export default function AdminPanel() {
               href="/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-navy hover:gold-gradient-text border border-border-light hover:border-transparent px-4 py-2.5 rounded-xl bg-white shadow-xs transition-all"
+              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-normal text-navy hover:gold-gradient-text border border-border-light hover:border-transparent px-4 py-2.5 rounded-xl bg-white shadow-xs transition-all"
             >
               View Website
             </a>
@@ -1088,7 +1088,7 @@ export default function AdminPanel() {
                   key={s.label}
                   className={`bg-white rounded-2xl p-4 border-t-4 ${s.border} shadow-xs transition-transform hover:-translate-y-0.5 duration-200`}
                 >
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-black mb-1">
+                  <p className="text-[10px] font-bold uppercase tracking-normal text-black mb-1">
                     {s.label}
                   </p>
                   <p
@@ -1107,7 +1107,7 @@ export default function AdminPanel() {
               <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all uppercase ${
+                className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold tracking-normal transition-all uppercase ${
                   tab === t
                     ? "bg-navy text-white shadow-xs"
                     : "text-black hover:text-navy hover:bg-border-light/20"
@@ -1132,7 +1132,7 @@ export default function AdminPanel() {
                 setIsNewProject(true);
                 setEditProject(null);
               }}
-              className="inline-flex items-center gap-1.5 gold-gradient hover:gold-gradient-light text-navy font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 gold-gradient hover:gold-gradient-light text-navy font-bold text-xs uppercase tracking-normal px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
             >
               ➕ Add New Project
             </motion.button>
@@ -1141,7 +1141,7 @@ export default function AdminPanel() {
           {tab === "enquiries" && enquiries.length > 0 && (
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={exportToCSV}
-              className="inline-flex items-center gap-1.5 bg-white hover:bg-off-white text-navy border border-border-light font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 bg-white hover:bg-off-white text-navy border border-border-light font-bold text-xs uppercase tracking-normal px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
             >
               📥 Export to CSV
             </motion.button>
@@ -1206,7 +1206,7 @@ export default function AdminPanel() {
                         </div>
                       )}
                       <span
-                        className={`absolute top-4 right-4 text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-xs ${
+                        className={`absolute top-4 right-4 text-[10px] font-bold uppercase tracking-normal px-3.5 py-1.5 rounded-full shadow-xs ${
                           p.status === "delivered"
                             ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
                             : "bg-amber-50 text-amber-700 border border-amber-100"
@@ -1241,14 +1241,14 @@ export default function AdminPanel() {
                             setEditProject(p);
                             setIsNewProject(false);
                           }}
-                          className="flex-2 inline-flex items-center justify-center gap-1.5 bg-navy hover:gold-gradient text-white hover:text-navy font-bold text-xs uppercase tracking-wider py-3.5 rounded-2xl transition-all duration-200"
+                          className="flex-2 inline-flex items-center justify-center gap-1.5 bg-navy hover:gold-gradient text-white hover:text-navy font-bold text-xs uppercase tracking-normal py-3.5 rounded-2xl transition-all duration-200"
                         >
                           ✏️ Edit
                         </motion.button>
                         <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                           onClick={() => setDeleteConfirmProject(p)}
                           title="Delete Project"
-                          className="flex-1 inline-flex items-center justify-center bg-red-50 hover:bg-red-600 text-red-600 hover:text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider px-2 py-3.5 rounded-2xl transition-all duration-200"
+                          className="flex-1 inline-flex items-center justify-center bg-red-50 hover:bg-red-600 text-red-600 hover:text-white font-bold text-[10px] sm:text-xs uppercase tracking-normal px-2 py-3.5 rounded-2xl transition-all duration-200"
                         >
                           🗑️ Delete
                         </motion.button>
@@ -1272,13 +1272,13 @@ export default function AdminPanel() {
                 </span>
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={handleBulkDelete}
-                  className="bg-red-600 hover:bg-red-700 text-white font-bold text-[11px] uppercase tracking-wider px-4 py-2 rounded-xl transition-all shadow-xs"
+                  className="bg-red-600 hover:bg-red-700 text-white font-bold text-[11px] uppercase tracking-normal px-4 py-2 rounded-xl transition-all shadow-xs"
                 >
                   🗑️ Delete Selected
                 </motion.button>
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedEnqs([])}
-                  className="bg-white hover:bg-off-white text-navy border border-border-light text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-xl transition-all"
+                  className="bg-white hover:bg-off-white text-navy border border-border-light text-[11px] font-bold uppercase tracking-normal px-4 py-2 rounded-xl transition-all"
                 >
                   Deselect All
                 </motion.button>
@@ -1340,22 +1340,22 @@ export default function AdminPanel() {
                             className="w-4 h-4 rounded border-border-light text-navy focus:ring-gold accent-gold cursor-pointer"
                           />
                         </th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-normal text-black">
                           Client Details
                         </th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-normal text-black">
                           Project Interested
                         </th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-normal text-black">
                           Email
                         </th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-normal text-black">
                           Status
                         </th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black">
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-normal text-black">
                           Received Date
                         </th>
-                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-wider text-black w-24"></th>
+                        <th className="py-4 px-6 text-xs font-bold uppercase tracking-normal text-black w-24"></th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border-light/30">
@@ -1467,7 +1467,7 @@ export default function AdminPanel() {
                                   className="bg-off-white/30 p-6 border-b border-border-light/40"
                                 >
                                   <div>
-                                    <span className="block text-[10px] font-bold uppercase tracking-wider text-black mb-2">
+                                    <span className="block text-[10px] font-bold uppercase tracking-normal text-black mb-2">
                                       Message Payload
                                     </span>
                                     <div className="bg-white rounded-2xl p-4 border border-border-light/40 text-sm text-navy leading-relaxed shadow-xs">
@@ -1493,7 +1493,7 @@ export default function AdminPanel() {
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-border-light/60 shadow-xs space-y-6">
             <div>
               {" "}
-              <h2 className="text-sm font-bold text-navy uppercase tracking-wider mb-2 ">
+              <h2 className="text-sm font-bold text-navy uppercase tracking-normal mb-2 ">
                 Website Brochure (E-Brochure PDF)
               </h2>
             </div>
@@ -1546,7 +1546,7 @@ export default function AdminPanel() {
                       <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                         onClick={() => brochureInputRef.current?.click()}
                         disabled={uploadingBrochure}
-                        className="bg-navy hover:gold-gradient text-white hover:text-navy font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all"
+                        className="bg-navy hover:gold-gradient text-white hover:text-navy font-bold text-xs uppercase tracking-normal px-4 py-2.5 rounded-xl transition-all"
                       >
                         {uploadingBrochure ? "Uploading…" : "Upload new PDF"}
                       </motion.button>
@@ -1590,7 +1590,7 @@ export default function AdminPanel() {
           }`}
         >
           <span>{notification.type === "error" ? "⚠️" : "✨"}</span>
-          <span className="text-xs font-bold uppercase tracking-wider">
+          <span className="text-xs font-bold uppercase tracking-normal">
             {notification.message}
           </span>
         </div>

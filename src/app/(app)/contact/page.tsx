@@ -50,7 +50,7 @@ export default async function ContactPage({
         <FadeIn delay={0.1}>
           <div className="mb-10 sm:mb-12 md:mb-16 border-b border-border-light pb-6 sm:pb-8 text-center">
             
-            <h1 className="text-3xl sm:text-4xl font-display font-medium uppercase tracking-wide text-navy md:text-5xl lg:text-6xl">
+            <h1 className="text-3xl sm:text-4xl font-display font-medium uppercase tracking-normal text-navy md:text-5xl lg:text-6xl">
               Contact Us
             </h1>
             <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-base sm:text-lg font-sans text-muted">
@@ -65,7 +65,7 @@ export default async function ContactPage({
           <div className="space-y-8 sm:space-y-10 md:space-y-12">
             <FadeIn delay={0.2} direction="right">
               <div className="rounded-2xl sm:rounded-3xl border border-border-light bg-white p-6 sm:p-8 md:p-10 shadow-xl shadow-navy/5">
-                <h2 className="mb-6 sm:mb-8 font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">
+                <h2 className="mb-6 sm:mb-8 font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">
                   Reach Out
                 </h2>
                 <div className="space-y-6 sm:space-y-8">
@@ -74,11 +74,11 @@ export default async function ContactPage({
                       <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
                     <div className="ml-4 sm:ml-6 space-y-4">
-                      <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">
+                      <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
                         Office Addresses
                       </h3>
                       <div>
-                        <span className="font-sans text-[10px] font-bold uppercase tracking-wider text-navy block mb-1">Corporate Office</span>
+                        <span className="font-sans text-[10px] font-bold uppercase tracking-normal text-navy block mb-1">Corporate Office</span>
                         <a 
                           href="https://maps.google.com/?q=Satra+Plaza,+Sector+19D,+Vashi,+Navi+Mumbai"
                           target="_blank"
@@ -101,7 +101,7 @@ export default async function ContactPage({
                       <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
                     <div className="ml-4 sm:ml-6">
-                      <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">
+                      <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
                         Phone
                       </h3>
                       <p className="mt-1.5 sm:mt-2 font-sans text-muted text-sm flex flex-col gap-1">
@@ -132,7 +132,7 @@ export default async function ContactPage({
                       <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
                     <div className="ml-4 sm:ml-6">
-                      <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-navy">
+                      <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
                         Email
                       </h3>
                       <p className="mt-1.5 sm:mt-2 font-sans text-muted text-sm">
@@ -171,7 +171,7 @@ export default async function ContactPage({
           <div className="lg:pl-4 xl:pl-8">
             <FadeIn delay={0.3} direction="left">
               <div className="mb-6 sm:mb-8">
-                <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">
+                <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">
                   Send an Enquiry
                 </h2>
                 <p className="mt-2 sm:mt-3 font-sans text-muted text-sm sm:text-base">

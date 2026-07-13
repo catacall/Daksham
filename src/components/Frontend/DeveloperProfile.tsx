@@ -89,7 +89,7 @@ function TestimonialCard({ item }: { item: (typeof testimonials)[number] }) {
           <h4 className="text-sm font-display font-bold gold-gradient-text truncate">
             {item.name}
           </h4>
-          <p className="text-[11px] text-platinum/50 uppercase tracking-wider mt-0.5">
+          <p className="text-[11px] text-platinum/50 uppercase tracking-normal mt-0.5">
             {item.role}
           </p>
         </div>
@@ -296,7 +296,7 @@ export default function DeveloperProfile() {
 
               {/* Bio */}
               <div className="flex flex-col justify-center text-center md:text-left">
-                <h3 className="gold-gradient-text font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-wide mb-5">
+                <h3 className="gold-gradient-text font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-normal mb-5">
                   Amit Kalra
                 </h3>
                 <p className="font-sans text-platinum/75 text-sm sm:text-base leading-7 tracking-normal">
@@ -352,7 +352,7 @@ export default function DeveloperProfile() {
             {/* Eyebrow pill — gold, not cyan */}
             <span
               className="inline-flex items-center rounded-full px-4 py-1.5
-                         text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em]
+                         text-[10px] sm:text-xs font-bold uppercase tracking-normal
                          gold-gradient-text border border-bright-gold/25 bg-bright-gold/8"
             >
               Testimonials

@@ -24,7 +24,7 @@ export default function EnquiryButton({
   return (
     <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
       onClick={handleClick}
-      className={`inline-flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 font-sans font-bold uppercase tracking-wider ${className}`}
+      className={`inline-flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 font-sans font-bold uppercase tracking-normal ${className}`}
     >
       <MessageSquare size={18} />
       {label}

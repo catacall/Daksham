@@ -24,7 +24,7 @@ export default function ProjectsError({
         </div>
 
         <div className="space-y-2 sm:space-y-3">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase tracking-wide text-navy">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase tracking-normal text-navy">
             Something Went Wrong
           </h2>
           <p className="font-sans text-muted text-sm sm:text-base leading-relaxed">
@@ -35,7 +35,7 @@ export default function ProjectsError({
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={() => reset()}
-            className="flex items-center justify-center gap-2 rounded-xl gold-gradient px-6 py-3 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy transition-all hover:gold-gradient-light active:scale-95 shadow-lg shadow-gold/10"
+            className="flex items-center justify-center gap-2 rounded-xl gold-gradient px-6 py-3 font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy transition-all hover:gold-gradient-light active:scale-95 shadow-lg shadow-gold/10"
           >
             <RefreshCw className="h-4 w-4" />
             Try Again
@@ -43,7 +43,7 @@ export default function ProjectsError({
           
           <Link
             href="/"
-            className="flex items-center justify-center rounded-xl bg-navy px-6 py-3 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-white transition-all hover:bg-navy-light active:scale-95"
+            className="flex items-center justify-center rounded-xl bg-navy px-6 py-3 font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-white transition-all hover:bg-navy-light active:scale-95"
           >
             Back to Home
           </Link>

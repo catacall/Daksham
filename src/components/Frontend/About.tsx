@@ -35,7 +35,7 @@ export default function About() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-center mb-16 sm:mb-24"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-navy font-black uppercase tracking-wide leading-[1.1] max-w-4xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display text-navy font-black uppercase tracking-normal leading-[1.1] max-w-4xl mx-auto">
             Developing Quality Real Estate Since 2015
           </h2>
           <div className="mt-8 w-24 h-1.5 gold-gradient mx-auto rounded-full" />
@@ -55,7 +55,7 @@ export default function About() {
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan/5 rounded-full blur-[80px] pointer-events-none transition-transform duration-700 group-hover:scale-110" />
 
           <div className="max-w-5xl relative z-10 mx-auto text-center lg:text-left">
-            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-medium text-white tracking-wide leading-tight mb-12">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-medium text-white tracking-normal leading-tight mb-12">
               Pioneers of Global Lifestyle, Promising a
               <span className="gold-gradient-text"> Home </span>of Luxury
             </h3>
@@ -105,7 +105,7 @@ export default function About() {
                   </span>
                 )}
               </span>
-              <span className="text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-[0.15em] leading-relaxed">
+              <span className="text-white font-sans text-xs sm:text-sm font-bold uppercase tracking-normal leading-relaxed">
                 {stat.label}
               </span>
             </motion.div>

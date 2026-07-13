@@ -173,17 +173,17 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-navy via-navy/40 to-transparent flex flex-col justify-end p-6 sm:p-8 pointer-events-none transition-colors duration-500 group-hover:from-navy/90 group-hover:via-navy/60">
                       <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] translate-y-12 sm:translate-y-14 group-hover:translate-y-0">
-                        <p className="gold-gradient-text text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2">
+                        <p className="gold-gradient-text text-[10px] sm:text-xs font-bold uppercase tracking-normal mb-2">
                           {project.location}
                         </p>
-                        <h3 className="text-white font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-wide mb-2">
+                        <h3 className="text-white font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-normal mb-2">
                           {project.title}
                         </h3>
                         <p className="text-white/80 text-xs sm:text-sm font-sans font-light mb-6">
                           {project.area}
                         </p>
                         <div className="opacity-0 transform translate-y-4 transition-all duration-500 delay-100 group-hover:opacity-100 group-hover:translate-y-0">
-                          <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl gold-gradient text-navy font-bold text-[10px] sm:text-xs uppercase tracking-widest shadow-lg">
+                          <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl gold-gradient text-navy font-bold text-[10px] sm:text-xs uppercase tracking-normal shadow-lg">
                             View Project
                           </span>
                         </div>
@@ -250,7 +250,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
               window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
             }
             href="/projects"
-            className="w-full sm:w-auto text-center px-10 py-4 rounded-xl  bg-white text-navy font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer shadow-lg"
+            className="w-full sm:w-auto text-center px-10 py-4 rounded-xl  bg-white text-navy font-sans text-xs font-bold uppercase tracking-normal transition-colors duration-300 cursor-pointer shadow-lg"
           >
             View All Projects
           </Link>
@@ -262,7 +262,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
               onClick={() =>
                 window.dispatchEvent(new CustomEvent("open-enquiry-modal"))
               }
-              className="w-full sm:w-auto text-center px-10 py-4 rounded-xl gold-gradient hover:bg-white text-navy font-sans text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-300 cursor-pointer shadow-lg"
+              className="w-full sm:w-auto text-center px-10 py-4 rounded-xl gold-gradient hover:bg-white text-navy font-sans text-xs font-bold uppercase tracking-normal transition-colors duration-300 cursor-pointer shadow-lg"
             >
               Download Brochure
             </motion.button>

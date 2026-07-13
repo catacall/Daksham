@@ -10,19 +10,19 @@ export default function Footer() {
       <footer className="bg-[#0a0a0a] py-10 md:py-16">
         <div className="container mx-auto px-5 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           <div className="sm:col-span-2 lg:col-span-1">
-            <h3 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-4 md:mb-6 tracking-wider gold-gradient-text">
+            <h3 className="font-display font-bold text-2xl md:text-3xl lg:text-4xl mb-4 md:mb-6 tracking-normal gold-gradient-text">
               DAKSHAM
             </h3>
-            <p className="text-white leading-loose tracking-wide text-lg font-sans max-w-sm">
+            <p className="text-white leading-loose tracking-normal text-lg font-sans max-w-sm">
               Elevating lifestyles through premium real estate and
               transformative business ventures globally.
             </p>
           </div>
           <div>
-            <h4 className="font-bold font-sans mb-4 md:mb-6 tracking-widest text-lg uppercase gold-gradient-text">
+            <h4 className="font-bold font-sans mb-4 md:mb-6 tracking-normal text-lg uppercase gold-gradient-text">
               Quick Links
             </h4>
-            <ul className="flex flex-col gap-5 text-white text-lg font-sans tracking-wide leading-loose">
+            <ul className="flex flex-col gap-5 text-white text-lg font-sans tracking-normal leading-loose">
               <li>
                 <Link
                   href="/#hero"
@@ -50,12 +50,12 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-bold font-sans mb-4 md:mb-6 tracking-widest text-lg uppercase gold-gradient-text">
+            <h4 className="font-bold font-sans mb-4 md:mb-6 tracking-normal text-lg uppercase gold-gradient-text">
               Office Addresses
             </h4>
-            <div className="flex flex-col gap-5 text-white text-lg font-sans tracking-wide leading-loose">
+            <div className="flex flex-col gap-5 text-white text-lg font-sans tracking-normal leading-loose">
               <div>
-                <span className="font-bold font-sans text-base uppercase tracking-widest block gold-gradient-text mb-2">
+                <span className="font-bold font-sans text-base uppercase tracking-normal block gold-gradient-text mb-2">
                   Regd. Office
                 </span>
                 <a
@@ -74,10 +74,10 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <h4 className="font-bold font-sans mb-4 md:mb-6 tracking-widest text-lg uppercase gold-gradient-text">
+            <h4 className="font-bold font-sans mb-4 md:mb-6 tracking-normal text-lg uppercase gold-gradient-text">
               Contact
             </h4>
-            <ul className="flex flex-col gap-5 text-white text-lg font-sans tracking-wide leading-loose">
+            <ul className="flex flex-col gap-5 text-white text-lg font-sans tracking-normal leading-loose">
               <li>
                 <a
                   href="mailto:dakshamdevelopers@gmail.com"
@@ -114,7 +114,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="container mx-auto px-5 sm:px-6 mt-10 md:mt-16 pt-8 border-t border-transparent/20 flex flex-col md:flex-row justify-between items-center gap-6 text-white text-base font-sans tracking-wide">
+        <div className="container mx-auto px-5 sm:px-6 mt-10 md:mt-16 pt-8 border-t border-transparent/20 flex flex-col md:flex-row justify-between items-center gap-6 text-white text-base font-sans tracking-normal">
           <p>&copy; 2026 Daksham Developers. All rights reserved.</p>
           <div className="flex gap-4 md:gap-6 text-white">
             <Link

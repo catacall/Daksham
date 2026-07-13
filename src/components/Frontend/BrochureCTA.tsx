@@ -82,10 +82,10 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
           <div className="absolute top-0 left-0 w-64 h-64 gold-gradient/5 rounded-full blur-[80px] pointer-events-none transition-transform duration-700 group-hover:scale-110" />
 
           <div className="space-y-4 relative z-10">
-            <span className="text-sm font-sans font-bold uppercase tracking-[0.25em] gold-gradient-text block">
+            <span className="text-sm font-sans font-bold uppercase tracking-normal gold-gradient-text block">
               Premium E-Brochure
             </span>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium uppercase tracking-wide gold-gradient-text mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium uppercase tracking-normal gold-gradient-text mb-6">
               Discover Daksham Developments
             </h2>
             <p className="font-sans gold-gradient-text/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
@@ -98,7 +98,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
           <div className="flex justify-center relative z-10 mt-8">
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={() => setShowModal(true)}
-              className="inline-flex items-center justify-center rounded-xl gold-gradient px-10 py-5 font-sans text-sm font-bold uppercase tracking-wide text-navy transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 shadow-lg"
+              className="inline-flex items-center justify-center rounded-xl gold-gradient px-10 py-5 font-sans text-sm font-bold uppercase tracking-normal text-navy transition-all duration-300 hover:bg-white hover:scale-105 active:scale-95 shadow-lg"
             >
               Download Brochure
             </motion.button>
@@ -119,7 +119,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
 
             <div className="text-center space-y-2">
               <span className="text-2xl">📋</span>
-              <h3 className="font-display text-xl font-bold text-navy uppercase tracking-wide">
+              <h3 className="font-display text-xl font-bold text-navy uppercase tracking-normal">
                 Download Brochure
               </h3>
               <p className="text-xs text-muted font-sans">
@@ -144,7 +144,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
                 )}
 
                 <div className="space-y-1">
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-muted">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-muted">
                     Full Name
                   </label>
                   <input
@@ -158,7 +158,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-muted">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-muted">
                     Email Address
                   </label>
                   <input
@@ -172,7 +172,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-muted">
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-muted">
                     Phone Number
                   </label>
                   <input
@@ -194,7 +194,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   type="submit"
                   disabled={submitting}
-                  className="w-full inline-flex items-center justify-center rounded-xl gold-gradient hover:gold-gradient-light text-navy font-bold text-xs sm:text-sm uppercase tracking-widest py-4 transition-all duration-300 disabled:opacity-50"
+                  className="w-full inline-flex items-center justify-center rounded-xl gold-gradient hover:gold-gradient-light text-navy font-bold text-xs sm:text-sm uppercase tracking-normal py-4 transition-all duration-300 disabled:opacity-50"
                 >
                   {submitting ? "Processing..." : "Submit & Download"}
                 </motion.button>

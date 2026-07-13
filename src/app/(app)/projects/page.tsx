@@ -53,7 +53,7 @@ export default async function AllProjectsPage({
       <div className="container mx-auto max-w-7xl">
         <FadeIn delay={0.1}>
           <div className="mb-8 sm:mb-12 md:mb-16 border-b border-border-light pb-6 sm:pb-8">
-            <h1 className="text-2xl sm:text-4xl font-display font-medium uppercase tracking-wide text-navy md:text-5xl lg:text-6xl leading-snug">
+            <h1 className="text-2xl sm:text-4xl font-display font-medium uppercase tracking-normal text-navy md:text-5xl lg:text-6xl leading-snug">
               All Developments
             </h1>
             <p className="mt-3 sm:mt-5 text-sm sm:text-base font-sans text-muted max-w-2xl leading-relaxed">

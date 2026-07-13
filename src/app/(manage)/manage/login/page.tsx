@@ -93,10 +93,10 @@ function LoginForm() {
             className="h-full w-auto object-contain"
           />
         </div>
-        <h2 className="text-xl font-display font-medium text-white tracking-wide text-center uppercase">
+        <h2 className="text-xl font-display font-medium text-white tracking-normal text-center uppercase">
           Manage Console
         </h2>
-        <p className="text-xs text-muted/80 font-sans mt-1 text-center uppercase tracking-widest font-semibold">
+        <p className="text-xs text-muted/80 font-sans mt-1 text-center uppercase tracking-normal font-semibold">
           Admin Authentication
         </p>
       </div>
@@ -112,7 +112,7 @@ function LoginForm() {
       {/* Form */}
       <form onSubmit={handleLogin} className="space-y-5">
         <div>
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-2">
+          <label className="block text-[10px] font-bold uppercase tracking-normal text-muted mb-2">
             Admin Email
           </label>
           <div className="relative">
@@ -132,7 +132,7 @@ function LoginForm() {
         </div>
 
         <div>
-          <label className="block text-[10px] font-bold uppercase tracking-wider text-muted mb-2">
+          <label className="block text-[10px] font-bold uppercase tracking-normal text-muted mb-2">
             Password
           </label>
           <div className="relative">
@@ -154,7 +154,7 @@ function LoginForm() {
         <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 gold-gradient hover:gold-gradient-light disabled:gold-gradient/50 text-navy font-bold text-xs uppercase tracking-widest py-4 rounded-xl transition-all cursor-pointer shadow-lg shadow-gold/10 mt-2"
+          className="w-full flex items-center justify-center gap-2 gold-gradient hover:gold-gradient-light disabled:gold-gradient/50 text-navy font-bold text-xs uppercase tracking-normal py-4 rounded-xl transition-all cursor-pointer shadow-lg shadow-gold/10 mt-2"
         >
           {loading ? (
             <>
@@ -171,7 +171,7 @@ function LoginForm() {
       </form>
 
       {/* Footer info */}
-      <p className="text-[10px] text-center text-muted/60 mt-8 font-sans uppercase tracking-wider">
+      <p className="text-[10px] text-center text-muted/60 mt-8 font-sans uppercase tracking-normal">
         Daksham Developers © 2026. Secure Access Only.
       </p>
 
@@ -184,7 +184,7 @@ function LoginLoading() {
   return (
     <div className="w-full max-w-md bg-navy-light/40 rounded-3xl border border-white/5 p-8 shadow-2xl relative z-10 flex flex-col items-center justify-center min-h-[400px]">
       <Loader2 className="w-8 h-8 animate-spin gold-gradient-text" />
-      <p className="text-xs text-muted/80 font-sans mt-4 uppercase tracking-widest font-semibold">
+      <p className="text-xs text-muted/80 font-sans mt-4 uppercase tracking-normal font-semibold">
         Initializing Console...
       </p>
     </div>

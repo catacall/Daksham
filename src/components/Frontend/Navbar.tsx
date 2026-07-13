@@ -109,7 +109,7 @@ export default function Navbar() {
                   >
                     <button
                       className={`flex items-center gap-1 px-3 lg:px-4 xl:px-5 py-2.5
-                        text-[13px] lg:text-sm xl:text-base font-sans font-bold uppercase tracking-[0.15em] lg:tracking-[0.2em]
+                        text-[13px] lg:text-sm xl:text-base font-sans font-bold uppercase tracking-normal lg:tracking-normal
                         transition-all duration-200 cursor-pointer whitespace-nowrap ${
                           dropdownOpen ? "text-navy" : "text-navy/70 hover:text-navy"
                         }`}
@@ -137,7 +137,7 @@ export default function Navbar() {
                           <Link
                             href="/projects"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
-                                       font-bold uppercase tracking-widest text-navy
+                                       font-bold uppercase tracking-normal text-navy
                                        hover:bg-off-white
                                        border-b border-border transition-all"
                           >
@@ -147,7 +147,7 @@ export default function Navbar() {
                           <Link
                             href="/projects/ongoing"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
-                                       font-bold uppercase tracking-widest text-navy/70
+                                       font-bold uppercase tracking-normal text-navy/70
                                        hover:bg-off-white transition-all"
                           >
                             <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
@@ -156,7 +156,7 @@ export default function Navbar() {
                           <Link
                             href="/projects/delivered"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
-                                       font-bold uppercase tracking-widest text-navy/70
+                                       font-bold uppercase tracking-normal text-navy/70
                                        hover:bg-off-white transition-all"
                           >
                             <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
@@ -174,7 +174,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={`flex items-center justify-center px-3 lg:px-4 xl:px-5 py-2.5
-                      text-[13px] lg:text-sm xl:text-base font-sans font-bold uppercase tracking-[0.15em] lg:tracking-[0.2em]
+                      text-[13px] lg:text-sm xl:text-base font-sans font-bold uppercase tracking-normal lg:tracking-normal
                       transition-all duration-200 whitespace-nowrap ${
                         isActive(link.href)
                           ? "text-navy"
@@ -200,7 +200,7 @@ export default function Navbar() {
               className="hidden md:inline-flex items-center gap-1.5
                          px-5 lg:px-7 py-2.5 lg:py-3 rounded-xl gold-gradient hover:opacity-90
                          text-navy text-sm lg:text-base font-sans font-bold
-                         uppercase tracking-[0.15em] lg:tracking-[0.2em]
+                         uppercase tracking-normal lg:tracking-normal
                          transition-all duration-200 cursor-pointer whitespace-nowrap"
             >
               Enquire Now
@@ -212,7 +212,7 @@ export default function Navbar() {
               title={isAdmin ? "Manage Portal" : "Admin Login"}
               className={`hidden md:flex items-center justify-center transition-all duration-200 ${
                 isAdmin
-                  ? "gap-1.5 px-3 py-1.5 rounded-lg bg-logo hover:bg-logo-light text-navy text-xs font-sans font-bold uppercase tracking-wider"
+                  ? "gap-1.5 px-3 py-1.5 rounded-lg bg-logo hover:bg-logo-light text-navy text-xs font-sans font-bold uppercase tracking-normal"
                   : "w-8 h-8 rounded-md bg-logo hover:bg-logo-light text-navy"
               }`}
             >
@@ -227,7 +227,7 @@ export default function Navbar() {
               }
               className="md:hidden inline-flex items-center justify-center
                           px-3 py-1.5 rounded-lg gold-gradient text-navy
-                          text-xs font-sans font-bold uppercase tracking-[0.12em]
+                          text-xs font-sans font-bold uppercase tracking-normal
                           whitespace-nowrap leading-none transition-all duration-200 active:scale-95"
             >
               Enquire
@@ -306,7 +306,7 @@ export default function Navbar() {
                           onClick={() => setMobileProjectsOpen(prev => !prev)}
                           className={`w-full flex items-center justify-between
                             px-5 py-3.5 border-b border-border/50
-                            text-[11px] font-sans font-bold uppercase tracking-[0.15em]
+                            text-[11px] font-sans font-bold uppercase tracking-normal
                             transition-all cursor-pointer ${
                               mobileProjectsOpen
                                 ? "gold-gradient-text bg-navy/5"
@@ -338,7 +338,7 @@ export default function Navbar() {
                                   href="/projects"
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="px-8 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-[0.15em] text-navy hover:text-logo
+                                             tracking-normal text-navy hover:text-logo
                                              transition-colors"
                                 >
                                   All Projects
@@ -347,7 +347,7 @@ export default function Navbar() {
                                   href="/projects/ongoing"
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="px-8 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-[0.15em] text-navy/60 hover:text-logo
+                                             tracking-normal text-navy/60 hover:text-logo
                                              transition-colors"
                                 >
                                   Ongoing Projects
@@ -356,7 +356,7 @@ export default function Navbar() {
                                   href="/projects/delivered"
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="px-8 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-[0.15em] text-navy/60 hover:text-logo
+                                             tracking-normal text-navy/60 hover:text-logo
                                              transition-colors"
                                 >
                                   Delivered Projects
@@ -380,7 +380,7 @@ export default function Navbar() {
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={`block px-5 py-3.5 border-b border-border/50
-                          text-[11px] font-sans font-bold uppercase tracking-[0.15em]
+                          text-[11px] font-sans font-bold uppercase tracking-normal
                           transition-all ${
                             isActive(link.href)
                               ? "gold-gradient-text bg-navy/5"
@@ -408,8 +408,8 @@ export default function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={
                       isAdmin
-                        ? "flex items-center gap-2 px-5 py-3 text-[11px] font-sans font-bold uppercase tracking-wider text-navy hover:text-logo transition-colors"
-                        : "flex items-center gap-2 px-5 py-3 text-[11px] font-sans font-bold uppercase tracking-wider text-navy/30 hover:text-navy/50 transition-colors"
+                        ? "flex items-center gap-2 px-5 py-3 text-[11px] font-sans font-bold uppercase tracking-normal text-navy hover:text-logo transition-colors"
+                        : "flex items-center gap-2 px-5 py-3 text-[11px] font-sans font-bold uppercase tracking-normal text-navy/30 hover:text-navy/50 transition-colors"
                     }
                   >
                     <LayoutDashboard size={isAdmin ? 14 : 12} />
@@ -426,12 +426,12 @@ export default function Navbar() {
                     window.dispatchEvent(new CustomEvent("open-enquiry-modal"));
                   }}
                   className="w-full py-4 rounded-xl gold-gradient
-                             text-navy font-sans text-sm font-bold uppercase tracking-[0.15em]
+                             text-navy font-sans text-sm font-bold uppercase tracking-normal
                              transition-all duration-200 active:scale-95 cursor-pointer"
                 >
                   Book an Enquiry
                 </button>
-                <p className="text-center text-navy/25 text-[9px] font-sans mt-3 tracking-[0.2em] uppercase">
+                <p className="text-center text-navy/25 text-[9px] font-sans mt-3 tracking-normal uppercase">
                   Daksham Developers
                 </p>
               </div>

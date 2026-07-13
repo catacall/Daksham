@@ -48,7 +48,7 @@ export default async function DeliveredProjectsPage({
         <FadeIn delay={0.1}>
           <div className="mb-10 sm:mb-12 md:mb-16 border-b border-border-light pb-6 sm:pb-8">
            
-            <h1 className="text-3xl sm:text-4xl font-display font-medium uppercase tracking-wide text-navy md:text-5xl lg:text-6xl">
+            <h1 className="text-3xl sm:text-4xl font-display font-medium uppercase tracking-normal text-navy md:text-5xl lg:text-6xl">
               Delivered Projects
             </h1>
             <p className="mt-4 sm:mt-6 text-base sm:text-lg font-sans text-muted max-w-2xl">

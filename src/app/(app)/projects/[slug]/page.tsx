@@ -237,17 +237,17 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 md:p-12 z-10">
           <div className="container mx-auto max-w-6xl">
             <FadeIn delay={0.1}>
-              <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-transparent/50 bg-navy/50 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.2em] gold-gradient-text shadow-lg">
+              <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-transparent/50 bg-navy/50 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal gold-gradient-text shadow-lg">
                 {project.status}
               </div>
             </FadeIn>
             <FadeIn delay={0.2}>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-medium uppercase tracking-wide text-white mb-3 sm:mb-4 drop-shadow-md">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-medium uppercase tracking-normal text-white mb-3 sm:mb-4 drop-shadow-md">
                 {project.title}
               </h1>
             </FadeIn>
             <FadeIn delay={0.3}>
-              <div className="mt-2 sm:mt-4 flex items-center text-sm sm:text-base md:text-lg font-sans text-white/60 tracking-wide">
+              <div className="mt-2 sm:mt-4 flex items-center text-sm sm:text-base md:text-lg font-sans text-white/60 tracking-normal">
                 <MapPin className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-cyan" />
                 {project.location}
               </div>
@@ -266,19 +266,19 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             <FadeIn delay={0.4}>
               <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 rounded-2xl sm:rounded-3xl border border-border-light bg-white/80 p-5 sm:p-6 md:p-8 sm:grid-cols-4 shadow-sm">
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
-                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Status</span>
+                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Status</span>
                   <span className="font-display text-base sm:text-lg font-medium text-navy capitalize">{project.status}</span>
                 </div>
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
-                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Area</span>
+                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Area</span>
                   <span className="font-display text-base sm:text-lg font-medium text-navy">{project.area}</span>
                 </div>
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
-                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Price</span>
+                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Price</span>
                   <span className="font-display text-base sm:text-lg font-medium text-navy">{project.priceRange}</span>
                 </div>
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
-                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-muted">Location</span>
+                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Location</span>
                   <span className="font-display text-base sm:text-lg font-medium text-navy">{project.location}</span>
                 </div>
               </div>
@@ -287,7 +287,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {/* Description */}
             <FadeIn delay={0.2}>
               <div className="prose prose-lg prose-neutral max-w-none font-sans text-muted">
-                <h2 className="font-display text-2xl sm:text-3xl text-navy font-medium uppercase tracking-wide mb-4 sm:mb-6">About {project.title}</h2>
+                <h2 className="font-display text-2xl sm:text-3xl text-navy font-medium uppercase tracking-normal mb-4 sm:mb-6">About {project.title}</h2>
                 {descriptionContent || <p>Details coming soon.</p>}
               </div>
             </FadeIn>
@@ -297,8 +297,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               <FadeIn delay={0.25}>
                 <div className="space-y-5 sm:space-y-6">
                   <div className="flex items-center gap-3">
-                    <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">Amenities</h2>
-                    <span className="text-[10px] font-bold uppercase tracking-widest gold-gradient-text border border-transparent/40 gold-gradient/5 px-3 py-1 rounded-full">{amenityPhotos.length} photos</span>
+                    <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Amenities</h2>
+                    <span className="text-[10px] font-bold uppercase tracking-normal gold-gradient-text border border-transparent/40 gold-gradient/5 px-3 py-1 rounded-full">{amenityPhotos.length} photos</span>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
                     {amenityPhotos.map((photoUrl, idx) => (
@@ -325,11 +325,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {project.amenities && project.amenities.length > 0 && (
               <FadeIn delay={0.2}>
                 <div className="space-y-6 sm:space-y-8">
-                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">Amenities & Specs</h2>
+                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Amenities & Specs</h2>
                   <div className="grid grid-cols-1 gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2">
                     {project.amenities.map((amenityGroup: { category: string; items: string }, idx: number) => (
                       <div key={idx} className="space-y-3 sm:space-y-4">
-                        <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-wider gold-gradient-text border-b border-border-light pb-2 sm:pb-3">{amenityGroup.category}</h3>
+                        <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-normal gold-gradient-text border-b border-border-light pb-2 sm:pb-3">{amenityGroup.category}</h3>
                         <ul className="space-y-2 sm:space-y-3 font-sans text-muted text-sm">
                           {amenityGroup.items.split(',').map((item: string, i: number) => (
                             <li key={i} className="flex items-start">
@@ -349,7 +349,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {(project as any).specifications && (project as any).specifications.length > 0 && (
               <FadeIn delay={0.2}>
                 <div className="space-y-6 sm:space-y-8">
-                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">
+                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">
                     Specifications & Interiors
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -392,7 +392,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {galleryImages.length > 0 && (
               <FadeIn delay={0.2}>
                 <div className="space-y-6 sm:space-y-8">
-                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">Gallery</h2>
+                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Gallery</h2>
                   <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
                     {galleryImages.map((img: string, idx: number) => (
                       <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-xl sm:rounded-2xl bg-off-white shadow-sm border border-border-light group">
@@ -420,13 +420,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <div className="lg:col-span-1 hidden lg:block">
             <FadeIn delay={0.6} direction="left">
               <div className="sticky top-32 rounded-3xl border border-border-light bg-white p-6 sm:p-8 shadow-xl shadow-navy/5">
-                <h3 className="mb-3 sm:mb-4 font-display text-xl sm:text-2xl font-medium uppercase tracking-wide text-navy">Interested?</h3>
+                <h3 className="mb-3 sm:mb-4 font-display text-xl sm:text-2xl font-medium uppercase tracking-normal text-navy">Interested?</h3>
                 <p className="mb-6 sm:mb-8 font-sans text-muted text-sm">
                   Get in touch with our team for more details, premium brochures, and exclusive site visits.
                 </p>
                 <Link
                   href={`/contact?project=${project.id}`}
-                  className="flex w-full items-center justify-center rounded-xl gold-gradient px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy transition-all hover:gold-gradient-light hover:shadow-lg"
+                  className="flex w-full items-center justify-center rounded-xl gold-gradient px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy transition-all hover:gold-gradient-light hover:shadow-lg"
                 >
                   Enquire Now
                 </Link>
@@ -441,7 +441,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       <div className="fixed bottom-0 left-0 z-40 w-full border-t border-border-dark bg-navy p-3 sm:p-4 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.3)] lg:hidden">
          <Link
             href={`/contact?project=${project.id}`}
-            className="flex w-full items-center justify-center rounded-xl gold-gradient px-4 py-3 sm:py-3.5 font-sans text-xs sm:text-sm font-bold uppercase tracking-widest text-navy shadow-md active:scale-95 transition-transform"
+            className="flex w-full items-center justify-center rounded-xl gold-gradient px-4 py-3 sm:py-3.5 font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy shadow-md active:scale-95 transition-transform"
           >
             Enquire Now
           </Link>
