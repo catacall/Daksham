@@ -678,7 +678,7 @@ function EditModal({
                     project page
                   </p>
                 </div>
-                <span className="text-[10px] gold-gradient/10 border border-transparent/30 gold-gradient-text font-bold px-2.5 py-1 rounded-full uppercase tracking-normal shrink-0 ml-2">
+                <span className="text-[10px] bg-[#b8860b]/10 border border-[#b8860b]/30 text-[#b8860b] font-bold px-2.5 py-1 rounded-full uppercase tracking-normal shrink-0 ml-2">
                   Displayed on site
                 </span>
               </div>
@@ -704,7 +704,7 @@ function EditModal({
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={() => amenityRef.current?.click()}
                   disabled={uploadingAmenity}
-                  className="w-20 h-16 rounded-xl border-2 border-dashed border-transparent/40 flex flex-col items-center justify-center gold-gradient-text hover:border-transparent hover:gold-gradient/5 transition-all shrink-0 text-xl font-light"
+                  className="w-20 h-16 rounded-xl border-2 border-dashed border-[#b8860b]/40 flex flex-col items-center justify-center text-[#b8860b] hover:border-[#b8860b] hover:bg-[#b8860b]/5 transition-all shrink-0 text-xl font-light"
                 >
                   {uploadingAmenity ? (
                     <span className="text-xs font-bold">…</span>
