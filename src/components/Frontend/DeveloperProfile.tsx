@@ -81,7 +81,7 @@ function TestimonialCard({ item }: { item: (typeof testimonials)[number] }) {
             className="h-full w-full object-cover"
             onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
               e.currentTarget.onerror = null;
-              e.currentTarget.src = "/placeholder-project.jpg";
+              e.currentTarget.src = "/placeholder-project.webp";
             }}
           />
         </div>
@@ -282,7 +282,7 @@ export default function DeveloperProfile() {
                                transition-transform duration-500 group-hover:-translate-y-3"
                 >
                   <Image
-                    src="/dakshampp.jpeg"
+                    src="/dakshampp.webp"
                     alt="Amit Kalra — Founder, Daksham Developers"
                     fill
                     quality={90}

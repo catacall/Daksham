@@ -142,7 +142,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         : project.coverImage
       : null) ||
     images[0] ||
-    "/placeholder-project.jpg";
+    "/placeholder-project.webp";
   const galleryImages = images.filter((u: string) => u !== coverImage);
 
   // Render description safely using Payload's RichText JSX renderer

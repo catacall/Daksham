@@ -85,7 +85,7 @@ function LoginForm() {
       <div className="flex flex-col items-center mb-8">
         <div className="h-16 w-auto relative mb-4">
           <Image
-            src="/daksham developers.png"
+            src="/daksham developers.webp"
             alt="Daksham Developers Logo"
             width={180}
             height={60}

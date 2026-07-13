@@ -80,7 +80,7 @@ export default function Navbar() {
           >
             <div className="flex items-center h-14 sm:h-16 md:h-20 transition-all duration-300">
               <Image
-                src="/daksham developers.png"
+                src="/daksham developers.webp"
                 alt="Daksham Developers Logo"
                 height={180}
                 width={180}
@@ -276,7 +276,7 @@ export default function Navbar() {
               <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-border">
                 <div className="flex items-center gap-2">
                   <Image
-                    src="/daksham developers.png"
+                    src="/daksham developers.webp"
                     alt="Daksham Developers"
                     width={80}
                     height={32}

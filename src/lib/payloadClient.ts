@@ -10,8 +10,8 @@ const mockProjects = [
     title: "Skyline Heights",
     location: "Vashi, Navi Mumbai",
     status: "ongoing",
-    coverImage: "/OH.jpg",
-    images: ["/OH.jpg", "/OA.jpg"],
+    coverImage: "/OH.webp",
+    images: ["/OH.webp", "/OA.webp"],
     area: "2, 3 & 4 BHK",
     priceRange: "₹1.45 Cr - ₹2.95 Cr",
     reraNumber: "P51800020079",
@@ -23,7 +23,7 @@ const mockProjects = [
       { point: "Premium clubhouse and gym" },
       { point: "Fiber-ready smart homes" },
     ],
-    amenityPhotos: ["/OBjpg.jpg", "/UE-6.jpg"],
+    amenityPhotos: ["/OBjpg.webp", "/UE-6.webp"],
   },
   {
     id: 102,
@@ -31,8 +31,8 @@ const mockProjects = [
     title: "Sai World City",
     location: "Panvel, Navi Mumbai",
     status: "delivered",
-    coverImage: "/CLVjpg.jpg",
-    images: ["/CLVjpg.jpg", "/OR-1.jpg"],
+    coverImage: "/CLVjpg.webp",
+    images: ["/CLVjpg.webp", "/OR-1.webp"],
     area: "3 BHK Spacious Homes",
     priceRange: "₹1.10 Cr - ₹1.75 Cr",
     reraNumber: "P51800001111",
@@ -44,7 +44,7 @@ const mockProjects = [
       { point: "Children's play area" },
       { point: "Excellent connectivity" },
     ],
-    amenityPhotos: ["/UE-6.jpg"],
+    amenityPhotos: ["/UE-6.webp"],
   },
   {
     id: 103,
@@ -52,8 +52,8 @@ const mockProjects = [
     title: "Paradise Mall",
     location: "Kharghar, Navi Mumbai",
     status: "ongoing",
-    coverImage: "/OA.jpg",
-    images: ["/OA.jpg", "/OBjpg.jpg"],
+    coverImage: "/OA.webp",
+    images: ["/OA.webp", "/OBjpg.webp"],
     area: "Premium Retail & Office Spaces",
     priceRange: "₹40L - ₹95L",
     reraNumber: "P51800002222",
@@ -65,13 +65,13 @@ const mockProjects = [
       { point: "Multiplex auditorium" },
       { point: "Ample parking" },
     ],
-    amenityPhotos: ["/OR-1.jpg"],
+    amenityPhotos: ["/OR-1.webp"],
   },
 ];
 
 const mockSiteSettings = {
   brochure: {
-    url: "/placeholder-project.jpg",
+    url: "/placeholder-project.webp",
   },
 };
 

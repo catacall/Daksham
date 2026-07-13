@@ -52,7 +52,7 @@ export default function BrochureCTA({ brochureUrl }: BrochureCTAProps) {
       setSuccess(true);
 
       // Trigger PDF/image download
-      const targetUrl = brochureUrl || "/placeholder-project.jpg";
+      const targetUrl = brochureUrl || "/placeholder-project.webp";
       const link = document.createElement("a");
       link.href = targetUrl;
       link.setAttribute("download", "Daksham_Developers_Brochure");

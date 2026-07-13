@@ -9,35 +9,35 @@ const showcaseProjectsFallback = [
   {
     title: "Sai World City",
     location: "Panvel, Navi Mumbai",
-    image: "/placeholder-project.jpg",
+    image: "/placeholder-project.webp",
     area: "2, 3 & 4 BHK Luxury Condos",
     slug: "sai-world-city",
   },
   {
     title: "Paradise Mall",
     location: "Kharghar, Navi Mumbai",
-    image: "/placeholder-project.jpg",
+    image: "/placeholder-project.webp",
     area: "Ultra-Premium Highstreet Retail",
     slug: "paradise-mall",
   },
   {
     title: "Sai World Empire",
     location: "Kharghar, Navi Mumbai",
-    image: "/placeholder-project.jpg",
+    image: "/placeholder-project.webp",
     area: "3 & 4 BHK Neo-Classical Homes",
     slug: "sai-world-empire",
   },
   {
     title: "Sai World Legend",
     location: "Dombivli, Thane",
-    image: "/placeholder-project.jpg",
+    image: "/placeholder-project.webp",
     area: "Premium Residential Towers",
     slug: "sai-world-legend",
   },
   {
     title: "Sai World Dreams",
     location: "Dombivli, Thane",
-    image: "/placeholder-project.jpg",
+    image: "/placeholder-project.webp",
     area: "Premium Highstreet & Multiplex Hub",
     slug: "sai-world-dreams",
   },
@@ -106,7 +106,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
           image:
             typeof p.coverImage === "object" && p.coverImage !== null
               ? p.coverImage.url
-              : "/placeholder-project.jpg",
+              : "/placeholder-project.webp",
           area: p.area || "Premium Real Estate",
           slug: p.slug,
         }))

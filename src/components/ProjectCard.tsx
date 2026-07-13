@@ -39,15 +39,15 @@ const cardVariants = {
 };
 
 function resolveImageUrl(img: unknown): string | StaticImageData {
-  if (!img) return "/placeholder-project.jpg";
-  if (typeof img === "string") return img || "/placeholder-project.jpg";
-  if (isProjectImageObject(img)) return img.url || "/placeholder-project.jpg";
+  if (!img) return "/placeholder-project.webp";
+  if (typeof img === "string") return img || "/placeholder-project.webp";
+  if (isProjectImageObject(img)) return img.url || "/placeholder-project.webp";
   return img as StaticImageData;
 }
 
 export function ProjectCard({ project }: { project: Project }) {
   // Priority: coverImage > images[0] > placeholder
-  let coverImage: string | StaticImageData = "/placeholder-project.jpg";
+  let coverImage: string | StaticImageData = "/placeholder-project.webp";
 
   if (project.coverImage) {
     coverImage = resolveImageUrl(project.coverImage);
