@@ -85,11 +85,11 @@ export default async function ContactPage({
                           rel="noopener noreferrer"
                           className="mt-1 font-sans text-muted leading-relaxed text-sm hover:text-cyan transition-colors block"
                         >
-                          806, 8th Floor, Satra Plaza, Sec-19D,
+                          806, 8th Floor, Satra Plaza,
                           <br />
-                          19D, Palm Beach Road, Phase -2,
+                          Sector 19D, Plot No. 20,
                           <br />
-                          Vashi, Navi Mumbai - 400703
+                          Vashi, Navi Mumbai – 400703
                         </a>
                       </div>
                       

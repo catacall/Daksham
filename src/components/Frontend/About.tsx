@@ -25,7 +25,7 @@ const stats = [
 
 export default function About() {
   return (
-    <section id="about" className="py-24 sm:py-32 bg-off-white relative z-10">
+    <section id="about" className="py-16 sm:py-24 md:py-32 bg-off-white relative z-10">
       <div className="container mx-auto px-6 sm:px-12 lg:px-20 max-w-7xl">
         {/* Header Section */}
         <motion.div

@@ -168,7 +168,7 @@ export function EnquiryForm({
             className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
               errors.name ? "border-red-500" : "border-border-light"
             }`}
-            placeholder="John Doe"
+            placeholder="Rahul Sharma"
           />
           {errors.name && (
             <p className="text-xs font-sans text-red-500">{errors.name}</p>
@@ -192,7 +192,7 @@ export function EnquiryForm({
             className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
               errors.phone ? "border-red-500" : "border-border-light"
             }`}
-            placeholder="+91 99675 56073"
+            placeholder="+91 96533 07030"
           />
           {errors.phone && (
             <p className="text-xs font-sans text-red-500">{errors.phone}</p>

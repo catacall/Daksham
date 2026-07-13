@@ -300,22 +300,17 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                     <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-wide text-navy">Amenities</h2>
                     <span className="text-[10px] font-bold uppercase tracking-widest gold-gradient-text border border-transparent/40 gold-gradient/5 px-3 py-1 rounded-full">{amenityPhotos.length} photos</span>
                   </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
                     {amenityPhotos.map((photoUrl, idx) => (
                       <div
                         key={idx}
-                        className={`relative overflow-hidden rounded-2xl bg-off-white border border-border-light group shadow-sm ${
-                          idx === 0 ? "col-span-2 sm:col-span-2 row-span-2 aspect-video sm:aspect-square" : "aspect-square"
-                        }`}
+                        className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-off-white border border-border-light group shadow-sm aspect-square"
                       >
                         <Image
                           src={photoUrl}
                           alt={`${project.title} amenity ${idx + 1}`}
                           fill
-                          sizes={idx === 0
-                            ? "(max-width: 640px) 100vw, (max-width: 1024px) 66vw, 500px"
-                            : "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 250px"
-                          }
+                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-linear-to-t from-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

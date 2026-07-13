@@ -237,8 +237,7 @@ export default function DeveloperProfile() {
     <>
       {/* ══════════════ LEADERSHIP SECTION ══════════════ */}
       <section
-        id="leadership"
-        className="py-20 sm:py-28 lg:py-36 bg-platinum relative z-10"
+        className="py-16 sm:py-24 lg:py-36 bg-platinum relative z-10"
       >
         <div className="container mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 max-w-7xl">
 
@@ -328,7 +327,7 @@ export default function DeveloperProfile() {
       {/* ══════════════ TESTIMONIALS SECTION ══════════════ */}
       <section
         id="testimonials"
-        className="relative py-16 sm:py-20 lg:py-24 overflow-hidden bg-onyx"
+        className="relative py-12 sm:py-20 lg:py-24 overflow-hidden bg-onyx"
       >
         {/* Warm accent glow — matches brand gold, not blue */}
         <div

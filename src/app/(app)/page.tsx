@@ -60,7 +60,7 @@ export default async function Home() {
     email: "dakshamdevelopers@gmail.com",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "806, 8th Floor, Satra Plaza, Sector 19D, Palm Beach Road",
+      streetAddress: "806, 8th Floor, Satra Plaza, Sector 19D, Plot No. 20",
       addressLocality: "Vashi, Navi Mumbai",
       addressRegion: "Maharashtra",
       postalCode: "400703",
