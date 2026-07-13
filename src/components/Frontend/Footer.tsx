@@ -64,9 +64,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="hover:gold-gradient-text transition-colors block"
                 >
-                  806, 8th Floor, Satra Plaza, Sec-19D,
-                  <br />
-                  19D, Palm Beach Road, Phase -2,
+                  806, 8th Floor, Satra Plaza, Sec-19D, Plot No 20 ,
                   <br />
                   Vashi, Navi Mumbai - 400703
                 </a>
