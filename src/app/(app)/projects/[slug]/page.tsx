@@ -85,6 +85,41 @@ export async function generateMetadata(
   };
 }
 
+const commonSpecifications = [
+  {
+    category: "Flooring",
+    items: "Vitrified flooring in living, dining, bedroom, kitchen and passage"
+  },
+  {
+    category: "Kitchen",
+    items: "Granite kitchen platform with marble support, Stainless steel sink, Tile dado above platform"
+  },
+  {
+    category: "Electrical",
+    items: "Electrical wiring & fitting of concealed type P.V.C conduit – good quality wires, All switches of reputed make, TV, Internet, AC point, ceiling fan point and regulator point in living, TV, AC point, ceiling fan point and regulator point in bedroom"
+  },
+  {
+    category: "Doors",
+    items: "Flushed Doors in living, and bedrooms with the laminate finish on both sides"
+  },
+  {
+    category: "Windows",
+    items: "Sliding windows with clear glass, Decorative M.S. railing for living room balcony & kitchen utility, M.S. grills for bedroom windows"
+  },
+  {
+    category: "Painting",
+    items: "All walls painted in premium quality paint"
+  },
+  {
+    category: "Sanitary",
+    items: "Anti-skid tiles for all toilets flooring, State-of-the-art CP fittings and sanitary fixtures, Instant geyser and hot-cold water mixer in shower area, Well-ventilated bathrooms"
+  },
+  {
+    category: "Security",
+    items: "Fire fighting and fire alarm system for entire building"
+  }
+];
+
 export default async function ProjectDetailPage({ params }: PageProps) {
   const resolvedParams = await params;
   const payload = await getPayloadClient();
@@ -105,6 +140,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   if (!project) {
     notFound();
   }
+
+  const isCommonSpecProject = 
+    project.slug === "united-emporio" || 
+    project.slug === "gauri-ganesha" || 
+    project.slug === "ce-la-vie";
+    
+  const specList = isCommonSpecProject ? commonSpecifications : (project.amenities || []);
 
   // ── Image URL extraction helper ──────────────────────────────────────────
   // Handles three possible shapes an image entry can have:
@@ -240,9 +282,23 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </h1>
               </FadeIn>
               <FadeIn delay={0.3}>
-                <div className="mt-2 sm:mt-4 flex items-center text-sm sm:text-base md:text-lg font-sans text-white/70 tracking-normal">
-                  <MapPin className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-cyan" />
-                  {project.location}
+                <div className="mt-2 sm:mt-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg font-sans text-white/70 tracking-normal">
+                  <div className="flex items-center">
+                    <MapPin className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-cyan shrink-0" />
+                    {project.location}
+                  </div>
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(project.title + " " + project.location)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan/10 hover:bg-cyan/20 border border-cyan/20 text-cyan text-xs font-bold uppercase tracking-normal transition-all w-fit shadow-xs"
+                  >
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan"></span>
+                    </span>
+                    View Live Map
+                  </a>
                 </div>
               </FadeIn>
             </div>
@@ -322,10 +378,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   />
                 </div>
 
-                {/* Technical Specifications (from project.amenities) */}
-                {project.amenities && project.amenities.length > 0 && (
+                {/* Technical Specifications (from specList) */}
+                {specList && specList.length > 0 && (
                   <div className="grid grid-cols-1 gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2 mt-8">
-                    {project.amenities.map((amenityGroup: { category: string; items: string }, idx: number) => (
+                    {specList.map((amenityGroup: { category: string; items: string }, idx: number) => (
                       <div key={idx} className="space-y-3 sm:space-y-4">
                         <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-normal gold-gradient-text border-b border-border-light pb-2 sm:pb-3">
                           {amenityGroup.category}

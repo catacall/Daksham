@@ -296,7 +296,7 @@ export default function DeveloperProfile() {
 
               {/* Bio */}
               <div className="flex flex-col justify-center text-center md:text-left">
-                <h3 className="gold-gradient-text font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-normal mb-5">
+                <h3 className="gold-gradient-text font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-[0.18em] mb-5">
                   Mr. Amit Kalra
                 </h3>
                 <p className="font-sans text-platinum/75 text-sm sm:text-base leading-7 tracking-normal">
