@@ -133,7 +133,7 @@ export default function ChatbotDrawer() {
       if (text.includes('status') || text.includes('project') || text.includes('ongoing') || text.includes('delivered')) {
         addMessage(
           'bot',
-          'Here is the current status of our key projects:\n\n• Sai World City (Panvel) — Ongoing\n• Sai World Empire (Kharghar) — Ongoing\n• Paradise Mall (Kharghar) — Delivered\n• Sai World Legend (Dombivli) — Delivered\n• Sai World Dreams (Dombivli) — Delivered',
+          'Here is the current status of our key projects:\n\n• Ce La Vie (Kharghar) — Ongoing\n• United Emporio (Kharghar) — Delivered\n• Ganesha Greens (Ulwe) — Ongoing\n• Orchid Residency (Koparkharane) — Delivered\n• Orchid Heights (Ulwe) — Delivered',
           [
             { label: 'Check details', action: 'status' },
             { label: 'Contact WhatsApp', action: 'whatsapp' },
