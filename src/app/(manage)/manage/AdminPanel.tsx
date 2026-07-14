@@ -1398,7 +1398,7 @@ export default function AdminPanel() {
                                 <a
                                   href={`tel:${enq.phone}`}
                                   onClick={e => e.stopPropagation()}
-                                  className="text-xs gold-gradient-text hover:gold-gradient-text-light font-bold inline-flex items-center gap-1 mt-1 transition-colors"
+                                  className="text-xs text-navy/85 hover:text-navy font-bold inline-flex items-center gap-1 mt-1 transition-colors"
                                 >
                                   📞 {enq.phone}
                                 </a>
@@ -1468,7 +1468,7 @@ export default function AdminPanel() {
                                 >
                                   <div>
                                     <span className="block text-[10px] font-bold uppercase tracking-normal text-black mb-2">
-                                      Message Payload
+                                      Message
                                     </span>
                                     <div className="bg-white rounded-2xl p-4 border border-border-light/40 text-sm text-navy leading-relaxed shadow-xs">
                                       {enq.message}
