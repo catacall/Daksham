@@ -189,6 +189,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
                       alt={project.title}
                       fill
                       draggable={false}
+                      quality={90}
                       className="object-cover object-center pointer-events-none select-none transition-transform duration-[2s] ease-out group-hover:scale-110 opacity-90"
                       sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 400px"
                     />
@@ -234,6 +235,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
                       alt={project.title}
                       fill
                       draggable={false}
+                      quality={90}
                       className="object-cover object-center pointer-events-none select-none transition-transform duration-[2s] ease-out group-hover:scale-110 opacity-90"
                       sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 400px"
                     />

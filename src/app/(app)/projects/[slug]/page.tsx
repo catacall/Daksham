@@ -221,37 +221,48 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Hero Header */}
-      <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] min-h-100 sm:min-h-112.5 md:min-h-125 w-full bg-navy overflow-hidden">
-        <Image
-          src={coverImage}
-          alt={project.title}
-          fill
-          sizes="100vw"
-          className="object-cover opacity-40 transition-transform duration-1000 hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-navy via-navy/40 to-transparent" />
-        
+      <div className="relative w-full bg-navy py-12 sm:py-16 md:py-20 lg:py-24 overflow-hidden border-b border-border-dark">
         {/* Subtle cyan glow */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-100 sm:w-150 h-37.5 sm:h-50 bg-cyan/5 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
         
-        <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 md:p-12 z-10">
-          <div className="container mx-auto max-w-6xl">
-            <FadeIn delay={0.1}>
-              <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-transparent/50 bg-navy/50 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal gold-gradient-text shadow-lg">
-                {project.status}
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-medium uppercase tracking-normal text-white mb-3 sm:mb-4 drop-shadow-md">
-                {project.title}
-              </h1>
-            </FadeIn>
-            <FadeIn delay={0.3}>
-              <div className="mt-2 sm:mt-4 flex items-center text-sm sm:text-base md:text-lg font-sans text-white/60 tracking-normal">
-                <MapPin className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-cyan" />
-                {project.location}
-              </div>
-            </FadeIn>
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 z-10 relative">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+            {/* Left Content */}
+            <div className="md:col-span-6 text-left flex flex-col justify-center">
+              <FadeIn delay={0.1}>
+                <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal gold-gradient-text shadow-lg w-fit">
+                  {project.status}
+                </div>
+              </FadeIn>
+              <FadeIn delay={0.2}>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-medium uppercase tracking-normal text-white mb-3 sm:mb-4 drop-shadow-md leading-tight">
+                  {project.title}
+                </h1>
+              </FadeIn>
+              <FadeIn delay={0.3}>
+                <div className="mt-2 sm:mt-4 flex items-center text-sm sm:text-base md:text-lg font-sans text-white/70 tracking-normal">
+                  <MapPin className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-cyan" />
+                  {project.location}
+                </div>
+              </FadeIn>
+            </div>
+            
+            {/* Right Image Box (Pixel-clear, no dark overlay) */}
+            <div className="md:col-span-6 w-full">
+              <FadeIn delay={0.4}>
+                <div className="relative aspect-16/10 md:aspect-4/3 w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-navy-light z-10">
+                  <Image
+                    src={coverImage}
+                    alt={project.title}
+                    fill
+                    priority
+                    quality={95}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-1000 hover:scale-105"
+                  />
+                </div>
+              </FadeIn>
+            </div>
           </div>
         </div>
       </div>
