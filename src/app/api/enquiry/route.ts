@@ -100,50 +100,55 @@ export async function POST(request: Request) {
           to: adminEmail,
           subject: `🏠 New Enquiry from ${data.name}`,
           html: `
-            <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f0f4f8; border-radius: 16px; overflow: hidden;">
-              <div style="background: linear-gradient(135deg, #0a1628, #122240); padding: 32px 24px; text-align: center;">
-                <h1 style="color: #d4af37; font-size: 24px; margin: 0 0 8px 0; letter-spacing: 2px; text-transform: uppercase;">
-                  New Website Enquiry
+            <div style="font-family: 'Outfit', 'Inter', 'Segoe UI', Arial, sans-serif; background-color: #0A111E; padding: 40px 20px; max-width: 600px; margin: 0 auto; border-radius: 24px; border: 1px solid rgba(212, 175, 55, 0.15); color: #f3f4f6;">
+              <!-- Header Section -->
+              <div style="text-align: center; padding-bottom: 30px; border-bottom: 1px solid rgba(212, 175, 55, 0.2);">
+                <h1 style="color: #D4AF37; font-size: 26px; font-weight: 700; margin: 0 0 10px 0; letter-spacing: 2px; text-transform: uppercase;">
+                  New Enquiry
                 </h1>
-                <p style="color: #8a9bb5; font-size: 14px; margin: 0;">
+                <p style="color: #9CA3AF; font-size: 13px; margin: 0; text-transform: uppercase; letter-spacing: 1px;">
                   Received on ${new Date().toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })} at ${new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}
                 </p>
               </div>
-              <div style="padding: 32px 24px;">
+              
+              <!-- Info Table -->
+              <div style="padding: 30px 0;">
                 <table style="width: 100%; border-collapse: collapse;">
                   <tr>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; width: 140px; vertical-align: top;">Name</td>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 16px; font-weight: 600;">${data.name}</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #9CA3AF; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; width: 120px; font-weight: 600;">Name</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #ffffff; font-size: 15px; font-weight: 600;">${data.name}</td>
                   </tr>
                   <tr>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Email</td>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 16px;">
-                      <a href="mailto:${data.email}" style="color: #00a8cc; text-decoration: none;">${data.email}</a>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #9CA3AF; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">Email</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #D4AF37; font-size: 15px;">
+                      <a href="mailto:${data.email}" style="color: #D4AF37; text-decoration: none; border-bottom: 1px dashed rgba(212, 175, 55, 0.5);">${data.email}</a>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Phone</td>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 16px;">
-                      <a href="tel:${data.phone}" style="color: #00a8cc; text-decoration: none;">${data.phone}</a>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #9CA3AF; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">Phone</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #ffffff; font-size: 15px; font-weight: 600;">
+                      <a href="tel:${data.phone}" style="color: #ffffff; text-decoration: none;">${data.phone}</a>
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Project</td>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #d4af37; font-size: 16px; font-weight: 600;">${projectTitle}</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #9CA3AF; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">Project</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #D4AF37; font-size: 15px; font-weight: 600; letter-spacing: 0.5px;">${projectTitle}</td>
                   </tr>
                   <tr>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Source</td>
-                    <td style="padding: 12px 0; border-bottom: 1px solid #d4dde8; color: #0a1628; font-size: 14px;">${data.source}</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #9CA3AF; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">Source</td>
+                    <td style="padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #9CA3AF; font-size: 14px;">${data.source}</td>
                   </tr>
                   <tr>
-                    <td style="padding: 12px 0; color: #8a9bb5; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; vertical-align: top;">Message</td>
-                    <td style="padding: 12px 0; color: #0a1628; font-size: 15px; line-height: 1.6;">${data.message.replace(/\n/g, "<br>")}</td>
+                    <td style="padding: 16px 0; color: #9CA3AF; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; vertical-align: top; font-weight: 600; padding-top: 20px;">Message</td>
+                    <td style="padding: 16px 0; color: #f3f4f6; font-size: 14px; line-height: 1.6; padding-top: 20px; font-style: italic;">"${data.message.replace(/\n/g, "<br>")}"</td>
                   </tr>
                 </table>
               </div>
-              <div style="background: #0a1628; padding: 20px 24px; text-align: center;">
-                <p style="color: #8a9bb5; font-size: 12px; margin: 0;">
-                  Saved to the <a href="${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/manage" style="color: #00d4ff; text-decoration: none;">Manage Dashboard</a>
+              
+              <!-- Footer Link -->
+              <div style="background-color: rgba(212, 175, 55, 0.05); border-radius: 12px; padding: 16px; text-align: center; border: 1px solid rgba(212, 175, 55, 0.1);">
+                <p style="color: #9CA3AF; font-size: 12px; margin: 0; font-weight: 500;">
+                  Saved to the <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://dakshamdevelopers.com"}/manage" style="color: #D4AF37; text-decoration: none; font-weight: bold; border-bottom: 1px solid #D4AF37;">Manage Dashboard</a>
                 </p>
               </div>
             </div>
