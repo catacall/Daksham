@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { FadeIn } from "@/components/FadeIn";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -149,17 +150,22 @@ export default function Hero() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
             {/* Ground Floor Tour Card */}
             <FadeIn delay={0.1}>
-              <div className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-transparent bg-navy shadow-xl h-full flex flex-col transition-transform duration-300 hover:-translate-y-2">
+              <div className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-navy shadow-xl h-full flex flex-col transition-transform duration-300 hover:-translate-y-2">
+                <Image
+                  src="/api/media/file/amenity_lobby.webp"
+                  alt="Ce La Vie Ground Floor Lobby"
+                  fill
+                  quality={90}
+                  className="object-cover opacity-25 transition-transform duration-[2s] group-hover:scale-110"
+                />
                 <div className="absolute inset-0 bg-linear-to-br from-gold/10 via-transparent to-cyan/10 pointer-events-none" />
                 <div className="absolute -top-20 -right-20 w-64 h-64 gold-gradient/5 rounded-full blur-[60px] pointer-events-none" />
 
                 <div className="relative p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full z-10">
-                 
-
                   <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-normal mb-3 sm:mb-4">
                   Ce La Vie &mdash; Ground Floor
                   </h3>
-                  <p className="font-sans text-sm sm:text-base text-white mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">
+                  <p className="font-sans text-sm sm:text-base text-white/90 mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">
                     Explore the lavish entrance, grand lobby, and the
                     meticulously designed ground floor spaces that set the tone
                     for luxury.
@@ -181,17 +187,22 @@ export default function Hero() {
 
             {/* Amenities Floor Tour Card */}
             <FadeIn delay={0.2}>
-              <div className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-transparent bg-navy shadow-xl h-full flex flex-col transition-transform duration-300 hover:-translate-y-2">
+              <div className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-navy shadow-xl h-full flex flex-col transition-transform duration-300 hover:-translate-y-2">
+                <Image
+                  src="/api/media/file/celavie_pool.webp"
+                  alt="Ce La Vie Amenities Floor"
+                  fill
+                  quality={90}
+                  className="object-cover opacity-25 transition-transform duration-[2s] group-hover:scale-110"
+                />
                 <div className="absolute inset-0 bg-linear-to-br from-cyan/10 via-transparent to-gold/10 pointer-events-none" />
                 <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan/5 rounded-full blur-[60px] pointer-events-none" />
 
                 <div className="relative p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full z-10">
-                  
-
                   <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-normal mb-3 sm:mb-4">
                   Ce La Vie &mdash; Amenities
                   </h3>
-                  <p className="font-sans text-sm sm:text-base text-white mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">
+                  <p className="font-sans text-sm sm:text-base text-white/90 mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">
                     Discover world-class recreational facilities, fitness
                     centers, and spaces designed for your ultimate relaxation
                     and entertainment.
@@ -210,7 +221,6 @@ export default function Hero() {
                 </div>
               </div>
             </FadeIn>
-            
           </div>
         </div>
       </div>

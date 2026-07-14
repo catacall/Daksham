@@ -303,44 +303,33 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </div>
             </FadeIn>
 
-            {/* Amenity Photos Grid */}
-            {amenityPhotos.length > 0 && (
-              <FadeIn delay={0.25}>
-                <div className="space-y-5 sm:space-y-6">
-                  <div className="flex items-center gap-3">
-                    <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Amenities</h2>
-                    <span className="text-[10px] font-bold uppercase tracking-normal gold-gradient-text border border-transparent/40 gold-gradient/5 px-3 py-1 rounded-full">{amenityPhotos.length} photos</span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                    {amenityPhotos.map((photoUrl, idx) => (
-                      <div
-                        key={idx}
-                        className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-off-white border border-border-light group shadow-sm aspect-square"
-                      >
-                        <Image
-                          src={photoUrl}
-                          alt={`${project.title} amenity ${idx + 1}`}
-                          fill
-                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-linear-to-t from-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </div>
-                    ))}
-                  </div>
+            {/* Specification Section */}
+            <FadeIn delay={0.2}>
+              <div className="space-y-6 sm:space-y-8">
+                <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">
+                  Specification
+                </h2>
+                
+                {/* Isometric floor plan header image */}
+                <div className="relative aspect-4/3 w-full max-w-2xl mx-auto overflow-hidden rounded-2xl sm:rounded-3xl border border-border-light bg-white shadow-md">
+                  <Image
+                    src={project.slug === "gauri-ganesha" ? "/api/media/file/floorplan_1bhk.webp" : "/api/media/file/floorplan_2bhk.webp"}
+                    alt={`${project.title} Isometric Floor Plan`}
+                    fill
+                    priority
+                    quality={95}
+                    className="object-cover"
+                  />
                 </div>
-              </FadeIn>
-            )}
 
-            {/* Amenities */}
-            {project.amenities && project.amenities.length > 0 && (
-              <FadeIn delay={0.2}>
-                <div className="space-y-6 sm:space-y-8">
-                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Amenities & Specs</h2>
-                  <div className="grid grid-cols-1 gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2">
+                {/* Technical Specifications (from project.amenities) */}
+                {project.amenities && project.amenities.length > 0 && (
+                  <div className="grid grid-cols-1 gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2 mt-8">
                     {project.amenities.map((amenityGroup: { category: string; items: string }, idx: number) => (
                       <div key={idx} className="space-y-3 sm:space-y-4">
-                        <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-normal gold-gradient-text border-b border-border-light pb-2 sm:pb-3">{amenityGroup.category}</h3>
+                        <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-normal gold-gradient-text border-b border-border-light pb-2 sm:pb-3">
+                          {amenityGroup.category}
+                        </h3>
                         <ul className="space-y-2 sm:space-y-3 font-sans text-muted text-sm">
                           {amenityGroup.items.split(',').map((item: string, i: number) => (
                             <li key={i} className="flex items-start">
@@ -352,18 +341,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                       </div>
                     ))}
                   </div>
-                </div>
-              </FadeIn>
-            )}
+                )}
 
-            {/* Specifications & Interiors */}
-            {(project as any).specifications && (project as any).specifications.length > 0 && (
-              <FadeIn delay={0.2}>
-                <div className="space-y-6 sm:space-y-8">
-                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">
-                    Specifications & Interiors
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Specifications & Interiors (Room Cards, if any) */}
+                {(project as any).specifications && (project as any).specifications.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                     {(project as any).specifications.map((spec: any, idx: number) => {
                       const specImg = typeof spec.image === "object" && spec.image !== null ? spec.image.url : null;
                       return (
@@ -394,6 +376,34 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                         </div>
                       );
                     })}
+                  </div>
+                )}
+              </div>
+            </FadeIn>
+
+            {/* Amenities Section (Photos Grid only, label removed) */}
+            {amenityPhotos.length > 0 && (
+              <FadeIn delay={0.25}>
+                <div className="space-y-5 sm:space-y-6">
+                  <div className="flex items-center gap-3">
+                    <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Amenities</h2>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+                    {amenityPhotos.map((photoUrl, idx) => (
+                      <div
+                        key={idx}
+                        className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-off-white border border-border-light group shadow-sm aspect-square"
+                      >
+                        <Image
+                          src={photoUrl}
+                          alt={`${project.title} amenity ${idx + 1}`}
+                          fill
+                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </FadeIn>
