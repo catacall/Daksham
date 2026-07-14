@@ -1,7 +1,6 @@
 import { getPayloadClient } from "@/lib/payloadClient";
 import { ProjectGrid } from "@/components/ProjectGrid";
 import { FadeIn } from "@/components/FadeIn";
-import { Pagination } from "@/components/Pagination";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -17,15 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function DeliveredProjectsPage({
-  searchParams,
-}: {
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const params = await searchParams;
-  const page = typeof params?.page === "string" ? Math.max(1, parseInt(params.page, 10)) : 1;
-  const limit = 6;
-
+export default async function DeliveredProjectsPage() {
   const payload = await getPayloadClient();
   
   const result = await payload.find({
@@ -38,8 +29,7 @@ export default async function DeliveredProjectsPage({
     },
     sort: "-publishedAt",
     depth: 2,
-    page,
-    limit,
+    pagination: false,
   });
 
   return (
@@ -58,12 +48,6 @@ export default async function DeliveredProjectsPage({
         </FadeIn>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         <ProjectGrid projects={result.docs as any} />
-
-        <Pagination
-          currentPage={result.page || 1}
-          totalPages={result.totalPages || 1}
-          baseUrl="/projects/delivered"
-        />
       </div>
     </div>
   );
