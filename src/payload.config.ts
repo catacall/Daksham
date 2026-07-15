@@ -28,6 +28,17 @@ const customPg = {
   Pool: CachedPool,
 };
 
+// Always route through Neon's transaction pooler at runtime.
+// Each Vercel serverless instance creates its own pg.Pool; without pooling
+// multiple concurrent instances can exhaust Neon's 15-session limit.
+function getPoolerConnectionString(): string {
+  const url = process.env.DATABASE_URL || "";
+  if (url.includes(".neon.tech") && !url.includes("-pooler")) {
+    return url.replace(".neon.tech", "-pooler.neon.tech");
+  }
+  return url;
+}
+
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -86,8 +97,8 @@ export default buildConfig({
   db: postgresAdapter({
     pg: customPg,
     pool: {
-      connectionString: process.env.DATABASE_URL || "",
-      max: 5,
+      connectionString: getPoolerConnectionString(),
+      max: 3,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 8000,
     },
