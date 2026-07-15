@@ -87,8 +87,9 @@ export default buildConfig({
     pg: customPg,
     pool: {
       connectionString: process.env.DATABASE_URL || "",
-      max: 1,
-      idleTimeoutMillis: 500,
+      max: 5,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 8000,
     },
   }),
 
