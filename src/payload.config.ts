@@ -86,13 +86,7 @@ export default buildConfig({
   db: postgresAdapter({
     pg: customPg,
     pool: {
-      connectionString: (() => {
-        let conn = process.env.DATABASE_URL || "";
-        if (conn.includes(".neon.tech") && !conn.includes("-pooler")) {
-          conn = conn.replace(".neon.tech", "-pooler.neon.tech");
-        }
-        return conn;
-      })(),
+      connectionString: process.env.DATABASE_URL || "",
       max: 1,
       idleTimeoutMillis: 500,
     },

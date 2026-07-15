@@ -8,13 +8,8 @@ if (!databaseUrl) {
 
 console.log("[build-migration] Connecting to production database...");
 
-let connectionString = databaseUrl;
-if (connectionString.includes(".neon.tech") && !connectionString.includes("-pooler")) {
-  connectionString = connectionString.replace(".neon.tech", "-pooler.neon.tech");
-}
-
 const pool = new pg.Pool({
-  connectionString,
+  connectionString: databaseUrl,
   ssl: { rejectUnauthorized: false }
 });
 
