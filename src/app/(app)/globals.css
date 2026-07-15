@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+:root {
   /* ─── Platinum, Jet Black & Onyx, Bright Gold Palette ─── */
   --platinum: #DEE1E5; /* slightly darker warm gray for better card contrast */
   --onyx: #0B0C0C;
