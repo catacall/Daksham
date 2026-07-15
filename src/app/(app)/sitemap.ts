@@ -1,30 +1,11 @@
 import type { MetadataRoute } from 'next'
-import { getPayloadClient } from '@/lib/payloadClient'
 
-export const dynamic = 'force-dynamic'
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+// No DB calls here — prevents build-time connection hangs.
+// Dynamic project slugs are indexed by Google via crawl from the projects listing page.
+export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://dakshamdevelopers.com'
 
-  let projects: { slug: string; publishedAt?: string }[] = []
-  try {
-    const payload = await getPayloadClient()
-    const res = await payload.find({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      collection: 'projects' as any,
-      limit: 200,
-      select: {
-        slug: true,
-        publishedAt: true,
-      },
-    })
-    projects = res.docs as { slug: string; publishedAt?: string }[]
-  } catch {
-    // Fail silently — sitemap will still include static routes
-  }
-
-  // Static routes with intentional priority weights
-  const staticRoutes: MetadataRoute.Sitemap = [
+  return [
     {
       url: baseUrl,
       lastModified: new Date(),
@@ -55,14 +36,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: `${baseUrl}/privacy-policy`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/terms-and-conditions`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
   ]
-
-  const projectRoutes: MetadataRoute.Sitemap = projects.map((p) => ({
-    url: `${baseUrl}/projects/${p.slug}`,
-    lastModified: p.publishedAt ? new Date(p.publishedAt) : new Date(),
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }))
-
-  return [...staticRoutes, ...projectRoutes]
 }
