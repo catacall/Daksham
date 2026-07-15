@@ -14,14 +14,11 @@ import { Projects } from "@/collections/Projects";
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';import { resendAdapter } from "@payloadcms/email-resend";
 // Prevent leaking connection pools during Next.js hot reloading in development.
 const CachedPool = function (this: any, options: any) {
-  if (process.env.NODE_ENV === "development") {
-    const globalVar = globalThis as any;
-    if (!globalVar.payloadDbPool) {
-      globalVar.payloadDbPool = new pg.Pool(options);
-    }
-    return globalVar.payloadDbPool;
+  const globalVar = globalThis as any;
+  if (!globalVar.payloadDbPool) {
+    globalVar.payloadDbPool = new pg.Pool(options);
   }
-  return new pg.Pool(options);
+  return globalVar.payloadDbPool;
 } as any;
 
 CachedPool.prototype = pg.Pool.prototype;
