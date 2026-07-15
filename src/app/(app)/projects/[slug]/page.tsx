@@ -388,22 +388,24 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
                 {/* Technical Specifications (from specList) */}
                 {specList && specList.length > 0 && (
-                  <div className="grid grid-cols-1 gap-6 sm:gap-8 md:gap-10 sm:grid-cols-2 mt-8">
-                    {specList.map((amenityGroup: { category: string; items: string }, idx: number) => (
-                      <div key={idx} className="space-y-3 sm:space-y-4">
-                        <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-normal gold-gradient-text border-b border-border-light pb-2 sm:pb-3">
-                          {amenityGroup.category}
-                        </h3>
-                        <ul className="space-y-2 sm:space-y-3 font-sans text-muted text-sm">
-                          {amenityGroup.items.split(',').map((item: string, i: number) => (
-                            <li key={i} className="flex items-start">
-                              <span className="mr-2 sm:mr-3 mt-1.5 sm:mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" />
-                              <span>{item.trim()}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                  <div className="bg-[#E1E4E8]/60 border border-border-light/40 rounded-3xl p-6 sm:p-8 md:p-10 mt-8 shadow-xs">
+                    <div className="grid grid-cols-1 gap-8 sm:gap-10 sm:grid-cols-2">
+                      {specList.map((amenityGroup: { category: string; items: string }, idx: number) => (
+                        <div key={idx} className="space-y-3 sm:space-y-4">
+                          <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-wider text-[#9E7C30] border-b-2 border-[#BF953F]/30 pb-2 sm:pb-3">
+                            {amenityGroup.category}
+                          </h3>
+                          <ul className="space-y-2.5 sm:space-y-3 font-sans text-muted text-sm leading-relaxed">
+                            {amenityGroup.items.split(',').map((item: string, i: number) => (
+                              <li key={i} className="flex items-start">
+                                <span className="mr-2.5 sm:mr-3 mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" />
+                                <span>{item.trim()}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 

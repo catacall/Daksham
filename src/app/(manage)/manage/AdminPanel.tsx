@@ -48,6 +48,7 @@ interface Project {
   amenityPhotos?: MediaDoc[];
   highlights?: Highlight[];
   specifications?: Specification[];
+  amenities?: { category: string; items: string }[];
 }
 
 interface Enquiry {
@@ -215,6 +216,7 @@ function EditModal({
       images?: MediaDoc[];
       amenityPhotos?: MediaDoc[];
       specifications?: Specification[];
+      amenities?: { category: string; items: string }[];
     }
   >({
     title: project?.title || "",
@@ -234,6 +236,7 @@ function EditModal({
     amenityPhotos: project?.amenityPhotos || [],
     highlights: project?.highlights || [],
     specifications: project?.specifications || [],
+    amenities: project?.amenities || [],
   });
   const [saving, setSaving] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
@@ -367,6 +370,37 @@ function EditModal({
     }));
   };
 
+  const addAmenityGroup = () => {
+    setForm(f => ({
+      ...f,
+      amenities: [
+        ...(f.amenities || []),
+        { category: "", items: "" },
+      ],
+    }));
+  };
+
+  const updateAmenityGroup = (
+    idx: number,
+    field: "category" | "items",
+    value: string,
+  ) => {
+    setForm(f => {
+      const nextAmenities = [...(f.amenities || [])];
+      if (nextAmenities[idx]) {
+        nextAmenities[idx] = { ...nextAmenities[idx], [field]: value };
+      }
+      return { ...f, amenities: nextAmenities };
+    });
+  };
+
+  const removeAmenityGroup = (idx: number) => {
+    setForm(f => ({
+      ...f,
+      amenities: (f.amenities || []).filter((_, i) => i !== idx),
+    }));
+  };
+
   const triggerSpecImageUpload = (idx: number) => {
     // Write to both ref (for the callback) and state (for UI indicator).
     uploadingSpecIdxRef.current = idx;
@@ -432,6 +466,10 @@ function EditModal({
           title: spec.title || "",
           description: spec.description || "",
           image: spec.image?.id ? toRelId(spec.image.id) : null,
+        })),
+        amenities: (form.amenities || []).map(a => ({
+          category: a.category || "",
+          items: a.items || "",
         })),
         publishedAt: new Date().toISOString(),
       };
@@ -729,7 +767,7 @@ function EditModal({
                   onChange={e => setNewHighlight(e.target.value)}
                   placeholder="e.g. Smart Home Automation"
                   onKeyDown={e =>
-                    e.key === "Enter" && (e.preventDefault(), addHighlight())
+                     e.key === "Enter" && (e.preventDefault(), addHighlight())
                   }
                 />
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
@@ -738,6 +776,66 @@ function EditModal({
                 >
                   Add
                 </motion.button>
+              </div>
+            </div>
+
+            {/* Technical Specifications / Amenities Categories */}
+            <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
+              <div className="flex items-center justify-between mb-4">
+                <label className="block text-[10px] font-bold uppercase tracking-normal text-muted">
+                  Technical Specifications &amp; Amenities
+                </label>
+                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                  type="button"
+                  onClick={addAmenityGroup}
+                  className="bg-navy hover:gold-gradient text-white hover:text-navy text-[10px] font-bold uppercase tracking-normal px-3 py-1.5 rounded-lg transition-all"
+                >
+                  ＋ Add Category
+                </motion.button>
+              </div>
+
+              <div className="space-y-4">
+                {(form.amenities || []).map((a, idx) => (
+                  <div key={idx} className="bg-off-white/40 p-4 rounded-xl border border-border-light/40 space-y-3 relative">
+                    <button
+                      type="button"
+                      onClick={() => removeAmenityGroup(idx)}
+                      className="absolute top-3 right-3 text-red-600 hover:text-red-700 text-[10px] font-bold uppercase tracking-normal"
+                    >
+                      Delete
+                    </button>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div className="md:col-span-1">
+                        <label className="block text-[9px] font-bold uppercase tracking-normal text-navy mb-1">
+                          Category Name *
+                        </label>
+                        <input
+                          className="w-full px-3 py-2 bg-white border border-border-light rounded-xl text-xs text-navy outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all"
+                          value={a.category || ""}
+                          onChange={e => updateAmenityGroup(idx, "category", e.target.value)}
+                          placeholder="e.g. Flooring"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-[9px] font-bold uppercase tracking-normal text-navy mb-1">
+                          Bullet Items (comma-separated) *
+                        </label>
+                        <input
+                          className="w-full px-3 py-2 bg-white border border-border-light rounded-xl text-xs text-navy outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all"
+                          value={a.items || ""}
+                          onChange={e => updateAmenityGroup(idx, "items", e.target.value)}
+                          placeholder="e.g. Vitrified tiles, Wooden flooring"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {(form.amenities || []).length === 0 && (
+                  <p className="text-xs text-muted/80 text-center py-4 italic">
+                    No specifications categories added yet. Click "+ Add Category" to start.
+                  </p>
+                )}
               </div>
             </div>
 

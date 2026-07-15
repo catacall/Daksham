@@ -1,11 +1,10 @@
 @import "tailwindcss";
 
-:root {
   /* ─── Platinum, Jet Black & Onyx, Bright Gold Palette ─── */
-  --platinum: #E9EAEC;
+  --platinum: #DEE1E5; /* slightly darker warm gray for better card contrast */
   --onyx: #0B0C0C;
   --jet-black: #2A2E34;
-  --bright-gold: #FBE134;
+  --bright-gold: #D4AF37; /* rich corporate gold */
 
   /* Aliasing old names so we don't break existing Tailwind classes */
   --navy: var(--onyx);
@@ -78,6 +77,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  letter-spacing: 0.015em; /* optimized for readability */
 }
 
 /* ─── Typography ─── */
@@ -88,7 +88,7 @@ h4,
 h5,
 h6 {
   font-family: var(--font-display);
-  line-height: 1.1;
+  line-height: 1.15;
   font-weight: 400; /* Marcellus is best at 400 */
 }
 
@@ -96,7 +96,7 @@ p,
 li,
 span {
   font-family: var(--font-sans);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 /* ─── Mobile-first minimum touch targets ─── */
@@ -128,21 +128,21 @@ a,
   filter: brightness(1.1);
 }
 
-/* ─── Utility: Section Padding ─── */
+/* ─── Utility: Section Padding (Reduced spacing) ─── */
 @utility section-padding {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
   @media (min-width: 640px) {
-    padding-top: 7rem;
-    padding-bottom: 7rem;
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
   }
   @media (min-width: 768px) {
-    padding-top: 9rem;
-    padding-bottom: 9rem;
+    padding-top: 5.5rem;
+    padding-bottom: 5.5rem;
   }
   @media (min-width: 1024px) {
-    padding-top: 12rem;
-    padding-bottom: 12rem;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
   }
 }
 
