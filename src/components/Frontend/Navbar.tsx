@@ -210,14 +210,10 @@ export default function Navbar() {
             <Link
               href="/manage"
               title={isAdmin ? "Manage Portal" : "Admin Login"}
-              className={`hidden md:flex items-center justify-center transition-all duration-200 ${
-                isAdmin
-                  ? "gap-1.5 px-3 py-1.5 rounded-lg bg-logo hover:bg-logo-light text-navy text-xs font-sans font-bold uppercase tracking-normal"
-                  : "w-8 h-8 rounded-md bg-logo hover:bg-logo-light text-navy"
-              }`}
+              className="hidden md:flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-border bg-white hover:bg-off-white text-navy text-xs font-sans font-bold uppercase tracking-normal transition-all"
             >
-              <LayoutDashboard size={isAdmin ? 13 : 14} />
-              {isAdmin && <span>Manage</span>}
+              <LayoutDashboard size={13} className="text-gold" />
+              <span>Admin Console</span>
             </Link>
 
             {/* Mobile Enquire pill */}
@@ -406,14 +402,10 @@ export default function Navbar() {
                   <Link
                     href="/manage"
                     onClick={() => setMobileMenuOpen(false)}
-                    className={
-                      isAdmin
-                        ? "flex items-center gap-2 px-5 py-3 text-[11px] font-sans font-bold uppercase tracking-normal text-navy hover:text-logo transition-colors"
-                        : "flex items-center gap-2 px-5 py-3 text-[11px] font-sans font-bold uppercase tracking-normal text-navy/30 hover:text-navy/50 transition-colors"
-                    }
+                    className="flex items-center gap-2 px-5 py-3.5 border-b border-border/50 text-[11px] font-sans font-bold uppercase tracking-normal text-navy hover:text-logo hover:bg-navy/[0.03] transition-colors"
                   >
-                    <LayoutDashboard size={isAdmin ? 14 : 12} />
-                    {isAdmin ? "Manage Portal" : "Admin Login"}
+                    <LayoutDashboard size={13} className="text-[#BF953F]" />
+                    <span>Admin Console</span>
                   </Link>
                 </motion.div>
               </div>

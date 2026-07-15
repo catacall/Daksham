@@ -3,6 +3,78 @@
 import { useState, useEffect, useRef, useCallback, Fragment } from "react";
 import { motion } from "framer-motion";
 
+// ─── Client-Side Image Compression Helper (Resolves Mobile Upload Limits) ───
+const compressImage = (file: File, maxWidth = 1600, maxHeight = 1200, quality = 0.85): Promise<File> => {
+  return new Promise((resolve) => {
+    if (!file.type.startsWith("image/")) {
+      resolve(file);
+      return;
+    }
+    
+    // Skip if it's already under 1MB to preserve details
+    if (file.size < 1000 * 1024) {
+      resolve(file);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          resolve(file);
+          return;
+        }
+
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+            const nameParts = file.name.split(".");
+            const baseName = nameParts.slice(0, -1).join(".");
+            const compressedFile = new File(
+              [blob],
+              `${baseName || "upload"}-compressed.jpg`,
+              { type: "image/jpeg", lastModified: Date.now() }
+            );
+            resolve(compressedFile);
+          },
+          "image/jpeg",
+          quality
+        );
+      };
+      img.onerror = () => resolve(file);
+      img.src = event.target?.result as string;
+    };
+    reader.onerror = () => resolve(file);
+    reader.readAsDataURL(file);
+  });
+};
+
 // ─── Types ───────────────────────────────────────────────────
 type ProjectStatus = "ongoing" | "delivered";
 type EnqStatus =
@@ -113,9 +185,18 @@ const api = {
     }
   },
   async uploadMedia(file: File): Promise<MediaDoc | null> {
+    let fileToUpload = file;
+    try {
+      if (file.type.startsWith("image/")) {
+        fileToUpload = await compressImage(file);
+      }
+    } catch (e) {
+      console.warn("Client compression failed, uploading original:", e);
+    }
+
     const fd = new FormData();
-    fd.append("file", file);
-    fd.append("alt", file.name || "Project image");
+    fd.append("file", fileToUpload);
+    fd.append("alt", fileToUpload.name || "Project image");
     const r = await fetch("/api/admin-data/upload", {
       method: "POST",
       credentials: "include",
@@ -1316,7 +1397,7 @@ export default function AdminPanel() {
               onClick={exportToCSV}
               className="inline-flex items-center gap-1.5 bg-white hover:bg-off-white text-navy border border-border-light font-bold text-xs uppercase tracking-normal px-5 py-3 rounded-2xl shadow-xs transition-all cursor-pointer"
             >
-              📥 Export to CSV
+              📊 Export to CSV
             </motion.button>
           )}
         </div>

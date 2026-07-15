@@ -42,7 +42,8 @@ export async function POST(request: Request) {
     }
 
     // ── Build Cloudinary signed upload ──
-    const safeName  = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+    const originalName = file.name || "mobile-upload.jpg";
+    const safeName  = originalName.replace(/[^a-zA-Z0-9._-]/g, "-");
     const dotIdx    = safeName.lastIndexOf(".");
     const base      = dotIdx >= 0 ? safeName.slice(0, dotIdx) : safeName;
     const uniqueId  = `${base}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;

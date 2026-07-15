@@ -116,7 +116,7 @@ export default function Footer() {
 
         <div className="container mx-auto px-5 sm:px-6 mt-10 md:mt-16 pt-8 border-t border-transparent/20 flex flex-col md:flex-row justify-between items-center gap-6 text-white text-base font-sans tracking-normal">
           <p>&copy; 2026 Daksham Developers. All rights reserved.</p>
-          <div className="flex gap-4 md:gap-6 text-white">
+          <div className="flex gap-4 md:gap-6 text-white flex-wrap justify-center">
             <Link
               href="/privacy-policy"
               className="hover:gold-gradient-text transition-colors"
@@ -128,6 +128,12 @@ export default function Footer() {
               className="hover:gold-gradient-text transition-colors"
             >
               Terms & Conditions
+            </Link>
+            <Link
+              href="/manage"
+              className="hover:gold-gradient-text transition-colors"
+            >
+              Admin Console
             </Link>
           </div>
         </div>
