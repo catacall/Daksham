@@ -12,7 +12,7 @@ export default function ExploreVision() {
 
   return (
     <section
-      className="py-12 sm:py-16 bg-off-white relative overflow-hidden z-10"
+      className="py-12 sm:py-16 bg-[#ABADB6] relative overflow-hidden z-10"
     >
       <div className="container mx-auto px-6 sm:px-12 lg:px-20 max-w-7xl">
         {/* Centered YouTube Video Embed */}
@@ -39,7 +39,7 @@ export default function ExploreVision() {
           {/* Column 1 - OUR VISION */}
           <motion.div
             {...cardVariants(-30, 0, 0)}
-            className="bg-white rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-8 sm:p-10 flex flex-col justify-between border border-border-light transition-transform duration-300 hover:-translate-y-2"
+            className="bg-[#E8EAED] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] p-8 sm:p-10 flex flex-col justify-between border border-[#BF953F]/15 transition-transform duration-300 hover:-translate-y-2"
           >
             <div>
               <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-normal mb-6">
@@ -55,7 +55,7 @@ export default function ExploreVision() {
           {/* Column 2 - OUR MISSION */}
           <motion.div
             {...cardVariants(0, 30, 0.15)}
-            className="bg-white rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-8 sm:p-10 flex flex-col justify-between border border-border-light transition-transform duration-300 hover:-translate-y-2"
+            className="bg-[#E8EAED] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] p-8 sm:p-10 flex flex-col justify-between border border-[#BF953F]/15 transition-transform duration-300 hover:-translate-y-2"
           >
             <div>
               <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-normal mb-6">
@@ -71,7 +71,7 @@ export default function ExploreVision() {
           {/* Column 3 - OUR VALUES */}
           <motion.div
             {...cardVariants(30, 0, 0.3)}
-            className="bg-white rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-8 sm:p-10 flex flex-col justify-between border border-border-light transition-transform duration-300 hover:-translate-y-2"
+            className="bg-[#E8EAED] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] p-8 sm:p-10 flex flex-col justify-between border border-[#BF953F]/15 transition-transform duration-300 hover:-translate-y-2"
           >
             <div>
               <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-normal mb-6">

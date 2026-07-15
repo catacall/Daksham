@@ -25,7 +25,7 @@ const stats = [
 
 export default function About() {
   return (
-    <section id="about" className="py-16 sm:py-24 md:py-32 bg-off-white relative z-10">
+    <section id="about" className="py-16 sm:py-24 md:py-32 bg-[#B8BCC6] relative z-10">
       <div className="container mx-auto px-6 sm:px-12 lg:px-20 max-w-7xl">
         {/* Header Section */}
         <motion.div
@@ -95,7 +95,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
-              className="bg-black rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-8 sm:p-10 flex flex-col items-center text-center border border-border-light transition-transform duration-300 hover:-translate-y-2 outline-2 outline-gold"
+              className="bg-[#1C1F24] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] p-8 sm:p-10 flex flex-col items-center text-center border border-white/5 transition-transform duration-300 hover:-translate-y-2 outline-2 outline-gold"
             >
               <span className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold gold-gradient-text mb-4 drop-shadow-sm">
                 {stat.value}

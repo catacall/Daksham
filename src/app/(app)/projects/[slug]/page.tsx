@@ -256,7 +256,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className="bg-off-white min-h-screen">
+    <div className="bg-[#BABFC9] min-h-screen">
       {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
@@ -331,7 +331,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             
             {/* Quick Facts */}
             <FadeIn delay={0.4}>
-              <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 rounded-2xl sm:rounded-3xl border border-border-light bg-white/80 p-5 sm:p-6 md:p-8 sm:grid-cols-4 shadow-sm">
+              <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 rounded-2xl sm:rounded-3xl border border-[#BF953F]/20 bg-[#D8DCE4] p-5 sm:p-6 md:p-8 sm:grid-cols-4 shadow-md">
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
                   <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Status</span>
                   <span className="font-display text-base sm:text-lg font-medium text-navy capitalize">
@@ -388,23 +388,28 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
                 {/* Technical Specifications (from specList) */}
                 {specList && specList.length > 0 && (
-                  <div className="bg-[#E1E4E8]/60 border border-border-light/40 rounded-3xl p-6 sm:p-8 md:p-10 mt-8 shadow-xs">
+                  <div className="bg-[#D0D4DC] border border-[#BF953F]/25 rounded-3xl p-6 sm:p-8 md:p-10 mt-8 shadow-sm">
                     <div className="grid grid-cols-1 gap-8 sm:gap-10 sm:grid-cols-2">
-                      {specList.map((amenityGroup: { category: string; items: string }, idx: number) => (
-                        <div key={idx} className="space-y-3 sm:space-y-4">
-                          <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-wider text-[#9E7C30] border-b-2 border-[#BF953F]/30 pb-2 sm:pb-3">
-                            {amenityGroup.category}
-                          </h3>
-                          <ul className="space-y-2.5 sm:space-y-3 font-sans text-muted text-sm leading-relaxed">
-                            {amenityGroup.items.split(',').map((item: string, i: number) => (
-                              <li key={i} className="flex items-start">
-                                <span className="mr-2.5 sm:mr-3 mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" />
-                                <span>{item.trim()}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                      {specList.map((amenityGroup: { category: string; items: string }, idx: number) => {
+                        // Deduplicate bullet items within each category
+                        const rawItems = amenityGroup.items.split(',').map((s: string) => s.trim()).filter(Boolean);
+                        const uniqueItems = Array.from(new Set(rawItems));
+                        return (
+                          <div key={idx} className="space-y-3 sm:space-y-4">
+                            <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-wider text-[#7A5C18] border-b-2 border-[#BF953F]/50 pb-2 sm:pb-3">
+                              {amenityGroup.category}
+                            </h3>
+                            <ul className="space-y-2.5 sm:space-y-3 font-sans text-[#2A2E34] text-sm leading-relaxed">
+                              {uniqueItems.map((item: string, i: number) => (
+                                <li key={i} className="flex items-start">
+                                  <span className="mr-2.5 sm:mr-3 mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#D4AF37]" />
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -506,7 +511,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           {/* Sticky Sidebar / Mobile Bottom Bar */}
           <div className="lg:col-span-1 hidden lg:block">
             <FadeIn delay={0.6} direction="left">
-              <div className="sticky top-32 rounded-3xl border border-border-light bg-white p-6 sm:p-8 shadow-xl shadow-navy/5">
+              <div className="sticky top-32 rounded-3xl border border-[#BF953F]/25 bg-[#D5D9E1] p-6 sm:p-8 shadow-xl shadow-navy/10">
                 <h3 className="mb-3 sm:mb-4 font-display text-xl sm:text-2xl font-medium uppercase tracking-normal text-navy">Interested in this Landmark?</h3>
                 <p className="mb-6 sm:mb-8 font-sans text-muted text-sm leading-relaxed">
                   Connect with our client relations team for private viewings, pricing sheets, and project brochures.

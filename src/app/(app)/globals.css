@@ -2,7 +2,8 @@
 
 :root {
   /* ─── Platinum, Jet Black & Onyx, Bright Gold Palette ─── */
-  --platinum: #DEE1E5; /* slightly darker warm gray for better card contrast */
+  --platinum: #C4C8D0;  /* darker warm gray — more visual weight */
+  --surface: #CDD1D9;   /* slightly lighter for card surfaces */
   --onyx: #0B0C0C;
   --jet-black: #2A2E34;
   --bright-gold: #D4AF37; /* rich corporate gold */
@@ -16,9 +17,9 @@
   --off-white: var(--platinum);
 
   /* Adjusted muted & borders to match the new theme */
-  --muted: #5e646d;
-  --border: rgba(42, 46, 52, 0.15); /* based on jet-black for subtle borders */
-  --border-light: rgba(42, 46, 52, 0.05);
+  --muted: #4A5058;
+  --border: rgba(42, 46, 52, 0.18); /* based on jet-black for subtle borders */
+  --border-light: rgba(42, 46, 52, 0.08);
   --border-inverse: rgba(233, 234, 236, 0.15); /* based on platinum */
 
   /* Brand / Logo */

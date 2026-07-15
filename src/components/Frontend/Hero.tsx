@@ -135,16 +135,9 @@ export default function Hero() {
       </div>
 
       {/* ═══ Virtual Tours Section ═══ */}
-      <div className="w-full bg-off-white py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-20 relative -mt-10 z-20 rounded-t-4xl sm:rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.3)]">
+      <div className="w-full bg-[#B2B7C2] py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-20 relative -mt-10 z-20 rounded-t-4xl sm:rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] border-t-2 border-[#BF953F]/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            {/* <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-normal text-navy mb-3 sm:mb-4">
-              THE ART OF LIVING REFILTERED.
-            </h2>
-            <p className="font-sans text-sm sm:text-base md:text-lg text-navy-light max-w-2xl mx-auto leading-relaxed">
-              Walk through the property from anywhere in the world. Begin your{" "}
-              <strong>360°</strong> virtual tour.
-            </p> */}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
