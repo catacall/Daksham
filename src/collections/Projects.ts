@@ -215,6 +215,16 @@ export const Projects: CollectionConfig = {
         description: 'Main photo shown on the projects listing page. Upload one clear image.',
       },
     },
+    {
+      name: 'specificationImage',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Specification Floor Plan Image',
+      admin: {
+        description: 'Upload the 3D isometric floor plan image shown in the Specification section of the project page.',
+      },
+    },
 
     {
       name: 'images',

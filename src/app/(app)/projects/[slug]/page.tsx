@@ -273,7 +273,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             <div className="md:col-span-6 text-left flex flex-col justify-center">
               <FadeIn delay={0.1}>
                 <div className="mb-4 sm:mb-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal gold-gradient-text shadow-lg w-fit">
-                  {project.status}
+                  {project.status === "ongoing" ? "🏗️ Ongoing" : "✅ Delivered"}
                 </div>
               </FadeIn>
               <FadeIn delay={0.2}>
@@ -334,7 +334,9 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 rounded-2xl sm:rounded-3xl border border-border-light bg-white/80 p-5 sm:p-6 md:p-8 sm:grid-cols-4 shadow-sm">
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
                   <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Status</span>
-                  <span className="font-display text-base sm:text-lg font-medium text-navy capitalize">{project.status}</span>
+                  <span className="font-display text-base sm:text-lg font-medium text-navy capitalize">
+                    {project.status === "ongoing" ? "🏗️ Ongoing" : "✅ Delivered"}
+                  </span>
                 </div>
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
                   <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Area</span>
@@ -342,7 +344,9 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </div>
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
                   <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Price</span>
-                  <span className="font-display text-base sm:text-lg font-medium text-navy">{project.priceRange}</span>
+                  <span className="font-display text-base sm:text-lg font-medium text-navy">
+                    {project.priceRange && project.priceRange.trim() ? project.priceRange : "On Enquire"}
+                  </span>
                 </div>
                 <div className="flex flex-col space-y-1.5 sm:space-y-2">
                   <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Location</span>
@@ -369,7 +373,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 {/* Isometric floor plan header image */}
                 <div className="relative aspect-4/3 w-full max-w-2xl mx-auto overflow-hidden rounded-2xl sm:rounded-3xl border border-border-light bg-white shadow-md">
                   <Image
-                    src={project.slug === "gauri-ganesha" ? "/api/media/file/floorplan_1bhk.webp" : "/api/media/file/floorplan_2bhk.webp"}
+                    src={
+                      project.specificationImage && typeof project.specificationImage === "object" && "url" in project.specificationImage && project.specificationImage.url
+                        ? project.specificationImage.url
+                        : (project.slug === "gauri-ganesha" ? "/api/media/file/floorplan_1bhk.webp" : "/api/media/file/floorplan_2bhk.webp")
+                    }
                     alt={`${project.title} Isometric Floor Plan`}
                     fill
                     priority
@@ -497,9 +505,9 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <div className="lg:col-span-1 hidden lg:block">
             <FadeIn delay={0.6} direction="left">
               <div className="sticky top-32 rounded-3xl border border-border-light bg-white p-6 sm:p-8 shadow-xl shadow-navy/5">
-                <h3 className="mb-3 sm:mb-4 font-display text-xl sm:text-2xl font-medium uppercase tracking-normal text-navy">Interested?</h3>
-                <p className="mb-6 sm:mb-8 font-sans text-muted text-sm">
-                  Get in touch with our team for more details, premium brochures, and exclusive site visits.
+                <h3 className="mb-3 sm:mb-4 font-display text-xl sm:text-2xl font-medium uppercase tracking-normal text-navy">Interested in this Landmark?</h3>
+                <p className="mb-6 sm:mb-8 font-sans text-muted text-sm leading-relaxed">
+                  Connect with our client relations team for private viewings, pricing sheets, and project brochures.
                 </p>
                 <Link
                   href={`/contact?project=${project.id}`}

@@ -43,6 +43,7 @@ interface Project {
   youtubeUrl?: string;
   completionDate?: string;
   coverImage?: MediaDoc | null;
+  specificationImage?: MediaDoc | null;
   images?: MediaDoc[];
   amenityPhotos?: MediaDoc[];
   highlights?: Highlight[];
@@ -210,6 +211,7 @@ function EditModal({
   const [form, setForm] = useState<
     Partial<Project> & {
       coverImage?: MediaDoc | null;
+      specificationImage?: MediaDoc | null;
       images?: MediaDoc[];
       amenityPhotos?: MediaDoc[];
       specifications?: Specification[];
@@ -227,6 +229,7 @@ function EditModal({
       ? project.completionDate.slice(0, 7)
       : "",
     coverImage: project?.coverImage || null,
+    specificationImage: project?.specificationImage || null,
     images: project?.images || [],
     amenityPhotos: project?.amenityPhotos || [],
     highlights: project?.highlights || [],
@@ -234,6 +237,7 @@ function EditModal({
   });
   const [saving, setSaving] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
+  const [uploadingSpecImg, setUploadingSpecImg] = useState(false);
   const [uploadingAmenity, setUploadingAmenity] = useState(false);
   const [newHighlight, setNewHighlight] = useState("");
   const [uploadingSpecIdx, setUploadingSpecIdx] = useState<number | null>(null);
@@ -241,6 +245,7 @@ function EditModal({
   // avoiding the stale-closure problem with async setState.
   const uploadingSpecIdxRef = useRef<number | null>(null);
   const coverRef = useRef<HTMLInputElement>(null);
+  const specImgRef = useRef<HTMLInputElement>(null);
   const amenityRef = useRef<HTMLInputElement>(null);
   const specImageRef = useRef<HTMLInputElement>(null);
 
@@ -262,6 +267,23 @@ function EditModal({
     }
     setUploadingCover(false);
     if (coverRef.current) coverRef.current.value = "";
+  };
+
+  const handleSpecImgUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingSpecImg(true);
+    const media = await api.uploadMedia(file);
+    if (media) {
+      set("specificationImage", media);
+    } else {
+      showNotification(
+        "Specification floor plan upload failed. Check console for details.",
+        "error",
+      );
+    }
+    setUploadingSpecImg(false);
+    if (specImgRef.current) specImgRef.current.value = "";
   };
 
   const handleAmenityUpload = async (
@@ -383,6 +405,9 @@ function EditModal({
       const coverImageId = form.coverImage?.id
         ? toRelId(form.coverImage.id)
         : null;
+      const specImageId = form.specificationImage?.id
+        ? toRelId(form.specificationImage.id)
+        : null;
       const amenityIds = (form.amenityPhotos || [])
         .map(img => toRelId(img.id))
         .filter((id): id is number => id !== null);
@@ -400,6 +425,7 @@ function EditModal({
           ? form.completionDate + "-01"
           : undefined,
         coverImage: coverImageId,
+        specificationImage: specImageId,
         amenityPhotos: amenityIds,
         highlights: form.highlights || [],
         specifications: (form.specifications || []).map(spec => ({
@@ -510,6 +536,55 @@ function EditModal({
                 accept="image/*"
                 className="hidden"
                 onChange={handleCoverUpload}
+              />
+            </div>
+
+            {/* Specification Floor Plan Image */}
+            <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
+              <p className="text-[10px] font-bold uppercase tracking-normal text-muted mb-3">
+                Specification Floor Plan Image
+              </p>
+              <div className="flex flex-wrap gap-3 mb-3">
+                {IMG(form.specificationImage) && (
+                  <div className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-border-light shadow-xs shrink-0">
+                    <img
+                      src={IMG(form.specificationImage)!}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                      onClick={() => set("specificationImage", null)}
+                      className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
+                    >
+                      Remove
+                    </motion.button>
+                  </div>
+                )}
+                {!IMG(form.specificationImage) && (
+                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    onClick={() => specImgRef.current?.click()}
+                    disabled={uploadingSpecImg}
+                    className="w-20 h-16 rounded-xl border-2 border-dashed border-border-light flex flex-col items-center justify-center text-muted hover:border-transparent hover:gold-gradient-text transition-all shrink-0 text-xl font-light"
+                  >
+                    {uploadingSpecImg ? (
+                      <span className="text-xs font-bold">…</span>
+                    ) : (
+                      "＋"
+                    )}
+                  </motion.button>
+                )}
+              </div>
+              <p className="text-[11px] text-muted">
+                {IMG(form.specificationImage)
+                  ? "Hover over image to remove."
+                  : "Click ＋ to upload. Used as the main specification isometric layout image."}
+              </p>
+              <input
+                ref={specImgRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleSpecImgUpload}
               />
             </div>
 
