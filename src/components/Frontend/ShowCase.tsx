@@ -145,11 +145,12 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col items-center text-center pb-8 border-b border-border-inverse"
+          className="flex flex-col items-center text-center"
         >
           <h2 className="text-5xl sm:text-6xl md:text-7xl font-display text-navy uppercase drop-shadow-sm font-black">
             Projects
           </h2>
+          <div className="mt-6 w-20 h-1.5 gold-gradient rounded-full" />
         </motion.div>
       </div>
 

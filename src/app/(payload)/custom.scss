@@ -4,38 +4,53 @@
   Uses Payload's CSS variable system.
 */
 
-/* ── Force light theme always ── */
+/* ── Softer Light & Dark Theme Configuration ── */
 :root,
-[data-theme="light"],
-[data-theme="dark"] {
+[data-theme="light"] {
   /* Backgrounds */
-  --theme-bg: #f5f7fa;
+  --theme-bg: #faf9f6;
   --theme-elevation-0: #ffffff;
-  --theme-elevation-50: #f0f4f8;
-  --theme-elevation-100: #e8edf4;
-  --theme-elevation-150: #dde4ee;
-  --theme-elevation-200: #d0d9e6;
-  --theme-elevation-250: #c4cedc;
-  --theme-elevation-300: #b8c3d3;
-  --theme-elevation-400: #a0b0c4;
-  --theme-elevation-500: #8a9bb5;
-  --theme-elevation-800: #3a4d6a;
-  --theme-elevation-900: #122240;
-  --theme-elevation-1000: #0a1628;
+  --theme-elevation-50: #f5f4f0;
+  --theme-elevation-100: #e2e1dc;
+  --theme-elevation-150: #d4d2cc;
+  --theme-elevation-200: #c5c3bc;
+  --theme-elevation-250: #b6b4ad;
+  --theme-elevation-300: #a7a59e;
+  --theme-elevation-400: #8c8a83;
+  --theme-elevation-500: #716f69;
+  --theme-elevation-800: #3a3934;
+  --theme-elevation-900: #1a1917;
+  --theme-elevation-1000: #0d0d0c;
 
   /* Text */
-  --theme-text: #0a1628;
-  --theme-text-muted: #4a5a72;
+  --theme-text: #111111;
+  --theme-text-muted: #555555;
 
-  /* Accent — Payload uses this for buttons/highlights */
-  --theme-success-100: #e6f7f0;
-  --theme-success-500: #10b981;
-  --theme-error-100: #fef2f2;
-  --theme-error-500: #ef4444;
-  --theme-warning-100: #fffbeb;
-  --theme-warning-500: #f59e0b;
+  /* Brand accent */
+  --theme-elevation-brand: #d4af37;
+}
 
-  /* Brand accent overrides — gold as primary action color */
+[data-theme="dark"] {
+  /* Backgrounds */
+  --theme-bg: #1e2022;
+  --theme-elevation-0: #2b2d31;
+  --theme-elevation-50: #313338;
+  --theme-elevation-100: #383a40;
+  --theme-elevation-150: #404249;
+  --theme-elevation-200: #4e5058;
+  --theme-elevation-250: #5c5e66;
+  --theme-elevation-300: #6a6c75;
+  --theme-elevation-400: #858791;
+  --theme-elevation-500: #a0a2ad;
+  --theme-elevation-800: #e3e4e8;
+  --theme-elevation-900: #f2f3f5;
+  --theme-elevation-1000: #ffffff;
+
+  /* Text */
+  --theme-text: #f2f3f5;
+  --theme-text-muted: #949ba4;
+
+  /* Brand accent */
   --theme-elevation-brand: #d4af37;
 }
 
@@ -157,4 +172,12 @@ tr:hover .cell-wrap {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #d4af37;
+}
+
+/* Hide all required asterisks in Payload's default fields */
+span.required,
+.required-asterisk,
+.field-type .required,
+.required {
+  display: none !important;
 }

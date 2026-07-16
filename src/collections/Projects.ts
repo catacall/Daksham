@@ -326,5 +326,27 @@ export const Projects: CollectionConfig = {
         },
       ],
     },
+
+    // ── Construction Progress ──
+    {
+      name: 'constructionProgress',
+      type: 'number',
+      label: 'Construction Progress (%)',
+      min: 0,
+      max: 100,
+      defaultValue: 0,
+      admin: {
+        description: 'Configure the percentage of construction completed (0-100)',
+      },
+    },
+    {
+      name: 'constructionImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Construction Progress Image',
+      admin: {
+        description: 'Upload an image showing the current construction progress',
+      },
+    },
   ],
 }

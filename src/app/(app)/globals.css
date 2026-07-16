@@ -2,8 +2,8 @@
 
 :root {
   /* ─── Platinum, Jet Black & Onyx, Bright Gold Palette ─── */
-  --platinum: #C4C8D0;  /* darker warm gray — more visual weight */
-  --surface: #CDD1D9;   /* slightly lighter for card surfaces */
+  --platinum: #FAF9F6;  /* warm off-white background */
+  --surface: #F5F4F0;   /* light warm gray card surface */
   --onyx: #0B0C0C;
   --jet-black: #2A2E34;
   --bright-gold: #D4AF37; /* rich corporate gold */

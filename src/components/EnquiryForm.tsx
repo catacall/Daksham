@@ -217,7 +217,7 @@ export function EnquiryForm({
           className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
             errors.email ? "border-red-500" : "border-border-light"
           }`}
-          placeholder="john@example.com"
+          placeholder="your@gmail.com"
         />
         {errors.email && (
           <p className="text-xs font-sans text-red-500">{errors.email}</p>

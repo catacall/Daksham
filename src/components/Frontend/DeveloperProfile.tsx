@@ -189,41 +189,26 @@ function MobileSlider() {
         </AnimatePresence>
       </div>
 
-      {/* Dot + arrow controls */}
-      <div className="flex items-center justify-between mt-4 px-1">
-        <div className="flex gap-2">
-          {testimonials.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              aria-label={`Testimonial ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === active ? "w-6 gold-gradient" : "w-1.5 bg-platinum/20"
-              }`}
-            />
-          ))}
-        </div>
-
-        <div className="flex gap-2">
-          <button
-            onClick={prev}
-            aria-label="Previous"
-            className="flex items-center justify-center w-8 h-8 rounded-full
-                       border border-jet-black text-platinum/50
-                       hover:text-platinum hover:border-platinum/30 transition-all"
-          >
-            <ChevronLeft size={15} />
-          </button>
-          <button
-            onClick={next}
-            aria-label="Next"
-            className="flex items-center justify-center w-8 h-8 rounded-full
-                       border border-jet-black text-platinum/50
-                       hover:text-platinum hover:border-platinum/30 transition-all"
-          >
-            <ChevronRight size={15} />
-          </button>
-        </div>
+      {/* Centered navigation controls */}
+      <div className="flex items-center justify-center gap-4 mt-6">
+        <button
+          onClick={prev}
+          aria-label="Previous"
+          className="flex items-center justify-center w-10 h-10 rounded-full
+                     bg-transparent border border-bright-gold text-bright-gold
+                     hover:bg-bright-gold hover:text-onyx transition-all duration-300 cursor-pointer shadow-md shadow-bright-gold/5"
+        >
+          <ChevronLeft size={18} />
+        </button>
+        <button
+          onClick={next}
+          aria-label="Next"
+          className="flex items-center justify-center w-10 h-10 rounded-full
+                     bg-transparent border border-bright-gold text-bright-gold
+                     hover:bg-bright-gold hover:text-onyx transition-all duration-300 cursor-pointer shadow-md shadow-bright-gold/5"
+        >
+          <ChevronRight size={18} />
+        </button>
       </div>
     </div>
   );

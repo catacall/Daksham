@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { MapPin } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
 import { RichText } from "@payloadcms/richtext-lexical/react";
+import EnquiryButton from "@/components/EnquiryButton";
+import ConstructionProgress from "@/components/Frontend/ConstructionProgress";
 
 import type { Metadata } from "next";
 
@@ -358,17 +360,37 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {/* Description */}
             <FadeIn delay={0.2}>
               <div className="prose prose-lg prose-neutral max-w-none font-sans text-muted">
-                <h2 className="font-display text-2xl sm:text-3xl text-navy font-medium uppercase tracking-normal mb-4 sm:mb-6">About {project.title}</h2>
+                <h2 className="font-display text-2xl sm:text-3xl text-navy font-medium uppercase tracking-normal mb-2">About {project.title}</h2>
+                <div className="w-16 h-1 gold-gradient rounded-full mb-6" />
                 {descriptionContent || <p>Details coming soon.</p>}
               </div>
             </FadeIn>
 
+            {/* Construction Progress Section (Only if ongoing and has progress/image defined) */}
+            {project.status === "ongoing" && ((project as any).constructionProgress !== undefined || (project as any).constructionImage) && (
+              <FadeIn delay={0.2}>
+                <ConstructionProgress
+                  progress={(project as any).constructionProgress || 0}
+                  imageUrl={
+                    (project as any).constructionImage &&
+                    typeof (project as any).constructionImage === "object" &&
+                    "url" in (project as any).constructionImage &&
+                    (project as any).constructionImage.url
+                      ? (project as any).constructionImage.url
+                      : null
+                  }
+                  projectTitle={project.title}
+                />
+              </FadeIn>
+            )}
+
             {/* Specification Section */}
             <FadeIn delay={0.2}>
-              <div className="space-y-6 sm:space-y-8">
+              <div className="space-y-4">
                 <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">
                   Specification
                 </h2>
+                <div className="w-16 h-1 gold-gradient rounded-full mb-6" />
                 
                 {/* Isometric floor plan header image */}
                 <div className="relative aspect-4/3 w-full max-w-2xl mx-auto overflow-hidden rounded-2xl sm:rounded-3xl border border-border-light bg-white shadow-md">
@@ -455,9 +477,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {/* Amenities Section (Photos Grid only, label removed) */}
             {amenityPhotos.length > 0 && (
               <FadeIn delay={0.25}>
-                <div className="space-y-5 sm:space-y-6">
-                  <div className="flex items-center gap-3">
+                <div className="space-y-4">
+                  <div>
                     <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Amenities</h2>
+                    <div className="w-16 h-1 gold-gradient rounded-full mt-3 mb-6" />
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
                     {amenityPhotos.map((photoUrl, idx) => (
@@ -483,8 +506,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             {/* Image Gallery */}
             {galleryImages.length > 0 && (
               <FadeIn delay={0.2}>
-                <div className="space-y-6 sm:space-y-8">
-                  <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Gallery</h2>
+                <div className="space-y-4">
+                  <div>
+                    <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Gallery</h2>
+                    <div className="w-16 h-1 gold-gradient rounded-full mt-3 mb-6" />
+                  </div>
                   <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
                     {galleryImages.map((img: string, idx: number) => (
                       <div key={idx} className="relative aspect-square w-full overflow-hidden rounded-xl sm:rounded-2xl bg-off-white shadow-sm border border-border-light group">
@@ -516,12 +542,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 <p className="mb-6 sm:mb-8 font-sans text-muted text-sm leading-relaxed">
                   Connect with our client relations team for private viewings, pricing sheets, and project brochures.
                 </p>
-                <Link
-                  href={`/contact?project=${project.id}`}
+                <EnquiryButton
+                  projectTitle={project.title}
+                  label="Enquire Now"
                   className="flex w-full items-center justify-center rounded-xl gold-gradient px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy transition-all hover:gold-gradient-light hover:shadow-lg"
-                >
-                  Enquire Now
-                </Link>
+                />
               </div>
             </FadeIn>
           </div>
@@ -531,12 +556,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       
       {/* Mobile Fixed Bottom CTA */}
       <div className="fixed bottom-0 left-0 z-40 w-full border-t border-border-dark bg-navy p-3 sm:p-4 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.3)] lg:hidden">
-         <Link
-            href={`/contact?project=${project.id}`}
+         <EnquiryButton
+            projectTitle={project.title}
+            label="Enquire Now"
             className="flex w-full items-center justify-center rounded-xl gold-gradient px-4 py-3 sm:py-3.5 font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy shadow-md active:scale-95 transition-transform"
-          >
-            Enquire Now
-          </Link>
+          />
       </div>
     </div>
   );

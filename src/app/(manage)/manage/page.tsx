@@ -10,7 +10,7 @@ export const metadata = {
 
 export default async function ManagePage() {
   if (isFrontendMockMode) {
-    return <AdminPanel />;
+    return <AdminPanel user={{ id: "mock-id", email: "anassayyed000@gmail.com" }} />;
   }
 
   const payload = await getPayloadClient();
@@ -27,5 +27,5 @@ export default async function ManagePage() {
     redirect("/manage/login?error=unauthorized");
   }
 
-  return <AdminPanel />;
+  return <AdminPanel user={{ id: String(user.id), email: user.email }} />;
 }

@@ -50,12 +50,12 @@ export default async function ContactPage({
     <div className="bg-off-white min-h-screen px-4 py-24 sm:py-28 md:py-32 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <FadeIn delay={0.1}>
-          <div className="mb-10 sm:mb-12 md:mb-16 border-b border-border-light pb-6 sm:pb-8 text-center">
-            
+          <div className="mb-10 sm:mb-12 md:mb-16 pb-0 text-center">
             <h1 className="text-3xl sm:text-4xl font-display font-medium uppercase tracking-normal text-navy md:text-5xl lg:text-6xl">
               Contact Us
             </h1>
-            <p className="mx-auto mt-4 sm:mt-6 max-w-2xl text-base sm:text-lg font-sans text-muted">
+            <div className="mt-6 w-20 h-1.5 gold-gradient mx-auto rounded-full" />
+            <p className="mx-auto mt-6 max-w-2xl text-base sm:text-lg font-sans text-muted">
               Have a question about our projects? Looking to buy your dream
               home? Get in touch with our team today.
             </p>
@@ -71,82 +71,82 @@ export default async function ContactPage({
                   Reach Out
                 </h2>
                 <div className="space-y-6 sm:space-y-8">
-                  <div className="flex items-start group">
+                  <a
+                    href="https://maps.google.com/?q=Satra+Plaza,+Sector+19D,+Vashi,+Navi+Mumbai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start group p-3 -m-3 rounded-2xl hover:bg-cyan/5 transition-all duration-300 cursor-pointer"
+                  >
                     <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
                       <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
-                    <div className="ml-4 sm:ml-6 space-y-4">
+                    <div className="ml-4 sm:ml-6 space-y-2">
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
                         Office Addresses
                       </h3>
                       <div>
                         <span className="font-sans text-[10px] font-bold uppercase tracking-normal text-navy block mb-1">Corporate Office</span>
-                        <a 
-                          href="https://maps.google.com/?q=Satra+Plaza,+Sector+19D,+Vashi,+Navi+Mumbai"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-1 font-sans text-muted leading-relaxed text-sm hover:text-cyan transition-colors block"
-                        >
+                        <span className="font-sans text-muted leading-relaxed text-sm group-hover:text-cyan transition-colors block">
                           806, 8th Floor, Satra Plaza,
                           <br />
                           Sector 19D, Plot No. 20,
                           <br />
                           Vashi, Navi Mumbai – 400703
-                        </a>
+                        </span>
                       </div>
-                      
                     </div>
-                  </div>
+                  </a>
 
                   <div className="flex items-start group">
                     <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
                       <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
-                    <div className="ml-4 sm:ml-6">
-                      <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
-                        Phone
+                    <div className="ml-4 sm:ml-6 flex-1">
+                      <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy mb-2">
+                        Phone Numbers
                       </h3>
-                      <p className="mt-1.5 sm:mt-2 font-sans text-muted text-sm flex flex-col gap-1">
+                      <div className="space-y-1">
                         <a
                           href="tel:+919653307030"
-                          className="hover:text-cyan transition-colors"
+                          className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-cyan/5 text-muted hover:text-cyan text-sm font-sans transition-colors cursor-pointer"
                         >
-                          +91 96533 07030
+                          <span>📞</span>
+                          <span>+91 96533 07030 (Primary)</span>
                         </a>
                         <a
                           href="tel:+919653313244"
-                          className="hover:text-cyan transition-colors"
+                          className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-cyan/5 text-muted hover:text-cyan text-sm font-sans transition-colors cursor-pointer"
                         >
-                          +91 96533 13244
+                          <span>📞</span>
+                          <span>+91 96533 13244 (Sales)</span>
                         </a>
                         <a
                           href="tel:02246099724"
-                          className="hover:text-cyan transition-colors"
+                          className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-cyan/5 text-muted hover:text-cyan text-sm font-sans transition-colors cursor-pointer"
                         >
-                          022 - 4609 9724
+                          <span>☎️</span>
+                          <span>022 - 4609 9724 (Landline)</span>
                         </a>
-                      </p>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-start group">
+                  <a
+                    href="mailto:dakshamdevelopers@gmail.com"
+                    className="flex items-start group p-3 -m-3 rounded-2xl hover:bg-cyan/5 transition-all duration-300 cursor-pointer"
+                  >
                     <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
                       <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
                     <div className="ml-4 sm:ml-6">
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
-                        Email
+                        Email Address
                       </h3>
-                      <p className="mt-1.5 sm:mt-2 font-sans text-muted text-sm">
-                        <a
-                          href="mailto:dakshamdevelopers@gmail.com"
-                          className="hover:text-cyan transition-colors"
-                        >
-                          dakshamdevelopers@gmail.com
-                        </a>
-                      </p>
+                      <span className="mt-1.5 sm:mt-2 font-sans text-muted text-sm group-hover:text-cyan transition-colors block">
+                        dakshamdevelopers@gmail.com
+                      </span>
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
             </FadeIn>

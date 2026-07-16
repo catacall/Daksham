@@ -110,8 +110,8 @@ export default buildConfig({
 
 
   email: resendAdapter({
-    defaultFromAddress: 'dev@payloadcms.com',
-    defaultFromName: 'Payload CMS',
+    defaultFromAddress: 'info@dakshamdevelopers.com',
+    defaultFromName: 'Daksham Developers',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
 

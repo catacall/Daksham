@@ -37,7 +37,7 @@ export default function WhatsAppWidget() {
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] text-white rounded-full shadow-2xl hover:bg-[#20b858] transition-colors"
+      className="fixed bottom-20 right-6 sm:bottom-8 sm:right-8 z-30 flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] text-white rounded-full shadow-2xl hover:bg-[#20b858] transition-colors"
       aria-label="Chat with us on WhatsApp"
     >
       <WhatsAppIcon size={30} className="fill-current" />

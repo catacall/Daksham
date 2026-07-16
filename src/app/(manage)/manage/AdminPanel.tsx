@@ -116,6 +116,8 @@ interface Project {
   completionDate?: string;
   coverImage?: MediaDoc | null;
   specificationImage?: MediaDoc | null;
+  constructionProgress?: number;
+  constructionImage?: MediaDoc | null;
   images?: MediaDoc[];
   amenityPhotos?: MediaDoc[];
   highlights?: Highlight[];
@@ -294,6 +296,7 @@ function EditModal({
     Partial<Project> & {
       coverImage?: MediaDoc | null;
       specificationImage?: MediaDoc | null;
+      constructionImage?: MediaDoc | null;
       images?: MediaDoc[];
       amenityPhotos?: MediaDoc[];
       specifications?: Specification[];
@@ -313,6 +316,8 @@ function EditModal({
       : "",
     coverImage: project?.coverImage || null,
     specificationImage: project?.specificationImage || null,
+    constructionProgress: project?.constructionProgress || 0,
+    constructionImage: project?.constructionImage || null,
     images: project?.images || [],
     amenityPhotos: project?.amenityPhotos || [],
     highlights: project?.highlights || [],
@@ -322,6 +327,7 @@ function EditModal({
   const [saving, setSaving] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingSpecImg, setUploadingSpecImg] = useState(false);
+  const [uploadingConstruction, setUploadingConstruction] = useState(false);
   const [uploadingAmenity, setUploadingAmenity] = useState(false);
   const [newHighlight, setNewHighlight] = useState("");
   const [uploadingSpecIdx, setUploadingSpecIdx] = useState<number | null>(null);
@@ -330,6 +336,7 @@ function EditModal({
   const uploadingSpecIdxRef = useRef<number | null>(null);
   const coverRef = useRef<HTMLInputElement>(null);
   const specImgRef = useRef<HTMLInputElement>(null);
+  const constructionRef = useRef<HTMLInputElement>(null);
   const amenityRef = useRef<HTMLInputElement>(null);
   const specImageRef = useRef<HTMLInputElement>(null);
 
@@ -368,6 +375,23 @@ function EditModal({
     }
     setUploadingSpecImg(false);
     if (specImgRef.current) specImgRef.current.value = "";
+  };
+
+  const handleConstructionUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingConstruction(true);
+    const media = await api.uploadMedia(file);
+    if (media) {
+      set("constructionImage", media);
+    } else {
+      showNotification(
+        "Construction status image upload failed. Check console for details.",
+        "error",
+      );
+    }
+    setUploadingConstruction(false);
+    if (constructionRef.current) constructionRef.current.value = "";
   };
 
   const handleAmenityUpload = async (
@@ -523,6 +547,9 @@ function EditModal({
       const specImageId = form.specificationImage?.id
         ? toRelId(form.specificationImage.id)
         : null;
+      const constructionImageId = form.constructionImage?.id
+        ? toRelId(form.constructionImage.id)
+        : null;
       const amenityIds = (form.amenityPhotos || [])
         .map(img => toRelId(img.id))
         .filter((id): id is number => id !== null);
@@ -541,6 +568,8 @@ function EditModal({
           : undefined,
         coverImage: coverImageId,
         specificationImage: specImageId,
+        constructionImage: constructionImageId,
+        constructionProgress: form.constructionProgress || 0,
         amenityPhotos: amenityIds,
         highlights: form.highlights || [],
         specifications: (form.specifications || []).map(spec => ({
@@ -616,22 +645,24 @@ function EditModal({
               </p>
               <div className="flex flex-wrap gap-3 mb-3">
                 {IMG(form.coverImage) && (
-                  <div className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-border-light shadow-xs shrink-0">
+                  <div className="relative w-20 h-16 rounded-xl overflow-hidden border border-border-light shadow-xs shrink-0">
                     <img
                       src={IMG(form.coverImage)!}
                       alt=""
                       className="w-full h-full object-cover"
                     />
-                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    <button
+                      type="button"
                       onClick={() => set("coverImage", null)}
-                      className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
+                      className="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-600/90 hover:bg-red-700 text-white flex items-center justify-center transition-all shadow-md z-20 cursor-pointer text-[10px] font-bold"
                     >
-                      Remove
-                    </motion.button>
+                      ✕
+                    </button>
                   </div>
                 )}
                 {!IMG(form.coverImage) && (
                   <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    type="button"
                     onClick={() => coverRef.current?.click()}
                     disabled={uploadingCover}
                     className="w-20 h-16 rounded-xl border-2 border-dashed border-border-light flex flex-col items-center justify-center text-muted hover:border-transparent hover:gold-gradient-text transition-all shrink-0 text-xl font-light"
@@ -646,7 +677,7 @@ function EditModal({
               </div>
               <p className="text-[11px] text-muted">
                 {IMG(form.coverImage)
-                  ? "Hover over image to remove."
+                  ? "Click ✕ to remove."
                   : "Click ＋ to upload. Recommended: 1600×900px landscape"}
               </p>
               <input
@@ -665,22 +696,24 @@ function EditModal({
               </p>
               <div className="flex flex-wrap gap-3 mb-3">
                 {IMG(form.specificationImage) && (
-                  <div className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-border-light shadow-xs shrink-0">
+                  <div className="relative w-20 h-16 rounded-xl overflow-hidden border border-border-light shadow-xs shrink-0">
                     <img
                       src={IMG(form.specificationImage)!}
                       alt=""
                       className="w-full h-full object-cover"
                     />
-                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    <button
+                      type="button"
                       onClick={() => set("specificationImage", null)}
-                      className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
+                      className="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-600/90 hover:bg-red-700 text-white flex items-center justify-center transition-all shadow-md z-20 cursor-pointer text-[10px] font-bold"
                     >
-                      Remove
-                    </motion.button>
+                      ✕
+                    </button>
                   </div>
                 )}
                 {!IMG(form.specificationImage) && (
                   <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    type="button"
                     onClick={() => specImgRef.current?.click()}
                     disabled={uploadingSpecImg}
                     className="w-20 h-16 rounded-xl border-2 border-dashed border-border-light flex flex-col items-center justify-center text-muted hover:border-transparent hover:gold-gradient-text transition-all shrink-0 text-xl font-light"
@@ -695,7 +728,7 @@ function EditModal({
               </div>
               <p className="text-[11px] text-muted">
                 {IMG(form.specificationImage)
-                  ? "Hover over image to remove."
+                  ? "Click ✕ to remove."
                   : "Click ＋ to upload. Used as the main specification isometric layout image."}
               </p>
               <input
@@ -707,6 +740,57 @@ function EditModal({
               />
             </div>
 
+            {/* Construction Progress Image */}
+            <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
+              <p className="text-[10px] font-bold uppercase tracking-normal text-muted mb-3">
+                Construction Progress Image
+              </p>
+              <div className="flex flex-wrap gap-3 mb-3">
+                {IMG(form.constructionImage) && (
+                  <div className="relative w-20 h-16 rounded-xl overflow-hidden border border-border-light shadow-xs shrink-0">
+                    <img
+                      src={IMG(form.constructionImage)!}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => set("constructionImage", null)}
+                      className="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-600/90 hover:bg-red-700 text-white flex items-center justify-center transition-all shadow-md z-20 cursor-pointer text-[10px] font-bold"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+                {!IMG(form.constructionImage) && (
+                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    type="button"
+                    onClick={() => constructionRef.current?.click()}
+                    disabled={uploadingConstruction}
+                    className="w-20 h-16 rounded-xl border-2 border-dashed border-border-light flex flex-col items-center justify-center text-muted hover:border-transparent hover:gold-gradient-text transition-all shrink-0 text-xl font-light"
+                  >
+                    {uploadingConstruction ? (
+                      <span className="text-xs font-bold">…</span>
+                    ) : (
+                      "＋"
+                    )}
+                  </motion.button>
+                )}
+              </div>
+              <p className="text-[11px] text-muted">
+                {IMG(form.constructionImage)
+                  ? "Click ✕ to remove."
+                  : "Click ＋ to upload. Shown under Current Status section."}
+              </p>
+              <input
+                ref={constructionRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleConstructionUpload}
+              />
+            </div>
+
             {/* Core Fields */}
             <div className="bg-white rounded-2xl p-5 border border-border-light/60 shadow-xs">
               <p className="text-[10px] font-bold uppercase tracking-normal text-muted mb-4">
@@ -715,7 +799,7 @@ function EditModal({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
-                    Project Name *
+                    Project Name
                   </label>
                   <input
                     className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
@@ -739,7 +823,7 @@ function EditModal({
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
-                    Location *
+                    Location
                   </label>
                   <input
                     className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
@@ -793,6 +877,19 @@ function EditModal({
                   />
                 </div>
                 <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
+                    Construction Progress (%)
+                  </label>
+                  <input
+                    className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={form.constructionProgress !== undefined ? form.constructionProgress : 0}
+                    onChange={e => set("constructionProgress", Number(e.target.value))}
+                  />
+                </div>
+                <div className="md:col-span-2">
                   <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
                     YouTube Video Link
                   </label>
@@ -881,14 +978,14 @@ function EditModal({
                     <button
                       type="button"
                       onClick={() => removeAmenityGroup(idx)}
-                      className="absolute top-3 right-3 text-red-600 hover:text-red-700 text-[10px] font-bold uppercase tracking-normal"
+                      className="absolute top-3.5 right-3.5 text-red-600 hover:text-white bg-red-50 hover:bg-red-600 border border-red-200/50 rounded-lg px-2.5 py-1 text-[10px] font-bold uppercase tracking-normal transition-all cursor-pointer"
                     >
                       Delete
                     </button>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div className="md:col-span-1">
                         <label className="block text-[9px] font-bold uppercase tracking-normal text-navy mb-1">
-                          Category Name *
+                          Category Name
                         </label>
                         <input
                           className="w-full px-3 py-2 bg-white border border-border-light rounded-xl text-xs text-navy outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all"
@@ -899,7 +996,7 @@ function EditModal({
                       </div>
                       <div className="md:col-span-2">
                         <label className="block text-[9px] font-bold uppercase tracking-normal text-navy mb-1">
-                          Bullet Items (comma-separated) *
+                          Bullet Items (comma-separated)
                         </label>
                         <input
                           className="w-full px-3 py-2 bg-white border border-border-light rounded-xl text-xs text-navy outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all"
@@ -940,22 +1037,24 @@ function EditModal({
                 {(form.amenityPhotos || []).map(img => (
                   <div
                     key={img.id}
-                    className="relative group/img w-20 h-16 rounded-xl overflow-hidden border border-transparent/30 shadow-xs shrink-0"
+                    className="relative w-20 h-16 rounded-xl overflow-hidden border border-transparent/30 shadow-xs shrink-0"
                   >
                     <img
                       src={img.url}
                       alt=""
                       className="w-full h-full object-cover"
                     />
-                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    <button
+                      type="button"
                       onClick={() => removeAmenityPhoto(img.id)}
-                      className="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity font-bold text-xs"
+                      className="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-600/90 hover:bg-red-700 text-white flex items-center justify-center transition-all shadow-md z-20 cursor-pointer text-[10px] font-bold"
                     >
-                      Remove
-                    </motion.button>
+                      ✕
+                    </button>
                   </div>
                 ))}
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                  type="button"
                   onClick={() => amenityRef.current?.click()}
                   disabled={uploadingAmenity}
                   className="w-20 h-16 rounded-xl border-2 border-dashed border-[#b8860b]/40 flex flex-col items-center justify-center text-[#b8860b] hover:border-[#b8860b] hover:bg-[#b8860b]/5 transition-all shrink-0 text-xl font-light"
@@ -968,7 +1067,7 @@ function EditModal({
                 </motion.button>
               </div>
               <p className="text-[11px] text-muted">
-                Hover over image to remove. Click ＋ to add more.
+                Click ✕ to remove. Click ＋ to add more.
               </p>
               <input
                 ref={amenityRef}
@@ -1005,7 +1104,7 @@ function EditModal({
 
 // ─── Main Admin Panel ─────────────────────────────────────────
 
-export default function AdminPanel() {
+export default function AdminPanel({ user }: { user?: { id: string; email: string } | null }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [settings, setSettings] = useState<any>(null);
@@ -1030,7 +1129,85 @@ export default function AdminPanel() {
     type: "success" | "error";
   } | null>(null);
 
+  // Credentials States
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newEmail, setNewEmail] = useState(user?.email || "");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [credentialsLoading, setCredentialsLoading] = useState(false);
+
+  useEffect(() => {
+    if (user?.email) {
+      setNewEmail(user.email);
+    }
+  }, [user]);
+
   const brochureInputRef = useRef<HTMLInputElement>(null);
+
+  const handleUpdateCredentials = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentPassword) {
+      showNotification("Current password is required to verify identity.", "error");
+      return;
+    }
+    if (newPassword && newPassword !== confirmPassword) {
+      showNotification("New password and confirmation do not match.", "error");
+      return;
+    }
+    setCredentialsLoading(true);
+
+    try {
+      // 1. Verify current password
+      const loginRes = await fetch("/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user?.email, password: currentPassword }),
+      });
+
+      if (!loginRes.ok) {
+        showNotification("Identity verification failed: Incorrect current password.", "error");
+        setCredentialsLoading(false);
+        return;
+      }
+
+      // 2. Perform PATCH update
+      const updateData: Record<string, string> = {};
+      if (newEmail.trim() && newEmail.trim() !== user?.email) {
+        updateData.email = newEmail.trim();
+      }
+      if (newPassword) {
+        updateData.password = newPassword;
+      }
+
+      if (Object.keys(updateData).length === 0) {
+        showNotification("No changes detected to email or password.", "error");
+        setCredentialsLoading(false);
+        return;
+      }
+
+      const updateRes = await fetch(`/api/users/${user?.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateData),
+      });
+
+      if (!updateRes.ok) {
+        const errData = await updateRes.json().catch(() => ({}));
+        showNotification(errData?.errors?.[0]?.message || "Failed to update admin credentials.", "error");
+        setCredentialsLoading(false);
+        return;
+      }
+
+      showNotification("Admin credentials updated successfully!", "success");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch {
+      showNotification("An error occurred. Please try again.", "error");
+    } finally {
+      setCredentialsLoading(false);
+    }
+  };
 
   const showNotification = (
     message: string,
@@ -1815,6 +1992,81 @@ export default function AdminPanel() {
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* ── Admin Credentials Management ── */}
+            <div className="border-t border-border-light/60 pt-8 mt-8">
+              <h2 className="text-sm font-bold text-navy uppercase tracking-normal mb-2">
+                Admin Credentials Settings
+              </h2>
+              <p className="text-xs text-black mb-6">
+                Update the administrator login credentials. Verification of the current password is required before saving changes.
+              </p>
+              
+              <form onSubmit={handleUpdateCredentials} className="max-w-xl space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
+                      New Admin Email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
+                      value={newEmail}
+                      onChange={e => setNewEmail(e.target.value)}
+                      placeholder="admin@dakshamdevelopers.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
+                      Current Password (Required)
+                    </label>
+                    <input
+                      type="password"
+                      required
+                      className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
+                      value={currentPassword}
+                      onChange={e => setCurrentPassword(e.target.value)}
+                      placeholder="••••••••"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
+                      New Password (Optional)
+                    </label>
+                    <input
+                      type="password"
+                      className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
+                      value={newPassword}
+                      onChange={e => setNewPassword(e.target.value)}
+                      placeholder="Leave blank to keep current"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
+                      Confirm New Password
+                    </label>
+                    <input
+                      type="password"
+                      className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
+                      value={confirmPassword}
+                      onChange={e => setConfirmPassword(e.target.value)}
+                      placeholder="Leave blank to keep current"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    type="submit"
+                    disabled={credentialsLoading}
+                    className="gold-gradient hover:gold-gradient-light text-navy font-bold text-xs uppercase tracking-normal px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    {credentialsLoading ? "Saving Credentials…" : "Update Credentials"}
+                  </motion.button>
+                </div>
+              </form>
             </div>
           </div>
         )}

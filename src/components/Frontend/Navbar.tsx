@@ -78,7 +78,7 @@ export default function Navbar() {
             className="flex items-center shrink-0 z-10"
             aria-label="Daksham Developers Home"
           >
-            <div className="flex items-center h-14 sm:h-16 md:h-20 transition-all duration-300">
+            <div className="flex items-center h-15 sm:h-18 md:h-22 bg-white/95 backdrop-blur-xs px-4 py-2 sm:px-5 sm:py-2.5 rounded-2xl border border-white/50 shadow-md transition-all duration-300">
               <Image
                 src="/daksham developers.webp"
                 alt="Daksham Developers Logo"
@@ -87,7 +87,7 @@ export default function Navbar() {
                 loading="eager"
                 quality={90}
                 priority
-                sizes="(max-width: 640px) 56px, (max-width: 768px) 64px, 80px"
+                sizes="(max-width: 640px) 72px, (max-width: 768px) 96px, 120px"
                 className="h-full w-auto object-contain"
               />
             </div>
