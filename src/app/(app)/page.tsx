@@ -1,4 +1,3 @@
-import FloatingBadges from "@/components/FloatingBadges";
 import Hero from "@/components/Frontend/Hero";
 import About from "@/components/Frontend/About";
 import ShowCase from "@/components/Frontend/ShowCase";
@@ -90,7 +89,6 @@ export default async function Home() {
       
       {/* Enquiry */}
       <Enquiry projects={formattedProjects} />
-      <FloatingBadges />
     </main>
   );
 }

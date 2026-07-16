@@ -366,24 +366,6 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </div>
             </FadeIn>
 
-            {/* Construction Progress Section (Only if ongoing and has progress/image defined) */}
-            {project.status === "ongoing" && ((project as any).constructionProgress !== undefined || (project as any).constructionImage) && (
-              <FadeIn delay={0.2}>
-                <ConstructionProgress
-                  progress={(project as any).constructionProgress || 0}
-                  imageUrl={
-                    (project as any).constructionImage &&
-                    typeof (project as any).constructionImage === "object" &&
-                    "url" in (project as any).constructionImage &&
-                    (project as any).constructionImage.url
-                      ? (project as any).constructionImage.url
-                      : null
-                  }
-                  projectTitle={project.title}
-                />
-              </FadeIn>
-            )}
-
             {/* Specification Section */}
             <FadeIn delay={0.2}>
               <div className="space-y-4">
@@ -392,19 +374,16 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </h2>
                 <div className="w-16 h-1 gold-gradient rounded-full mb-6" />
                 
-                {/* Isometric floor plan header image */}
-                <div className="relative aspect-4/3 w-full max-w-2xl mx-auto overflow-hidden rounded-2xl sm:rounded-3xl border border-border-light bg-white shadow-md">
-                  <Image
+                {/* Isometric floor plan header image (Uncropped, native aspect ratio) */}
+                <div className="border border-border-light bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-md max-w-2xl mx-auto">
+                  <img
                     src={
                       project.specificationImage && typeof project.specificationImage === "object" && "url" in project.specificationImage && project.specificationImage.url
                         ? project.specificationImage.url
                         : (project.slug === "gauri-ganesha" ? "/api/media/file/floorplan_1bhk.webp" : "/api/media/file/floorplan_2bhk.webp")
                     }
                     alt={`${project.title} Isometric Floor Plan`}
-                    fill
-                    priority
-                    quality={95}
-                    className="object-cover"
+                    className="w-full h-auto block"
                   />
                 </div>
 
@@ -473,6 +452,24 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 )}
               </div>
             </FadeIn>
+
+            {/* Construction Progress Section (Only if ongoing and has progress/image defined) */}
+            {project.status === "ongoing" && ((project as any).constructionProgress !== undefined || (project as any).constructionImage) && (
+              <FadeIn delay={0.2}>
+                <ConstructionProgress
+                  progress={(project as any).constructionProgress || 0}
+                  imageUrl={
+                    (project as any).constructionImage &&
+                    typeof (project as any).constructionImage === "object" &&
+                    "url" in (project as any).constructionImage &&
+                    (project as any).constructionImage.url
+                      ? (project as any).constructionImage.url
+                      : null
+                  }
+                  projectTitle={project.title}
+                />
+              </FadeIn>
+            )}
 
             {/* Amenities Section (Photos Grid only, label removed) */}
             {amenityPhotos.length > 0 && (

@@ -17,7 +17,32 @@ export default function ChatbotDrawer() {
   const [messages, setMessages] = useState<Message[]>([])
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
+  const [liveProjects, setLiveProjects] = useState<any[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    fetch('/api/admin-data/projects', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.docs) {
+          setLiveProjects(data.docs)
+        }
+      })
+      .catch(() => {})
+  }, [])
+
+  const getProjectsStatusText = () => {
+    if (!liveProjects || liveProjects.length === 0) {
+      return "Here is the status of our current luxurious developments:\n\n• Ce La Vie — Ongoing (65% completed)\n\nMore projects coming soon!"
+    }
+    const lines = liveProjects.map(p => {
+      const emoji = p.status === 'ongoing' ? '🏗️' : '✅'
+      const statusWord = p.status === 'ongoing' ? 'Ongoing' : 'Delivered'
+      const progressText = p.status === 'ongoing' && p.constructionProgress ? ` (${p.constructionProgress}% completed)` : ''
+      return `• ${p.title} (${p.location}) — ${emoji} ${statusWord}${progressText}`
+    })
+    return "Here is the status of our current luxurious developments:\n\n" + lines.join("\n")
+  }
 
   useEffect(() => {
     const handleOpen = () => {
@@ -79,7 +104,7 @@ export default function ChatbotDrawer() {
       if (action === 'status') {
         addMessage(
           'bot',
-          'Here is the status of our current luxurious developments:\n\n• Ce La Vie — Ground Floor\n• Ce La Vie — Amenities\n\nMore projects coming soon!',
+          getProjectsStatusText(),
           [
             { label: 'View Ongoing Projects', action: 'view_ongoing' },
             { label: 'View Delivered Projects', action: 'view_delivered' },
@@ -133,7 +158,7 @@ export default function ChatbotDrawer() {
       if (text.includes('status') || text.includes('project') || text.includes('ongoing') || text.includes('delivered')) {
         addMessage(
           'bot',
-          'Here is the current status of our key projects:\n\n• Ce La Vie (Kharghar) — Ongoing\n• United Emporio (Kharghar) — Delivered\n• Ganesha Greens (Ulwe) — Ongoing\n• Orchid Residency (Koparkharane) — Delivered\n• Orchid Heights (Ulwe) — Delivered',
+          getProjectsStatusText(),
           [
             { label: 'Check details', action: 'status' },
             { label: 'Contact WhatsApp', action: 'whatsapp' },
@@ -178,7 +203,7 @@ export default function ChatbotDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 z-50 bg-black/40"
+            className="fixed inset-0 z-[80] bg-black/40"
           />
 
           {/* Drawer container */}
@@ -187,7 +212,7 @@ export default function ChatbotDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-112.5 bg-navy text-white z-50 shadow-2xl border-l border-white/10 flex flex-col"
+            className="fixed top-0 right-0 h-full w-full sm:w-112.5 bg-navy text-white z-[80] shadow-2xl border-l border-white/10 flex flex-col"
           >
             {/* Drawer Header */}
             <div className="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-navy-light">

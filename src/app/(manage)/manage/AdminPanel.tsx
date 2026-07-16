@@ -316,7 +316,7 @@ function EditModal({
       : "",
     coverImage: project?.coverImage || null,
     specificationImage: project?.specificationImage || null,
-    constructionProgress: project?.constructionProgress || 0,
+    constructionProgress: project?.constructionProgress !== undefined && project?.constructionProgress !== null ? project.constructionProgress : undefined,
     constructionImage: project?.constructionImage || null,
     images: project?.images || [],
     amenityPhotos: project?.amenityPhotos || [],
@@ -885,8 +885,18 @@ function EditModal({
                     type="number"
                     min={0}
                     max={100}
-                    value={form.constructionProgress !== undefined ? form.constructionProgress : 0}
-                    onChange={e => set("constructionProgress", Number(e.target.value))}
+                    value={form.constructionProgress !== undefined && form.constructionProgress !== null ? form.constructionProgress : ""}
+                    onChange={e => {
+                      const val = e.target.value;
+                      if (val === "") {
+                        set("constructionProgress", undefined);
+                      } else {
+                        const parsed = parseInt(val, 10);
+                        if (!isNaN(parsed)) {
+                          set("constructionProgress", Math.min(100, Math.max(0, parsed)));
+                        }
+                      }
+                    }}
                   />
                 </div>
                 <div className="md:col-span-2">

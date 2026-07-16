@@ -20,11 +20,11 @@ export default function ConstructionProgress({
       </h2>
 
       {imageUrl && (
-        <div className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-border-light bg-white shadow-md">
+        <div className="border border-border-light bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-md">
           <img
             src={imageUrl}
             alt={`${projectTitle} Current Construction Status`}
-            className="w-full h-auto object-contain"
+            className="w-full h-auto block"
           />
         </div>
       )}

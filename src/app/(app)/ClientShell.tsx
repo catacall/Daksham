@@ -6,6 +6,7 @@ import Navbar from "@/components/Frontend/Navbar";
 import Footer from "@/components/Frontend/Footer";
 import EnquiryModal from "@/components/EnquiryModal";
 import ChatbotDrawer from "@/components/ChatbotDrawer";
+import FloatingBadges from "@/components/FloatingBadges";
 
 interface Props {
   children: ReactNode;
@@ -24,6 +25,7 @@ export default function ClientShell({ children }: Props) {
 
       <EnquiryModal />
       <ChatbotDrawer />
+      <FloatingBadges />
     </>
   );
 }

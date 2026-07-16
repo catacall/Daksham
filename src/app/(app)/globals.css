@@ -204,7 +204,7 @@ a,
 
 /* ─── Gold gradient TEXT (for headings, links, highlighted words, etc.) ─── */
 .gold-gradient-text {
-  background: var(--gold-gradient);
+  background: linear-gradient(135deg, #7A5C18, #A37E2C, #7A5C18);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;

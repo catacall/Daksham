@@ -4,7 +4,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 import ClientShell from "./ClientShell";
-import WhatsAppWidget from "@/components/Frontend/WhatsAppWidget";
 
 const europaGrotesk = localFont({
   src: "../../../public/EuropaGroteskSH-Med.otf",
@@ -112,7 +111,6 @@ export default function RootLayout({
       >
         <ClientShell>
           {children}
-          <WhatsAppWidget />
         </ClientShell>
       </body>
     </html>
