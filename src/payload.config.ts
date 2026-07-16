@@ -33,8 +33,8 @@ const customPg = {
 // multiple concurrent instances can exhaust Neon's 15-session limit.
 function getPoolerConnectionString(): string {
   const url = process.env.DATABASE_URL || "";
-  if (url.includes(".neon.tech") && !url.includes("-pooler")) {
-    return url.replace(".neon.tech", "-pooler.neon.tech");
+  if (url.includes("neon.tech") && !url.includes("-pooler")) {
+    return url.replace(/@(ep-[^.\/:]+)/, "@$1-pooler");
   }
   return url;
 }
