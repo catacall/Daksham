@@ -62,10 +62,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 border-b rounded-b-2xl ${
+      className={`fixed inset-x-0 top-0 z-[100] transition-all duration-500 border-b rounded-b-2xl ${
         isScrolled || !isHome
-          ? "bg-white/95 backdrop-blur-xs border-border/40 shadow-sm"
-          : "bg-white/95 backdrop-blur-xs border-transparent"
+          ? "bg-white/95 backdrop-blur-sm border-border/40 shadow-sm"
+          : "bg-white/95 backdrop-blur-sm border-transparent"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}
@@ -254,7 +254,7 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="fixed inset-0 bg-black/60 z-[59] md:hidden"
+              className="fixed inset-0 bg-black/60 z-[110] md:hidden"
               onClick={() => setMobileMenuOpen(false)}
             />
 
@@ -264,33 +264,33 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
-              className="fixed top-0 right-0 h-full w-[min(80vw,300px)]
+              className="fixed top-0 right-0 h-full w-[min(85vw,320px)]
                          bg-white border-l border-border
-                         flex flex-col z-[60] md:hidden shadow-2xl"
+                         flex flex-col z-[120] md:hidden shadow-2xl"
             >
               {/* Panel header */}
-              <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-border">
+              <div className="flex items-center justify-between px-5 pt-6 pb-5 border-b border-border">
                 <div className="flex items-center gap-2">
                   <Image
                     src="/daksham developers.webp"
                     alt="Daksham Developers"
-                    width={80}
-                    height={32}
-                    className="h-7 w-auto object-contain"
+                    width={100}
+                    height={40}
+                    className="h-8 w-auto object-contain"
                   />
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg
-                             text-navy/60 hover:bg-navy/5 transition-colors"
+                  className="flex items-center justify-center w-9 h-9 rounded-full
+                             bg-navy/5 text-navy/70 hover:bg-navy/10 hover:text-navy transition-colors"
                   aria-label="Close Menu"
                 >
-                  <X size={18} />
+                  <X size={20} />
                 </button>
               </div>
 
               {/* Links */}
-              <div className="flex-1 overflow-y-auto py-2 flex flex-col">
+              <div className="flex-1 overflow-y-auto py-3 flex flex-col">
                 {navLinks.map((link, i) => {
                   if (link.name === "Projects") {
                     return (
@@ -301,8 +301,8 @@ export default function Navbar() {
                           transition={{ delay: i * 0.055, duration: 0.25 }}
                           onClick={() => setMobileProjectsOpen(prev => !prev)}
                           className={`w-full flex items-center justify-between
-                            px-5 py-3.5 border-b border-border/50
-                            text-[11px] font-sans font-bold uppercase tracking-normal
+                            px-6 py-4 border-b border-border/50
+                            text-xs font-sans font-bold uppercase tracking-wider
                             transition-all cursor-pointer ${
                               mobileProjectsOpen
                                 ? "gold-gradient-text bg-navy/5"
@@ -333,8 +333,8 @@ export default function Navbar() {
                                 <Link
                                   href="/projects"
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-normal text-navy hover:text-logo
+                                  className="px-9 py-3.5 text-xs font-sans font-bold uppercase
+                                             tracking-wider text-navy hover:text-logo
                                              transition-colors"
                                 >
                                   All Projects
@@ -342,8 +342,8 @@ export default function Navbar() {
                                 <Link
                                   href="/projects/ongoing"
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-normal text-navy/60 hover:text-logo
+                                  className="px-9 py-3.5 text-xs font-sans font-bold uppercase
+                                             tracking-wider text-navy/60 hover:text-logo
                                              transition-colors"
                                 >
                                   Ongoing Projects
@@ -351,8 +351,8 @@ export default function Navbar() {
                                 <Link
                                   href="/projects/delivered"
                                   onClick={() => setMobileMenuOpen(false)}
-                                  className="px-8 py-3 text-[11px] font-sans font-bold uppercase
-                                             tracking-normal text-navy/60 hover:text-logo
+                                  className="px-9 py-3.5 text-xs font-sans font-bold uppercase
+                                             tracking-wider text-navy/60 hover:text-logo
                                              transition-colors"
                                 >
                                   Delivered Projects
@@ -375,8 +375,8 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`block px-5 py-3.5 border-b border-border/50
-                          text-[11px] font-sans font-bold uppercase tracking-normal
+                        className={`block px-6 py-4 border-b border-border/50
+                          text-xs font-sans font-bold uppercase tracking-wider
                           transition-all ${
                             isActive(link.href)
                               ? "gold-gradient-text bg-navy/5"
@@ -402,7 +402,7 @@ export default function Navbar() {
                   <Link
                     href="/manage"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-5 py-3.5 border-b border-border/50 text-[11px] font-sans font-bold uppercase tracking-normal text-navy hover:text-logo hover:bg-navy/[0.03] transition-colors"
+                    className="flex items-center gap-2.5 px-6 py-4 border-b border-border/50 text-xs font-sans font-bold uppercase tracking-wider text-navy hover:text-logo hover:bg-navy/[0.03] transition-colors"
                   >
                     <LayoutDashboard size={13} className="text-[#BF953F]" />
                     <span>Admin Console</span>
@@ -411,19 +411,19 @@ export default function Navbar() {
               </div>
 
               {/* Bottom CTA */}
-              <div className="px-5 pb-6 pt-4 border-t border-border">
+              <div className="px-5 pb-8 pt-5 border-t border-border mt-auto">
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     window.dispatchEvent(new CustomEvent("open-enquiry-modal"));
                   }}
                   className="w-full py-4 rounded-xl gold-gradient
-                             text-navy font-sans text-sm font-bold uppercase tracking-normal
-                             transition-all duration-200 active:scale-95 cursor-pointer"
+                             text-navy font-sans text-sm font-bold uppercase tracking-wider
+                             transition-all duration-200 active:scale-95 cursor-pointer shadow-md"
                 >
                   Book an Enquiry
                 </button>
-                <p className="text-center text-navy/25 text-[9px] font-sans mt-3 tracking-normal uppercase">
+                <p className="text-center text-navy/25 text-[10px] font-sans mt-4 tracking-wider uppercase">
                   Daksham Developers
                 </p>
               </div>

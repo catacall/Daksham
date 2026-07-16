@@ -47,10 +47,10 @@ export default async function ContactPage({
     typeof params?.project === "string" ? params.project : null;
 
   return (
-    <div className="bg-off-white min-h-screen px-4 py-24 sm:py-28 md:py-32 sm:px-6 lg:px-8">
+    <div className="bg-off-white min-h-screen px-4 py-28 sm:py-32 md:py-36 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <FadeIn delay={0.1}>
-          <div className="mb-10 sm:mb-12 md:mb-16 pb-0 text-center">
+          <div className="mb-12 sm:mb-14 md:mb-20 pb-0 text-center">
             <h1 className="text-3xl sm:text-4xl font-display font-medium uppercase tracking-normal text-navy md:text-5xl lg:text-6xl">
               Contact Us
             </h1>
@@ -62,25 +62,25 @@ export default async function ContactPage({
           </div>
         </FadeIn>
 
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:gap-12 md:gap-16 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 sm:gap-14 md:gap-16 lg:gap-20 lg:grid-cols-2">
           {/* Contact Details & Map */}
-          <div className="space-y-8 sm:space-y-10 md:space-y-12">
+          <div className="space-y-10 sm:space-y-12 md:space-y-14">
             <FadeIn delay={0.2} direction="right">
-              <div className="rounded-2xl sm:rounded-3xl border border-border-light bg-white p-6 sm:p-8 md:p-10 shadow-xl shadow-navy/5">
+              <div className="rounded-2xl sm:rounded-3xl border border-border-light bg-white p-7 sm:p-9 md:p-12 shadow-xl shadow-navy/5">
                 <h2 className="mb-6 sm:mb-8 font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">
                   Reach Out
                 </h2>
-                <div className="space-y-6 sm:space-y-8">
+                <div className="space-y-7 sm:space-y-9">
                   <a
                     href="https://maps.google.com/?q=Satra+Plaza,+Sector+19D,+Vashi,+Navi+Mumbai"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-start group p-3 -m-3 rounded-2xl hover:bg-cyan/5 transition-all duration-300 cursor-pointer"
+                    className="flex items-start group p-4 -m-4 rounded-2xl hover:bg-cyan/5 transition-all duration-300 cursor-pointer"
                   >
                     <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
                       <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
-                    <div className="ml-4 sm:ml-6 space-y-2">
+                    <div className="ml-5 sm:ml-6 space-y-2.5">
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
                         Office Addresses
                       </h3>
@@ -101,11 +101,11 @@ export default async function ContactPage({
                     <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
                       <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
-                    <div className="ml-4 sm:ml-6 flex-1">
+                    <div className="ml-5 sm:ml-6 flex-1">
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy mb-2">
                         Phone Numbers
                       </h3>
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         <a
                           href="tel:+919653307030"
                           className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-cyan/5 text-muted hover:text-cyan text-sm font-sans transition-colors cursor-pointer"
@@ -133,12 +133,12 @@ export default async function ContactPage({
 
                   <a
                     href="mailto:dakshamdevelopers@gmail.com"
-                    className="flex items-start group p-3 -m-3 rounded-2xl hover:bg-cyan/5 transition-all duration-300 cursor-pointer"
+                    className="flex items-start group p-4 -m-4 rounded-2xl hover:bg-cyan/5 transition-all duration-300 cursor-pointer"
                   >
                     <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
                       <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
                     </div>
-                    <div className="ml-4 sm:ml-6">
+                    <div className="ml-5 sm:ml-6">
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
                         Email Address
                       </h3>
@@ -170,9 +170,9 @@ export default async function ContactPage({
           </div>
 
           {/* Enquiry Form */}
-          <div className="lg:pl-4 xl:pl-8">
+          <div className="lg:pl-6 xl:pl-10">
             <FadeIn delay={0.3} direction="left">
-              <div className="mb-6 sm:mb-8">
+              <div className="mb-8 sm:mb-10">
                 <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">
                   Send an Enquiry
                 </h2>

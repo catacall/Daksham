@@ -23,7 +23,7 @@ const badges = [
 
 export default function FloatingBadges() {
   return (
-    <div className="fixed bottom-24 sm:bottom-28 right-7.5 sm:right-9 flex flex-col items-center gap-3 sm:gap-4 z-30">
+    <div className="fixed bottom-24 sm:bottom-28 right-5 sm:right-8 flex flex-col items-center gap-3 sm:gap-4 z-40">
       {badges.map((badge, index) => (
         <div key={index} className="relative group">
           {/* Entry animation wrapper */}

@@ -203,7 +203,7 @@ export default function ChatbotDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 z-[80] bg-black/40"
+            className="fixed inset-0 z-[150] bg-black/40"
           />
 
           {/* Drawer container */}
@@ -212,7 +212,7 @@ export default function ChatbotDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-112.5 bg-navy text-white z-[80] shadow-2xl border-l border-white/10 flex flex-col"
+            className="fixed top-0 right-0 h-full w-full sm:w-112.5 bg-navy text-white z-[150] shadow-2xl border-l border-white/10 flex flex-col"
           >
             {/* Drawer Header */}
             <div className="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-navy-light">

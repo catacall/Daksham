@@ -102,10 +102,11 @@ span {
 }
 
 /* ─── Mobile-first minimum touch targets ─── */
-button,
-a,
-[role="button"] {
-  min-height: 44px;
+@media (pointer: coarse) {
+  button,
+  [role="button"] {
+    min-height: 44px;
+  }
 }
 
 /* ─── Selection ─── */
