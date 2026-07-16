@@ -61,6 +61,7 @@ export default function Navbar() {
       : pathname.startsWith(href.replace("#", ""));
 
   return (
+    <>
     <header
       className={`fixed inset-x-0 top-0 z-[100] transition-all duration-500 border-b rounded-b-2xl ${
         isScrolled || !isHome
@@ -244,6 +245,8 @@ export default function Navbar() {
         </div>
       </div>
 
+      </header>
+
       {/* ══════════════════════ MOBILE SLIDE PANEL ══════════════════════ */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -264,7 +267,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
-              className="fixed top-0 right-0 h-full w-[min(85vw,320px)]
+              className="fixed top-0 right-0 h-[100dvh] w-[min(85vw,320px)]
                          bg-white border-l border-border
                          flex flex-col z-[120] md:hidden shadow-2xl"
             >
@@ -431,6 +434,6 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
