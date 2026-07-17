@@ -1,12 +1,13 @@
 import { getPayloadClient } from "@/lib/payloadClient";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MapPin } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
-import { RichText } from "@payloadcms/richtext-lexical/react";
 import EnquiryButton from "@/components/EnquiryButton";
-import ConstructionProgress from "@/components/Frontend/ConstructionProgress";
+import ProjectAbout from "@/components/Frontend/Project/ProjectAbout";
+import ProjectCurrentStatus from "@/components/Frontend/Project/ProjectCurrentStatus";
+import ProjectSpecifications from "@/components/Frontend/Project/ProjectSpecifications";
+import AmenitiesGrid from "@/components/Frontend/Project/AmenitiesGrid";
 
 import type { Metadata } from "next";
 
@@ -87,41 +88,6 @@ export async function generateMetadata(
   };
 }
 
-const commonSpecifications = [
-  {
-    category: "Flooring",
-    items: "Vitrified flooring in living, dining, bedroom, kitchen and passage"
-  },
-  {
-    category: "Kitchen",
-    items: "Granite kitchen platform with marble support, Stainless steel sink, Tile dado above platform"
-  },
-  {
-    category: "Electrical",
-    items: "Electrical wiring & fitting of concealed type P.V.C conduit – good quality wires, All switches of reputed make, TV, Internet, AC point, ceiling fan point and regulator point in living, TV, AC point, ceiling fan point and regulator point in bedroom"
-  },
-  {
-    category: "Doors",
-    items: "Flushed Doors in living, and bedrooms with the laminate finish on both sides"
-  },
-  {
-    category: "Windows",
-    items: "Sliding windows with clear glass, Decorative M.S. railing for living room balcony & kitchen utility, M.S. grills for bedroom windows"
-  },
-  {
-    category: "Painting",
-    items: "All walls painted in premium quality paint"
-  },
-  {
-    category: "Sanitary",
-    items: "Anti-skid tiles for all toilets flooring, State-of-the-art CP fittings and sanitary fixtures, Instant geyser and hot-cold water mixer in shower area, Well-ventilated bathrooms"
-  },
-  {
-    category: "Security",
-    items: "Fire fighting and fire alarm system for entire building"
-  }
-];
-
 export default async function ProjectDetailPage({ params }: PageProps) {
   const resolvedParams = await params;
   const payload = await getPayloadClient();
@@ -143,25 +109,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const isCommonSpecProject = 
-    project.slug === "united-emporio" || 
-    project.slug === "gauri-ganesha" || 
-    project.slug === "ce-la-vie";
-    
-  const specList = isCommonSpecProject ? commonSpecifications : (project.amenities || []);
-
   // ── Image URL extraction helper ──────────────────────────────────────────
-  // Handles three possible shapes an image entry can have:
-  //  1. Payload-resolved object   → { url: "https://..." }
-  //  2. Plain blob URL string      → "https://xxx.blob.vercel-storage.com/..."
-  //  3. Fallback url:-prefixed ID  → "url:https://..." (when DB insert failed)
   const extractUrl = (img: unknown): string => {
     if (!img) return "";
     if (typeof img === "object" && img !== null && "url" in img) {
       return (img as { url?: string }).url || "";
     }
     if (typeof img === "string") {
-      // Strip the fallback "url:" prefix if present
       return img.startsWith("url:") ? img.slice(4) : img;
     }
     return "";
@@ -187,18 +141,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       : null) ||
     images[0] ||
     "/placeholder-project.webp";
+    
   const galleryImages = images.filter((u: string) => u !== coverImage);
-
-  // Render description safely using Payload's RichText JSX renderer
-  let descriptionContent = null;
-  if (typeof project.description === "string") {
-     // Plain string fallback — render as text (no HTML injection)
-     descriptionContent = <p>{project.description}</p>;
-  } else if (project.description && typeof project.description === "object") {
-     // Lexical SerializedEditorState — render safely via Payload's RichText component
-     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-     descriptionContent = <RichText data={project.description as any} />;
-  }
 
   // ── JSON-LD Structured Data ──
   const baseUrl = "https://dakshamdevelopers.com";
@@ -266,9 +210,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       />
       {/* Hero Header */}
       <div className="relative w-full bg-navy py-12 sm:py-16 md:py-20 lg:py-24 overflow-hidden border-b border-border-dark">
-        {/* Subtle cyan glow */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-100 sm:w-150 h-37.5 sm:h-50 bg-cyan/5 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
-        
         <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 z-10 relative">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
             {/* Left Content */}
@@ -305,13 +247,13 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               </FadeIn>
             </div>
             
-            {/* Right Image Box (Pixel-clear, no dark overlay) */}
+            {/* Right Image Box */}
             <div className="md:col-span-6 w-full">
               <FadeIn delay={0.4}>
                 <div className="relative aspect-16/10 md:aspect-4/3 w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-navy-light z-10">
                   <Image
                     src={coverImage}
-                    alt={project.title}
+                    alt={project.title!}
                     fill
                     priority
                     quality={95}
@@ -331,179 +273,55 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-10 sm:space-y-12 md:space-y-16">
             
-            {/* Quick Facts */}
-            <FadeIn delay={0.4}>
-              <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 rounded-2xl sm:rounded-3xl border border-[#BF953F]/20 bg-[#D8DCE4] p-5 sm:p-6 md:p-8 sm:grid-cols-4 shadow-md">
-                <div className="flex flex-col space-y-1.5 sm:space-y-2">
-                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Status</span>
-                  <span className="font-display text-base sm:text-lg font-medium text-navy capitalize">
-                    {project.status === "ongoing" ? "🏗️ Ongoing" : "✅ Delivered"}
-                  </span>
-                </div>
-                <div className="flex flex-col space-y-1.5 sm:space-y-2">
-                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Area</span>
-                  <span className="font-display text-base sm:text-lg font-medium text-navy">{project.area}</span>
-                </div>
-                <div className="flex flex-col space-y-1.5 sm:space-y-2">
-                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Price</span>
-                  <span className="font-display text-base sm:text-lg font-medium text-navy">
-                    {project.priceRange && project.priceRange.trim() ? project.priceRange : "On Enquire"}
-                  </span>
-                </div>
-                <div className="flex flex-col space-y-1.5 sm:space-y-2">
-                  <span className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-normal text-muted">Location</span>
-                  <span className="font-display text-base sm:text-lg font-medium text-navy">{project.location}</span>
-                </div>
-              </div>
-            </FadeIn>
+            {/* 1. About Project */}
+            <ProjectAbout
+              title={project.title!}
+              description={project.description}
+              status={project.status || "ongoing"}
+              area={project.area}
+              priceRange={project.priceRange}
+              location={project.location}
+              highlights={project.highlights}
+            />
 
-            {/* Description */}
-            <FadeIn delay={0.2}>
-              <div className="prose prose-lg prose-neutral max-w-none font-sans text-muted">
-                <h2 className="font-display text-2xl sm:text-3xl text-navy font-medium uppercase tracking-normal mb-2">About {project.title}</h2>
-                <div className="w-16 h-1 gold-gradient rounded-full mb-6" />
-                {descriptionContent || <p>Details coming soon.</p>}
-              </div>
-            </FadeIn>
-
-            {/* Specification Section */}
-            <FadeIn delay={0.2}>
-              <div className="space-y-4">
-                <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">
-                  Specification
-                </h2>
-                <div className="w-16 h-1 gold-gradient rounded-full mb-6" />
-                
-                {/* Isometric floor plan header image (Uncropped, native aspect ratio) */}
-                <div className="border border-border-light bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-md max-w-2xl mx-auto">
-                  <img
-                    src={
-                      project.specificationImage && typeof project.specificationImage === "object" && "url" in project.specificationImage && project.specificationImage.url
-                        ? project.specificationImage.url
-                        : (project.slug === "gauri-ganesha" ? "/api/media/file/floorplan_1bhk.webp" : "/api/media/file/floorplan_2bhk.webp")
-                    }
-                    alt={`${project.title} Isometric Floor Plan`}
-                    className="w-full h-auto block"
-                  />
-                </div>
-
-                {/* Technical Specifications (from specList) */}
-                {specList && specList.length > 0 && (
-                  <div className="bg-[#D0D4DC] border border-[#BF953F]/25 rounded-3xl p-6 sm:p-8 md:p-10 mt-8 shadow-sm">
-                    <div className="grid grid-cols-1 gap-8 sm:gap-10 sm:grid-cols-2">
-                      {specList.map((amenityGroup: { category: string; items: string }, idx: number) => {
-                        // Deduplicate bullet items within each category
-                        const rawItems = amenityGroup.items.split(',').map((s: string) => s.trim()).filter(Boolean);
-                        const uniqueItems = Array.from(new Set(rawItems));
-                        return (
-                          <div key={idx} className="space-y-3 sm:space-y-4">
-                            <h3 className="font-sans text-base sm:text-lg font-bold uppercase tracking-wider text-[#7A5C18] border-b-2 border-[#BF953F]/50 pb-2 sm:pb-3">
-                              {amenityGroup.category}
-                            </h3>
-                            <ul className="space-y-2.5 sm:space-y-3 font-sans text-[#2A2E34] text-sm leading-relaxed">
-                              {uniqueItems.map((item: string, i: number) => (
-                                <li key={i} className="flex items-start">
-                                  <span className="mr-2.5 sm:mr-3 mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#D4AF37]" />
-                                  <span>{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* Specifications & Interiors (Room Cards, if any) */}
-                {(project as any).specifications && (project as any).specifications.length > 0 && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                    {(project as any).specifications.map((spec: any, idx: number) => {
-                      const specImg = typeof spec.image === "object" && spec.image !== null ? spec.image.url : null;
-                      return (
-                        <div key={idx} className="bg-white border border-border-light rounded-2xl overflow-hidden shadow-xs flex flex-col">
-                          {specImg && (
-                            <div className="relative h-56 w-full bg-off-white">
-                              <Image
-                                src={specImg}
-                                alt={spec.title || "Specification image"}
-                                fill
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 380px"
-                                className="object-cover"
-                              />
-                            </div>
-                          )}
-                          <div className="p-5 flex-1 flex flex-col justify-center">
-                            {spec.title && (
-                              <h3 className="font-display text-lg font-bold text-navy mb-2">
-                                {spec.title}
-                              </h3>
-                            )}
-                            {spec.description && (
-                              <p className="font-sans text-muted text-sm leading-relaxed">
-                                {spec.description}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </FadeIn>
-
-            {/* Construction Progress Section (Only if ongoing and has progress/image defined) */}
+            {/* 2. Current Status */}
             {project.status === "ongoing" && ((project as any).constructionProgress !== undefined || (project as any).constructionImage) && (
-              <FadeIn delay={0.2}>
-                <ConstructionProgress
-                  progress={(project as any).constructionProgress || 0}
-                  imageUrl={
-                    (project as any).constructionImage &&
-                    typeof (project as any).constructionImage === "object" &&
-                    "url" in (project as any).constructionImage &&
-                    (project as any).constructionImage.url
-                      ? (project as any).constructionImage.url
-                      : null
-                  }
-                  projectTitle={project.title}
-                />
-              </FadeIn>
+              <ProjectCurrentStatus
+                progress={(project as any).constructionProgress || 0}
+                imageUrl={
+                  (project as any).constructionImage &&
+                  typeof (project as any).constructionImage === "object" &&
+                  "url" in (project as any).constructionImage &&
+                  (project as any).constructionImage.url
+                    ? (project as any).constructionImage.url
+                    : null
+                }
+                projectTitle={project.title!}
+              />
             )}
 
-            {/* Amenities Section (Photos Grid only, label removed) */}
-            {amenityPhotos.length > 0 && (
-              <FadeIn delay={0.25}>
-                <div className="space-y-4">
-                  <div>
-                    <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Amenities</h2>
-                    <div className="w-16 h-1 gold-gradient rounded-full mt-3 mb-6" />
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-                    {amenityPhotos.map((photoUrl, idx) => (
-                      <div
-                        key={idx}
-                        className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-off-white border border-border-light group shadow-sm aspect-square"
-                      >
-                        <Image
-                          src={photoUrl}
-                          alt={`${project.title} amenity ${idx + 1}`}
-                          fill
-                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-linear-to-t from-navy/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </FadeIn>
-            )}
+            {/* 3. Specifications */}
+            <ProjectSpecifications
+              specCategories={project.amenities}
+              roomCards={(project as any).specifications}
+              floorPlanImage={
+                project.specificationImage && typeof project.specificationImage === "object" && "url" in project.specificationImage && project.specificationImage.url
+                  ? project.specificationImage.url
+                  : null
+              }
+              projectTitle={project.title!}
+            />
+
+            {/* 4. Amenities */}
+            <AmenitiesGrid
+              photos={amenityPhotos}
+              projectTitle={project.title!}
+            />
 
             {/* Image Gallery */}
             {galleryImages.length > 0 && (
               <FadeIn delay={0.2}>
-                <div className="space-y-4">
+                <div className="space-y-4 my-10 sm:my-12">
                   <div>
                     <h2 className="font-display text-2xl sm:text-3xl font-medium uppercase tracking-normal text-navy">Gallery</h2>
                     <div className="w-16 h-1 gold-gradient rounded-full mt-3 mb-6" />
@@ -525,9 +343,6 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 </div>
               </FadeIn>
             )}
-
-            {/* Virtual Tour Links */}
-          
             
           </div>
 
@@ -540,7 +355,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   Connect with our client relations team for private viewings, pricing sheets, and project brochures.
                 </p>
                 <EnquiryButton
-                  projectTitle={project.title}
+                  projectTitle={project.title!}
                   label="Enquire Now"
                   className="flex w-full items-center justify-center rounded-xl gold-gradient px-6 py-3.5 sm:py-4 font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy transition-all hover:gold-gradient-light hover:shadow-lg"
                 />
@@ -554,7 +369,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       {/* Mobile Fixed Bottom CTA */}
       <div className="fixed bottom-0 left-0 z-40 w-full border-t border-border-dark bg-navy p-3 sm:p-4 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.3)] lg:hidden">
          <EnquiryButton
-            projectTitle={project.title}
+            projectTitle={project.title!}
             label="Enquire Now"
             className="flex w-full items-center justify-center rounded-xl gold-gradient px-4 py-3 sm:py-3.5 font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy shadow-md active:scale-95 transition-transform"
           />
