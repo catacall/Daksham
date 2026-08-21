@@ -131,7 +131,19 @@ export default async function ProjectDetailPage({ params }: PageProps) {
     .map(extractUrl)
     .filter((u: string) => u.startsWith("http") || u.startsWith("/")) as string[];
 
-  const coverImage =
+  const fallbackDetailMap: Record<string, string> = {
+    "ce-la-vie": "/CLVjpg.webp",
+    "ca-le-via": "/CLVjpg.webp",
+    "united-emporio": "/UE-6.webp",
+    "ganesha-greens": "/GG-4.webp",
+    "orchid-residency": "/OR-1.webp",
+    "orchid-heights": "/OH.webp",
+    "orchid-arcade": "/OA.webp",
+    "orchid-bliss": "/OBjpg.webp",
+    "orchid-homes": "/OHS.webp",
+  };
+
+  const rawCover =
     (project.coverImage && typeof project.coverImage === "object" && "url" in project.coverImage
       ? (project.coverImage as { url?: string }).url
       : typeof project.coverImage === "string"
@@ -139,8 +151,12 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         ? (project.coverImage as string).slice(4)
         : project.coverImage
       : null) ||
-    images[0] ||
-    "/placeholder-project.webp";
+    images[0];
+
+  const coverImage =
+    rawCover && rawCover !== "/placeholder-project.webp"
+      ? rawCover
+      : fallbackDetailMap[project.slug] || "/CLVjpg.webp";
     
   const galleryImages = images.filter((u: string) => u !== coverImage);
 

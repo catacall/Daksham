@@ -38,21 +38,37 @@ const cardVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.21, 0.47, 0.32, 0.98] as const } },
 };
 
+const fallbackImageMap: Record<string, string> = {
+  "ce-la-vie": "/CLVjpg.webp",
+  "ca-le-via": "/CLVjpg.webp",
+  "united-emporio": "/UE-6.webp",
+  "ganesha-greens": "/GG-4.webp",
+  "orchid-residency": "/OR-1.webp",
+  "orchid-heights": "/OH.webp",
+  "orchid-arcade": "/OA.webp",
+  "orchid-bliss": "/OBjpg.webp",
+  "orchid-homes": "/OHS.webp",
+};
+
 function resolveImageUrl(img: unknown): string | StaticImageData {
-  if (!img) return "/placeholder-project.webp";
-  if (typeof img === "string") return img || "/placeholder-project.webp";
-  if (isProjectImageObject(img)) return img.url || "/placeholder-project.webp";
+  if (!img) return "";
+  if (typeof img === "string") return img;
+  if (isProjectImageObject(img)) return img.url || "";
   return img as StaticImageData;
 }
 
 export function ProjectCard({ project }: { project: Project }) {
-  // Priority: coverImage > images[0] > placeholder
-  let coverImage: string | StaticImageData = "/placeholder-project.webp";
+  // Priority: coverImage > images[0] > fallbackImageMap[slug] > /CLVjpg.webp
+  let coverImage: string | StaticImageData = "";
 
   if (project.coverImage) {
     coverImage = resolveImageUrl(project.coverImage);
   } else if (project.images && project.images.length > 0) {
     coverImage = resolveImageUrl(project.images[0]);
+  }
+
+  if (!coverImage || coverImage === "/placeholder-project.webp") {
+    coverImage = fallbackImageMap[project.slug] || "/CLVjpg.webp";
   }
 
   return (

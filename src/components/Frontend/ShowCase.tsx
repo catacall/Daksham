@@ -5,60 +5,72 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useMotionValue, useAnimationFrame } from "framer-motion";
 
+const fallbackImageMap: Record<string, string> = {
+  "ce-la-vie": "/CLVjpg.webp",
+  "ca-le-via": "/CLVjpg.webp",
+  "united-emporio": "/UE-6.webp",
+  "ganesha-greens": "/GG-4.webp",
+  "orchid-residency": "/OR-1.webp",
+  "orchid-heights": "/OH.webp",
+  "orchid-arcade": "/OA.webp",
+  "orchid-bliss": "/OBjpg.webp",
+  "orchid-homes": "/OHS.webp",
+};
+
 const showcaseProjectsFallback = [
   {
     title: "Ce La Vie",
     location: "Sector-34C, Kharghar",
-    image: "/placeholder-project.webp",
+    image: "/CLVjpg.webp",
     area: "Premium Residences",
     slug: "ce-la-vie",
   },
   {
     title: "United Emporio",
     location: "Sector-11, Kharghar",
-    image: "/placeholder-project.webp",
+    image: "/UE-6.webp",
     area: "Commercial & Residential",
     slug: "united-emporio",
   },
   {
     title: "Ganesha Greens",
     location: "Sector-25, Ulwe",
-    image: "/placeholder-project.webp",
+    image: "/GG-4.webp",
     area: "Green Living Residences",
     slug: "ganesha-greens",
   },
   {
     title: "Orchid Residency",
     location: "Sector-14, Koparkharane",
-    image: "/placeholder-project.webp",
+    image: "/OR-1.webp",
     area: "Residential Apartments",
     slug: "orchid-residency",
   },
   {
     title: "Orchid Heights",
     location: "Sector-23, Ulwe",
-    image: "/placeholder-project.webp",
+    image: "/OH.webp",
     area: "High-Rise Residences",
     slug: "orchid-heights",
   },
   {
     title: "Orchid Arcade",
     location: "Sector-10, Vashi",
-    image: "/placeholder-project.webp",
+    image: "/OA.webp",
     area: "Commercial & Retail",
     slug: "orchid-arcade",
   },
   {
     title: "Orchid Bliss",
     location: "Sector-5, Ulwe",
-    image: "/placeholder-project.webp",
+    image: "/OBjpg.webp",
     area: "Residential Apartments",
     slug: "orchid-bliss",
   },
   {
     title: "Orchid Homes",
     location: "Karjat",
-    image: "/placeholder-project.webp",
+    image: "/OHS.webp",
     area: "Weekend & Residential Homes",
     slug: "orchid-homes",
   },
@@ -125,9 +137,9 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
           title: p.title,
           location: p.location,
           image:
-            typeof p.coverImage === "object" && p.coverImage !== null
+            (typeof p.coverImage === "object" && p.coverImage !== null && p.coverImage.url)
               ? p.coverImage.url
-              : "/placeholder-project.webp",
+              : fallbackImageMap[p.slug] || "/CLVjpg.webp",
           area: p.area || "Premium Real Estate",
           slug: p.slug,
         }))

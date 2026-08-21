@@ -65,8 +65,8 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-[100] transition-all duration-500 border-b rounded-b-2xl ${
         isScrolled || !isHome
-          ? "bg-[#0B0C0C]/95 backdrop-blur-md border-white/10 shadow-2xl shadow-black/50"
-          : "bg-[#0B0C0C]/90 backdrop-blur-md border-white/10"
+          ? "bg-navy/90 backdrop-blur-md border-white/10 shadow-lg shadow-navy/20"
+          : "bg-navy/80 backdrop-blur-md border-white/10"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}

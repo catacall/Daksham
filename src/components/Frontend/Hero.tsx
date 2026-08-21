@@ -61,13 +61,13 @@ export default function Hero() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative w-full flex flex-col bg-[#0B0C0C] overflow-hidden"
+      className="relative w-full flex flex-col bg-off-white overflow-hidden"
     >
       {/* ═══ Video Background Hero ═══ */}
       <div className="w-full min-h-screen pt-20 sm:pt-24 md:pt-28 px-3 sm:px-5 md:px-8 lg:px-10 pb-6 sm:pb-8 flex items-center justify-center">
         <div
           ref={videoContainerRef}
-          className="relative w-full min-h-[70vh] sm:min-h-[75vh] md:min-h-[80vh] lg:h-[calc(100vh-160px)] flex flex-col justify-end overflow-hidden bg-[#0B0C0C] shadow-2xl origin-center"
+          className="relative w-full min-h-[70vh] sm:min-h-[75vh] md:min-h-[80vh] lg:h-[calc(100vh-160px)] flex flex-col justify-end overflow-hidden rounded-3xl sm:rounded-[2.5rem] bg-navy shadow-2xl origin-center"
         >
           <video
             src="/videoplayback.mp4"
@@ -78,7 +78,7 @@ export default function Hero() {
             className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
           />
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-linear-to-b from-[#0B0C0C]/60 via-[#0B0C0C]/20 to-[#0B0C0C]/95 z-0 pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-b from-navy/60 via-navy/20 to-navy/95 z-0 pointer-events-none" />
 
           {/* ── Content overlay ── */}
           <div className="relative z-10 flex flex-col items-start px-5 py-8 sm:px-8 sm:py-10 md:px-12 md:py-14 lg:px-16 lg:py-16 xl:px-20 h-full text-left w-full max-w-7xl mx-auto justify-end gap-6 sm:gap-8 md:gap-10 lg:gap-12">
@@ -134,7 +134,7 @@ export default function Hero() {
       </div>
 
       {/* ═══ Virtual Tours Section ═══ */}
-      <div className="w-full bg-[#14171C] py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-20 relative -mt-10 z-20 rounded-t-4xl sm:rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] border-t-2 border-[#BF953F]/30">
+      <div className="w-full bg-[#ABADB6] py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-20 relative -mt-10 z-20 rounded-t-4xl sm:rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.15)] border-t-2 border-[#BF953F]/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
           </div>

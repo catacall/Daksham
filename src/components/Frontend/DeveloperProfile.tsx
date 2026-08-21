@@ -149,13 +149,11 @@ function DesktopMarquee() {
       const delta = time - lastTime;
       lastTime = time;
 
-      if (!isHovered.current) {
-        // Right to left flow: decrease offset over time
-        setOffset((prev) => {
-          const next = prev - 0.065 * delta;
-          return next <= -TOTAL_TRACK ? next + TOTAL_TRACK : next;
-        });
-      }
+      // Right to left continuous flow: decrease offset smoothly
+      setOffset((prev) => {
+        const next = prev - 0.065 * delta;
+        return next <= -TOTAL_TRACK ? next + TOTAL_TRACK : next;
+      });
       animFrameRef.current = requestAnimationFrame(loop);
     };
 
@@ -172,8 +170,6 @@ function DesktopMarquee() {
       ref={containerRef}
       className="relative overflow-hidden hidden sm:block py-12"
       style={{ perspective: "1400px" }}
-      onMouseEnter={() => (isHovered.current = true)}
-      onMouseLeave={() => (isHovered.current = false)}
     >
       {/* Edge fades using onyx gradient */}
       <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-24 md:w-36 bg-gradient-to-r from-onyx via-onyx/80 to-transparent" />

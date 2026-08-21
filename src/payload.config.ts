@@ -75,13 +75,7 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || "",
   plugins: [
     vercelBlobStorage({
-      // DISABLED — the Vercel Blob store is configured as "private" which
-      // blocks public uploads. More importantly, the plugin's afterRead hook
-      // was overriding the stored Cloudinary URLs in the media table with
-      // local /api/media/file/{filename} paths, causing 404s everywhere.
-      // All uploads now go through our custom /api/admin-data/upload route
-      // which posts directly to Cloudinary and stores the permanent CDN URL.
-      enabled: false,
+      enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
       collections: {
         media: true,
       },
