@@ -159,7 +159,7 @@ export default function ShowCase({ brochureUrl }: ShowCaseProps) {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex flex-col items-center text-center"
         >
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-display text-navy uppercase drop-shadow-sm font-black">
+          <h2 className="text-5xl sm:text-6xl md:text-7xl font-display text-navy uppercase drop-shadow-sm font-black tracking-wide leading-[1.25]">
             Projects
           </h2>
           <div className="mt-6 w-20 h-1.5 gold-gradient rounded-full" />

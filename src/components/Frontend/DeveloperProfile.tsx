@@ -297,7 +297,7 @@ export default function DeveloperProfile() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display text-white font-black uppercase tracking-tight leading-[1.1] max-w-4xl mx-auto drop-shadow-md">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display text-white font-black uppercase tracking-wide leading-[1.25] max-w-4xl mx-auto drop-shadow-md">
               The Strength Behind Our Landmarks
             </h2>
             <div className="mt-6 w-24 h-1.5 gold-gradient mx-auto rounded-full shadow-lg shadow-bright-gold/20" />
@@ -406,7 +406,7 @@ export default function DeveloperProfile() {
               Testimonials
             </span>
 
-            <h3 className="mt-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-platinum leading-tight">
+            <h3 className="mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-platinum leading-snug tracking-wide">
               Trusted by Buyers,{" "}
               <span className="block gold-gradient-text">Partners &amp; Investors</span>
             </h3>

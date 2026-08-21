@@ -90,15 +90,17 @@ h4,
 h5,
 h6 {
   font-family: var(--font-display);
-  line-height: 1.15;
+  line-height: 1.25;
   font-weight: 400; /* Marcellus is best at 400 */
+  letter-spacing: 0.02em;
+  word-spacing: 0.05em;
 }
 
 p,
 li,
 span {
   font-family: var(--font-sans);
-  line-height: 1.65;
+  line-height: 1.75;
 }
 
 /* ─── Mobile-first minimum touch targets ─── */

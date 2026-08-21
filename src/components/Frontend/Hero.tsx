@@ -90,7 +90,7 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.3 }}
               className="max-w-2xl lg:max-w-3xl"
             >
-              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white uppercase tracking-normal leading-[1.1] mb-4 sm:mb-5 md:mb-6 drop-shadow-lg">
+              <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white uppercase tracking-wide leading-[1.2] mb-6 sm:mb-8 md:mb-10 drop-shadow-lg">
                 SHAPING THE SKYLINE
                 <br />
                 <span className="bg-clip-text tracking-normal drop-shadow-[0_0_20px_rgba(251,225,52,0.5)] gold-gradient-text">
@@ -134,7 +134,7 @@ export default function Hero() {
       </div>
 
       {/* ═══ Virtual Tours Section ═══ */}
-      <div className="w-full bg-[#ABADB6] py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-20 relative -mt-10 z-20 rounded-t-4xl sm:rounded-t-[3rem] shadow-[0_-20px_50px_rgba(0,0,0,0.15)] border-t-2 border-[#BF953F]/30">
+      <div className="w-full bg-[#ABADB6] py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-20 relative mt-6 sm:mt-10 z-20 rounded-3xl sm:rounded-[3rem] shadow-lg border border-[#BF953F]/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
           </div>
@@ -154,7 +154,7 @@ export default function Hero() {
                 <div className="absolute -top-20 -right-20 w-64 h-64 gold-gradient/5 rounded-full blur-[60px] pointer-events-none" />
 
                 <div className="relative p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full z-10">
-                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-normal mb-3 sm:mb-4">
+                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-wide leading-snug mb-5 sm:mb-6">
                   Ce La Vie &mdash; Ground Floor
                   </h3>
                   <p className="font-sans text-sm sm:text-base text-white/90 mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">
@@ -191,7 +191,7 @@ export default function Hero() {
                 <div className="absolute -bottom-20 -left-20 w-64 h-64 gold-gradient/5 rounded-full blur-[60px] pointer-events-none" />
 
                 <div className="relative p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full z-10">
-                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-normal mb-3 sm:mb-4">
+                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl font-medium gold-gradient-text uppercase tracking-wide leading-snug mb-5 sm:mb-6">
                   Ce La Vie &mdash; Amenities
                   </h3>
                   <p className="font-sans text-sm sm:text-base text-white/90 mb-6 sm:mb-8 md:mb-10 flex grow leading-relaxed">

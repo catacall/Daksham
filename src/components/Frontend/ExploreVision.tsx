@@ -42,7 +42,7 @@ export default function ExploreVision() {
             className="bg-[#E8EAED] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] p-8 sm:p-10 flex flex-col justify-between border border-[#BF953F]/15 transition-transform duration-300 hover:-translate-y-2"
           >
             <div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-normal mb-6">
+              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wide leading-relaxed mb-8">
                 Our Vision
               </h2>
               <p className="text-navy-light text-sm sm:text-base leading-relaxed font-sans font-medium">
@@ -58,7 +58,7 @@ export default function ExploreVision() {
             className="bg-[#E8EAED] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] p-8 sm:p-10 flex flex-col justify-between border border-[#BF953F]/15 transition-transform duration-300 hover:-translate-y-2"
           >
             <div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-normal mb-6">
+              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wide leading-relaxed mb-8">
                 Our Mission
               </h2>
               <p className="text-navy-light text-sm sm:text-base leading-relaxed font-sans font-medium">
@@ -74,7 +74,7 @@ export default function ExploreVision() {
             className="bg-[#E8EAED] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] p-8 sm:p-10 flex flex-col justify-between border border-[#BF953F]/15 transition-transform duration-300 hover:-translate-y-2"
           >
             <div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-normal mb-6">
+              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wide leading-relaxed mb-8">
                 Our Values
               </h2>
               <p className="text-navy-light text-sm sm:text-base leading-relaxed font-sans font-medium">
