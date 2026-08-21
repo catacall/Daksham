@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useAnimationFrame, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -120,9 +120,6 @@ function TestimonialCard({ item }: { item: (typeof testimonials)[number] }) {
 function DesktopMarquee() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(1200);
-  const [offset, setOffset] = useState(0);
-  const isHovered = useRef(false);
-  const animFrameRef = useRef<number | null>(null);
 
   // Repeat testimonials 4 times for an infinite seamless ribbon
   const repeated = [...testimonials, ...testimonials, ...testimonials, ...testimonials];
@@ -142,34 +139,23 @@ function DesktopMarquee() {
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  useEffect(() => {
-    let lastTime = performance.now();
+  const offset = useMotionValue(0);
+  const isHovered = useRef(false);
 
-    const loop = (time: number) => {
-      const delta = time - lastTime;
-      lastTime = time;
-
-      // Right to left continuous flow: decrease offset smoothly
-      setOffset((prev) => {
-        const next = prev - 0.065 * delta;
-        return next <= -TOTAL_TRACK ? next + TOTAL_TRACK : next;
-      });
-      animFrameRef.current = requestAnimationFrame(loop);
-    };
-
-    animFrameRef.current = requestAnimationFrame(loop);
-    return () => {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    };
-  }, [TOTAL_TRACK]);
-
-  const centerX = containerWidth / 2;
+  useAnimationFrame((t, delta) => {
+    if (isHovered.current) return;
+    let next = offset.get() - 0.065 * delta;
+    if (next <= -TOTAL_TRACK) next += TOTAL_TRACK;
+    offset.set(next);
+  });
 
   return (
     <div
       ref={containerRef}
       className="relative overflow-hidden hidden sm:block py-12"
       style={{ perspective: "1400px" }}
+      onMouseEnter={() => (isHovered.current = true)}
+      onMouseLeave={() => (isHovered.current = false)}
     >
       {/* Edge fades using onyx gradient */}
       <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-24 md:w-36 bg-gradient-to-r from-onyx via-onyx/80 to-transparent" />
@@ -178,26 +164,33 @@ function DesktopMarquee() {
       {/* Radial curve stage */}
       <div className="relative h-[340px] w-full flex items-center justify-center">
         {repeated.map((item, i) => {
-          // Calculate card X position with wrap-around
-          let rawX = ((i * STEP + offset) % TOTAL_TRACK);
-          if (rawX < -CARD_WIDTH) rawX += TOTAL_TRACK;
-          if (rawX > TOTAL_TRACK - CARD_WIDTH) rawX -= TOTAL_TRACK;
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const rawX = useTransform(offset, (val) => {
+            let x = ((i * STEP + val) % TOTAL_TRACK);
+            if (x < -CARD_WIDTH) x += TOTAL_TRACK;
+            if (x > TOTAL_TRACK - CARD_WIDTH) x -= TOTAL_TRACK;
+            return x;
+          });
 
-          const cardCenter = rawX + CARD_WIDTH / 2;
-          const distFromCenter = cardCenter - centerX;
-          const normalized = Math.max(-1.4, Math.min(1.4, distFromCenter / (containerWidth * 0.55)));
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const normalized = useTransform(rawX, (x) => {
+            const cardCenter = x + CARD_WIDTH / 2;
+            const distFromCenter = cardCenter - (containerWidth / 2);
+            return Math.max(-1.4, Math.min(1.4, distFromCenter / (containerWidth * 0.55)));
+          });
 
-          // Radial curve math:
-          // 1. Vertical deflection along the radial curve arc
-          const translateY = Math.pow(normalized, 2) * 36;
-          // 2. Rotation along the tangent of the radial curve
-          const rotateZ = normalized * 5.5;
-          // 3. 3D perspective rotation (yaw) looking towards viewer
-          const rotateY = -normalized * 14;
-          // 4. Subtle depth scaling along radial arc
-          const scale = Math.max(0.88, 1 - Math.abs(normalized) * 0.08);
-          // 5. Opacity based on distance from center
-          const opacity = Math.max(0.2, 1 - Math.pow(Math.abs(normalized) / 1.3, 2) * 0.7);
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const translateY = useTransform(normalized, (n) => Math.pow(n, 2) * 36);
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const rotateZ = useTransform(normalized, (n) => n * 5.5);
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const rotateY = useTransform(normalized, (n) => -n * 14);
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const scale = useTransform(normalized, (n) => Math.max(0.88, 1 - Math.abs(n) * 0.08));
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const opacity = useTransform(normalized, (n) => Math.max(0.2, 1 - Math.pow(Math.abs(n) / 1.3, 2) * 0.7));
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          const zIndex = useTransform(normalized, (n) => Math.round(100 - Math.abs(n) * 50));
 
           return (
             <motion.div
@@ -205,14 +198,18 @@ function DesktopMarquee() {
               className="absolute top-4 left-0 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.6)] cursor-pointer"
               style={{
                 width: CARD_WIDTH,
-                transform: `translate3d(${rawX}px, ${translateY}px, 0) rotateZ(${rotateZ}deg) rotateY(${rotateY}deg) scale(${scale})`,
+                x: rawX,
+                y: translateY,
+                rotateZ,
+                rotateY,
+                scale,
                 opacity,
-                zIndex: Math.round(100 - Math.abs(normalized) * 50),
+                zIndex,
                 willChange: "transform, opacity",
                 transition: "box-shadow 0.3s ease, border-color 0.3s ease",
               }}
               whileHover={{
-                scale: scale * 1.04,
+                scale: 1.04,
                 borderColor: "rgba(212, 175, 55, 0.4)",
                 boxShadow: "0 20px 50px rgba(212, 175, 55, 0.15)",
               }}

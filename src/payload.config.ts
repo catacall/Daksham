@@ -94,9 +94,9 @@ export default buildConfig({
     pg: customPg,
     pool: {
       connectionString: getPoolerConnectionString(),
-      max: 3,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 8000,
+      max: 1,
+      idleTimeoutMillis: 20000,
+      connectionTimeoutMillis: 10000,
     },
   }),
 

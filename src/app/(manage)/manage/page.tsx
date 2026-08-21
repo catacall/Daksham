@@ -3,6 +3,8 @@ import { headers } from "next/headers";
 import { getPayloadClient, isFrontendMockMode } from "@/lib/payloadClient";
 import AdminPanel from "./AdminPanel";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Daksham Admin — Manage",
   robots: "noindex, nofollow",

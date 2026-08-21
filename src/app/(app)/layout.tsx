@@ -105,6 +105,9 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${europaGrotesk.variable} ${poppins.variable} data-scroll-behavior="smooth"`}
     >
+      <head>
+        <link rel="preload" href="/videoplayback.mp4" as="video" type="video/mp4" />
+      </head>
       <body
         suppressHydrationWarning
         className="min-h-screen bg-background text-foreground antialiased"

@@ -11,6 +11,7 @@ console.log("Connecting to database for pre-build schema verification...");
 const pool = new pg.Pool({
   connectionString: databaseUrl,
   ssl: { rejectUnauthorized: false },
+  max: 1,
   connectionTimeoutMillis: 5000,
 });
 
