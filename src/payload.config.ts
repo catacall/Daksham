@@ -75,11 +75,13 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || "",
   plugins: [
     vercelBlobStorage({
-      enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
+      // Enable on Vercel so Payload never warns about missing storage adapters.
+      // VERCEL env var is always set by the Vercel platform at both build & runtime.
+      enabled: Boolean(process.env.VERCEL),
       collections: {
         media: true,
       },
-      token: process.env.BLOB_READ_WRITE_TOKEN,
+      token: process.env.BLOB_READ_WRITE_TOKEN || '',
     }),
 
   ],
