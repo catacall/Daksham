@@ -7,11 +7,11 @@ import { motion, useMotionValue, useAnimationFrame } from "framer-motion";
 
 const showcaseProjectsFallback = [
   {
-    title: "Ca Le Via",
+    title: "Ce La Vie",
     location: "Sector-34C, Kharghar",
     image: "/placeholder-project.webp",
     area: "Premium Residences",
-    slug: "ca-le-via",
+    slug: "ce-la-vie",
   },
   {
     title: "United Emporio",

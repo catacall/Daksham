@@ -1515,8 +1515,8 @@ export default function AdminPanel({ user }: { user?: { id: string; email: strin
                 {
                   label: "Ongoing",
                   value: stats.ongoing,
-                  color: "text-cyan-600",
-                  border: "border-cyan",
+                  color: "text-[#BF953F]",
+                  border: "border-[#BF953F]",
                 },
                 {
                   label: "Delivered",

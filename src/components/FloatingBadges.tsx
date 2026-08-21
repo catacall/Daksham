@@ -15,10 +15,10 @@ const whatsappMessage = encodeURIComponent("Hello Daksham Developers, I am inter
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
 const badges = [
-  { icon: <Mail size={20} />, href: "mailto:dakshamdevelopers@gmail.com", bg: "bg-navy-light hover:bg-navy", glow: "shadow-navy-light/30", delay: 0.2, name: "Email" },
-  { icon: <Phone size={20} />, href: "tel:+919653307030", bg: "gold-gradient hover:opacity-90", glow: "shadow-gold/30", delay: 0.3, name: "Call Us" },
-  { icon: <Bot size={20} />, href: "#chatbot", bg: "bg-navy hover:bg-navy-light", glow: "shadow-navy/30", delay: 0.4, name: "Chatbot" },
-  { icon: <WhatsAppIcon size={22} />, href: whatsappUrl, bg: "bg-[#25D366] hover:bg-[#20b858]", glow: "shadow-emerald-500/30", delay: 0.5, name: "WhatsApp", external: true },
+  { icon: <Mail size={20} />, href: "mailto:dakshamdevelopers@gmail.com", bg: "bg-navy-light hover:bg-navy text-white", glow: "shadow-navy-light/30", delay: 0.2, name: "Email" },
+  { icon: <Phone size={20} />, href: "tel:+919653307030", bg: "gold-gradient hover:opacity-90 text-navy", glow: "shadow-gold/30", delay: 0.3, name: "Call Us" },
+  { icon: <Bot size={20} />, href: "#chatbot", bg: "bg-navy hover:bg-navy-light text-white", glow: "shadow-navy/30", delay: 0.4, name: "Chatbot" },
+  { icon: <WhatsAppIcon size={22} />, href: whatsappUrl, bg: "bg-[#25D366] hover:bg-[#20b858] text-white", glow: "shadow-emerald-500/30", delay: 0.5, name: "WhatsApp", external: true },
 ];
 
 export default function FloatingBadges() {
@@ -48,7 +48,7 @@ export default function FloatingBadges() {
                     window.dispatchEvent(new CustomEvent("open-chatbot"));
                   }
                 }}
-                className={`w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white shadow-lg ${badge.bg} ${badge.glow} shadow-md relative z-10 border border-white/15`}
+                className={`w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg ${badge.bg} ${badge.glow} shadow-md relative z-10 border border-white/15`}
                 aria-label={badge.name}
               >
                 {badge.icon}

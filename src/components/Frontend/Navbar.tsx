@@ -65,8 +65,8 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-[100] transition-all duration-500 border-b rounded-b-2xl ${
         isScrolled || !isHome
-          ? "bg-white/95 backdrop-blur-sm border-border/40 shadow-sm"
-          : "bg-white/95 backdrop-blur-sm border-transparent"
+          ? "bg-[#0B0C0C]/95 backdrop-blur-md border-white/10 shadow-2xl shadow-black/50"
+          : "bg-[#0B0C0C]/90 backdrop-blur-md border-white/10"
       }`}
     >
       {/* ══════════════════════ NAV BAR ══════════════════════ */}
@@ -79,17 +79,17 @@ export default function Navbar() {
             className="flex items-center shrink-0 z-10"
             aria-label="Daksham Developers Home"
           >
-            <div className="flex items-center h-11 sm:h-14 md:h-16 bg-white/95 backdrop-blur-xs px-3 sm:px-4 py-1.5 rounded-2xl border border-white/50 shadow-md transition-all duration-300">
+            <div className="flex items-center h-11 sm:h-14 md:h-16 bg-[#16181D]/90 backdrop-blur-md px-3 sm:px-4 py-1.5 rounded-2xl border border-white/15 shadow-lg transition-all duration-300">
               <Image
                 src="/daksham developers.webp"
                 alt="Daksham Developers Logo"
-                height={180}
-                width={180}
+                height={200}
+                width={430}
                 loading="eager"
-                quality={90}
+                quality={95}
                 priority
-                sizes="(max-width: 640px) 72px, (max-width: 768px) 96px, 120px"
-                className="h-full w-auto object-contain"
+                sizes="(max-width: 640px) 140px, (max-width: 768px) 180px, 220px"
+                className="h-full w-auto object-contain scale-105"
               />
             </div>
           </Link>
@@ -112,14 +112,14 @@ export default function Navbar() {
                       className={`flex items-center gap-1 px-3 lg:px-4 xl:px-5 py-2.5
                         text-[13px] lg:text-sm xl:text-base font-sans font-bold uppercase tracking-normal lg:tracking-normal
                         transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                          dropdownOpen ? "text-navy" : "text-navy/70 hover:text-navy"
+                          dropdownOpen ? "text-bright-gold" : "text-white/80 hover:text-bright-gold"
                         }`}
                     >
                       Projects
                       <ChevronDown
                         size={14}
                         className={`shrink-0 transform transition-transform duration-300 ${
-                          dropdownOpen ? "rotate-180 text-navy" : "text-navy/80"
+                          dropdownOpen ? "rotate-180 text-bright-gold" : "text-white/60"
                         }`}
                       />
                     </button>
@@ -131,36 +131,37 @@ export default function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.97 }}
                           transition={{ duration: 0.18 }}
-                          className="absolute top-full left-0 mt-2 w-52
-                                     structural-panel shadow-xl
+                          className="absolute top-full left-0 mt-2 w-56
+                                     bg-[#12151A] border border-white/15 rounded-xl shadow-2xl
                                      py-2 z-50 overflow-hidden"
                         >
                           <Link
                             href="/projects"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
-                                       font-bold uppercase tracking-normal text-navy
-                                       hover:bg-off-white
-                                       border-b border-border transition-all"
+                                       font-bold uppercase tracking-normal text-white/90
+                                       hover:text-bright-gold hover:bg-white/5
+                                       border-b border-white/10 transition-all"
                           >
-                            <span className="w-1.5 h-1.5 rounded-none bg-logo shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-none bg-bright-gold shrink-0" />
                             View All Projects
                           </Link>
                           <Link
                             href="/projects/ongoing"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
-                                       font-bold uppercase tracking-normal text-navy/70
-                                       hover:bg-off-white transition-all"
+                                       font-bold uppercase tracking-normal text-white/70
+                                       hover:text-bright-gold hover:bg-white/5
+                                       border-b border-white/10 transition-all"
                           >
-                            <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-none bg-white/30 shrink-0" />
                             Ongoing Projects
                           </Link>
                           <Link
                             href="/projects/delivered"
                             className="flex items-center gap-3 px-5 py-3 text-[11px] font-sans
-                                       font-bold uppercase tracking-normal text-navy/70
-                                       hover:bg-off-white transition-all"
+                                       font-bold uppercase tracking-normal text-white/70
+                                       hover:text-bright-gold hover:bg-white/5 transition-all"
                           >
-                            <span className="w-1.5 h-1.5 rounded-none bg-navy/30 shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-none bg-white/30 shrink-0" />
                             Delivered Projects
                           </Link>
                         </motion.div>
@@ -178,8 +179,8 @@ export default function Navbar() {
                       text-[13px] lg:text-sm xl:text-base font-sans font-bold uppercase tracking-normal lg:tracking-normal
                       transition-all duration-200 whitespace-nowrap ${
                         isActive(link.href)
-                          ? "text-navy"
-                          : "text-navy/70 hover:text-navy"
+                          ? "text-bright-gold font-extrabold drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]"
+                          : "text-white/80 hover:text-bright-gold"
                       }`}
                 >
                   {link.name}
@@ -202,7 +203,7 @@ export default function Navbar() {
                          px-5 lg:px-7 py-2.5 lg:py-3 rounded-xl gold-gradient hover:opacity-90
                          text-navy text-sm lg:text-base font-sans font-bold
                          uppercase tracking-normal lg:tracking-normal
-                         transition-all duration-200 cursor-pointer whitespace-nowrap"
+                         transition-all duration-200 cursor-pointer whitespace-nowrap shadow-lg shadow-gold/10"
             >
               Enquire Now
             </motion.button>
@@ -211,9 +212,9 @@ export default function Navbar() {
             <Link
               href="/manage"
               title={isAdmin ? "Manage Portal" : "Admin Login"}
-              className="hidden md:flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-border bg-white hover:bg-off-white text-navy text-xs font-sans font-bold uppercase tracking-normal transition-all"
+              className="hidden md:flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-white text-xs font-sans font-bold uppercase tracking-normal transition-all"
             >
-              <LayoutDashboard size={13} className="text-gold" />
+              <LayoutDashboard size={13} className="text-bright-gold" />
               <span>Admin Console</span>
             </Link>
 
@@ -225,7 +226,7 @@ export default function Navbar() {
               className="md:hidden inline-flex items-center justify-center
                           px-3 py-1.5 rounded-lg gold-gradient text-navy
                           text-xs font-sans font-bold uppercase tracking-normal
-                          whitespace-nowrap leading-none transition-all duration-200 active:scale-95"
+                          whitespace-nowrap leading-none transition-all duration-200 active:scale-95 shadow-md"
             >
               Enquire
             </button>
@@ -233,13 +234,13 @@ export default function Navbar() {
             {/* Hamburger */}
             <button
               className="md:hidden flex items-center justify-center
-                         w-8 h-8 rounded-lg
-                         text-navy hover:text-navy/60
-                         hover:bg-navy/5 transition-colors cursor-pointer"
+                         w-9 h-9 rounded-lg
+                         text-white hover:text-bright-gold
+                         hover:bg-white/10 transition-colors cursor-pointer"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open Navigation"
             >
-              <Menu size={20} />
+              <Menu size={22} />
             </button>
           </div>
         </div>
@@ -268,24 +269,24 @@ export default function Navbar() {
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
               className="fixed top-0 right-0 h-[100dvh] w-[min(85vw,320px)]
-                         bg-white border-l border-border
+                         bg-[#0E1013] border-l border-white/15
                          flex flex-col z-[120] md:hidden shadow-2xl"
             >
               {/* Panel header */}
-              <div className="flex items-center justify-between px-5 pt-6 pb-5 border-b border-border">
+              <div className="flex items-center justify-between px-5 pt-6 pb-5 border-b border-white/15 bg-[#14171C]">
                 <div className="flex items-center gap-2">
                   <Image
                     src="/daksham developers.webp"
                     alt="Daksham Developers"
-                    width={100}
-                    height={40}
-                    className="h-8 w-auto object-contain"
+                    width={130}
+                    height={60}
+                    className="h-9 w-auto object-contain"
                   />
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center justify-center w-9 h-9 rounded-full
-                             bg-navy/5 text-navy/70 hover:bg-navy/10 hover:text-navy transition-colors"
+                             bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-colors"
                   aria-label="Close Menu"
                 >
                   <X size={20} />
@@ -304,12 +305,12 @@ export default function Navbar() {
                           transition={{ delay: i * 0.055, duration: 0.25 }}
                           onClick={() => setMobileProjectsOpen(prev => !prev)}
                           className={`w-full flex items-center justify-between
-                            px-6 py-4 border-b border-border/50
+                            px-6 py-4 border-b border-white/10
                             text-xs font-sans font-bold uppercase tracking-wider
                             transition-all cursor-pointer ${
                               mobileProjectsOpen
-                                ? "gold-gradient-text bg-navy/5"
-                                : "text-navy hover:text-navy/60 hover:bg-navy/[0.03]"
+                                ? "text-bright-gold bg-white/5"
+                                : "text-white/80 hover:text-bright-gold hover:bg-white/[0.03]"
                             }`}
                         >
                           <span>Projects</span>
@@ -317,8 +318,8 @@ export default function Navbar() {
                             size={14}
                             className={`transform transition-transform duration-300 ${
                               mobileProjectsOpen
-                                ? "rotate-180 text-logo"
-                                : "text-navy/40"
+                                ? "rotate-180 text-bright-gold"
+                                : "text-white/40"
                             }`}
                           />
                         </motion.button>
@@ -332,12 +333,12 @@ export default function Navbar() {
                               transition={{ duration: 0.2 }}
                               className="overflow-hidden"
                             >
-                              <div className="flex flex-col border-b border-border/50 bg-navy/[0.03]">
+                              <div className="flex flex-col border-b border-white/10 bg-white/[0.03]">
                                 <Link
                                   href="/projects"
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="px-9 py-3.5 text-xs font-sans font-bold uppercase
-                                             tracking-wider text-navy hover:text-logo
+                                             tracking-wider text-white/90 hover:text-bright-gold
                                              transition-colors"
                                 >
                                   All Projects
@@ -346,7 +347,7 @@ export default function Navbar() {
                                   href="/projects/ongoing"
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="px-9 py-3.5 text-xs font-sans font-bold uppercase
-                                             tracking-wider text-navy/60 hover:text-logo
+                                             tracking-wider text-white/70 hover:text-bright-gold
                                              transition-colors"
                                 >
                                   Ongoing Projects
@@ -355,7 +356,7 @@ export default function Navbar() {
                                   href="/projects/delivered"
                                   onClick={() => setMobileMenuOpen(false)}
                                   className="px-9 py-3.5 text-xs font-sans font-bold uppercase
-                                             tracking-wider text-navy/60 hover:text-logo
+                                             tracking-wider text-white/70 hover:text-bright-gold
                                              transition-colors"
                                 >
                                   Delivered Projects
@@ -378,12 +379,12 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`block px-6 py-4 border-b border-border/50
+                        className={`block px-6 py-4 border-b border-white/10
                           text-xs font-sans font-bold uppercase tracking-wider
                           transition-all ${
                             isActive(link.href)
-                              ? "gold-gradient-text bg-navy/5"
-                              : "text-navy hover:text-navy/60 hover:bg-navy/[0.03]"
+                              ? "text-bright-gold bg-white/5"
+                              : "text-white/80 hover:text-bright-gold hover:bg-white/[0.03]"
                           }`}
                       >
                         {link.name}
@@ -392,9 +393,7 @@ export default function Navbar() {
                   );
                 })}
 
-
-
-                <div className="h-px bg-navy/10 my-3 mx-4" />
+                <div className="h-px bg-white/10 my-3 mx-4" />
 
                 {/* Admin */}
                 <motion.div
@@ -405,16 +404,16 @@ export default function Navbar() {
                   <Link
                     href="/manage"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2.5 px-6 py-4 border-b border-border/50 text-xs font-sans font-bold uppercase tracking-wider text-navy hover:text-logo hover:bg-navy/[0.03] transition-colors"
+                    className="flex items-center gap-2.5 px-6 py-4 border-b border-white/10 text-xs font-sans font-bold uppercase tracking-wider text-white/80 hover:text-bright-gold hover:bg-white/[0.03] transition-colors"
                   >
-                    <LayoutDashboard size={13} className="text-[#BF953F]" />
+                    <LayoutDashboard size={13} className="text-bright-gold" />
                     <span>Admin Console</span>
                   </Link>
                 </motion.div>
               </div>
 
               {/* Bottom CTA */}
-              <div className="px-5 pb-8 pt-5 border-t border-border mt-auto">
+              <div className="px-5 pb-8 pt-5 border-t border-white/15 bg-[#14171C] mt-auto">
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -422,11 +421,11 @@ export default function Navbar() {
                   }}
                   className="w-full py-4 rounded-xl gold-gradient
                              text-navy font-sans text-sm font-bold uppercase tracking-wider
-                             transition-all duration-200 active:scale-95 cursor-pointer shadow-md"
+                             transition-all duration-200 active:scale-95 cursor-pointer shadow-lg"
                 >
                   Book an Enquiry
                 </button>
-                <p className="text-center text-navy/25 text-[10px] font-sans mt-4 tracking-wider uppercase">
+                <p className="text-center text-white/30 text-[10px] font-sans mt-4 tracking-wider uppercase">
                   Daksham Developers
                 </p>
               </div>

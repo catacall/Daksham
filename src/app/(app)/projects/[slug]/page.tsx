@@ -210,7 +210,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       />
       {/* Hero Header */}
       <div className="relative w-full bg-navy py-12 sm:py-16 md:py-20 lg:py-24 overflow-hidden border-b border-border-dark">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-100 sm:w-150 h-37.5 sm:h-50 bg-cyan/5 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-100 sm:w-150 h-37.5 sm:h-50 gold-gradient/5 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
         <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 z-10 relative">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
             {/* Left Content */}
@@ -228,18 +228,18 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               <FadeIn delay={0.3}>
                 <div className="mt-2 sm:mt-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg font-sans text-white/70 tracking-normal">
                   <div className="flex items-center">
-                    <MapPin className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-cyan shrink-0" />
+                    <MapPin className="mr-1.5 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-[#D4AF37] shrink-0" />
                     {project.location}
                   </div>
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(project.title + " " + project.location)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan/10 hover:bg-cyan/20 border border-cyan/20 text-cyan text-xs font-bold uppercase tracking-normal transition-all w-fit shadow-xs"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 border border-[#D4AF37]/30 text-[#D4AF37] text-xs font-bold uppercase tracking-normal transition-all w-fit shadow-xs"
                   >
                     <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan"></span>
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D4AF37] opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D4AF37]"></span>
                     </span>
                     View Live Map
                   </a>

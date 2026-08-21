@@ -34,7 +34,7 @@ export function Pagination({ currentPage, totalPages, baseUrl }: PaginationProps
           className={`flex h-11 w-11 items-center justify-center rounded-xl font-sans text-sm font-semibold transition-all duration-300 ${
             isActive
               ? "gold-gradient text-navy shadow-md shadow-gold/20 scale-105"
-              : "border border-border-light bg-white text-muted hover:border-cyan hover:text-cyan hover:scale-105"
+              : "border border-border-light bg-white text-muted hover:border-bright-gold hover:text-bright-gold hover:scale-105"
           }`}
         >
           {i}
@@ -51,7 +51,7 @@ export function Pagination({ currentPage, totalPages, baseUrl }: PaginationProps
       {currentPage > 1 ? (
         <Link
           href={getPageUrl(currentPage - 1)}
-          className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-light bg-white text-muted transition-all duration-300 hover:border-cyan hover:text-cyan hover:scale-105"
+          className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-light bg-white text-muted transition-all duration-300 hover:border-bright-gold hover:text-bright-gold hover:scale-105"
           aria-label="Previous Page"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -69,7 +69,7 @@ export function Pagination({ currentPage, totalPages, baseUrl }: PaginationProps
       {currentPage < totalPages ? (
         <Link
           href={getPageUrl(currentPage + 1)}
-          className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-light bg-white text-muted transition-all duration-300 hover:border-cyan hover:text-cyan hover:scale-105"
+          className="flex h-11 w-11 items-center justify-center rounded-xl border border-border-light bg-white text-muted transition-all duration-300 hover:border-bright-gold hover:text-bright-gold hover:scale-105"
           aria-label="Next Page"
         >
           <ChevronRight className="h-5 w-5" />

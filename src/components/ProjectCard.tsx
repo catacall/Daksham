@@ -96,10 +96,9 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <Link
           href={`/projects/${project.slug}`}
-          className="group/btn inline-flex items-center justify-center gap-1.5 rounded-xl bg-navy px-4 py-3 text-xs sm:text-sm font-sans font-medium text-white hover:text-white transition-colors duration-200 hover:gold-gradient "
+          className="group/btn inline-flex items-center justify-center gap-1.5 rounded-xl bg-navy px-4 py-3 text-xs sm:text-sm font-sans font-bold uppercase tracking-normal text-white hover:text-navy transition-all duration-200 hover:gold-gradient shadow-sm"
         >
           View Details
-         
         </Link>
       </div>
     </motion.div>

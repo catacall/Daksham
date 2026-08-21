@@ -320,7 +320,7 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-navy px-4 relative overflow-hidden">
       {/* Background Decorative Elements */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 gold-gradient/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 gold-gradient/5 rounded-full blur-[100px] pointer-events-none" />
 
       {/* Suspense Container for CSR Search Params */}

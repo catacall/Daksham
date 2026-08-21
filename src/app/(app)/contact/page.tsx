@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact Daksham Developers | Real Estate Enquiry Navi Mumbai",
   description:
-    "Get in touch with Dashanzi Developers for premium real estate advisory in Navi Mumbai & Thane. Visit our Vashi office or call +91 96533 07030 for site visits and enquiries.",
+    "Get in touch with Daksham Developers for premium real estate advisory in Navi Mumbai & Thane. Visit our Vashi office or call +91 96533 07030 for site visits and enquiries.",
   alternates: { canonical: "https://dakshamdevelopers.com/contact" },
   openGraph: {
     url: "https://dakshamdevelopers.com/contact",
@@ -75,10 +75,10 @@ export default async function ContactPage({
                     href="https://maps.google.com/?q=Satra+Plaza,+Sector+19D,+Vashi,+Navi+Mumbai"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-start group p-4 -m-4 rounded-2xl hover:bg-cyan/5 transition-all duration-300 cursor-pointer"
+                    className="flex items-start group p-4 -m-4 rounded-2xl hover:bg-[#BF953F]/5 transition-all duration-300 cursor-pointer"
                   >
-                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
-                      <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-[#BF953F]/10 transition-colors group-hover:bg-[#BF953F]/20">
+                      <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-[#BF953F]" />
                     </div>
                     <div className="ml-5 sm:ml-6 space-y-2.5">
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
@@ -86,7 +86,7 @@ export default async function ContactPage({
                       </h3>
                       <div>
                         <span className="font-sans text-[10px] font-bold uppercase tracking-normal text-navy block mb-1">Corporate Office</span>
-                        <span className="font-sans text-muted leading-relaxed text-sm group-hover:text-cyan transition-colors block">
+                        <span className="font-sans text-muted leading-relaxed text-sm group-hover:text-[#BF953F] transition-colors block">
                           806, 8th Floor, Satra Plaza,
                           <br />
                           Sector 19D, Plot No. 20,
@@ -98,8 +98,8 @@ export default async function ContactPage({
                   </a>
 
                   <div className="flex items-start group">
-                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
-                      <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-[#BF953F]/10 transition-colors group-hover:bg-[#BF953F]/20">
+                      <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-[#BF953F]" />
                     </div>
                     <div className="ml-5 sm:ml-6 flex-1">
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy mb-2">
@@ -108,21 +108,21 @@ export default async function ContactPage({
                       <div className="space-y-1.5">
                         <a
                           href="tel:+919653307030"
-                          className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-cyan/5 text-muted hover:text-cyan text-sm font-sans transition-colors cursor-pointer"
+                          className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-[#BF953F]/5 text-muted hover:text-[#BF953F] text-sm font-sans transition-colors cursor-pointer"
                         >
                           <span>📞</span>
                           <span>+91 96533 07030 (Primary)</span>
                         </a>
                         <a
                           href="tel:+919653313244"
-                          className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-cyan/5 text-muted hover:text-cyan text-sm font-sans transition-colors cursor-pointer"
+                          className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-[#BF953F]/5 text-muted hover:text-[#BF953F] text-sm font-sans transition-colors cursor-pointer"
                         >
                           <span>📞</span>
                           <span>+91 96533 13244 (Sales)</span>
                         </a>
                         <a
                           href="tel:02246099724"
-                          className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-cyan/5 text-muted hover:text-cyan text-sm font-sans transition-colors cursor-pointer"
+                          className="flex items-center gap-2 p-2 -mx-2 rounded-xl hover:bg-[#BF953F]/5 text-muted hover:text-[#BF953F] text-sm font-sans transition-colors cursor-pointer"
                         >
                           <span>☎️</span>
                           <span>022 - 4609 9724 (Landline)</span>
@@ -133,16 +133,16 @@ export default async function ContactPage({
 
                   <a
                     href="mailto:dakshamdevelopers@gmail.com"
-                    className="flex items-start group p-4 -m-4 rounded-2xl hover:bg-cyan/5 transition-all duration-300 cursor-pointer"
+                    className="flex items-start group p-4 -m-4 rounded-2xl hover:bg-[#BF953F]/5 transition-all duration-300 cursor-pointer"
                   >
-                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-cyan/10 transition-colors group-hover:bg-cyan/20">
-                      <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-cyan" />
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-[#BF953F]/10 transition-colors group-hover:bg-[#BF953F]/20">
+                      <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-[#BF953F]" />
                     </div>
                     <div className="ml-5 sm:ml-6">
                       <h3 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-normal text-navy">
                         Email Address
                       </h3>
-                      <span className="mt-1.5 sm:mt-2 font-sans text-muted text-sm group-hover:text-cyan transition-colors block">
+                      <span className="mt-1.5 sm:mt-2 font-sans text-muted text-sm group-hover:text-[#BF953F] transition-colors block">
                         dakshamdevelopers@gmail.com
                       </span>
                     </div>

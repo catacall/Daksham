@@ -114,57 +114,124 @@ function TestimonialCard({ item }: { item: (typeof testimonials)[number] }) {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   DESKTOP MARQUEE  (sm and above)
+   DESKTOP MARQUEE (sm and above)
+   Right-to-Left Continuous Flow in a 3D Radial Curve
 ────────────────────────────────────────────────────────────── */
 function DesktopMarquee() {
-  const CARD_W = 380;
-  const GAP = 20;
-  const total = testimonials.length * (CARD_W + GAP);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(1200);
   const [offset, setOffset] = useState(0);
-  const pausedRef = useRef(false);
+  const isHovered = useRef(false);
+  const animFrameRef = useRef<number | null>(null);
+
+  // Repeat testimonials 4 times for an infinite seamless ribbon
+  const repeated = [...testimonials, ...testimonials, ...testimonials, ...testimonials];
+  const CARD_WIDTH = 380;
+  const CARD_GAP = 24;
+  const STEP = CARD_WIDTH + CARD_GAP;
+  const TOTAL_TRACK = repeated.length * STEP;
 
   useEffect(() => {
-    const id = window.setInterval(() => {
-      if (!pausedRef.current)
-        setOffset(prev => (prev <= -total ? 0 : prev - 0.55));
-    }, 16);
-    return () => clearInterval(id);
-  }, [total]);
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  useEffect(() => {
+    let lastTime = performance.now();
+
+    const loop = (time: number) => {
+      const delta = time - lastTime;
+      lastTime = time;
+
+      if (!isHovered.current) {
+        // Right to left flow: decrease offset over time
+        setOffset((prev) => {
+          const next = prev - 0.065 * delta;
+          return next <= -TOTAL_TRACK ? next + TOTAL_TRACK : next;
+        });
+      }
+      animFrameRef.current = requestAnimationFrame(loop);
+    };
+
+    animFrameRef.current = requestAnimationFrame(loop);
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [TOTAL_TRACK]);
+
+  const centerX = containerWidth / 2;
 
   return (
     <div
-      className="relative overflow-hidden hidden sm:block"
-      onMouseEnter={() => (pausedRef.current = true)}
-      onMouseLeave={() => (pausedRef.current = false)}
+      ref={containerRef}
+      className="relative overflow-hidden hidden sm:block py-12"
+      style={{ perspective: "1400px" }}
+      onMouseEnter={() => (isHovered.current = true)}
+      onMouseLeave={() => (isHovered.current = false)}
     >
-      {/* Edge fades — using onyx colour to match section bg */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 md:w-32 bg-gradient-to-r from-onyx to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 md:w-32 bg-gradient-to-l from-onyx to-transparent" />
+      {/* Edge fades using onyx gradient */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-24 md:w-36 bg-gradient-to-r from-onyx via-onyx/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-24 md:w-36 bg-gradient-to-l from-onyx via-onyx/80 to-transparent" />
 
-      <div
-        className="flex"
-        style={{ gap: GAP, transform: `translateX(${offset}px)`, willChange: "transform" }}
-      >
-        {[0, 1].flatMap(g =>
-          testimonials.map((item, i) => (
+      {/* Radial curve stage */}
+      <div className="relative h-[340px] w-full flex items-center justify-center">
+        {repeated.map((item, i) => {
+          // Calculate card X position with wrap-around
+          let rawX = ((i * STEP + offset) % TOTAL_TRACK);
+          if (rawX < -CARD_WIDTH) rawX += TOTAL_TRACK;
+          if (rawX > TOTAL_TRACK - CARD_WIDTH) rawX -= TOTAL_TRACK;
+
+          const cardCenter = rawX + CARD_WIDTH / 2;
+          const distFromCenter = cardCenter - centerX;
+          const normalized = Math.max(-1.4, Math.min(1.4, distFromCenter / (containerWidth * 0.55)));
+
+          // Radial curve math:
+          // 1. Vertical deflection along the radial curve arc
+          const translateY = Math.pow(normalized, 2) * 36;
+          // 2. Rotation along the tangent of the radial curve
+          const rotateZ = normalized * 5.5;
+          // 3. 3D perspective rotation (yaw) looking towards viewer
+          const rotateY = -normalized * 14;
+          // 4. Subtle depth scaling along radial arc
+          const scale = Math.max(0.88, 1 - Math.abs(normalized) * 0.08);
+          // 5. Opacity based on distance from center
+          const opacity = Math.max(0.2, 1 - Math.pow(Math.abs(normalized) / 1.3, 2) * 0.7);
+
+          return (
             <motion.div
-              key={`${g}-${i}`}
-              whileHover={{ y: -5, scale: 1.015 }}
-              transition={{ type: "spring", stiffness: 260, damping: 22 }}
-              className="flex-shrink-0 overflow-hidden rounded-2xl border border-jet-black shadow-[0_12px_32px_rgba(0,0,0,0.4)]"
-              style={{ width: CARD_W, minWidth: CARD_W }}
+              key={i}
+              className="absolute top-4 left-0 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.6)] cursor-pointer"
+              style={{
+                width: CARD_WIDTH,
+                transform: `translate3d(${rawX}px, ${translateY}px, 0) rotateZ(${rotateZ}deg) rotateY(${rotateY}deg) scale(${scale})`,
+                opacity,
+                zIndex: Math.round(100 - Math.abs(normalized) * 50),
+                willChange: "transform, opacity",
+                transition: "box-shadow 0.3s ease, border-color 0.3s ease",
+              }}
+              whileHover={{
+                scale: scale * 1.04,
+                borderColor: "rgba(212, 175, 55, 0.4)",
+                boxShadow: "0 20px 50px rgba(212, 175, 55, 0.15)",
+              }}
             >
               <TestimonialCard item={item} />
             </motion.div>
-          ))
-        )}
+          );
+        })}
       </div>
     </div>
   );
 }
 
 /* ──────────────────────────────────────────────────────────────
-   MOBILE SLIDER  (hidden on sm+)
+   MOBILE SLIDER (hidden on sm+)
 ────────────────────────────────────────────────────────────── */
 function MobileSlider() {
   const [active, setActive] = useState(0);
@@ -222,7 +289,7 @@ export default function DeveloperProfile() {
     <>
       {/* ══════════════ LEADERSHIP SECTION ══════════════ */}
       <section
-        className="py-16 sm:py-24 lg:py-36 bg-platinum relative z-10"
+        className="py-16 sm:py-24 lg:py-36 bg-[#21252B] relative z-10 border-b border-white/10"
       >
         <div className="container mx-auto px-5 sm:px-10 lg:px-16 xl:px-20 max-w-7xl">
 
@@ -234,10 +301,10 @@ export default function DeveloperProfile() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display text-navy font-black uppercase tracking-tight leading-[1.1] max-w-4xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display text-white font-black uppercase tracking-tight leading-[1.1] max-w-4xl mx-auto drop-shadow-md">
               The Strength Behind Our Landmarks
             </h2>
-            <div className="mt-6 w-20 h-1.5 gold-gradient mx-auto rounded-full" />
+            <div className="mt-6 w-24 h-1.5 gold-gradient mx-auto rounded-full shadow-lg shadow-bright-gold/20" />
           </motion.div>
 
           {/* Profile Card — onyx background, matches site dark card pattern */}
@@ -246,8 +313,8 @@ export default function DeveloperProfile() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="bg-onyx rounded-[2rem] sm:rounded-[3rem] border border-jet-black
-                       shadow-[0_20px_60px_rgba(0,0,0,0.25)]
+            className="bg-[#111317] rounded-[2rem] sm:rounded-[3rem] border border-white/15
+                       shadow-[0_20px_60px_rgba(0,0,0,0.4)]
                        px-6 py-10 sm:px-12 sm:py-16 lg:px-16 lg:py-20
                        relative overflow-hidden group"
           >
@@ -263,7 +330,7 @@ export default function DeveloperProfile() {
                 <div
                   className="relative w-56 sm:w-72 md:w-full max-w-[320px]
                                aspect-[4/5] overflow-hidden rounded-2xl sm:rounded-3xl
-                               border border-jet-black shadow-2xl
+                               border border-white/15 shadow-2xl
                                transition-transform duration-500 group-hover:-translate-y-3"
                 >
                   <Image
@@ -284,7 +351,7 @@ export default function DeveloperProfile() {
                 <h3 className="gold-gradient-text font-display text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-[0.18em] mb-5">
                   Mr. Amit Kalra
                 </h3>
-                <p className="font-sans text-platinum/75 text-sm sm:text-base leading-7 tracking-normal">
+                <p className="font-sans text-white/90 text-sm sm:text-base leading-7 tracking-normal">
                   Our landmarks are built on a foundation of trust,
                   collaboration, and unmatched expertise — the engineering
                   precision of{" "}

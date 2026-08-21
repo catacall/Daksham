@@ -59,7 +59,7 @@ export default function ProjectAbout({
                 Price
               </span>
               <span className="font-display text-base sm:text-lg font-medium text-navy">
-                {priceRange.trim() ? priceRange : "On Enquire"}
+                {priceRange.trim() ? priceRange : "Price on Request"}
               </span>
             </div>
           )}

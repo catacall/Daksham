@@ -41,10 +41,18 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/projects/ongoing"
+                  href="/projects"
                   className="hover:gold-gradient-text transition-colors"
                 >
-                  Projects
+                  All Projects
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="hover:gold-gradient-text transition-colors"
+                >
+                  Contact Us
                 </Link>
               </li>
             </ul>

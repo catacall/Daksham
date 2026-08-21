@@ -50,9 +50,9 @@ export default function About() {
           className="bg-navy rounded-[3rem] border border-transparent shadow-[0_20px_50px_rgba(0,0,0,0.3)] px-8 py-16 sm:px-16 sm:py-24 relative overflow-hidden group mb-10"
         >
           {/* Background effects */}
-          <div className="absolute inset-0 bg-linear-to-br from-gold/10 via-transparent to-cyan/10 pointer-events-none" />
+          <div className="absolute inset-0 bg-linear-to-br from-gold/10 via-transparent to-gold/5 pointer-events-none" />
           <div className="absolute top-0 right-0 w-96 h-96 gold-gradient/5 rounded-full blur-[80px] pointer-events-none transition-transform duration-700 group-hover:scale-110" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan/5 rounded-full blur-[80px] pointer-events-none transition-transform duration-700 group-hover:scale-110" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 gold-gradient/5 rounded-full blur-[80px] pointer-events-none transition-transform duration-700 group-hover:scale-110" />
 
           <div className="max-w-5xl relative z-10 mx-auto text-center lg:text-left">
             <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-medium text-white tracking-normal leading-tight mb-12">

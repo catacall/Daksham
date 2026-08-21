@@ -25,7 +25,7 @@ export default function ProjectsLoading() {
               <div className="flex flex-1 flex-col p-4 sm:p-6 space-y-4">
                 <div className="h-6 w-3/4 bg-navy/10 rounded-lg" />
                 <div className="flex items-center space-x-2">
-                  <div className="h-4 w-4 bg-cyan/20 rounded-full shrink-0" />
+                  <div className="h-4 w-4 bg-[#BF953F]/20 rounded-full shrink-0" />
                   <div className="h-4 w-1/2 bg-navy/10 rounded-md" />
                 </div>
                 <div className="h-px bg-border-light pt-1" />

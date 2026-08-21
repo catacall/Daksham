@@ -12,12 +12,20 @@ interface Message {
   actions?: Array<{ label: string; action: string }>
 }
 
+interface ProjectItem {
+  id?: string
+  title?: string
+  location?: string
+  status?: string
+  constructionProgress?: number
+}
+
 export default function ChatbotDrawer() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [liveProjects, setLiveProjects] = useState<any[]>([])
+  const [liveProjects, setLiveProjects] = useState<ProjectItem[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -212,12 +220,12 @@ export default function ChatbotDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-112.5 bg-navy text-white z-[150] shadow-2xl border-l border-white/10 flex flex-col"
+            className="fixed top-0 right-0 h-full w-full sm:w-112.5 bg-[#252930] text-white z-[150] shadow-2xl border-l border-white/15 flex flex-col"
           >
             {/* Drawer Header */}
-            <div className="p-4 sm:p-6 border-b border-white/10 flex justify-between items-center bg-navy-light">
+            <div className="p-4 sm:p-6 border-b border-white/15 flex justify-between items-center bg-[#1D2127]">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 gold-gradient rounded-full flex items-center justify-center text-navy">
+                <div className="h-10 w-10 gold-gradient rounded-full flex items-center justify-center text-navy shadow-md shadow-gold/20">
                   <Bot size={22} className="stroke-[2.5]" />
                 </div>
                 <div>
@@ -225,7 +233,7 @@ export default function ChatbotDrawer() {
                     Daksham bot
                   </h3>
                   <div className="flex items-center gap-1.5">
-                    <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-[10px] font-sans text-emerald-400 font-bold uppercase tracking-normal">
                       Online Support
                     </span>
@@ -234,7 +242,7 @@ export default function ChatbotDrawer() {
               </div>
               <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                 onClick={() => setIsOpen(false)}
-                className="text-muted hover:text-cyan transition-colors cursor-pointer"
+                className="text-white/70 hover:text-bright-gold transition-colors cursor-pointer"
                 aria-label="Close chat"
               >
                 <X size={24} />
@@ -242,7 +250,7 @@ export default function ChatbotDrawer() {
             </div>
 
             {/* Message Area */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 scrollbar-thin scrollbar-thumb-white/10">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4 sm:gap-6 bg-[#252930] scrollbar-thin scrollbar-thumb-white/10">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -250,7 +258,7 @@ export default function ChatbotDrawer() {
                     message.sender === 'user' ? 'self-end items-end' : 'self-start items-start'
                   }`}
                 >
-                  <span className="text-[9px] font-sans text-muted mb-1.5 uppercase tracking-normal font-semibold">
+                  <span className="text-[9px] font-sans text-white/60 mb-1.5 uppercase tracking-normal font-semibold">
                     {message.sender === 'bot' ? 'Advisory Desk' : 'You'} •{' '}
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
@@ -258,8 +266,8 @@ export default function ChatbotDrawer() {
                   <div
                     className={`rounded-2xl px-4 py-3.5 text-sm font-sans whitespace-pre-wrap leading-relaxed shadow-sm border ${
                       message.sender === 'user'
-                        ? 'gold-gradient text-navy border-transparent font-semibold rounded-tr-none'
-                        : 'bg-navy-light text-white/90 border-white/5 rounded-tl-none'
+                        ? 'gold-gradient text-navy border-transparent font-bold rounded-tr-none shadow-md'
+                        : 'bg-[#333842] text-white/95 border-white/10 rounded-tl-none shadow-sm'
                     }`}
                   >
                     {message.text}
@@ -271,7 +279,7 @@ export default function ChatbotDrawer() {
                         <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                           key={index}
                           onClick={() => handleActionClick(act.action)}
-                          className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-sans font-bold bg-white/5 border border-white/15 hover:border-cyan hover:text-cyan rounded-lg text-white/70 transition-all cursor-pointer hover:bg-white/10"
+                          className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-sans font-bold bg-[#1D2127] border border-white/20 hover:border-bright-gold hover:text-bright-gold rounded-lg text-white/90 transition-all cursor-pointer hover:bg-white/10 shadow-sm"
                         >
                           {act.label}
                           <ArrowRight size={12} />
@@ -284,13 +292,13 @@ export default function ChatbotDrawer() {
 
               {isTyping && (
                 <div className="self-start flex flex-col items-start max-w-[80%]">
-                  <span className="text-[9px] font-sans text-muted mb-1.5 uppercase tracking-normal font-semibold">
+                  <span className="text-[9px] font-sans text-white/60 mb-1.5 uppercase tracking-normal font-semibold">
                     Advisory Desk is typing...
                   </span>
-                  <div className="bg-navy-light border border-white/5 text-white/90 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-muted animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="h-1.5 w-1.5 rounded-full bg-muted animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="h-1.5 w-1.5 rounded-full bg-muted animate-bounce" style={{ animationDelay: '300ms' }} />
+                  <div className="bg-[#333842] border border-white/10 text-white/90 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1.5 shadow-sm">
+                    <span className="h-1.5 w-1.5 rounded-full bg-bright-gold animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-bright-gold animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <span className="h-1.5 w-1.5 rounded-full bg-bright-gold animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
               )}
@@ -298,19 +306,19 @@ export default function ChatbotDrawer() {
             </div>
 
             {/* Input Form */}
-            <div className="p-3 sm:p-4 border-t border-white/10 bg-navy-light">
-              <div className="flex gap-2 bg-navy border border-white/15 rounded-xl p-2.5 focus-within:border-cyan transition-colors">
+            <div className="p-3 sm:p-4 border-t border-white/15 bg-[#1D2127]">
+              <div className="flex gap-2 bg-[#252930] border border-white/20 rounded-xl p-2.5 focus-within:border-bright-gold transition-colors shadow-inner">
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Ask advisor about pricing, projects..."
-                  className="flex-1 bg-transparent text-sm text-white font-sans focus:outline-hidden pl-2"
+                  className="flex-1 bg-transparent text-sm text-white font-sans focus:outline-hidden pl-2 placeholder:text-white/40"
                 />
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                   onClick={handleSend}
-                  className="h-9 w-9 gold-gradient hover:gold-gradient-light text-navy rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                  className="h-9 w-9 gold-gradient hover:opacity-90 text-navy rounded-lg flex items-center justify-center transition-opacity cursor-pointer shadow-md"
                   aria-label="Send message"
                 >
                   <ArrowRight size={16} />
