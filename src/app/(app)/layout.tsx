@@ -94,20 +94,22 @@ export const metadata: Metadata = {
   },
 };
 
+import ReactDOM from "react-dom";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  ReactDOM.preload("/videoplayback.mp4", { as: "video", type: "video/mp4" });
+
   return (
     <html
       lang="en"
       suppressHydrationWarning
       className={`${europaGrotesk.variable} ${poppins.variable} data-scroll-behavior="smooth"`}
     >
-      <head>
-        <link rel="preload" href="/videoplayback.mp4" as="video" type="video/mp4" />
-      </head>
+
       <body
         suppressHydrationWarning
         className="min-h-screen bg-background text-foreground antialiased"

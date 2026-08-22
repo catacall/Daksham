@@ -117,6 +117,53 @@ function TestimonialCard({ item }: { item: (typeof testimonials)[number] }) {
    DESKTOP MARQUEE (sm and above)
    Right-to-Left Continuous Flow in a 3D Radial Curve
 ────────────────────────────────────────────────────────────── */
+function MarqueeCard({ item, i, offset, TOTAL_TRACK, STEP, CARD_WIDTH, containerWidth }: any) {
+  const rawX = useTransform(offset, (val: any) => {
+    let x = ((i * STEP + val) % TOTAL_TRACK);
+    if (x < -CARD_WIDTH) x += TOTAL_TRACK;
+    if (x > TOTAL_TRACK - CARD_WIDTH) x -= TOTAL_TRACK;
+    return x;
+  });
+
+  const normalized = useTransform(rawX, (x: any) => {
+    const cardCenter = x + CARD_WIDTH / 2;
+    const distFromCenter = cardCenter - (containerWidth / 2);
+    return Math.max(-1.4, Math.min(1.4, distFromCenter / (containerWidth * 0.55)));
+  });
+
+  const translateY = useTransform(normalized, (n: any) => Math.pow(n, 2) * 36);
+  const rotateZ = useTransform(normalized, (n: any) => n * 5.5);
+  const rotateY = useTransform(normalized, (n: any) => -n * 14);
+  const scale = useTransform(normalized, (n: any) => Math.max(0.88, 1 - Math.abs(n) * 0.08));
+  const opacity = useTransform(normalized, (n: any) => Math.max(0.2, 1 - Math.pow(Math.abs(n) / 1.3, 2) * 0.7));
+  const zIndex = useTransform(normalized, (n: any) => Math.round(100 - Math.abs(n) * 50));
+
+  return (
+    <motion.div
+      className="absolute top-4 left-0 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.6)] cursor-pointer"
+      style={{
+        width: CARD_WIDTH,
+        x: rawX,
+        y: translateY,
+        rotateZ,
+        rotateY,
+        scale,
+        opacity,
+        zIndex,
+        willChange: "transform, opacity",
+        transition: "box-shadow 0.3s ease, border-color 0.3s ease",
+      }}
+      whileHover={{
+        scale: 1.04,
+        borderColor: "rgba(212, 175, 55, 0.4)",
+        boxShadow: "0 20px 50px rgba(212, 175, 55, 0.15)",
+      }}
+    >
+      <TestimonialCard item={item} />
+    </motion.div>
+  );
+}
+
 function DesktopMarquee() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(1200);
@@ -163,61 +210,18 @@ function DesktopMarquee() {
 
       {/* Radial curve stage */}
       <div className="relative h-[340px] w-full flex items-center justify-center">
-        {repeated.map((item, i) => {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const rawX = useTransform(offset, (val) => {
-            let x = ((i * STEP + val) % TOTAL_TRACK);
-            if (x < -CARD_WIDTH) x += TOTAL_TRACK;
-            if (x > TOTAL_TRACK - CARD_WIDTH) x -= TOTAL_TRACK;
-            return x;
-          });
-
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const normalized = useTransform(rawX, (x) => {
-            const cardCenter = x + CARD_WIDTH / 2;
-            const distFromCenter = cardCenter - (containerWidth / 2);
-            return Math.max(-1.4, Math.min(1.4, distFromCenter / (containerWidth * 0.55)));
-          });
-
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const translateY = useTransform(normalized, (n) => Math.pow(n, 2) * 36);
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const rotateZ = useTransform(normalized, (n) => n * 5.5);
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const rotateY = useTransform(normalized, (n) => -n * 14);
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const scale = useTransform(normalized, (n) => Math.max(0.88, 1 - Math.abs(n) * 0.08));
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const opacity = useTransform(normalized, (n) => Math.max(0.2, 1 - Math.pow(Math.abs(n) / 1.3, 2) * 0.7));
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const zIndex = useTransform(normalized, (n) => Math.round(100 - Math.abs(n) * 50));
-
-          return (
-            <motion.div
-              key={i}
-              className="absolute top-4 left-0 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.6)] cursor-pointer"
-              style={{
-                width: CARD_WIDTH,
-                x: rawX,
-                y: translateY,
-                rotateZ,
-                rotateY,
-                scale,
-                opacity,
-                zIndex,
-                willChange: "transform, opacity",
-                transition: "box-shadow 0.3s ease, border-color 0.3s ease",
-              }}
-              whileHover={{
-                scale: 1.04,
-                borderColor: "rgba(212, 175, 55, 0.4)",
-                boxShadow: "0 20px 50px rgba(212, 175, 55, 0.15)",
-              }}
-            >
-              <TestimonialCard item={item} />
-            </motion.div>
-          );
-        })}
+        {repeated.map((item, i) => (
+          <MarqueeCard
+            key={i}
+            item={item}
+            i={i}
+            offset={offset}
+            TOTAL_TRACK={TOTAL_TRACK}
+            STEP={STEP}
+            CARD_WIDTH={CARD_WIDTH}
+            containerWidth={containerWidth}
+          />
+        ))}
       </div>
     </div>
   );
