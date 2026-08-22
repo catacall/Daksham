@@ -10,15 +10,12 @@ export default function EnquiryModal() {
   const [selectedProject, setSelectedProject] = useState("");
 
   useEffect(() => {
-    // Check if user has seen the popup during this session/visit
     const seen = sessionStorage.getItem("enquiry-popup-seen");
-
     if (!seen) {
       const timer = setTimeout(() => {
         setIsOpen(true);
         sessionStorage.setItem("enquiry-popup-seen", "true");
-      }, 5000); // popup after 5 seconds of the visit
-
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -33,33 +30,44 @@ export default function EnquiryModal() {
       }
       setIsOpen(true);
     };
-
     window.addEventListener("open-enquiry-modal", handleOpen);
     return () => window.removeEventListener("open-enquiry-modal", handleOpen);
   }, []);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isOpen]);
+
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6">
-          {/* Smooth Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+        <motion.div
+          key="enquiry-modal"
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-navy/75 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
-            className="absolute inset-0 bg-navy/70"
           />
 
-          {/* Smooth Modal Card */}
+          {/* Modal Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
+            initial={{ opacity: 0, scale: 0.93, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-platinum p-5 sm:p-6 md:p-8 shadow-2xl shadow-navy/20 border border-border-light z-10"
+            exit={{ opacity: 0, scale: 0.93, y: 24 }}
+            transition={{ type: "spring", stiffness: 340, damping: 30, delay: 0.05 }}
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-platinum p-5 sm:p-6 md:p-8 shadow-2xl shadow-navy/30 border border-border-light z-10"
           >
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => setIsOpen(false)}
               className="absolute right-4 sm:right-5 top-4 sm:top-5 text-muted hover:text-navy transition-colors cursor-pointer"
               aria-label="Close modal"
@@ -81,7 +89,7 @@ export default function EnquiryModal() {
               onSuccess={() => setTimeout(() => setIsOpen(false), 2000)}
             />
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

@@ -77,7 +77,12 @@ export default function Hero() {
             playsInline
             {...({ fetchPriority: "high" } as any)}
             preload="auto"
-            className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
+            onCanPlay={(e) => {
+              const v = e.currentTarget;
+              v.style.transition = "opacity 1.2s ease";
+              v.style.opacity = "0.6";
+            }}
+            className="absolute inset-0 w-full h-full object-cover z-0 opacity-0"
           />
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-linear-to-b from-navy/60 via-navy/20 to-navy/95 z-0 pointer-events-none" />

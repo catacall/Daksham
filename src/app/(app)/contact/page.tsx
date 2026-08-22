@@ -24,27 +24,29 @@ export default async function ContactPage({
 }: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const payload = await getPayloadClient();
+  let formattedProjects: { id: string; title: string }[] = [];
 
-  // Fetch only necessary fields for the dropdown
-  const { docs: projects } = await payload.find({
-    // cast collection to any because generated payload types may not include our custom collections
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    collection: "projects" as any,
-    depth: 0,
-    pagination: false,
-    sort: "-publishedAt",
-  });
-
-  type ProjectItem = { id: string; title?: string };
-  const formattedProjects = (projects as ProjectItem[]).map(p => ({
-    id: p.id,
-    title: p.title || "",
-  }));
+  try {
+    const payload = await getPayloadClient();
+    const { docs: projects } = await payload.find({
+      collection: "projects" as any,
+      depth: 0,
+      pagination: false,
+      sort: "-publishedAt",
+    });
+    type ProjectItem = { id: string; title?: string };
+    formattedProjects = (projects as ProjectItem[]).map((p) => ({
+      id: p.id,
+      title: p.title || "",
+    }));
+  } catch (err) {
+    console.error("[ContactPage] Failed to fetch projects:", err);
+  }
 
   const params = await searchParams;
   const preselectedProject =
     typeof params?.project === "string" ? params.project : null;
+
 
   return (
     <div className="bg-off-white min-h-screen px-4 py-28 sm:py-32 md:py-36 sm:px-6 lg:px-8">
