@@ -94,7 +94,8 @@ export const metadata: Metadata = {
   },
 };
 
-import ReactDOM from "react-dom";
+
+
 
 export default function RootLayout({
   children,
