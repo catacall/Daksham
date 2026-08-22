@@ -19,27 +19,27 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function DeliveredProjectsPage() {
-  const payload = await getPayloadClient();
-  
-  const result = await payload.find({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    collection: "projects" as any,
-    where: {
-      status: {
-        equals: "delivered",
-      },
-    },
-    sort: "-publishedAt",
-    depth: 2,
-    pagination: false,
-  });
+  let projects: any[] = [];
+
+  try {
+    const payload = await getPayloadClient();
+    const result = await payload.find({
+      collection: "projects" as any,
+      where: { status: { equals: "delivered" } },
+      sort: "-publishedAt",
+      depth: 2,
+      pagination: false,
+    });
+    projects = result.docs as any;
+  } catch (err) {
+    console.error("[DeliveredProjectsPage] Failed to fetch projects:", err);
+  }
 
   return (
     <div className="bg-off-white min-h-screen px-4 py-24 sm:py-28 md:py-32 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <FadeIn delay={0.1}>
           <div className="mb-10 sm:mb-12 md:mb-16 border-b border-border-light pb-6 sm:pb-8">
-           
             <h1 className="text-3xl sm:text-4xl font-display font-medium uppercase tracking-normal text-navy md:text-5xl lg:text-6xl">
               Delivered Projects
             </h1>
@@ -48,8 +48,7 @@ export default async function DeliveredProjectsPage() {
             </p>
           </div>
         </FadeIn>
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <ProjectGrid projects={result.docs as any} />
+        <ProjectGrid projects={projects} />
       </div>
     </div>
   );

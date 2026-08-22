@@ -24,28 +24,40 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const payload = await getPayloadClient();
+  let formattedProjects: { id: string; title: string }[] = [];
+  let brochureUrl: string | null = null;
 
-  // Fetch only necessary fields for the dropdown
-  const { docs: projects } = await payload.find({
-    collection: "projects" as any,
-    depth: 0,
-    pagination: false,
-    sort: "-publishedAt",
-  });
+  try {
+    const payload = await getPayloadClient();
 
-  // Fetch brochure from Site Settings global
-  const settings = (await (payload as any).findGlobal({
-    slug: "site-settings",
-    depth: 1,
-  })) as any;
-  const brochureUrl = typeof settings?.brochure === "object" && settings?.brochure !== null ? (settings.brochure as any).url : null;
+    // Fetch only necessary fields for the dropdown
+    const { docs: projects } = await payload.find({
+      collection: "projects" as any,
+      depth: 0,
+      pagination: false,
+      sort: "-publishedAt",
+    });
 
-  type ProjectItem = { id: string; title?: string };
-  const formattedProjects = (projects as ProjectItem[]).map(p => ({
-    id: p.id,
-    title: p.title || "",
-  }));
+    // Fetch brochure from Site Settings global
+    const settings = (await (payload as any).findGlobal({
+      slug: "site-settings",
+      depth: 1,
+    })) as any;
+    brochureUrl =
+      typeof settings?.brochure === "object" && settings?.brochure !== null
+        ? (settings.brochure as any).url
+        : null;
+
+    type ProjectItem = { id: string; title?: string };
+    formattedProjects = (projects as ProjectItem[]).map((p) => ({
+      id: p.id,
+      title: p.title || "",
+    }));
+  } catch (err) {
+    console.error("[Home] Failed to fetch data from Payload:", err);
+    // fallback: render page without DB-dependent data
+  }
+
 
   const jsonLd = {
     "@context": "https://schema.org",

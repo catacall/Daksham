@@ -27,15 +27,20 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AllProjectsPage() {
-  const payload = await getPayloadClient();
+  let projects: any[] = [];
 
-  const result = await payload.find({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    collection: "projects" as any,
-    sort: "-publishedAt",
-    depth: 2,
-    pagination: false,
-  });
+  try {
+    const payload = await getPayloadClient();
+    const result = await payload.find({
+      collection: "projects" as any,
+      sort: "-publishedAt",
+      depth: 2,
+      pagination: false,
+    });
+    projects = result.docs as any;
+  } catch (err) {
+    console.error("[AllProjectsPage] Failed to fetch projects:", err);
+  }
 
   return (
     <div className="bg-off-white min-h-screen px-5 py-20 sm:py-28 md:py-32 sm:px-6 lg:px-8">
@@ -52,7 +57,7 @@ export default async function AllProjectsPage() {
           </div>
         </FadeIn>
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <ProjectGrid projects={result.docs as any} />
+        <ProjectGrid projects={projects} />
       </div>
     </div>
   );
