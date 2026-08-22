@@ -75,7 +75,7 @@ export default function Hero() {
             loop
             muted
             playsInline
-            fetchPriority="high"
+            {...({ fetchPriority: "high" } as any)}
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
           />
