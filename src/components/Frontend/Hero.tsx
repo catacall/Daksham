@@ -75,6 +75,8 @@ export default function Hero() {
             loop
             muted
             playsInline
+            fetchPriority="high"
+            preload="auto"
             className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
           />
           {/* Gradient overlay */}

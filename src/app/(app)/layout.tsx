@@ -101,8 +101,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  ReactDOM.preload("/videoplayback.mp4", { as: "video", type: "video/mp4" });
-
   return (
     <html
       lang="en"
