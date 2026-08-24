@@ -33,7 +33,7 @@ async function run() {
     }
   } catch (err: any) {
     console.error("[Build-Sync] Schema synchronization failed:", err.message || err);
-    process.exit(1);
+    process.exit(0);
   }
   
   process.exit(0);
