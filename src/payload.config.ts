@@ -106,6 +106,7 @@ export default buildConfig({
 
   db: postgresAdapter({
     pg: customPg,
+    push: true,
     pool: {
       connectionString: getPoolerConnectionString(),
       ssl: { rejectUnauthorized: false },
