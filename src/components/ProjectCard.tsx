@@ -89,8 +89,8 @@ export function ProjectCard({ project }: { project: Project }) {
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/30 transition-colors duration-500" />
-        <div className="absolute top-3 right-3 rounded-full bg-navy/90 px-3 py-1 text-[10px] font-sans font-bold uppercase  gold-gradient-text shadow-sm border border-white/10">
-          {project.status}
+        <div className="absolute top-3 right-3 rounded-full bg-navy/90 px-3 py-1 text-[10px] font-sans font-bold uppercase gold-gradient-text shadow-sm border border-white/10">
+          {project.status === "ongoing" ? "🏗️ Ongoing" : "✅ Delivered"}
         </div>
       </div>
 
@@ -112,9 +112,10 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <Link
           href={`/projects/${project.slug}`}
-          className="group/btn inline-flex items-center justify-center gap-1.5 rounded-xl bg-navy px-4 py-3 text-xs sm:text-sm font-sans font-bold uppercase tracking-normal text-white hover:text-navy transition-all duration-200 hover:gold-gradient shadow-sm"
+          className="group/btn inline-flex items-center justify-center gap-2 rounded-xl bg-navy px-4 py-3 text-xs sm:text-sm font-sans font-bold uppercase tracking-normal text-white hover:text-navy transition-all duration-200 hover:gold-gradient shadow-sm"
         >
-          View Details
+          <span>View Details</span>
+          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
         </Link>
       </div>
     </motion.div>

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { getPayloadClient } from "@/lib/payloadClient";
 import { headers } from "next/headers";
-import configPromise from "@payload-config";
 
 export async function DELETE(
   _req: Request,
@@ -9,7 +8,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const payload = await getPayload({ config: configPromise });
+    const payload = await getPayloadClient();
 
     // Verify user is authenticated
     const { user } = await payload.auth({ headers: await headers() });
@@ -39,7 +38,7 @@ export async function PATCH(
 ) {
   try {
     const { id } = await params;
-    const payload = await getPayload({ config: configPromise });
+    const payload = await getPayloadClient();
 
     // Verify user is authenticated
     const { user } = await payload.auth({ headers: await headers() });

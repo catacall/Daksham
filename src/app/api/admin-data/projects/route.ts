@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
 import { getPayloadClient } from "@/lib/payloadClient";
-import { getPayload } from "payload";
 import { headers } from "next/headers";
-import configPromise from "@payload-config";
 
 // GET — list all projects (admin view, auth required)
 export async function GET() {
   try {
-    const payload = await getPayload({ config: configPromise });
+    const payload = await getPayloadClient();
 
     // Auth required — this is the admin data endpoint
     const { user } = await payload.auth({ headers: await headers() });

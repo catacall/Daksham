@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPayload } from "payload";
-import configPromise from "@payload-config";
+import { getPayloadClient } from "@/lib/payloadClient";
 import { headers } from "next/headers";
 import crypto from "crypto";
 
@@ -15,7 +14,7 @@ import crypto from "crypto";
 export async function POST(request: Request) {
   try {
     // ── Auth ──
-    const payload = await getPayload({ config: configPromise });
+    const payload = await getPayloadClient();
     const authResult = await payload.auth({ headers: await headers() });
     if (!authResult.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -88,8 +87,7 @@ export async function POST(request: Request) {
     // ── Insert row into Payload's media table ──
     // Use payload.db.pool — the real pg Pool instance Payload already owns.
     // This returns a genuine integer `id` that Payload relationship fields accept.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pool = (payload.db as any).pool as import("pg").Pool | undefined;
+    const pool = (payload as any).db?.pool as import("pg").Pool | undefined;
     const now  = new Date().toISOString();
     let mediaId: number | string = 0;
 

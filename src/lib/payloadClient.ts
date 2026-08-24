@@ -192,9 +192,59 @@ function paginate(docs: any[], options: any = {}) {
   };
 }
 
+let isSeeded = false;
+
 export async function getPayloadClient() {
   if (!isFrontendMockMode) {
-    return getPayload({ config: configPromise });
+    const payload = await getPayload({ config: configPromise });
+
+    // Run auto-seeding on live database if not already done
+    if (!isSeeded) {
+      isSeeded = true;
+      try {
+        // 1. Seed first admin user if users collection is empty
+        const users = await payload.find({
+          collection: "users" as any,
+          limit: 1,
+        });
+        if (users.totalDocs === 0) {
+          console.log("[Seeding] Database is empty. Creating first admin user...");
+          await payload.create({
+            collection: "users" as any,
+            data: {
+              email: "anassayyed000@gmail.com",
+              password: "RECODD@04",
+            },
+          });
+        }
+
+        // 2. Seed default projects if projects collection is empty
+        const projects = await payload.find({
+          collection: "projects" as any,
+          limit: 1,
+        });
+        if (projects.totalDocs === 0) {
+          console.log("[Seeding] Database is empty. Seeding default projects...");
+          for (const p of mockProjects) {
+            // Remove mock client ID so database auto-increments
+            const { id, coverImage, images, amenityPhotos, ...projectData } = p;
+            await payload.create({
+              collection: "projects" as any,
+              data: {
+                ...projectData,
+                coverImage: null,
+                images: [],
+                amenityPhotos: [],
+              },
+            });
+          }
+        }
+      } catch (err) {
+        console.error("[Seeding] Auto-seeding failed:", err);
+      }
+    }
+
+    return payload;
   }
 
   return {

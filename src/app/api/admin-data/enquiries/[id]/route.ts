@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { getPayloadClient } from "@/lib/payloadClient";
 import { headers } from "next/headers";
-import configPromise from "@payload-config";
 
 export async function DELETE(
   _req: Request,
@@ -9,7 +8,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const payload = await getPayload({ config: configPromise });
+    const payload = await getPayloadClient();
 
     // Verify user is authenticated
     const { user } = await payload.auth({ headers: await headers() });
@@ -32,3 +31,37 @@ export async function DELETE(
     );
   }
 }
+
+export async function PATCH(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const { id } = await params;
+    const payload = await getPayloadClient();
+
+    // Verify user is authenticated
+    const { user } = await payload.auth({ headers: await headers() });
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const data = await req.json();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const doc = await payload.update({
+      collection: "enquiries" as any,
+      id: Number(id),
+      data,
+    });
+
+    return NextResponse.json({ doc });
+  } catch (err: any) {
+    console.error("[PATCH /api/admin-data/enquiries/[id]]", err);
+    return NextResponse.json(
+      { error: err?.message || "Failed to update enquiry" },
+      { status: 500 },
+    );
+  }
+}
+

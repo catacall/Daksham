@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { getPayloadClient } from "@/lib/payloadClient";
 import { headers } from "next/headers";
-import configPromise from "@payload-config";
 
 export async function GET() {
   try {
-    const payload = await getPayload({ config: configPromise });
+    const payload = await getPayloadClient();
 
     // Auth required — this endpoint returns customer PII
     const { user } = await payload.auth({ headers: await headers() });
