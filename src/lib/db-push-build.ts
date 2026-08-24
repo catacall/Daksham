@@ -26,12 +26,15 @@ async function run() {
   process.env.IS_BUILDING_DB = "true";
   console.log("[Build-Sync] Initializing Payload for database sync...");
   
-  // Temporarily force raw connection string to use port 5432 (session mode) for Drizzle Kit pushes
-  // Drizzle Kit requires session mode/catalog access to introspect the schema.
   let dbUrl = process.env.DATABASE_URL;
   if (dbUrl.includes("supabase.com") || dbUrl.includes("supabase.co")) {
-    if (dbUrl.includes(":6543")) {
-      dbUrl = dbUrl.replace(":6543", ":5432");
+    // Extract project ref and password to build direct IPv6 URL
+    const match = dbUrl.match(/postgres\.([^:@]+):([^@]+)@/);
+    if (match) {
+      const projectRef = match[1];
+      const password = match[2];
+      dbUrl = `postgresql://postgres:${password}@db.${projectRef}.supabase.co:5432/postgres`;
+      console.log("[Build-Sync] Using direct IPv6 database host for migration:", `db.${projectRef}.supabase.co`);
     }
   }
   process.env.DATABASE_URL = dbUrl;
