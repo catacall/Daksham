@@ -41,12 +41,10 @@ function LoginForm() {
     setLoading(true);
 
     try {
-      // 1. Submit login request to Payload's built-in authentication endpoint
+      // Submit login request to Payload's built-in authentication endpoint
       const response = await fetch("/api/users/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.trim(), password: password.trim() }),
       });
 
@@ -58,22 +56,8 @@ function LoginForm() {
         return;
       }
 
-      // 2. Validate email domain/specific admin account
-      const loggedInEmail = data.user.email?.toLowerCase();
-      
-      // We allow changing this via env variable, defaulting to 'anassayyed000@gmail.com'
-      const allowedEmailsEnv = process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS || "anassayyed000@gmail.com";
-      const allowedEmails = allowedEmailsEnv.toLowerCase().split(",").map(e => e.trim());
-
-      if (!allowedEmails.includes(loggedInEmail)) {
-        // If not authorized, sign out immediately
-        await fetch("/api/users/logout", { method: "POST" });
-        setError("Access Denied: This account is not authorized to access the Manage Console.");
-        setLoading(false);
-        return;
-      }
-
-      // 3. Success! Redirect to the main manage dashboard
+      // Authorization is enforced server-side on /manage.
+      // Redirect there — if unauthorized the server will redirect back with ?error=unauthorized.
       startTransition(() => {
         router.push("/manage");
         router.refresh();

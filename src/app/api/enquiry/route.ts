@@ -166,7 +166,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     console.error("[POST /api/enquiry] Database error:", error);
     return NextResponse.json(
-      { message: `Failed to save enquiry: ${error?.message || "Unknown database error"}` },
+      { message: "We couldn't save your enquiry. Please try again or call us directly." },
       { status: 500 },
     );
   }

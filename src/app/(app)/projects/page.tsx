@@ -28,6 +28,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AllProjectsPage() {
   let projects: any[] = [];
+  let dbError = false;
 
   try {
     const payload = await getPayloadClient();
@@ -40,6 +41,7 @@ export default async function AllProjectsPage() {
     projects = result.docs as any;
   } catch (err) {
     console.error("[AllProjectsPage] Failed to fetch projects:", err);
+    dbError = true;
   }
 
   return (
@@ -56,8 +58,32 @@ export default async function AllProjectsPage() {
             </p>
           </div>
         </FadeIn>
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        <ProjectGrid projects={projects} />
+        {dbError ? (
+          <div className="flex flex-col items-center justify-center py-20 text-center space-y-5">
+            <div className="w-14 h-14 rounded-full bg-red-50 border border-red-100 flex items-center justify-center text-2xl">⚠️</div>
+            <h2 className="font-display text-xl sm:text-2xl text-navy uppercase">Unable to Load Projects</h2>
+            <p className="text-sm font-sans text-muted max-w-sm leading-relaxed">
+              We're having trouble connecting to our database. Please try again in a moment.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <a
+                href="/projects"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-navy text-white text-xs font-sans font-bold uppercase tracking-normal hover:bg-navy/90 transition-colors"
+              >
+                Try Again
+              </a>
+              <a
+                href="/"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl border border-border-light text-navy text-xs font-sans font-bold uppercase tracking-normal hover:bg-off-white transition-colors"
+              >
+                Back to Home
+              </a>
+            </div>
+          </div>
+        ) : (
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+          <ProjectGrid projects={projects} />
+        )}
       </div>
     </div>
   );

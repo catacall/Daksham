@@ -1,11 +1,20 @@
 import { NextResponse } from "next/server";
 import { getPayloadClient } from "@/lib/payloadClient";
+import { getPayload } from "payload";
 import { headers } from "next/headers";
+import configPromise from "@payload-config";
 
-// GET — list all projects
+// GET — list all projects (admin view, auth required)
 export async function GET() {
   try {
-    const payload = await getPayloadClient();
+    const payload = await getPayload({ config: configPromise });
+
+    // Auth required — this is the admin data endpoint
+    const { user } = await payload.auth({ headers: await headers() });
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await payload.find({
       collection: "projects" as any,
@@ -19,6 +28,7 @@ export async function GET() {
     return NextResponse.json({ docs: [] }, { status: 500 });
   }
 }
+
 
 // POST — create a new project
 export async function POST(req: Request) {

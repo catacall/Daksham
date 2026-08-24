@@ -23,87 +23,94 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata(
   { params }: PageProps
 ): Promise<Metadata> {
-  const resolvedParams = await params;
-  const payload = await getPayloadClient();
-  
-  const { docs: projects } = await payload.find({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    collection: "projects" as any,
-    where: { slug: { equals: resolvedParams.slug } },
-    limit: 1,
-  });
+  try {
+    const resolvedParams = await params;
+    const payload = await getPayloadClient();
+    
+    const { docs: projects } = await payload.find({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      collection: "projects" as any,
+      where: { slug: { equals: resolvedParams.slug } },
+      limit: 1,
+    });
 
-  const project = projects[0];
+    const project = projects[0];
 
-  if (!project) {
+    if (!project) {
+      return {
+        title: "Project Not Found",
+        robots: { index: false, follow: false },
+      };
+    }
+
+    const baseUrl = "https://dakshamdevelopers.com";
+    const pageUrl = `${baseUrl}/projects/${project.slug}`;
+    const coverImageUrl =
+      typeof project.coverImage === "object" && project.coverImage !== null
+        ? (project.coverImage as { url?: string }).url
+        : null;
+    const ogImage = coverImageUrl || `${baseUrl}/og-image.jpg`;
+    const statusLabel = project.status === "delivered" ? "Delivered" : "Ongoing";
+
+    const title = `${project.title} | ${statusLabel} Project in ${project.location}`;
+    const description = `${project.title} is a premium ${statusLabel.toLowerCase()} real estate project by Daksham Developers in ${project.location}. ${project.area ? `Available configurations: ${project.area}.` : ""} ${project.priceRange ? `Price: ${project.priceRange}.` : ""} ${project.reraNumber ? `RERA: ${project.reraNumber}.` : ""} Enquire now.`;
+
     return {
-      title: "Project Not Found",
-      robots: { index: false, follow: false },
+      title,
+      description,
+      keywords: [
+        project.title,
+        `${project.title} ${project.location}`,
+        `real estate ${project.location}`,
+        `flats in ${project.location}`,
+        `${project.area || "apartments"} ${project.location}`,
+        "Daksham Developers",
+        "RERA approved",
+        `luxury homes ${project.location}`,
+      ].filter(Boolean),
+      alternates: { canonical: pageUrl },
+      openGraph: {
+        type: "website",
+        url: pageUrl,
+        title,
+        description,
+        siteName: "Daksham Developers",
+        locale: "en_IN",
+        images: [
+          { url: ogImage, width: 1200, height: 630, alt: project.title },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [ogImage],
+      },
+    };
+  } catch {
+    return {
+      title: "Project | Daksham Developers",
+      description: "Premium real estate projects by Daksham Developers in Navi Mumbai.",
     };
   }
-
-  const baseUrl = "https://dakshamdevelopers.com";
-  const pageUrl = `${baseUrl}/projects/${project.slug}`;
-  const coverImageUrl =
-    typeof project.coverImage === "object" && project.coverImage !== null
-      ? (project.coverImage as { url?: string }).url
-      : null;
-  const ogImage = coverImageUrl || `${baseUrl}/og-image.jpg`;
-  const statusLabel = project.status === "delivered" ? "Delivered" : "Ongoing";
-
-  const title = `${project.title} | ${statusLabel} Project in ${project.location}`;
-  const description = `${project.title} is a premium ${statusLabel.toLowerCase()} real estate project by Daksham Developers in ${project.location}. ${project.area ? `Available configurations: ${project.area}.` : ""} ${project.priceRange ? `Price: ${project.priceRange}.` : ""} ${project.reraNumber ? `RERA: ${project.reraNumber}.` : ""} Enquire now.`;
-
-  return {
-    title,
-    description,
-    keywords: [
-      project.title,
-      `${project.title} ${project.location}`,
-      `real estate ${project.location}`,
-      `flats in ${project.location}`,
-      `${project.area || "apartments"} ${project.location}`,
-      "Daksham Developers",
-      "RERA approved",
-      `luxury homes ${project.location}`,
-    ].filter(Boolean),
-    alternates: { canonical: pageUrl },
-    openGraph: {
-      type: "website",
-      url: pageUrl,
-      title,
-      description,
-      siteName: "Daksham Developers",
-      locale: "en_IN",
-      images: [
-        { url: ogImage, width: 1200, height: 630, alt: project.title },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogImage],
-    },
-  };
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {
   const resolvedParams = await params;
-  const payload = await getPayloadClient();
-  
-  const { docs: projects } = await payload.find({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    collection: "projects" as any,
-    where: {
-      slug: {
-        equals: resolvedParams.slug,
-      },
-    },
-    limit: 1,
-  });
 
-  const project = projects[0];
+  let project: any;
+  try {
+    const payload = await getPayloadClient();
+    const { docs: projects } = await payload.find({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      collection: "projects" as any,
+      where: { slug: { equals: resolvedParams.slug } },
+      limit: 1,
+    });
+    project = projects[0];
+  } catch {
+    notFound();
+  }
 
   if (!project) {
     notFound();
@@ -224,9 +231,22 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {/* Breadcrumb Navigation */}
+      <div className="bg-navy/95 border-b border-white/10 pt-20 sm:pt-24">
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+          <nav className="flex items-center gap-2 text-xs font-sans text-white/50" aria-label="Breadcrumb">
+            <a href="/" className="hover:text-bright-gold transition-colors">Home</a>
+            <span>/</span>
+            <a href="/projects" className="hover:text-bright-gold transition-colors">Projects</a>
+            <span>/</span>
+            <span className="text-white/90 font-semibold truncate max-w-[200px]">{project.title}</span>
+          </nav>
+        </div>
+      </div>
       {/* Hero Header */}
-      <div className="relative w-full bg-navy py-12 sm:py-16 md:py-20 lg:py-24 overflow-hidden border-b border-border-dark">
+      <div className="relative w-full bg-navy py-10 sm:py-14 md:py-18 lg:py-22 overflow-hidden border-b border-border-dark">
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-100 sm:w-150 h-37.5 sm:h-50 gold-gradient/5 rounded-full blur-[80px] sm:blur-[100px] pointer-events-none" />
+
         <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 z-10 relative">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
             {/* Left Content */}

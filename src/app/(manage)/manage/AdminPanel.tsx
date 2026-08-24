@@ -224,7 +224,7 @@ const api = {
     id: string,
     data: Record<string, unknown>,
   ): Promise<boolean> {
-    const r = await fetch(`/api/enquiries/${id}`, {
+    const r = await fetch(`/api/admin-data/enquiries/${id}`, {
       method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
