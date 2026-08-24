@@ -76,7 +76,7 @@ export default buildConfig({
   globals: [SiteSettings],
   collections: [Users, Media, Enquiries, Projects],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || "",
+  secret: process.env.PAYLOAD_SECRET || "temp-build-secret-key-12345",
   plugins: [
     vercelBlobStorage({
       // Enable on Vercel so Payload never warns about missing storage adapters.
