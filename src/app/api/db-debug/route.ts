@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getPayloadClient } from "@/lib/payloadClient";
-import { pushDevSchema } from "@payloadcms/drizzle";
 
 export const dynamic = "force-dynamic";
 
@@ -11,14 +10,6 @@ export async function GET() {
     logs.push("Initializing payload client...");
     const payload = await getPayloadClient();
     
-    logs.push("Running pushDevSchema programmatically...");
-    if ((payload as any).db) {
-      await pushDevSchema((payload as any).db);
-      logs.push("pushDevSchema completed successfully!");
-    } else {
-      logs.push("No db adapter found on payload client.");
-    }
-
     logs.push("Querying projects...");
     const projects = await payload.find({
       collection: "projects" as any,
