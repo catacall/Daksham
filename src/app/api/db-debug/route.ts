@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getPayloadClient } from "@/lib/payloadClient";
-import { execSync } from "child_process";
+import { pushDevSchema } from "@payloadcms/drizzle";
 
 export const dynamic = "force-dynamic";
 
@@ -8,29 +8,17 @@ export async function GET() {
   const logs: string[] = [];
   
   try {
-    // 1. Run database schema sync programmatically using child_process
-    logs.push("Starting database schema push...");
-    try {
-      // Execute local payload bin script directly using Node
-      const output = execSync("node node_modules/payload/bin.js db push", {
-        env: {
-          ...process.env,
-          // Ensure we don't prompt for confirmation
-          PAYLOAD_MIGRATIONS_FORCE: "true",
-        },
-        encoding: "utf8",
-      });
-      logs.push("Schema push success: " + output);
-    } catch (pushErr: any) {
-      logs.push("Schema push failed: " + pushErr.message);
-      if (pushErr.stdout) logs.push("Stdout: " + pushErr.stdout);
-      if (pushErr.stderr) logs.push("Stderr: " + pushErr.stderr);
-    }
-
-    // 2. Initialize Payload and seed/query
     logs.push("Initializing payload client...");
     const payload = await getPayloadClient();
     
+    logs.push("Running pushDevSchema programmatically...");
+    if ((payload as any).db) {
+      await pushDevSchema((payload as any).db);
+      logs.push("pushDevSchema completed successfully!");
+    } else {
+      logs.push("No db adapter found on payload client.");
+    }
+
     logs.push("Querying projects...");
     const projects = await payload.find({
       collection: "projects" as any,
