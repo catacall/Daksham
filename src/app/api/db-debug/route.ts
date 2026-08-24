@@ -11,9 +11,8 @@ export async function GET() {
     // 1. Run database schema sync programmatically using child_process
     logs.push("Starting database schema push...");
     try {
-      // Execute npx payload db push using the local node modules in the serverless instance.
-      // We set PAYLOAD_CONFIG_PATH to make sure it loads the config.
-      const output = execSync("npx payload db push", {
+      // Execute local payload bin script directly using Node
+      const output = execSync("node node_modules/payload/bin.js db push", {
         env: {
           ...process.env,
           // Ensure we don't prompt for confirmation
