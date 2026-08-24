@@ -1,3 +1,18 @@
+import Module from "module";
+
+// Mock next/env to prevent loadEnvConfig destructuring crash on newer Node versions
+const originalRequire = (Module.prototype as any).require;
+(Module.prototype as any).require = function (id: string) {
+  if (id === "next/env") {
+    const mock = {
+      loadEnvConfig: () => ({ combinedEnv: process.env, loadedEnvFiles: [] }),
+    };
+    (mock as any).default = mock;
+    return mock;
+  }
+  return originalRequire.apply(this, arguments);
+};
+
 import { getPayload } from "payload";
 import configPromise from "../payload.config";
 import { pushDevSchema } from "@payloadcms/drizzle";
