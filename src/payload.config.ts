@@ -11,7 +11,9 @@ import { Media } from "@/collections/Media";
 import { SiteSettings } from "@/collections/globals/SiteSettings";
 import { Enquiries } from "@/collections/Enquiries";
 import { Projects } from "@/collections/Projects";
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';import { resendAdapter } from "@payloadcms/email-resend";
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
+import { resendAdapter } from "@payloadcms/email-resend";
+import { seedDatabase } from "@/lib/seed";
 // Prevent leaking connection pools during Next.js hot reloading in development.
 const CachedPool = function (this: any, options: any) {
   const globalVar = globalThis as any;
@@ -111,4 +113,7 @@ export default buildConfig({
     apiKey: process.env.RESEND_API_KEY || '',
   }),
 
+  onInit: async (payload) => {
+    await seedDatabase(payload);
+  },
 });
