@@ -8,6 +8,7 @@ async function run() {
     process.exit(0);
   }
 
+  process.env.IS_BUILDING_DB = "true";
   console.log("[Build-Sync] Initializing Payload for database sync...");
   
   // Temporarily force raw connection string to use port 5432 (session mode) for Drizzle Kit pushes

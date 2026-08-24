@@ -40,6 +40,10 @@ function getPoolerConnectionString(): string {
     url = url.replace(/@(ep-[^.\/:]+)/, "@$1-pooler");
   }
   
+  if (process.env.IS_BUILDING_DB === "true") {
+    return url;
+  }
+  
   if (url.includes("supabase.com") || url.includes("supabase.co")) {
     if (url.includes(":5432")) {
       url = url.replace(":5432", ":6543");
