@@ -30,14 +30,26 @@ const customPg = {
   Pool: CachedPool,
 };
 
-// Always route through Neon's transaction pooler at runtime.
-// Each Vercel serverless instance creates its own pg.Pool; without pooling
-// multiple concurrent instances can exhaust Neon's 15-session limit.
+// Always route through transactional pooler at runtime to prevent connection exhaustion.
+// For Neon: appends -pooler.
+// For Supabase: switches port 5432 to 6543 and disables prepared statements.
 function getPoolerConnectionString(): string {
-  const url = process.env.DATABASE_URL || "";
+  let url = process.env.DATABASE_URL || "";
+  
   if (url.includes("neon.tech") && !url.includes("-pooler")) {
-    return url.replace(/@(ep-[^.\/:]+)/, "@$1-pooler");
+    url = url.replace(/@(ep-[^.\/:]+)/, "@$1-pooler");
   }
+  
+  if (url.includes("supabase.com") || url.includes("supabase.co")) {
+    if (url.includes(":5432")) {
+      url = url.replace(":5432", ":6543");
+    }
+    if (!url.includes("prepared_statements=")) {
+      const separator = url.includes("?") ? "&" : "?";
+      url = `${url}${separator}prepared_statements=false`;
+    }
+  }
+  
   return url;
 }
 
@@ -96,8 +108,9 @@ export default buildConfig({
     pg: customPg,
     pool: {
       connectionString: getPoolerConnectionString(),
+      ssl: { rejectUnauthorized: false },
       max: 1,
-      idleTimeoutMillis: 20000,
+      idleTimeoutMillis: 5000,
       connectionTimeoutMillis: 10000,
     },
   }),
