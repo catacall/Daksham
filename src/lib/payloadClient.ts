@@ -80,18 +80,9 @@ function paginate(docs: any[], options: any = {}) {
   };
 }
 
-let isSeeded = false;
-
 export async function getPayloadClient() {
   if (!isFrontendMockMode) {
     const payload = await getPayload({ config: configPromise });
-
-    // Run auto-seeding on live database if not already done
-    if (!isSeeded) {
-      isSeeded = true;
-      await seedDatabase(payload);
-    }
-
     return payload;
   }
 

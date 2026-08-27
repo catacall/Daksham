@@ -33,7 +33,7 @@ export default function ManageLayout({
     >
       <body
         suppressHydrationWarning
-        className="min-h-screen bg-off-white text-navy antialiased font-sans"
+        className="min-h-screen bg-[#0B0C0C] text-white antialiased font-sans"
       >
         <main className="min-h-screen">
           {children}

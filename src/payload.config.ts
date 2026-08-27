@@ -96,20 +96,17 @@ export default buildConfig({
 
   db: postgresAdapter({
     pg: customPg,
-    push: true,
+    push: false,
     pool: {
       connectionString: getPoolerConnectionString(),
       ssl: { rejectUnauthorized: false },
-      max: 1,
-      idleTimeoutMillis: 5000,
+      max: 10,
+      idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 10000,
     },
   }),
 
   sharp,
-
-
-
 
   email: resendAdapter({
     defaultFromAddress: 'info@dakshamdevelopers.com',
@@ -117,7 +114,5 @@ export default buildConfig({
     apiKey: process.env.RESEND_API_KEY || '',
   }),
 
-  onInit: async (payload) => {
-    await seedDatabase(payload);
-  },
+  onInit: async () => {},
 });

@@ -11,9 +11,16 @@ export async function DELETE(
     const payload = await getPayloadClient();
 
     // Verify user is authenticated
-    const { user } = await payload.auth({ headers: await headers() });
+    const reqHeaders = await headers();
+    const { user } = await payload.auth({ headers: reqHeaders });
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const allowedEmailsEnv = process.env.ALLOWED_ADMIN_EMAILS || process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS || "anassayyed000@gmail.com";
+    const allowedEmails = allowedEmailsEnv.toLowerCase().split(",").map(e => e.trim());
+    if (user.email && allowedEmails.length > 0 && !allowedEmails.includes(user.email.toLowerCase())) {
+      return NextResponse.json({ error: "Forbidden: Admin access restricted" }, { status: 403 });
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,9 +48,16 @@ export async function PATCH(
     const payload = await getPayloadClient();
 
     // Verify user is authenticated
-    const { user } = await payload.auth({ headers: await headers() });
+    const reqHeaders = await headers();
+    const { user } = await payload.auth({ headers: reqHeaders });
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const allowedEmailsEnv = process.env.ALLOWED_ADMIN_EMAILS || process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS || "anassayyed000@gmail.com";
+    const allowedEmails = allowedEmailsEnv.toLowerCase().split(",").map(e => e.trim());
+    if (user.email && allowedEmails.length > 0 && !allowedEmails.includes(user.email.toLowerCase())) {
+      return NextResponse.json({ error: "Forbidden: Admin access restricted" }, { status: 403 });
     }
 
     const data = await req.json();
