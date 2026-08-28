@@ -129,8 +129,8 @@ export function seedDatabase(payload: any): Promise<void> {
         await payload.create({
           collection: "users" as any,
           data: {
-            email: "anassayyed000@gmail.com",
-            password: "RECODD@04",
+            email: "dakshambuilders@gmail.com",
+            password: "daksham@2027",
           },
         });
         console.log("[Seeding] First admin user created.");

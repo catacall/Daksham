@@ -39,10 +39,13 @@ export default async function ManagePage() {
       redirect("/manage/login");
     }
 
-    const allowedEmailsEnv = process.env.ALLOWED_ADMIN_EMAILS || process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS || "anassayyed000@gmail.com";
-    const allowedEmails = allowedEmailsEnv.toLowerCase().split(",").map(e => e.trim());
-
-    if (!user.email || !allowedEmails.includes(user.email.toLowerCase())) {
+    const allowedEmailsEnv = process.env.ALLOWED_ADMIN_EMAILS || process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS || "";
+    if (allowedEmailsEnv.trim()) {
+      const allowedEmails = allowedEmailsEnv.toLowerCase().split(",").map(e => e.trim());
+      if (!user.email || !allowedEmails.includes(user.email.toLowerCase())) {
+        redirect("/manage/login?error=unauthorized");
+      }
+    } else if (!user.email) {
       redirect("/manage/login?error=unauthorized");
     }
 

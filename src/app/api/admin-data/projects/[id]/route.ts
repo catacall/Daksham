@@ -17,10 +17,12 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const allowedEmailsEnv = process.env.ALLOWED_ADMIN_EMAILS || process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS || "anassayyed000@gmail.com";
-    const allowedEmails = allowedEmailsEnv.toLowerCase().split(",").map(e => e.trim());
-    if (user.email && allowedEmails.length > 0 && !allowedEmails.includes(user.email.toLowerCase())) {
-      return NextResponse.json({ error: "Forbidden: Admin access restricted" }, { status: 403 });
+    const allowedEmailsEnv = process.env.ALLOWED_ADMIN_EMAILS || process.env.NEXT_PUBLIC_ALLOWED_ADMIN_EMAILS || "";
+    if (allowedEmailsEnv.trim()) {
+      const allowedEmails = allowedEmailsEnv.toLowerCase().split(",").map(e => e.trim());
+      if (user.email && !allowedEmails.includes(user.email.toLowerCase())) {
+        return NextResponse.json({ error: "Forbidden: Admin access restricted" }, { status: 403 });
+      }
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
