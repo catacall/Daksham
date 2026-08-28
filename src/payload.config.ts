@@ -14,25 +14,9 @@ import { Projects } from "@/collections/Projects";
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 import { resendAdapter } from "@payloadcms/email-resend";
 import { seedDatabase } from "@/lib/seed";
-// Prevent leaking connection pools during Next.js hot reloading in development.
-const CachedPool = function (this: any, options: any) {
-  const globalVar = globalThis as any;
-  if (!globalVar.payloadDbPool) {
-    globalVar.payloadDbPool = new pg.Pool(options);
-  }
-  return globalVar.payloadDbPool;
-} as any;
-
-CachedPool.prototype = pg.Pool.prototype;
-
-const customPg = {
-  ...pg,
-  Pool: CachedPool,
-};
-
 // Always route through transactional pooler at runtime to prevent connection exhaustion.
 // For Neon: appends -pooler.
-// For Supabase: switches port 5432 to 6543 and disables prepared statements.
+// For Supabase: switches port 5432 to 6543.
 function getPoolerConnectionString(): string {
   let url = process.env.DATABASE_URL || "";
   
@@ -95,7 +79,6 @@ export default buildConfig({
   },
 
   db: postgresAdapter({
-    pg: customPg,
     push: false,
     pool: {
       connectionString: getPoolerConnectionString(),
