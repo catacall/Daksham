@@ -165,10 +165,10 @@ export function EnquiryForm({
             required
             value={formData.name}
             onChange={handleChange}
-            className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
+            className={`w-full rounded-xl border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none transition-all ${
               errors.name ? "border-red-500" : "border-border-light"
             }`}
-            placeholder="Rahul Sharma"
+            placeholder="Enter your full name"
           />
           {errors.name && (
             <p className="text-xs font-sans text-red-500">{errors.name}</p>
@@ -189,10 +189,10 @@ export function EnquiryForm({
             required
             value={formData.phone}
             onChange={handleChange}
-            className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
+            className={`w-full rounded-xl border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none transition-all ${
               errors.phone ? "border-red-500" : "border-border-light"
             }`}
-            placeholder="+91 96533 07030"
+            placeholder="Enter your 10-digit mobile number"
           />
           {errors.phone && (
             <p className="text-xs font-sans text-red-500">{errors.phone}</p>
@@ -214,10 +214,10 @@ export function EnquiryForm({
           required
           value={formData.email}
           onChange={handleChange}
-          className={`w-full rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
+          className={`w-full rounded-xl border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none transition-all ${
             errors.email ? "border-red-500" : "border-border-light"
           }`}
-          placeholder="your@gmail.com"
+          placeholder="Enter your email address"
         />
         {errors.email && (
           <p className="text-xs font-sans text-red-500">{errors.email}</p>
@@ -236,9 +236,9 @@ export function EnquiryForm({
           name="projectInterestedIn"
           value={formData.projectInterestedIn}
           onChange={handleChange}
-          className="w-full rounded-sm border border-border-light bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all"
+          className="w-full rounded-xl border border-border-light bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none transition-all"
         >
-          <option value="">Select a project (Optional)</option>
+          <option value="">Select a property (Optional)</option>
           {projects.map(p => (
             <option key={p.id} value={p.id}>
               {p.title}
@@ -261,10 +261,10 @@ export function EnquiryForm({
           rows={4}
           value={formData.message}
           onChange={handleChange}
-          className={`w-full resize-none rounded-sm border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-transparent focus:outline-none focus:ring-1 focus:ring-gold transition-all ${
+          className={`w-full resize-none rounded-xl border bg-white px-3.5 sm:px-4 py-3 sm:py-3.5 font-sans text-sm focus:border-gold focus:outline-none transition-all ${
             errors.message ? "border-red-500" : "border-border-light"
           }`}
-          placeholder="How can we help you?"
+          placeholder="How can our team assist you with your property search?"
         />
         {errors.message && (
           <p className="text-xs font-sans text-red-500">{errors.message}</p>

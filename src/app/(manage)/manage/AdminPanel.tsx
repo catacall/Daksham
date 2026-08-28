@@ -1153,13 +1153,21 @@ export default function AdminPanel({ user }: { user?: { id: string; email: strin
   const [credentialsLoading, setCredentialsLoading] = useState(false);
   const [showSignOutModal, setShowSignOutModal] = useState(false);
 
+  // Hero Media States
+  const [uploadingHeroVideo, setUploadingHeroVideo] = useState(false);
+  const [uploadingHeroPoster, setUploadingHeroPoster] = useState(false);
+  const [uploadingHeroImage, setUploadingHeroImage] = useState(false);
+
+  const brochureInputRef = useRef<HTMLInputElement>(null);
+  const heroVideoInputRef = useRef<HTMLInputElement>(null);
+  const heroPosterInputRef = useRef<HTMLInputElement>(null);
+  const heroImageInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (user?.email) {
       setNewEmail(user.email);
     }
   }, [user]);
-
-  const brochureInputRef = useRef<HTMLInputElement>(null);
 
   const handleUpdateCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1310,6 +1318,125 @@ export default function AdminPanel({ user }: { user?: { id: string; email: strin
     }
     if (brochureInputRef.current) brochureInputRef.current.value = "";
     setUploadingBrochure(false);
+  };
+
+  const handleHeroVideoUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 50 * 1024 * 1024) {
+      showNotification("Video file is too large (max 50MB).", "error");
+      return;
+    }
+    setUploadingHeroVideo(true);
+    const media = await api.uploadMedia(file);
+    if (media) {
+      const ok = await api.updateSettings({
+        heroVideo: media.id,
+        heroVideoUrl: media.url,
+      });
+      if (ok) {
+        setSettings((prev: any) => ({
+          ...prev,
+          heroVideo: media,
+          heroVideoUrl: media.url,
+        }));
+        showNotification("Hero video updated successfully.");
+      } else {
+        showNotification("Failed to update website hero settings.", "error");
+      }
+    } else {
+      showNotification("Hero video upload failed. Please check format/size.", "error");
+    }
+    if (heroVideoInputRef.current) heroVideoInputRef.current.value = "";
+    setUploadingHeroVideo(false);
+  };
+
+  const handleHeroPosterUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingHeroPoster(true);
+    const media = await api.uploadMedia(file);
+    if (media) {
+      const ok = await api.updateSettings({
+        heroPoster: media.id,
+        heroPosterUrl: media.url,
+      });
+      if (ok) {
+        setSettings((prev: any) => ({
+          ...prev,
+          heroPoster: media,
+          heroPosterUrl: media.url,
+        }));
+        showNotification("Hero poster image updated successfully.");
+      } else {
+        showNotification("Failed to update website hero settings.", "error");
+      }
+    } else {
+      showNotification("Poster upload failed. Please try again.", "error");
+    }
+    if (heroPosterInputRef.current) heroPosterInputRef.current.value = "";
+    setUploadingHeroPoster(false);
+  };
+
+  const handleHeroImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingHeroImage(true);
+    const media = await api.uploadMedia(file);
+    if (media) {
+      const ok = await api.updateSettings({
+        heroImage: media.id,
+      });
+      if (ok) {
+        setSettings((prev: any) => ({
+          ...prev,
+          heroImage: media,
+        }));
+        showNotification("Hero static image updated successfully.");
+      } else {
+        showNotification("Failed to update website hero settings.", "error");
+      }
+    } else {
+      showNotification("Hero image upload failed. Please try again.", "error");
+    }
+    if (heroImageInputRef.current) heroImageInputRef.current.value = "";
+    setUploadingHeroImage(false);
+  };
+
+  const handleHeroMediaTypeChange = async (type: "video" | "image") => {
+    const ok = await api.updateSettings({ heroMediaType: type });
+    if (ok) {
+      setSettings((prev: any) => ({ ...prev, heroMediaType: type }));
+      showNotification(`Hero media type set to ${type === "video" ? "Cinematic Video" : "Static Image"}.`);
+    } else {
+      showNotification("Failed to update media type.", "error");
+    }
+  };
+
+  const handleHeroVideoToggle = async (enabled: boolean) => {
+    const ok = await api.updateSettings({ heroVideoEnabled: enabled });
+    if (ok) {
+      setSettings((prev: any) => ({ ...prev, heroVideoEnabled: enabled }));
+      showNotification(`Hero video background ${enabled ? "enabled" : "disabled"}.`);
+    } else {
+      showNotification("Failed to update video status.", "error");
+    }
+  };
+
+  const handleRemoveHeroVideo = async () => {
+    const ok = await api.updateSettings({ heroVideo: null, heroVideoUrl: "/videoplayback.mp4" });
+    if (ok) {
+      setSettings((prev: any) => ({ ...prev, heroVideo: null, heroVideoUrl: "/videoplayback.mp4" }));
+      showNotification("Custom hero video reset to default.");
+    } else {
+      showNotification("Failed to remove hero video.", "error");
+    }
   };
 
   const handleStatusChange = async (id: string, status: EnqStatus) => {
@@ -2003,6 +2130,194 @@ export default function AdminPanel({ user }: { user?: { id: string; email: strin
                   </div>
                 )}
               </div>
+            </div>
+
+            {/* ── Hero Media Management ── */}
+            <div className="border-t border-border-light/60 pt-8 mt-8 space-y-6">
+              <div>
+                <h2 className="text-base font-bold text-navy uppercase tracking-normal mb-1">
+                  Homepage Hero Media
+                </h2>
+                <p className="text-xs text-black">
+                  Manage whether the homepage hero section displays a cinematic background video or a static luxury photograph.
+                </p>
+              </div>
+
+              {/* Media Type Selection */}
+              <div className="flex gap-4">
+                <button
+                  type="button"
+                  onClick={() => handleHeroMediaTypeChange("video")}
+                  className={`flex-1 p-4 rounded-2xl border text-left transition-all cursor-pointer ${
+                    (settings?.heroMediaType || "video") === "video"
+                      ? "border-gold bg-gold/5 shadow-xs"
+                      : "border-border-light/60 bg-off-white/40 hover:bg-off-white"
+                  }`}
+                >
+                  <p className="font-bold text-xs uppercase tracking-normal text-navy">
+                    🎬 Cinematic Video
+                  </p>
+                  <p className="text-[11px] text-muted mt-1">
+                    Plays an autoplaying background video with a fallback image.
+                  </p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleHeroMediaTypeChange("image")}
+                  className={`flex-1 p-4 rounded-2xl border text-left transition-all cursor-pointer ${
+                    settings?.heroMediaType === "image"
+                      ? "border-gold bg-gold/5 shadow-xs"
+                      : "border-border-light/60 bg-off-white/40 hover:bg-off-white"
+                  }`}
+                >
+                  <p className="font-bold text-xs uppercase tracking-normal text-navy">
+                    🖼️ Static Hero Image
+                  </p>
+                  <p className="text-[11px] text-muted mt-1">
+                    Displays a high-resolution architectural hero photograph.
+                  </p>
+                </button>
+              </div>
+
+              {/* Video Management Sub-panel */}
+              {(settings?.heroMediaType || "video") === "video" ? (
+                <div className="space-y-4">
+                  {/* Hero Video Upload Card */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-border-light/60 rounded-2xl bg-off-white/30">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-navy/10 flex items-center justify-center text-navy text-2xl shrink-0">
+                        🎥
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-normal text-navy">
+                          Hero Background Video
+                        </p>
+                        <p className="text-xs text-muted truncate max-w-xs sm:max-w-md">
+                          {settings?.heroVideo?.filename || settings?.heroVideoUrl || "Default Video: /videoplayback.mp4"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                        type="button"
+                        onClick={() => heroVideoInputRef.current?.click()}
+                        disabled={uploadingHeroVideo}
+                        className="bg-navy hover:gold-gradient text-white hover:text-navy font-bold text-xs uppercase tracking-normal px-4 py-2.5 rounded-xl transition-all cursor-pointer"
+                      >
+                        {uploadingHeroVideo ? "Uploading Video…" : "Upload MP4 / WebM"}
+                      </motion.button>
+
+                      {settings?.heroVideo && (
+                        <button
+                          type="button"
+                          onClick={handleRemoveHeroVideo}
+                          className="text-xs text-red-600 hover:text-red-700 font-bold uppercase px-3 py-2 cursor-pointer"
+                        >
+                          Reset
+                        </button>
+                      )}
+
+                      <input
+                        ref={heroVideoInputRef}
+                        type="file"
+                        accept="video/mp4,video/webm,video/quicktime"
+                        className="hidden"
+                        onChange={handleHeroVideoUpload}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Poster / Fallback Image Card */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-border-light/60 rounded-2xl bg-off-white/30">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl shrink-0">
+                        🖼️
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-normal text-navy">
+                          Video Poster &amp; Fallback Image
+                        </p>
+                        <p className="text-xs text-muted truncate max-w-xs sm:max-w-md">
+                          {settings?.heroPoster?.filename || "Default lobby poster"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                        type="button"
+                        onClick={() => heroPosterInputRef.current?.click()}
+                        disabled={uploadingHeroPoster}
+                        className="border border-border-light bg-white hover:bg-off-white text-navy font-bold text-xs uppercase tracking-normal px-4 py-2.5 rounded-xl transition-all cursor-pointer"
+                      >
+                        {uploadingHeroPoster ? "Uploading Poster…" : "Upload Poster Image"}
+                      </motion.button>
+                      <input
+                        ref={heroPosterInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleHeroPosterUpload}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Enable/Disable Video Toggle */}
+                  <div className="flex items-center justify-between p-4 rounded-xl bg-off-white border border-border-light/60">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-normal text-navy">
+                        Video Background Enabled
+                      </p>
+                      <p className="text-[11px] text-muted">
+                        When disabled, visitors see the fallback image instead of playing video.
+                      </p>
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={settings?.heroVideoEnabled !== false}
+                      onChange={e => handleHeroVideoToggle(e.target.checked)}
+                      className="w-5 h-5 accent-navy rounded cursor-pointer"
+                    />
+                  </div>
+                </div>
+              ) : (
+                /* Static Image Management Sub-panel */
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 border border-border-light/60 rounded-2xl bg-off-white/30">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold text-2xl shrink-0">
+                      🏛️
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-normal text-navy">
+                        Hero Static Image
+                      </p>
+                      <p className="text-xs text-muted truncate max-w-xs sm:max-w-md">
+                        {settings?.heroImage?.filename || "Upload a high-resolution hero photo"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                      type="button"
+                      onClick={() => heroImageInputRef.current?.click()}
+                      disabled={uploadingHeroImage}
+                      className="bg-navy hover:gold-gradient text-white hover:text-navy font-bold text-xs uppercase tracking-normal px-4 py-2.5 rounded-xl transition-all cursor-pointer"
+                    >
+                      {uploadingHeroImage ? "Uploading Photo…" : "Upload Hero Image"}
+                    </motion.button>
+                    <input
+                      ref={heroImageInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleHeroImageUpload}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* ── Security & Account Settings ── */}

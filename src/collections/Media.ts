@@ -15,8 +15,8 @@ export const Media: CollectionConfig = {
   },
   upload: {
     staticDir: path.resolve(dirname, '../../media'),
-    // Allow images AND PDFs (for brochure uploads)
-    mimeTypes: ['image/*', 'application/pdf'],
+    // Allow images, PDFs, and videos
+    mimeTypes: ['image/*', 'application/pdf', 'video/*'],
     imageSizes: [
       {
         name: 'thumbnail',

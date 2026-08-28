@@ -28,38 +28,6 @@ export default async function Home() {
   let rawProjects: any[] = [];
   let brochureUrl: string | null = null;
 
-  try {
-    const payload = await getPayloadClient();
-
-    // Fetch projects for showcase carousel and dropdown
-    const { docs: projects } = await payload.find({
-      collection: "projects" as any,
-      depth: 1,
-      pagination: false,
-      sort: "-publishedAt",
-    });
-
-    rawProjects = projects || [];
-
-    // Fetch brochure from Site Settings global
-    const settings = (await (payload as any).findGlobal({
-      slug: "site-settings",
-      depth: 1,
-    })) as any;
-    brochureUrl =
-      typeof settings?.brochure === "object" && settings?.brochure !== null
-        ? (settings.brochure as any).url
-        : null;
-
-    type ProjectItem = { id: string; title?: string };
-    formattedProjects = (projects as ProjectItem[]).map((p) => ({
-      id: p.id,
-      title: p.title || "",
-    }));
-  } catch (err) {
-    console.error("[Home] Failed to fetch data from Payload:", err);
-  }
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
@@ -81,6 +49,54 @@ export default async function Home() {
     areaServed: ["Navi Mumbai", "Thane", "Panvel", "Vashi", "Mumbai"],
     sameAs: [],
   };
+
+  try {
+    const payload = await getPayloadClient();
+
+    // Fetch projects for showcase carousel and dropdown
+    const { docs: projects } = await payload.find({
+      collection: "projects" as any,
+      depth: 1,
+      pagination: false,
+      sort: "-publishedAt",
+    });
+
+    rawProjects = projects || [];
+
+    // Fetch brochure and Hero settings from Site Settings global
+    const settings = (await (payload as any).findGlobal({
+      slug: "site-settings",
+      depth: 1,
+    })) as any;
+
+    brochureUrl =
+      typeof settings?.brochure === "object" && settings?.brochure !== null
+        ? (settings.brochure as any).url
+        : null;
+
+    type ProjectItem = { id: string; title?: string };
+    formattedProjects = (projects as ProjectItem[]).map((p) => ({
+      id: p.id,
+      title: p.title || "",
+    }));
+
+    return (
+      <main className="min-h-screen">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <Hero settings={settings} />
+        <DeveloperProfile />
+        <ShowCase projects={rawProjects} brochureUrl={brochureUrl} />
+        <About />
+        <ExploreVision />
+        <Enquiry projects={formattedProjects} />
+      </main>
+    );
+  } catch (err) {
+    console.error("[Home] Failed to fetch data from Payload:", err);
+  }
 
   return (
     <main className="min-h-screen">

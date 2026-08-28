@@ -36,6 +36,51 @@ export const SiteSettings: GlobalConfig ={
             },
         },
         {
+            name: 'heroMediaType',
+            type: 'select',
+            options: [
+                { label: 'Cinematic Video', value: 'video' },
+                { label: 'Static Hero Image', value: 'image' },
+            ],
+            defaultValue: 'video',
+            label: 'Hero Media Type',
+        },
+        {
+            name: 'heroVideo',
+            type: 'upload',
+            relationTo: 'media',
+            label: 'Hero Video File (MP4/WebM)',
+        },
+        {
+            name: 'heroVideoUrl',
+            type: 'text',
+            label: 'Hero Video Direct URL (Optional)',
+            defaultValue: '/videoplayback.mp4',
+        },
+        {
+            name: 'heroPoster',
+            type: 'upload',
+            relationTo: 'media',
+            label: 'Hero Video Poster / Fallback Image',
+        },
+        {
+            name: 'heroPosterUrl',
+            type: 'text',
+            label: 'Hero Poster URL (Optional)',
+        },
+        {
+            name: 'heroImage',
+            type: 'upload',
+            relationTo: 'media',
+            label: 'Hero Static Image',
+        },
+        {
+            name: 'heroVideoEnabled',
+            type: 'checkbox',
+            label: 'Enable Hero Video Background',
+            defaultValue: true,
+        },
+        {
             name: 'primaryPhone',
             type: 'text',
         },
