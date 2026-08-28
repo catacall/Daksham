@@ -12,7 +12,7 @@ export default function ExploreVision() {
 
   return (
     <section
-      className="py-12 sm:py-16 bg-[#ABADB6] relative overflow-hidden z-10"
+      className="py-16 sm:py-24 bg-white relative overflow-hidden z-10"
     >
       <div className="container mx-auto px-6 sm:px-12 lg:px-20 max-w-7xl">
         {/* Centered YouTube Video Embed */}
@@ -21,31 +21,30 @@ export default function ExploreVision() {
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="relative aspect-video w-full max-w-6xl mx-auto overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.2)] rounded-[3rem] bg-navy border border-transparent mb-30"
+          className="relative aspect-video w-full max-w-5xl mx-auto overflow-hidden shadow-2xl rounded-3xl bg-navy border border-border-light mb-16 sm:mb-20"
         >
-          {/* Subtle glow behind video */}
-          <div className="absolute inset-0 gold-gradient/10 animate-pulse pointer-events-none" />
           <iframe
             src="https://www.youtube.com/embed/hBo6d5q9_xY?rel=0"
             title="Daksham Developers - Video Presentation"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
-            className=" inset-0 w-full h-full relative z-10"
+            className="w-full h-full relative z-10"
           ></iframe>
         </motion.div>
+
         {/* 3-Column Grid: Vision, Mission, Values */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch text-center">
           
           {/* Column 1 - OUR VISION */}
           <motion.div
             {...cardVariants(-30, 0, 0)}
-            className="bg-[#E8EAED] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] p-8 sm:p-10 flex flex-col justify-between border border-[#BF953F]/15 transition-transform duration-300 hover:-translate-y-2"
+            className="bg-off-white rounded-3xl shadow-sm p-8 sm:p-10 flex flex-col justify-between border border-border-light/60 transition-transform duration-300 hover:-translate-y-1.5"
           >
             <div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wide leading-relaxed mb-8">
+              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wide leading-relaxed mb-6">
                 Our Vision
               </h2>
-              <p className="text-navy-light text-sm sm:text-base leading-relaxed font-sans font-medium">
+              <p className="text-navy/80 text-sm sm:text-base leading-relaxed font-sans font-medium">
                 Immerse yourself in our premier projects and architectural masterpieces, crafting landmark projects that stand the test of time.
               </p>
             </div>
@@ -55,13 +54,13 @@ export default function ExploreVision() {
           {/* Column 2 - OUR MISSION */}
           <motion.div
             {...cardVariants(0, 30, 0.15)}
-            className="bg-[#E8EAED] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] p-8 sm:p-10 flex flex-col justify-between border border-[#BF953F]/15 transition-transform duration-300 hover:-translate-y-2"
+            className="bg-off-white rounded-3xl shadow-sm p-8 sm:p-10 flex flex-col justify-between border border-border-light/60 transition-transform duration-300 hover:-translate-y-1.5"
           >
             <div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wide leading-relaxed mb-8">
+              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wide leading-relaxed mb-6">
                 Our Mission
               </h2>
-              <p className="text-navy-light text-sm sm:text-base leading-relaxed font-sans font-medium">
+              <p className="text-navy/80 text-sm sm:text-base leading-relaxed font-sans font-medium">
                 To become a leading Real Estate Company by providing a quality life to customers with the most luxurious and spacious building structures at convenient locations with world-class amenities.
               </p>
             </div>
@@ -71,23 +70,19 @@ export default function ExploreVision() {
           {/* Column 3 - OUR VALUES */}
           <motion.div
             {...cardVariants(30, 0, 0.3)}
-            className="bg-[#E8EAED] rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.12)] p-8 sm:p-10 flex flex-col justify-between border border-[#BF953F]/15 transition-transform duration-300 hover:-translate-y-2"
+            className="bg-off-white rounded-3xl shadow-sm p-8 sm:p-10 flex flex-col justify-between border border-border-light/60 transition-transform duration-300 hover:-translate-y-1.5"
           >
             <div>
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wide leading-relaxed mb-8">
+              <h2 className="text-xl sm:text-2xl font-display font-bold text-navy uppercase tracking-wide leading-relaxed mb-6">
                 Our Values
               </h2>
-              <p className="text-navy-light text-sm sm:text-base leading-relaxed font-sans font-medium">
+              <p className="text-navy/80 text-sm sm:text-base leading-relaxed font-sans font-medium">
                 Transparency, integrity, innovation, and the highest standards of quality with a commitment to ensure that our customers' requirements are fully met.
               </p>
             </div>
             <div className="mt-8 mx-auto w-12 h-1 gold-gradient opacity-80 rounded-full" />
           </motion.div>
-
         </div>
-
-        
-
       </div>
     </section>
   );

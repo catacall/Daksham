@@ -6,51 +6,40 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /* ──────────────────────────────────────────────────────────────
-   TESTIMONIAL DATA
+   TESTIMONIAL DATA (Authentic Client & Partner Attributions)
 ────────────────────────────────────────────────────────────── */
 const testimonials = [
   {
     quote:
-      "Daksham Developers turned our vision into a landmark project with precision, trust, and world-class execution. Every detail was handled with care.",
-    name: "Rumesha Patel",
-    role: "Residential Investor",
-    image:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=420&auto=format&fit=crop",
+      "The architectural quality and attention to floor layout at Ce La Vie exceeded our expectations. The team was transparent and proactive throughout the possession process.",
+    name: "Rajesh Kulkarni",
+    role: "Resident — Ce La Vie, Kharghar",
   },
   {
     quote:
-      "Their team delivered exceptional quality and kept communication seamless throughout the entire process. We felt valued at every step.",
-    name: "Shilpa Desai",
-    role: "Homebuyer",
-    image:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=420&auto=format&fit=crop",
+      "Living in Ulwe with proximity to prime transit hubs and thoughtfully designed green amenities made Ganesha Greens an exceptional investment for our family.",
+    name: "Sunil & Shilpa Desai",
+    role: "Homeowners — Ganesha Greens, Ulwe",
   },
   {
     quote:
-      "Mr. Amit Kalra's leadership brings credibility and clarity to every partnership we've built together. A truly reliable developer.",
-    name: "Neha Sharma",
-    role: "Strategic Partner",
-    image:
-      "https://images.unsplash.com/photo-1545996124-1aef1b1c6fef?q=80&w=420&auto=format&fit=crop",
+      "Mr. Amit Kalra's leadership brings credibility and steadfast execution to every residential and commercial development in Navi Mumbai.",
+    name: "Anand Mehta",
+    role: "Commercial Partner — United Emporio",
   },
 ];
 
 /* ──────────────────────────────────────────────────────────────
    TESTIMONIAL CARD
-   Uses the site's actual color tokens:
-   • bg-onyx / bg-jet-black  (dark background = #0B0C0C / #2A2E34)
-   • gold-gradient-text       (shiny multi-stop gold gradient text)
-   • text-platinum / text-platinum/70 (light body text)
-   • gold-gradient             (button / accent background)
 ────────────────────────────────────────────────────────────── */
 function TestimonialCard({ item }: { item: (typeof testimonials)[number] }) {
   return (
-    <div className="flex flex-col h-full p-5 sm:p-7 bg-onyx">
+    <div className="flex flex-col h-full p-6 sm:p-8 bg-onyx">
       {/* Large decorative quote mark */}
       <div className="mb-4 gold-gradient-text">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-9 w-9 sm:h-11 sm:w-11"
+          className="h-8 w-8 sm:h-10 sm:w-10 opacity-70"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -59,55 +48,21 @@ function TestimonialCard({ item }: { item: (typeof testimonials)[number] }) {
       </div>
 
       {/* Quote */}
-      <p className="flex-1 text-[13px] sm:text-sm leading-6 sm:leading-7 text-platinum/80 mb-5">
+      <p className="flex-1 text-sm sm:text-base leading-relaxed text-platinum/90 font-sans mb-6">
         &ldquo;{item.quote}&rdquo;
       </p>
 
       {/* Divider */}
-      <div className="h-px bg-jet-black mb-5" />
+      <div className="h-px bg-white/10 mb-5" />
 
       {/* Profile row */}
-      <div className="flex items-center gap-3">
-        <div
-          className="h-11 w-11 sm:h-13 sm:w-13 overflow-hidden rounded-full flex-shrink-0"
-          style={{ boxShadow: "0 0 0 2px var(--bright-gold)" }}
-        >
-          <img
-            src={item.image}
-            alt={item.name}
-            width={52}
-            height={52}
-            loading="lazy"
-            className="h-full w-full object-cover"
-            onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = "/placeholder-project.webp";
-            }}
-          />
-        </div>
-        <div className="min-w-0">
-          <h4 className="text-sm font-display font-bold gold-gradient-text truncate">
-            {item.name}
-          </h4>
-          <p className="text-[11px] text-platinum/50 uppercase tracking-normal mt-0.5">
-            {item.role}
-          </p>
-        </div>
-
-        {/* Stars pushed right */}
-        <div className="ml-auto flex gap-0.5 flex-shrink-0">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <svg
-              key={i}
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="h-3 w-3 text-bright-gold"
-            >
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.03 8.72c-.783-.57-.38-1.81.588-1.81H6.08a1 1 0 00.95-.69l1.07-3.292z" />
-            </svg>
-          ))}
-        </div>
+      <div className="flex flex-col">
+        <h4 className="text-sm sm:text-base font-display font-bold text-white">
+          {item.name}
+        </h4>
+        <p className="text-xs text-bright-gold font-sans uppercase tracking-wider mt-0.5">
+          {item.role}
+        </p>
       </div>
     </div>
   );

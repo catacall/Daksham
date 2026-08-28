@@ -15,40 +15,32 @@ const whatsappMessage = encodeURIComponent("Hello Daksham Developers, I am inter
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
 const badges = [
-  { icon: <Mail size={20} />, href: "mailto:dakshamdevelopers@gmail.com", bg: "bg-navy-light hover:bg-navy text-white", glow: "shadow-navy-light/30", delay: 0.2, name: "Email" },
-  { icon: <Phone size={20} />, href: "tel:+919653307030", bg: "gold-gradient hover:opacity-90 text-navy", glow: "shadow-gold/30", delay: 0.3, name: "Call Us" },
-  { icon: <Bot size={20} />, href: "#chatbot", bg: "bg-navy hover:bg-navy-light text-white", glow: "shadow-navy/30", delay: 0.4, name: "Chatbot" },
-  { icon: <WhatsAppIcon size={22} />, href: whatsappUrl, bg: "bg-[#25D366] hover:bg-[#20b858] text-white", glow: "shadow-emerald-500/30", delay: 0.5, name: "WhatsApp", external: true },
+  { icon: <Phone size={18} />, href: "tel:+919653307030", bg: "gold-gradient hover:opacity-95 text-navy", glow: "shadow-gold/20", delay: 0.2, name: "Call Us" },
+  { icon: <WhatsAppIcon size={20} />, href: whatsappUrl, bg: "bg-[#25D366] hover:bg-[#20b858] text-white", glow: "shadow-emerald-500/20", delay: 0.3, name: "WhatsApp", external: true },
 ];
 
 export default function FloatingBadges() {
   return (
-    <div className="fixed bottom-24 sm:bottom-28 right-5 sm:right-8 flex flex-col items-center gap-3 sm:gap-4 z-40">
+    <div className="fixed bottom-8 right-5 sm:right-8 flex flex-col items-center gap-3 z-40">
       {badges.map((badge, index) => (
         <div key={index} className="relative group">
           {/* Entry animation wrapper */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.4, x: 24 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ delay: badge.delay, duration: 0.5, type: "spring", stiffness: 260, damping: 20 }}
+            initial={{ opacity: 0, scale: 0.8, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: badge.delay, duration: 0.4, ease: "easeOut" }}
           >
-            {/* Hover animation on the button itself */}
+            {/* Hover animation */}
             <motion.div
-              whileHover={{ scale: 1.14, y: -3 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 380, damping: 22 }}
+              whileHover={{ scale: 1.08, y: -2 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ type: "spring", stiffness: 350, damping: 25 }}
             > 
               <Link
                 href={badge.href}
                 target={badge.external ? "_blank" : undefined}
                 rel={badge.external ? "noopener noreferrer" : undefined}
-                onClick={(e) => {
-                  if (badge.href === "#chatbot") {
-                    e.preventDefault();
-                    window.dispatchEvent(new CustomEvent("open-chatbot"));
-                  }
-                }}
-                className={`w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg ${badge.bg} ${badge.glow} shadow-md relative z-10 border border-white/15`}
+                className={`w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center shadow-lg ${badge.bg} ${badge.glow} relative z-10 border border-white/20`}
                 aria-label={badge.name}
               >
                 {badge.icon}
@@ -56,11 +48,8 @@ export default function FloatingBadges() {
             </motion.div>
           </motion.div>
 
-          {/* Ping pulse */}
-          <span className={`absolute top-0 left-0 w-full h-full rounded-full ${badge.bg} opacity-35 animate-ping -z-10 pointer-events-none`} />
-
-          {/* Tooltip */}
-          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 px-3 py-1.5 bg-navy text-white text-xs sm:text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap pointer-events-none border border-border-dark shadow-lg -translate-x-1 group-hover:translate-x-0">
+          {/* Clean Tooltip */}
+          <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 px-3 py-1.5 bg-navy text-white text-xs font-bold uppercase tracking-wider rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap pointer-events-none border border-white/10 shadow-lg -translate-x-1 group-hover:translate-x-0">
             {badge.name}
           </div>
         </div>

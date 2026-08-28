@@ -78,22 +78,12 @@ const showcaseProjectsFallback = [
 
 interface ShowCaseProps {
   brochureUrl?: string | null;
+  projects?: any[];
 }
 
-export default function ShowCase({ brochureUrl }: ShowCaseProps) {
+export default function ShowCase({ brochureUrl, projects }: ShowCaseProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [liveProjects, setLiveProjects] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetch("/api/admin-data/projects", { cache: "no-store" })
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.docs && data.docs.length > 0) {
-          setLiveProjects(data.docs);
-        }
-      })
-      .catch(() => {});
-  }, []);
+  const liveProjects = projects && projects.length > 0 ? projects : [];
 
   const measureRef = useRef<HTMLDivElement>(null);
   const [contentWidth, setContentWidth] = useState(0);

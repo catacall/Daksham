@@ -25,7 +25,7 @@ const stats = [
 
 export default function About() {
   return (
-    <section id="about" className="py-16 sm:py-24 md:py-32 bg-[#B8BCC6] relative z-10">
+    <section id="about" className="py-16 sm:py-24 md:py-32 bg-off-white relative z-10">
       <div className="container mx-auto px-6 sm:px-12 lg:px-20 max-w-7xl">
         {/* Header Section */}
         <motion.div
@@ -41,13 +41,13 @@ export default function About() {
           <div className="mt-8 w-24 h-1.5 gold-gradient mx-auto rounded-full" />
         </motion.div>
 
-{/* WHO WE ARE - Premium Card */}
+        {/* WHO WE ARE - Premium Card */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="bg-navy rounded-[3rem] border border-transparent shadow-[0_20px_50px_rgba(0,0,0,0.3)] px-8 py-16 sm:px-16 sm:py-24 relative overflow-hidden group mb-10"
+          className="bg-navy rounded-[3rem] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] px-8 py-16 sm:px-16 sm:py-24 relative overflow-hidden group mb-10"
         >
           {/* Background effects */}
           <div className="absolute inset-0 bg-linear-to-br from-gold/10 via-transparent to-gold/5 pointer-events-none" />

@@ -25,18 +25,21 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   let formattedProjects: { id: string; title: string }[] = [];
+  let rawProjects: any[] = [];
   let brochureUrl: string | null = null;
 
   try {
     const payload = await getPayloadClient();
 
-    // Fetch only necessary fields for the dropdown
+    // Fetch projects for showcase carousel and dropdown
     const { docs: projects } = await payload.find({
       collection: "projects" as any,
-      depth: 0,
+      depth: 1,
       pagination: false,
       sort: "-publishedAt",
     });
+
+    rawProjects = projects || [];
 
     // Fetch brochure from Site Settings global
     const settings = (await (payload as any).findGlobal({
@@ -55,9 +58,7 @@ export default async function Home() {
     }));
   } catch (err) {
     console.error("[Home] Failed to fetch data from Payload:", err);
-    // fallback: render page without DB-dependent data
   }
-
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -82,24 +83,16 @@ export default async function Home() {
   };
 
   return (
-    <main className="min-h-screen ">
+    <main className="min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Hero />
-      {/* SWC Showcase Carousel */}
-       <DeveloperProfile />
-      {/* Who We Are About section*/}
-      
-      {/* Developer Profile / Visionary Collaboration Section */}
-     
-      {/* Showcase Placeholder */}
-      <ShowCase brochureUrl={brochureUrl} />
+      <DeveloperProfile />
+      <ShowCase projects={rawProjects} brochureUrl={brochureUrl} />
       <About />
       <ExploreVision />
-      
-      {/* Enquiry */}
       <Enquiry projects={formattedProjects} />
     </main>
   );
