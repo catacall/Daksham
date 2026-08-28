@@ -23,6 +23,10 @@ function getPoolerConnectionString(): string {
   if (url.includes("neon.tech") && !url.includes("-pooler")) {
     url = url.replace(/@(ep-[^.\/:]+)/, "@$1-pooler");
   }
+
+  if (url.includes("supabase.com") && url.includes(":5432")) {
+    url = url.replace(":5432", ":6543");
+  }
   
   return url;
 }
