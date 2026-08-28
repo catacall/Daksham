@@ -3,15 +3,15 @@
 import { useState, useEffect, startTransition, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { Lock, Mail, AlertCircle, ArrowRight, Loader2 } from "lucide-react";
+import { Lock, Mail, AlertCircle, ArrowRight, Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
-// Inner component that uses searchParams
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,11 +21,10 @@ function LoginForm() {
   const [forgotSent, setForgotSent] = useState(false);
   const [forgotLoading, setForgotLoading] = useState(false);
 
-  // Read error from query parameters (e.g. if redirected back with unauthorized status)
   useEffect(() => {
     const err = searchParams.get("error");
     if (err === "unauthorized") {
-      setError("Access Denied: Only authorized admin Gmail accounts are permitted.");
+      setError("Access Denied: Only authorized administrator accounts are permitted.");
     }
   }, [searchParams]);
 
@@ -34,14 +33,13 @@ function LoginForm() {
     setError(null);
 
     if (!email.trim() || !password.trim()) {
-      setError("Please fill in all fields.");
+      setError("Please fill in all required fields.");
       return;
     }
 
     setLoading(true);
 
     try {
-      // Submit login request to Payload's built-in authentication endpoint
       const response = await fetch("/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -51,19 +49,17 @@ function LoginForm() {
       const data = await response.json();
 
       if (!response.ok || !data?.user) {
-        setError(data?.errors?.[0]?.message || "Invalid email or password.");
+        setError("Invalid email or password.");
         setLoading(false);
         return;
       }
 
-      // Authorization is enforced server-side on /manage.
-      // Redirect there — if unauthorized the server will redirect back with ?error=unauthorized.
       startTransition(() => {
         router.push("/manage");
         router.refresh();
       });
-    } catch (err) {
-      setError("An error occurred during login. Please try again.");
+    } catch {
+      setError("An unexpected network error occurred. Please try again.");
       setLoading(false);
     }
   };
@@ -73,31 +69,23 @@ function LoginForm() {
     setError(null);
 
     if (!forgotEmail.trim()) {
-      setError("Please enter your email address.");
+      setError("Please enter your administrator email address.");
       return;
     }
 
     setForgotLoading(true);
 
     try {
-      const response = await fetch("/api/users/forgot-password", {
+      await fetch("/api/users/forgot-password", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim() }),
       });
 
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        setError(data?.errors?.[0]?.message || "Failed to send reset link. Please check the email.");
-        setForgotLoading(false);
-        return;
-      }
-
+      // Always display generic success message without leaking account existence
       setForgotSent(true);
-    } catch (err) {
-      setError("An error occurred. Please try again.");
+    } catch {
+      setForgotSent(true);
     } finally {
       setForgotLoading(false);
     }
@@ -121,8 +109,8 @@ function LoginForm() {
         <h2 className="text-xl font-display font-medium text-white tracking-normal text-center uppercase">
           Manage Console
         </h2>
-        <p className="text-xs text-muted/80 font-sans mt-1 text-center uppercase tracking-normal font-semibold">
-          Admin Authentication
+        <p className="text-xs text-muted/80 font-sans mt-1 text-center font-semibold">
+          Administrator Authentication
         </p>
       </div>
 
@@ -138,27 +126,30 @@ function LoginForm() {
       {showForgot ? (
         forgotSent ? (
           <div className="space-y-6 text-center">
-            <p className="text-sm text-white/90 font-sans leading-relaxed">
-              A password reset link has been successfully dispatched to **{forgotEmail}**. Please check your inbox.
+            <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-400">
+              <CheckCircle2 size={24} />
+            </div>
+            <p className="text-xs text-white/90 font-sans leading-relaxed">
+              If an account exists for <strong className="text-gold">{forgotEmail}</strong>, a secure password reset link has been sent. Please check your inbox.
             </p>
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+            <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               onClick={() => {
                 setShowForgot(false);
                 setForgotSent(false);
               }}
-              className="inline-flex items-center justify-center px-6 py-3 rounded-xl gold-gradient text-navy font-bold text-xs uppercase tracking-normal w-full"
+              className="inline-flex items-center justify-center px-6 py-3.5 rounded-xl gold-gradient text-navy font-bold text-xs uppercase tracking-normal w-full shadow-md"
             >
-              Back to Login
+              Back to Sign In
             </motion.button>
           </div>
         ) : (
           <form onSubmit={handleForgotPassword} className="space-y-5">
             <p className="text-xs text-muted/80 font-sans leading-relaxed">
-              Provide your administrator email below. We'll verify and send a secure reset link.
+              Provide your administrator email below. We'll verify and dispatch a secure password reset link.
             </p>
             <div>
               <label className="block text-[10px] font-bold uppercase tracking-normal text-muted mb-2">
-                Admin Email
+                Administrator Email
               </label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-muted/60">
@@ -168,7 +159,7 @@ function LoginForm() {
                   type="email"
                   required
                   autoComplete="email"
-                  placeholder="email@example.com"
+                  placeholder="admin@dakshamdevelopers.com"
                   value={forgotEmail}
                   onChange={(e) => setForgotEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3.5 bg-navy/60 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all font-sans"
@@ -177,7 +168,7 @@ function LoginForm() {
               </div>
             </div>
 
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+            <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               type="submit"
               disabled={forgotLoading}
               className="w-full flex items-center justify-center gap-2 gold-gradient hover:gold-gradient-light disabled:gold-gradient/50 text-navy font-bold text-xs uppercase tracking-normal py-4 rounded-xl transition-all cursor-pointer shadow-lg shadow-gold/10 mt-2"
@@ -201,7 +192,7 @@ function LoginForm() {
                 }}
                 className="text-xs text-gold hover:text-gold/80 font-sans uppercase tracking-normal font-bold"
               >
-                Back to Login
+                Back to Sign In
               </button>
             </div>
           </form>
@@ -210,7 +201,7 @@ function LoginForm() {
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className="block text-[10px] font-bold uppercase tracking-normal text-muted mb-2">
-              Admin Email
+              Administrator Email
             </label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-muted/60">
@@ -220,7 +211,7 @@ function LoginForm() {
                 type="email"
                 required
                 autoComplete="username"
-                placeholder="email@example.com"
+                placeholder="admin@dakshamdevelopers.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-3.5 bg-navy/60 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all font-sans"
@@ -250,19 +241,27 @@ function LoginForm() {
                 <Lock size={16} />
               </span>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 autoComplete="current-password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-3.5 bg-navy/60 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all font-sans"
+                className="w-full pl-10 pr-12 py-3.5 bg-navy/60 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-transparent focus:ring-1 focus:ring-gold/30 transition-all font-sans"
                 disabled={loading}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-muted/60 hover:text-white transition-colors cursor-pointer"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
             </div>
           </div>
 
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+          <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
             type="submit"
             disabled={loading}
             className="w-full flex items-center justify-center gap-2 gold-gradient hover:gold-gradient-light disabled:gold-gradient/50 text-navy font-bold text-xs uppercase tracking-normal py-4 rounded-xl transition-all cursor-pointer shadow-lg shadow-gold/10 mt-2"
@@ -274,7 +273,7 @@ function LoginForm() {
               </>
             ) : (
               <>
-                <span>Access Console</span>
+                <span>Sign In</span>
                 <ArrowRight size={14} />
               </>
             )}
@@ -291,7 +290,6 @@ function LoginForm() {
   );
 }
 
-// Loading state while searchParams are loading in Suspense
 function LoginLoading() {
   return (
     <div className="w-full max-w-md bg-navy-light/40 rounded-3xl border border-white/5 p-8 shadow-2xl relative z-10 flex flex-col items-center justify-center min-h-[400px]">

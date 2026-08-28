@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, Fragment } from "react";
 import { motion } from "framer-motion";
+import { Eye, EyeOff, ShieldCheck, LogOut, Lock, Mail, CheckCircle2 } from "lucide-react";
 
 // ─── Client-Side Image Compression Helper (Resolves Mobile Upload Limits) ───
 const compressImage = (file: File, maxWidth = 1600, maxHeight = 1200, quality = 0.85): Promise<File> => {
@@ -1139,12 +1140,18 @@ export default function AdminPanel({ user }: { user?: { id: string; email: strin
     type: "success" | "error";
   } | null>(null);
 
-  // Credentials States
+  // Security & Credentials States
   const [currentPassword, setCurrentPassword] = useState("");
   const [newEmail, setNewEmail] = useState(user?.email || "");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [credentialsLoading, setCredentialsLoading] = useState(false);
+  const [showSignOutModal, setShowSignOutModal] = useState(false);
 
   useEffect(() => {
     if (user?.email) {
@@ -1164,58 +1171,45 @@ export default function AdminPanel({ user }: { user?: { id: string; email: strin
       showNotification("New password and confirmation do not match.", "error");
       return;
     }
+
     setCredentialsLoading(true);
 
     try {
-      // 1. Verify current password
-      const loginRes = await fetch("/api/users/login", {
+      const res = await fetch("/api/admin-data/change-credentials", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: user?.email, password: currentPassword }),
+        body: JSON.stringify({
+          currentPassword,
+          newEmail: newEmail.trim(),
+          newPassword: newPassword.trim(),
+        }),
       });
 
-      if (!loginRes.ok) {
-        showNotification("Identity verification failed: Incorrect current password.", "error");
+      const data = await res.json();
+
+      if (!res.ok) {
+        showNotification(data?.error || "Failed to update security credentials.", "error");
         setCredentialsLoading(false);
         return;
       }
 
-      // 2. Perform PATCH update
-      const updateData: Record<string, string> = {};
-      if (newEmail.trim() && newEmail.trim() !== user?.email) {
-        updateData.email = newEmail.trim();
-      }
-      if (newPassword) {
-        updateData.password = newPassword;
-      }
-
-      if (Object.keys(updateData).length === 0) {
-        showNotification("No changes detected to email or password.", "error");
-        setCredentialsLoading(false);
-        return;
-      }
-
-      const updateRes = await fetch(`/api/users/${user?.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateData),
-      });
-
-      if (!updateRes.ok) {
-        const errData = await updateRes.json().catch(() => ({}));
-        showNotification(errData?.errors?.[0]?.message || "Failed to update admin credentials.", "error");
-        setCredentialsLoading(false);
-        return;
-      }
-
-      showNotification("Admin credentials updated successfully!", "success");
+      showNotification("Security credentials updated successfully!", "success");
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
     } catch {
-      showNotification("An error occurred. Please try again.", "error");
+      showNotification("An unexpected network error occurred. Please try again.", "error");
     } finally {
       setCredentialsLoading(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await fetch("/api/users/logout", { method: "POST" });
+      window.location.href = "/manage/login";
+    } catch {
+      window.location.href = "/manage/login";
     }
   };
 
@@ -1471,6 +1465,13 @@ export default function AdminPanel({ user }: { user?: { id: string; email: strin
             >
               View Website
             </a>
+            <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+              onClick={() => setShowSignOutModal(true)}
+              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-normal text-red-600 hover:text-red-700 border border-red-200 hover:border-red-300 px-4 py-2.5 rounded-xl bg-white shadow-xs transition-all cursor-pointer"
+            >
+              <LogOut size={14} />
+              Sign Out
+            </motion.button>
           </div>
         </div>
 
@@ -2004,79 +2005,191 @@ export default function AdminPanel({ user }: { user?: { id: string; email: strin
               </div>
             </div>
 
-            {/* ── Admin Credentials Management ── */}
-            <div className="border-t border-border-light/60 pt-8 mt-8">
-              <h2 className="text-sm font-bold text-navy uppercase tracking-normal mb-2">
-                Admin Credentials Settings
-              </h2>
-              <p className="text-xs text-black mb-6">
-                Update the administrator login credentials. Verification of the current password is required before saving changes.
-              </p>
-              
-              <form onSubmit={handleUpdateCredentials} className="max-w-xl space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
-                      New Admin Email
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
-                      value={newEmail}
-                      onChange={e => setNewEmail(e.target.value)}
-                      placeholder="admin@dakshamdevelopers.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
-                      Current Password (Required)
-                    </label>
-                    <input
-                      type="password"
-                      required
-                      className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
-                      value={currentPassword}
-                      onChange={e => setCurrentPassword(e.target.value)}
-                      placeholder="••••••••"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
-                      New Password (Optional)
-                    </label>
-                    <input
-                      type="password"
-                      className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
-                      value={newPassword}
-                      onChange={e => setNewPassword(e.target.value)}
-                      placeholder="Leave blank to keep current"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
-                      Confirm New Password
-                    </label>
-                    <input
-                      type="password"
-                      className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-transparent focus:bg-white transition-all"
-                      value={confirmPassword}
-                      onChange={e => setConfirmPassword(e.target.value)}
-                      placeholder="Leave blank to keep current"
-                    />
-                  </div>
-                </div>
+            {/* ── Security & Account Settings ── */}
+            <div className="border-t border-border-light/60 pt-8 mt-8 space-y-6">
+              <div>
+                <h2 className="text-base font-bold text-navy uppercase tracking-normal mb-1">
+                  Security & Account
+                </h2>
+                <p className="text-xs text-black">
+                  Manage administrator credentials, password security, and active session settings.
+                </p>
+              </div>
 
-                <div className="flex justify-end pt-2">
-                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                    type="submit"
-                    disabled={credentialsLoading}
-                    className="gold-gradient hover:gold-gradient-light text-navy font-bold text-xs uppercase tracking-normal px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                  >
-                    {credentialsLoading ? "Saving Credentials…" : "Update Credentials"}
-                  </motion.button>
+              {/* Account Security Summary Card */}
+              <div className="bg-off-white/40 rounded-2xl p-5 border border-border-light/60 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-normal text-muted mb-1">
+                    Administrator Email
+                  </span>
+                  <span className="text-xs font-bold text-navy flex items-center gap-1.5">
+                    <Mail size={14} className="text-gold" />
+                    {user?.email || "admin@dakshamdevelopers.com"}
+                  </span>
                 </div>
-              </form>
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-normal text-muted mb-1">
+                    Password Status
+                  </span>
+                  <span className="text-xs font-bold text-navy flex items-center gap-1.5">
+                    <Lock size={14} className="text-gold" />
+                    Last updated: Securely set
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-normal text-muted mb-1">
+                    Active Session
+                  </span>
+                  <span className="text-xs font-bold text-emerald-600 flex items-center gap-1.5">
+                    <ShieldCheck size={14} />
+                    Current browser session
+                  </span>
+                </div>
+              </div>
+              
+              {/* Credentials Update Form */}
+              <div className="bg-white rounded-2xl p-6 border border-border-light/60 shadow-xs">
+                <h3 className="text-xs font-bold text-navy uppercase tracking-normal mb-4">
+                  Update Security Credentials
+                </h3>
+
+                <form onSubmit={handleUpdateCredentials} className="space-y-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {/* Administrator Email */}
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
+                        Administrator Email
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        autoComplete="email"
+                        className="w-full px-3.5 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all font-sans"
+                        value={newEmail}
+                        onChange={e => setNewEmail(e.target.value)}
+                        placeholder="admin@dakshamdevelopers.com"
+                      />
+                      <p className="text-[11px] text-muted/80 mt-1">
+                        Email address used to access the Manage Console.
+                      </p>
+                    </div>
+
+                    {/* Current Password (Required) */}
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
+                        Current Password (Required)
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showCurrentPassword ? "text" : "password"}
+                          required
+                          autoComplete="current-password"
+                          className="w-full pl-3.5 pr-10 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all font-sans"
+                          value={currentPassword}
+                          onChange={e => setCurrentPassword(e.target.value)}
+                          placeholder="••••••••"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                          aria-label={showCurrentPassword ? "Hide password" : "Show password"}
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted hover:text-navy transition-colors cursor-pointer"
+                        >
+                          {showCurrentPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-muted/80 mt-1">
+                        Enter your current password to authorize account changes.
+                      </p>
+                    </div>
+
+                    {/* New Password (Optional) */}
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
+                        New Password (Optional)
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showNewPassword ? "text" : "password"}
+                          autoComplete="new-password"
+                          className="w-full pl-3.5 pr-10 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all font-sans"
+                          value={newPassword}
+                          onChange={e => setNewPassword(e.target.value)}
+                          placeholder="Leave blank if you only want to change email"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNewPassword(!showNewPassword)}
+                          aria-label={showNewPassword ? "Hide password" : "Show password"}
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted hover:text-navy transition-colors cursor-pointer"
+                        >
+                          {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-muted/80 mt-1">
+                        Leave blank if you only want to change the administrator email.
+                      </p>
+                    </div>
+
+                    {/* Confirm New Password */}
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-normal text-navy mb-1.5">
+                        Confirm New Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          autoComplete="new-password"
+                          className="w-full pl-3.5 pr-10 py-2.5 bg-off-white border border-border-light rounded-xl text-sm text-navy outline-none focus:border-gold focus:bg-white transition-all font-sans"
+                          value={confirmPassword}
+                          onChange={e => setConfirmPassword(e.target.value)}
+                          placeholder="Confirm new password"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted hover:text-navy transition-colors cursor-pointer"
+                        >
+                          {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                        </button>
+                      </div>
+                      {newPassword && confirmPassword && newPassword !== confirmPassword && (
+                        <p className="text-[11px] text-red-600 font-semibold mt-1">
+                          Confirm New Password does not match New Password.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Password Rules summary */}
+                  <div className="p-4 rounded-xl bg-off-white border border-border-light/60 text-xs text-navy/80 space-y-1">
+                    <p className="font-bold uppercase tracking-normal text-[10px] text-navy flex items-center gap-1.5">
+                      <ShieldCheck size={14} className="text-gold" />
+                      Security Password Policy
+                    </p>
+                    <p className="text-[11px] text-muted">
+                      Passwords must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.
+                    </p>
+                  </div>
+
+                  <div className="flex justify-end pt-2">
+                    <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                      type="submit"
+                      disabled={credentialsLoading}
+                      className="gold-gradient hover:gold-gradient-light text-navy font-bold text-xs uppercase tracking-normal px-6 py-3 rounded-xl transition-all shadow-md shadow-gold/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center gap-2"
+                    >
+                      {credentialsLoading ? (
+                        <>
+                          <span>Updating Credentials…</span>
+                        </>
+                      ) : (
+                        <span>Update Security Credentials</span>
+                      )}
+                    </motion.button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         )}
@@ -2094,6 +2207,39 @@ export default function AdminPanel({ user }: { user?: { id: string; email: strin
           onSave={handleProjectSaved}
           showNotification={showNotification}
         />
+      )}
+
+      {/* ── Sign Out Confirmation Modal ── */}
+      {showSignOutModal && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-navy/80 backdrop-blur-xs p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-border-light space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-red-50 border border-red-100 text-red-600 flex items-center justify-center text-xl">
+              <LogOut size={22} />
+            </div>
+            <div>
+              <h3 className="font-display font-bold text-navy text-lg uppercase tracking-normal">
+                Sign Out of Manage Console?
+              </h3>
+              <p className="text-xs text-muted/80 mt-1 leading-relaxed">
+                Are you sure you want to sign out of the Manage Console? Your active session will be invalidated securely.
+              </p>
+            </div>
+            <div className="flex gap-3 pt-2">
+              <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                onClick={() => setShowSignOutModal(false)}
+                className="flex-1 bg-off-white hover:bg-border-light/40 border border-border-light text-navy font-bold text-xs uppercase tracking-normal py-3 rounded-xl transition-all"
+              >
+                Cancel
+              </motion.button>
+              <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                onClick={handleSignOut}
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-normal py-3 rounded-xl transition-all shadow-md shadow-red-600/20"
+              >
+                Sign Out
+              </motion.button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ── Notification Banner ── */}
