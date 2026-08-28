@@ -8,13 +8,13 @@ export const SiteSettings: GlobalConfig ={
     },
     access : {
         read : () => true,
+        update: ({ req }) => !!req.user,
     },
     fields : [
         {
             name : 'SiteName',
             type : 'text',
-            required : true,
-            defaultValue: 'My website',
+            defaultValue: 'Daksham Developers',
         },
         {
             name: 'logo',

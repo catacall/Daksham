@@ -246,7 +246,7 @@ const api = {
     }
   },
   async getSettings(): Promise<any> {
-    const r = await fetch("/api/globals/site-settings?depth=1", {
+    const r = await fetch("/api/admin-data/settings", {
       credentials: "include",
       cache: "no-store",
     });
@@ -254,13 +254,23 @@ const api = {
     return await r.json();
   },
   async updateSettings(data: Record<string, unknown>): Promise<boolean> {
-    const r = await fetch("/api/globals/site-settings", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    return r.ok;
+    try {
+      const r = await fetch("/api/admin-data/settings", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!r.ok) {
+        const errData = await r.json().catch(() => ({}));
+        console.error("[updateSettings] failed:", r.status, errData);
+        return false;
+      }
+      return true;
+    } catch (e) {
+      console.error("[updateSettings] network error:", e);
+      return false;
+    }
   },
 };
 
