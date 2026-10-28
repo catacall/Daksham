@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import Navbar from "@/components/Frontend/Navbar";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Daksham Developers",
+  title: { absolute: "Privacy Policy | Daksham Developers" },
   description: "Privacy Policy and data collection guidelines for Daksham Developers.",
 };
 
@@ -32,7 +32,7 @@ export default function PrivacyPolicyPage() {
               We use the data we collect exclusively for authorized and legitimate business purposes, including:
             </p>
             <ul className="list-disc pl-6 mb-6 space-y-2">
-              <li>Responding to your inquiries and providing customer support.</li>
+              <li>Responding to your enquiries and providing customer support.</li>
               <li>Sending you relevant information about real estate projects you have expressed interest in.</li>
               <li>Improving our services, website, and customer interactions.</li>
               <li>Complying with legal obligations.</li>

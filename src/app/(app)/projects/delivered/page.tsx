@@ -4,7 +4,7 @@ import { FadeIn } from "@/components/FadeIn";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Delivered Residential Projects in Navi Mumbai | Daksham Developers",
+  title: { absolute: "Delivered Residential Projects in Navi Mumbai | Daksham Developers" },
   description:
     "Explore landmark residential projects successfully delivered by Daksham Developers in Navi Mumbai & Thane. Premium quality, on-time delivery, happy customers.",
   alternates: { canonical: "https://dakshamdevelopers.com/projects/delivered" },

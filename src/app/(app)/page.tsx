@@ -8,7 +8,7 @@ import { getPayloadClient } from "@/lib/payloadClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Daksham Developers | Premium Real Estate in Navi Mumbai & Thane",
+  title: { absolute: "Daksham Developers | Premium Real Estate in Navi Mumbai & Thane" },
   description:
     "Daksham Developers — engineering luxury landmarks in Navi Mumbai & Thane. Discover RERA-approved 2, 3 & 4 BHK premium apartments in Vashi, Panvel, and beyond. Enquire today.",
   alternates: { canonical: "https://dakshamdevelopers.com" },

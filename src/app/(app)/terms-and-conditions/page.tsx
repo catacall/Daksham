@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import Navbar from "@/components/Frontend/Navbar";
 
 export const metadata: Metadata = {
-  title: "Terms and Conditions | Daksham Developers",
+  title: { absolute: "Terms and Conditions | Daksham Developers" },
   description: "Terms and Conditions for using the Daksham Developers website.",
 };
 

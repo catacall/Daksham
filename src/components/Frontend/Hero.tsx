@@ -182,9 +182,6 @@ export default function Hero({ settings }: HeroProps) {
       <div className="w-full bg-white py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-20 relative mt-6 sm:mt-10 z-20 rounded-3xl sm:rounded-[3rem] shadow-sm border border-border-light/60">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-gold mb-2 block">
-              Interactive Experiences
-            </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-navy uppercase">
               360° Virtual Walkthroughs
             </h2>
@@ -245,7 +242,7 @@ export default function Hero({ settings }: HeroProps) {
                   </h3>
                   <p className="font-sans text-sm sm:text-base text-white/90 mb-6 sm:mb-8 flex grow leading-relaxed">
                     Discover world-class recreational facilities, fitness
-                    centers, and rooftop relaxation zones engineered for your
+                    centres, and rooftop relaxation zones engineered for your
                     family&apos;s comfort and wellbeing.
                   </p>
 

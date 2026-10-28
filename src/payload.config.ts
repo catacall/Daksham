@@ -87,7 +87,9 @@ export default buildConfig({
     pool: {
       connectionString: getPoolerConnectionString(),
       ssl: { rejectUnauthorized: false },
-      max: 10,
+      // Keep this small: every serverless instance opens its own pool, and
+      // Supabase's pooler has a low client limit on the free tier.
+      max: 3,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 10000,
     },

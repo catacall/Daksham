@@ -14,7 +14,20 @@ const whatsappNumber = "919653307030";
 const whatsappMessage = encodeURIComponent("Hello Daksham Developers, I am interested in your real estate projects and would like to know more.");
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
-const badges = [
+type Badge = {
+  icon: React.ReactNode;
+  bg: string;
+  glow: string;
+  delay: number;
+  name: string;
+  href?: string;
+  event?: string;
+  external?: boolean;
+};
+
+const badges: Badge[] = [
+  { icon: <Bot size={20} />, event: "open-chatbot", bg: "bg-onyx hover:bg-jet-black text-bright-gold", glow: "shadow-black/20", delay: 0.0, name: "AI Assistant" },
+  { icon: <Mail size={18} />, event: "open-enquiry-modal", bg: "bg-white hover:bg-platinum text-onyx border-border", glow: "shadow-black/10", delay: 0.1, name: "Email Enquiry" },
   { icon: <Phone size={18} />, href: "tel:+919653307030", bg: "gold-gradient hover:opacity-95 text-navy", glow: "shadow-gold/20", delay: 0.2, name: "Call Us" },
   { icon: <WhatsAppIcon size={20} />, href: whatsappUrl, bg: "bg-[#25D366] hover:bg-[#20b858] text-white", glow: "shadow-emerald-500/20", delay: 0.3, name: "WhatsApp", external: true },
 ];
@@ -36,15 +49,26 @@ export default function FloatingBadges() {
               whileTap={{ scale: 0.94 }}
               transition={{ type: "spring", stiffness: 350, damping: 25 }}
             > 
-              <Link
-                href={badge.href}
-                target={badge.external ? "_blank" : undefined}
-                rel={badge.external ? "noopener noreferrer" : undefined}
-                className={`w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center shadow-lg ${badge.bg} ${badge.glow} relative z-10 border border-white/20`}
-                aria-label={badge.name}
-              >
-                {badge.icon}
-              </Link>
+              {badge.href ? (
+                <Link
+                  href={badge.href}
+                  target={badge.external ? "_blank" : undefined}
+                  rel={badge.external ? "noopener noreferrer" : undefined}
+                  className={`w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center shadow-lg ${badge.bg} ${badge.glow} relative z-10 border border-white/20`}
+                  aria-label={badge.name}
+                >
+                  {badge.icon}
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent(badge.event!))}
+                  className={`w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center shadow-lg cursor-pointer ${badge.bg} ${badge.glow} relative z-10 border border-white/20`}
+                  aria-label={badge.name}
+                >
+                  {badge.icon}
+                </button>
+              )}
             </motion.div>
           </motion.div>
 

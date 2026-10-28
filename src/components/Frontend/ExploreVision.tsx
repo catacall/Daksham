@@ -45,7 +45,7 @@ export default function ExploreVision() {
                 Our Vision
               </h2>
               <p className="text-navy/80 text-sm sm:text-base leading-relaxed font-sans font-medium">
-                Immerse yourself in our premier projects and architectural masterpieces, crafting landmark projects that stand the test of time.
+                Immerse yourself in our premier projects and architectural masterpieces: landmarks built to stand the test of time.
               </p>
             </div>
             <div className="mt-8 mx-auto w-12 h-1 gold-gradient opacity-80 rounded-full" />
@@ -61,7 +61,7 @@ export default function ExploreVision() {
                 Our Mission
               </h2>
               <p className="text-navy/80 text-sm sm:text-base leading-relaxed font-sans font-medium">
-                To become a leading Real Estate Company by providing a quality life to customers with the most luxurious and spacious building structures at convenient locations with world-class amenities.
+                To become a leading real estate company by giving our customers a better quality of life, through luxurious, spacious buildings at convenient locations with world-class amenities.
               </p>
             </div>
             <div className="mt-8 mx-auto w-12 h-1 gold-gradient opacity-80 rounded-full" />
@@ -77,7 +77,7 @@ export default function ExploreVision() {
                 Our Values
               </h2>
               <p className="text-navy/80 text-sm sm:text-base leading-relaxed font-sans font-medium">
-                Transparency, integrity, innovation, and the highest standards of quality with a commitment to ensure that our customers' requirements are fully met.
+                Transparency, integrity, innovation, and the highest standards of quality, with a commitment to ensuring that our customers&apos; requirements are fully met.
               </p>
             </div>
             <div className="mt-8 mx-auto w-12 h-1 gold-gradient opacity-80 rounded-full" />

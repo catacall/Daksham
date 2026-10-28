@@ -5,7 +5,7 @@ import { FadeIn } from "@/components/FadeIn";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Daksham Developers | Real Estate Enquiry Navi Mumbai",
+  title: { absolute: "Contact Daksham Developers | Real Estate Enquiry Navi Mumbai" },
   description:
     "Get in touch with Daksham Developers for premium real estate advisory in Navi Mumbai & Thane. Visit our Vashi office or call +91 96533 07030 for site visits and enquiries.",
   alternates: { canonical: "https://dakshamdevelopers.com/contact" },

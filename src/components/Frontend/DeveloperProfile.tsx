@@ -34,9 +34,9 @@ const testimonials = [
 ────────────────────────────────────────────────────────────── */
 function TestimonialCard({ item }: { item: (typeof testimonials)[number] }) {
   return (
-    <div className="flex flex-col h-full p-6 sm:p-8 bg-onyx">
+    <div className="flex flex-col h-full p-6 sm:p-8 bg-white">
       {/* Large decorative quote mark */}
-      <div className="mb-4 gold-gradient-text">
+      <div className="mb-4 text-[#B38728]">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-8 w-8 sm:h-10 sm:w-10 opacity-70"
@@ -48,19 +48,19 @@ function TestimonialCard({ item }: { item: (typeof testimonials)[number] }) {
       </div>
 
       {/* Quote */}
-      <p className="flex-1 text-sm sm:text-base leading-relaxed text-platinum/90 font-sans mb-6">
+      <p className="flex-1 text-sm sm:text-base leading-relaxed text-jet-black font-sans mb-6">
         &ldquo;{item.quote}&rdquo;
       </p>
 
       {/* Divider */}
-      <div className="h-px bg-white/10 mb-5" />
+      <div className="h-px bg-border-light mb-5" />
 
       {/* Profile row */}
       <div className="flex flex-col">
-        <h4 className="text-sm sm:text-base font-display font-bold text-white">
+        <h4 className="text-sm sm:text-base font-display font-bold text-onyx">
           {item.name}
         </h4>
-        <p className="text-xs text-bright-gold font-sans uppercase tracking-wider mt-0.5">
+        <p className="text-xs text-[#8A6A12] font-sans uppercase tracking-wider mt-0.5">
           {item.role}
         </p>
       </div>
@@ -95,7 +95,7 @@ function MarqueeCard({ item, i, offset, TOTAL_TRACK, STEP, CARD_WIDTH, container
 
   return (
     <motion.div
-      className="absolute top-4 left-0 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.6)] cursor-pointer"
+      className="absolute top-4 left-0 flex-shrink-0 overflow-hidden rounded-2xl border border-border shadow-[0_16px_40px_rgba(42,46,52,0.12)] cursor-pointer"
       style={{
         width: CARD_WIDTH,
         x: rawX,
@@ -160,8 +160,8 @@ function DesktopMarquee() {
       onMouseLeave={() => (isHovered.current = false)}
     >
       {/* Edge fades using onyx gradient */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-24 md:w-36 bg-gradient-to-r from-onyx via-onyx/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-24 md:w-36 bg-gradient-to-l from-onyx via-onyx/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-24 md:w-36 bg-gradient-to-r from-off-white via-off-white/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-24 md:w-36 bg-gradient-to-l from-off-white via-off-white/80 to-transparent" />
 
       {/* Radial curve stage */}
       <div className="relative h-[340px] w-full flex items-center justify-center">
@@ -194,7 +194,7 @@ function MobileSlider() {
 
   return (
     <div className="sm:hidden">
-      <div className="overflow-hidden rounded-2xl border border-jet-black shadow-[0_12px_32px_rgba(0,0,0,0.4)]">
+      <div className="overflow-hidden rounded-2xl border border-border shadow-[0_12px_32px_rgba(42,46,52,0.12)]">
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
@@ -214,7 +214,7 @@ function MobileSlider() {
           onClick={prev}
           aria-label="Previous"
           className="flex items-center justify-center w-10 h-10 rounded-full
-                     bg-transparent border border-bright-gold text-bright-gold
+                     bg-transparent border border-[#B38728] text-[#8A6A12]
                      hover:bg-bright-gold hover:text-onyx transition-all duration-300 cursor-pointer shadow-md shadow-bright-gold/5"
         >
           <ChevronLeft size={18} />
@@ -223,7 +223,7 @@ function MobileSlider() {
           onClick={next}
           aria-label="Next"
           className="flex items-center justify-center w-10 h-10 rounded-full
-                     bg-transparent border border-bright-gold text-bright-gold
+                     bg-transparent border border-[#B38728] text-[#8A6A12]
                      hover:bg-bright-gold hover:text-onyx transition-all duration-300 cursor-pointer shadow-md shadow-bright-gold/5"
         >
           <ChevronRight size={18} />
@@ -331,7 +331,7 @@ export default function DeveloperProfile() {
       {/* ══════════════ TESTIMONIALS SECTION ══════════════ */}
       <section
         id="testimonials"
-        className="relative py-12 sm:py-20 lg:py-24 overflow-hidden bg-onyx"
+        className="relative py-12 sm:py-20 lg:py-24 overflow-hidden bg-off-white"
       >
         {/* Warm accent glow — matches brand gold, not blue */}
         <div
@@ -357,17 +357,17 @@ export default function DeveloperProfile() {
             <span
               className="inline-flex items-center rounded-full px-4 py-1.5
                          text-[10px] sm:text-xs font-bold uppercase tracking-normal
-                         gold-gradient-text border border-bright-gold/25 bg-bright-gold/8"
+                         text-[#8A6A12] border border-bright-gold/40 bg-bright-gold/10"
             >
               Testimonials
             </span>
 
-            <h3 className="mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-platinum leading-snug tracking-wide">
+            <h3 className="mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-onyx leading-snug tracking-wide">
               Trusted by Buyers,{" "}
-              <span className="block gold-gradient-text">Partners &amp; Investors</span>
+              <span className="block text-[#8A6A12]">Partners &amp; Investors</span>
             </h3>
 
-            <p className="mt-4 text-sm sm:text-base text-platinum/50 max-w-xl mx-auto leading-7">
+            <p className="mt-4 text-sm sm:text-base text-muted max-w-xl mx-auto leading-7">
               Every successful transaction is built on trust. Here&apos;s what
               our buyers, investors and partners say about working with us.
             </p>

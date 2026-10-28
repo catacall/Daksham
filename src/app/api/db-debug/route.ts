@@ -1,52 +1,58 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getPayloadClient } from "@/lib/payloadClient";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
-  const logs: string[] = [];
-  
+/**
+ * Database health check for diagnosing "Unable to load projects" errors.
+ *
+ * Protected: set DEBUG_KEY in your Vercel environment variables, then call
+ *   /api/db-debug?key=<DEBUG_KEY>
+ * Without a matching key the route returns 404, so nothing is exposed publicly.
+ * It reports only counts and the error message: no user emails, no stack traces.
+ */
+export async function GET(request: NextRequest) {
+  const expected = process.env.DEBUG_KEY;
+  const provided = request.nextUrl.searchParams.get("key");
+
+  if (!expected || !provided || provided !== expected) {
+    return new NextResponse("Not Found", { status: 404 });
+  }
+
+  const started = Date.now();
+
   try {
-    logs.push("Initializing payload client...");
     const payload = await getPayloadClient();
-    logs.push("Payload client initialized successfully.");
-
-    logs.push("Querying projects collection...");
     const projects = await payload.find({
-      collection: "projects" as any,
+      collection: "projects" as never,
       limit: 100,
-    });
-
-    logs.push("Querying users collection...");
-    const users = await payload.find({
-      collection: "users" as any,
-      limit: 100,
+      depth: 0,
     });
 
     return NextResponse.json({
       success: true,
-      logs,
+      elapsedMs: Date.now() - started,
       databaseUrlDefined: !!process.env.DATABASE_URL,
+      payloadSecretDefined: !!process.env.PAYLOAD_SECRET,
       projectsCount: projects.totalDocs,
-      projectsList: projects.docs.map((p: any) => ({
-        id: p.id,
-        title: p.title,
-        slug: p.slug,
-        status: p.status,
-      })),
-      usersCount: users.totalDocs,
-      usersList: users.docs.map((u: any) => ({
-        id: u.id,
-        email: u.email,
-      })),
+      projects: projects.docs.map((p) => {
+        const doc = p as { id?: string | number; slug?: string; status?: string };
+        return { id: doc.id, slug: doc.slug, status: doc.status };
+      }),
     });
-  } catch (err: any) {
-    return NextResponse.json({
-      success: false,
-      logs,
-      error: "Failed to query database",
-      message: err.message,
-      stack: err.stack,
-    }, { status: 500 });
+  } catch (e) {
+    const err = e as { message?: string; code?: string; cause?: { code?: string } };
+    console.error("[db-debug] Database query failed:", e);
+    return NextResponse.json(
+      {
+        success: false,
+        elapsedMs: Date.now() - started,
+        databaseUrlDefined: !!process.env.DATABASE_URL,
+        payloadSecretDefined: !!process.env.PAYLOAD_SECRET,
+        error: err.message ?? "Unknown error",
+        code: err.code ?? err.cause?.code ?? null,
+      },
+      { status: 500 },
+    );
   }
 }

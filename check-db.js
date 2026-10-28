@@ -1,8 +1,13 @@
 const { Client } = require('pg');
 
 async function main() {
+  if (!process.env.DATABASE_URL) {
+    console.error("Set DATABASE_URL in your environment first (never commit credentials).");
+    process.exit(1);
+  }
   const client = new Client({
-    connectionString: "postgresql://postgres.tgcpgdjvrydeadoiqilz:DakshamDevelopers@aws-1-ap-south-1.pooler.supabase.com:5432/postgres"
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
   });
   
   try {

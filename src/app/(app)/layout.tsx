@@ -106,7 +106,8 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${europaGrotesk.variable} ${poppins.variable} data-scroll-behavior="smooth"`}
+      data-scroll-behavior="smooth"
+      className={`${europaGrotesk.variable} ${poppins.variable}`}
     >
 
       <body

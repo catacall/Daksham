@@ -53,7 +53,15 @@ export async function generateMetadata(
     const statusLabel = project.status === "delivered" ? "Delivered" : "Ongoing";
 
     const title = `${project.title} | ${statusLabel} Project in ${project.location}`;
-    const description = `${project.title} is a premium ${statusLabel.toLowerCase()} real estate project by Daksham Developers in ${project.location}. ${project.area ? `Available configurations: ${project.area}.` : ""} ${project.priceRange ? `Price: ${project.priceRange}.` : ""} ${project.reraNumber ? `RERA: ${project.reraNumber}.` : ""} Enquire now.`;
+    const description = [
+      `${project.title} is a premium ${statusLabel.toLowerCase()} real estate project by Daksham Developers in ${project.location}.`,
+      project.area ? `Available configurations: ${project.area}.` : "",
+      project.priceRange ? `Price: ${project.priceRange}.` : "",
+      project.reraNumber ? `RERA: ${project.reraNumber}.` : "",
+      "Enquire now.",
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     return {
       title,
@@ -108,8 +116,12 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       limit: 1,
     });
     project = projects[0];
-  } catch {
-    notFound();
+  } catch (err) {
+    // A database/connection failure is NOT a missing page. Re-throw so the
+    // error boundary (projects/error.tsx) shows a retry screen instead of a
+    // misleading 404, and so the real cause appears in the server logs.
+    console.error(`[ProjectDetailPage] Failed to load project "${resolvedParams.slug}":`, err);
+    throw err;
   }
 
   if (!project) {

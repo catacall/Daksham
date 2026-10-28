@@ -32,6 +32,7 @@ const nextConfig: NextConfig = {
   },
   serverExternalPackages: ['drizzle-kit', '@libsql', '@libsql/client', 'pg'],
   experimental: {
+    globalNotFound: true,
     workerThreads: false,
     cpus: 1,
     staticGenerationMaxConcurrency: 1,

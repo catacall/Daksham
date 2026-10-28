@@ -190,7 +190,7 @@ export default function ChatbotDrawer() {
       } else {
         addMessage(
           'bot',
-          "Thank you for reaching out. I'm a specialized real-estate advisor assistant. You can check our project status, contact us directly via WhatsApp, or submit a custom advisory request.",
+          "Thank you for reaching out. I'm a specialised real estate advisory assistant. You can check our project status, contact us directly via WhatsApp, or submit a custom advisory request.",
           [
             { label: 'Check Project Status', action: 'status' },
             { label: 'WhatsApp Chat', action: 'whatsapp' },
